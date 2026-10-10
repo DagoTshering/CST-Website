@@ -1,0 +1,18 @@
+# Development-only override: publishes PostgreSQL on 127.0.0.1:5432 so that
+# `pnpm dev`, `pnpm db:migrate` and `pnpm db:studio` on your machine can reach it.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d db
+#
+# Never use this file in production.
+services:
+  db:
+    ports:
+      - "127.0.0.1:5432:5432"
+    networks:
+      - backend
+      - dbhost
+
+networks:
+  # Ports cannot be published from an `internal` network, so the dev override
+  # attaches the database to an extra, non-internal network.
+  dbhost:

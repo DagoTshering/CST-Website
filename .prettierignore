@@ -1,0 +1,8 @@
+.next
+out
+build
+node_modules
+pnpm-lock.yaml
+drizzle/migrations/meta
+next-env.d.ts
+AGENTS.md

@@ -1,0 +1,32 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+.pnpm-debug.log*
+
+# env files: never commit real credentials. Only the template is tracked.
+.env
+.env*.local
+.env.*
+!.env.example
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
