@@ -25,8 +25,8 @@
   --color-line-soft: #e7ecee;
   --color-surface: #f6f8f9; /* page background */
   --color-white: #ffffff;
-  --color-on-dark: #c9d9de; /* body text on deep teal */
-  --color-on-dark-muted: #9db6bf;
+  --color-on-dark: #c9d9de; /* body text on deep teal: 6.2:1 on primary-night */
+  --color-on-dark-muted: #a9c0c8; /* 4.8:1 on primary-night */
 
   /* Hero drawing sheet ----------------------------------------------------- */
   --color-sheet-ink: #201f1d;
