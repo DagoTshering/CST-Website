@@ -4,10 +4,11 @@
    Design tokens
    Colours, type, radii, shadows and motion for the whole site. Components use
    these through Tailwind utilities (bg-primary, text-h2, rounded-md, ...),
-   never as raw values.
+   never as raw values. "static" keeps every token available as a CSS variable
+   even when no utility uses it, because the hero's CSS module reads them.
    ========================================================================== */
 
-@theme {
+@theme static {
   /* Brand ------------------------------------------------------------------ */
   --color-primary: #338ba3; /* CST teal: large type, icons, rules */
   --color-primary-strong: #2b7a90; /* AA-safe teal: small text, button fills */
@@ -32,6 +33,10 @@
   --color-sheet-ink: #201f1d;
   --color-sheet-gold: #b68235;
   --color-sheet-gear: #0b3f4e;
+  --color-sheet-net: #146b84; /* survey-network lines */
+  --color-sheet-hair: rgb(152 214 230 / 0.9); /* sheet border */
+  --color-sheet-tick: rgb(20 107 132 / 0.3); /* ticks, crosshair */
+  --color-sheet-grid: rgb(20 107 132 / 0.075);
   --color-prog-arch: #46a86f;
   --color-prog-arch-ink: #246142;
   --color-prog-civil: #ffffff;
