@@ -1,31 +1,27 @@
-const technologies = [
-  { name: "Next.js", detail: "App Router, TypeScript" },
-  { name: "PostgreSQL", detail: "Primary database" },
-  { name: "Drizzle ORM", detail: "Type-safe queries and migrations" },
-  { name: "Tailwind CSS", detail: "Utility-first styling" },
-  { name: "Docker", detail: "Compose for app and database" },
-];
+import { AboutSection } from "@/components/home/AboutSection";
+import { AcademicProgramsSection } from "@/components/home/AcademicProgramsSection";
+import { AnnouncementsSection } from "@/components/home/AnnouncementsSection";
+import { EventsSection } from "@/components/home/EventsSection";
+import { FacilitiesSection } from "@/components/home/FacilitiesSection";
+import { HeroSection } from "@/components/home/HeroSection";
+import { LeadershipSection } from "@/components/home/LeadershipSection";
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
 
 export default function Home() {
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-6 py-16">
-      <p className="text-sm font-medium tracking-wide text-accent uppercase">Project foundation</p>
-      <h1 className="mt-2 text-4xl sm:text-5xl">CST Website</h1>
-      <p className="mt-4 text-lg text-muted">The Next.js application is running successfully.</p>
-
-      <h2 className="mt-12 text-xl">Technology stack</h2>
-      <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-        {technologies.map((tech) => (
-          <li key={tech.name} className="rounded-lg border border-border bg-surface px-4 py-3">
-            <span className="font-semibold">{tech.name}</span>
-            <span className="block text-sm text-muted">{tech.detail}</span>
-          </li>
-        ))}
-      </ul>
-
-      <p className="mt-10 text-sm text-muted">
-        Database status: <a href="/api/health">/api/health</a>
-      </p>
-    </main>
+    <>
+      <Header />
+      <main id="main" className="flex-1">
+        <HeroSection />
+        <AboutSection />
+        <FacilitiesSection />
+        <AcademicProgramsSection />
+        <EventsSection />
+        <LeadershipSection />
+        <AnnouncementsSection />
+      </main>
+      <Footer />
+    </>
   );
 }

@@ -1,40 +1,59 @@
 @import "tailwindcss";
 
-/* ---------- Theme variables ---------- */
+/* ---------- Design tokens ---------- */
 :root {
+  /* Brand palette — #34acc8 is an accent, never a fill for whole sections. */
+  --brand: #34acc8;
+  /* Darker turquoise for small text/links on light backgrounds (4.9:1 on white). */
+  --brand-strong: #1b7a92;
+  --navy: #102b3a;
+  --navy-deep: #0b2230;
+  --ink: #172b36;
+  /* Slightly deeper than #667783 so it passes 4.5:1 on the light surface too. */
+  --muted: #5d6d79;
+  --on-navy-muted: #a9bcc7;
   --background: #ffffff;
-  --foreground: #171717;
-  --muted: #6b7280;
-  --border: #e5e7eb;
-  --surface: #f9fafb;
-  --accent: #2563eb;
+  --surface: #f4f8fa;
+  --border: #e2eaee;
+  --border-on-navy: rgb(255 255 255 / 0.14);
 
   --font-sans:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial,
+    sans-serif;
+  --font-display: var(--font-jakarta), var(--font-sans);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+
+  --header-offset: 4.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --muted: #9ca3af;
-    --border: #262626;
-    --surface: #141414;
-    --accent: #60a5fa;
-  }
-}
-
-/* Expose the variables as Tailwind utilities (bg-background, text-muted, ...). */
+/* Expose the variables as Tailwind utilities (bg-navy, text-muted, font-display, ...). */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-navy: var(--navy);
+  --color-navy-deep: var(--navy-deep);
+  --color-ink: var(--ink);
   --color-muted: var(--muted);
-  --color-border: var(--border);
+  --color-on-navy-muted: var(--on-navy-muted);
+  --color-background: var(--background);
   --color-surface: var(--surface);
-  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --color-border-on-navy: var(--border-on-navy);
   --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
   --font-mono: var(--font-mono);
+}
+
+@theme {
+  --container-site: 80rem; /* 1280px content width */
+  --radius-card: 0.25rem;
+  --shadow-lift: 0 18px 40px -24px rgb(16 43 58 / 0.35);
+  --text-display: clamp(2.5rem, 1.75rem + 2.6vw, 3.75rem);
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.025em;
+  --text-heading: clamp(1.875rem, 1.4rem + 1.6vw, 2.625rem);
+  --text-heading--line-height: 1.12;
+  --text-heading--letter-spacing: -0.02em;
 }
 
 /* ---------- Base defaults ---------- */
@@ -46,9 +65,16 @@
   }
 
   html {
-    color-scheme: light dark;
+    color-scheme: light;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    scroll-padding-top: var(--header-offset);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   html,
@@ -62,10 +88,10 @@
     flex-direction: column;
     min-height: 100dvh;
     background: var(--background);
-    color: var(--foreground);
+    color: var(--ink);
     font-family: var(--font-sans);
     font-size: 1rem;
-    line-height: 1.6;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -74,6 +100,7 @@
   h2,
   h3,
   h4 {
+    font-family: var(--font-display);
     line-height: 1.2;
     font-weight: 700;
     text-wrap: balance;
@@ -84,8 +111,13 @@
   }
 
   a {
-    color: var(--accent);
-    text-underline-offset: 3px;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 3px;
   }
 
   code {
@@ -99,5 +131,15 @@
     display: block;
     max-width: 100%;
     height: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
   }
 }
