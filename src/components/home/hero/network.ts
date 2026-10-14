@@ -81,7 +81,7 @@ export function drawField(ctx: CanvasRenderingContext2D, points: ControlPoint[],
       const fade = 1 - Math.sqrt(dd) / o.link;
       let near = Math.max(0, 1 - Math.min(p1.d, p2.d) / 300);
       near *= near; // strong close in, quiet far out
-      ctx.strokeStyle = `rgba(${p1.gold && p2.gold ? o.gold : o.ink},${(fade * (0.05 + near * 0.7)).toFixed(3)})`;
+      ctx.strokeStyle = `rgba(${p1.gold && p2.gold ? o.gold : o.ink},${(fade * (0.08 + near * 0.92)).toFixed(3)})`;
       ctx.lineWidth = 1 + near * 1.1;
       ctx.beginPath();
       ctx.moveTo(p1.x, p1.y);
@@ -95,7 +95,7 @@ export function drawField(ctx: CanvasRenderingContext2D, points: ControlPoint[],
     const r = p1.r * (1 + nf * 1.15);
     const colour = p1.gold ? o.gold : o.ink;
     ctx.lineWidth = 1 + nf * 0.8;
-    ctx.strokeStyle = `rgba(${colour},${(0.22 + nf * 0.6).toFixed(3)})`;
+    ctx.strokeStyle = `rgba(${colour},${(0.32 + nf * 0.68).toFixed(3)})`;
     ctx.beginPath();
     ctx.moveTo(p1.x - r, p1.y);
     ctx.lineTo(p1.x + r, p1.y);
@@ -111,7 +111,7 @@ export function drawField(ctx: CanvasRenderingContext2D, points: ControlPoint[],
     // sight lines from nearby points to the pointer
     if (o.pointer && p1.d < 230) {
       const cf = 1 - p1.d / 230;
-      ctx.strokeStyle = `rgba(${colour},${(0.55 * cf * cf).toFixed(3)})`;
+      ctx.strokeStyle = `rgba(${colour},${(0.72 * cf * cf).toFixed(3)})`;
       ctx.lineWidth = 0.8 + cf * 1.3;
       ctx.beginPath();
       ctx.moveTo(p1.x, p1.y);

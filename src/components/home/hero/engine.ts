@@ -1,6 +1,6 @@
 import type { ProgrammeKey } from "@/content/home";
 
-import { GEAR_TRAIN, gearRotations } from "@/components/drawings/geometry";
+import { GEAR_TRAIN, gearRotations } from "./geometry";
 import { startFrameLoop } from "./loop";
 import { drawField, hexToRgb, resizeField, stepField, type ControlPoint } from "./network";
 import { createTour } from "./tour";
@@ -102,10 +102,10 @@ export function mountHeroEngine(root: HTMLElement, stops: TourStop[]) {
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     link = Math.max(100, Math.min(180, Math.round(width * 0.125)));
-    const density = lowPower || width < 768 ? 0.45 : 0.75; // a calm field, never a swarm
+    const density = lowPower || width < 768 ? 0.55 : 1;
     resizeField(
       points,
-      Math.round(Math.min(84, (width * height) / 18000) * density),
+      Math.round(Math.min(104, (width * height) / 18000) * density),
       width,
       height,
     );
@@ -167,11 +167,9 @@ export function mountHeroEngine(root: HTMLElement, stops: TourStop[]) {
     if (!key && touring) key = tour.key;
     if (key === hotKey) return;
     hotKey = key;
-    for (const [k, el] of plates) setFlag(el, "data-active", k === key);
-    setFlag(gearsSvg, "data-active", key === "mech");
-    setFlag(gearCaption, "data-active", key === "mech");
-    // the legend strip follows the highlight, so the two always name the same programme
-    for (const m of marks) setFlag(m, "data-active", m.dataset.mark === key);
+    for (const [k, el] of plates) setFlag(el, "data-hot", k === key);
+    setFlag(gearsSvg, "data-hot", key === "mech");
+    setFlag(gearCaption, "data-hot", key === "mech");
   };
 
   const nearestGear = () => {
@@ -358,21 +356,18 @@ export function mountHeroEngine(root: HTMLElement, stops: TourStop[]) {
     setFlag(root, "data-live", false);
     for (const { el } of layers) el.style.transform = "";
     gearsSvg.style.opacity = "";
-    setFlag(gearsSvg, "data-active", false);
+    setFlag(gearsSvg, "data-hot", false);
     setFlag(gearsSvg, "data-fast", false);
-    setFlag(gearCaption, "data-active", false);
+    setFlag(gearCaption, "data-hot", false);
     gearRotations(GEAR_TRAIN.gears, 0, angles);
     gearNodes.forEach((node, i) =>
       node.setAttribute("transform", `rotate(${angles[i].toFixed(3)})`),
     );
     [...plates.values()].forEach((el, i) => {
-      setFlag(el, "data-active", false);
+      setFlag(el, "data-hot", false);
       setFlag(el, "data-on", i === 0);
     });
-    marks.forEach((m) => {
-      setFlag(m, "data-tapped", false);
-      setFlag(m, "data-active", false);
-    });
+    marks.forEach((m) => setFlag(m, "data-tapped", false));
     showLabel(null);
   };
 }

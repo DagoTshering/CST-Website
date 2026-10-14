@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import type { ProgrammeKey } from "@/content/home";
 
 import { sinePath } from "./geometry";
-import s from "./drawings.module.css";
+import s from "./hero.module.css";
 
 /**
  * The detail drawing for each programme, one small engineering sketch apiece. Mechanical has
