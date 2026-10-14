@@ -157,10 +157,17 @@
 @layer base {
   :root {
     --gutter: 1.25rem;
-    --header-bar-h: 3.5rem;
+    /* Height of the part of the header that stays on screen, for in-page anchor offsets. */
+    --header-bar-h: 4rem;
     color-scheme: light;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+  }
+
+  @media (min-width: 40rem) {
+    :root {
+      --header-bar-h: 4.5rem;
+    }
   }
 
   @media (min-width: 48rem) {
@@ -177,6 +184,11 @@
 
   html {
     scroll-padding-top: calc(var(--header-bar-h) + 1rem);
+  }
+
+  /* The page behind an open modal (the mobile menu) does not scroll. */
+  html:has(dialog:modal) {
+    overflow: hidden;
   }
 
   @media (prefers-reduced-motion: no-preference) {
