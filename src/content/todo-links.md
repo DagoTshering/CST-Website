@@ -27,18 +27,21 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 
 ## Footer
 
-| Label                       | Path                         | Notes                                                   |
-| --------------------------- | ---------------------------- | ------------------------------------------------------- |
-| Quick links › About us      | `/about`                     |                                                         |
-| Quick links › Academics     | `/academics/programmes`      |                                                         |
-| Quick links › Admission     | `/admissions`                |                                                         |
-| Quick links › Research      | `/research`                  |                                                         |
-| Quick links › Student life  | `/student-life`              |                                                         |
-| E-services › Student portal | `/e-services/student-portal` | Probably an external system: replace with its real URL. |
-| E-services › Online library | `/e-services/online-library` | Probably an external system: replace with its real URL. |
-| E-services › Hostel booking | `/e-services/hostel-booking` | Probably an external system: replace with its real URL. |
-| E-services › Fee payment    | `/e-services/fee-payment`    | Probably an external system: replace with its real URL. |
-| E-services › Downloads      | `/downloads`                 |                                                         |
+| Label                  | Path         | Notes                                                    |
+| ---------------------- | ------------ | -------------------------------------------------------- |
+| E-Services › Downloads | `/downloads` | The live site has it at cst.edu.bt/downloads to migrate. |
+
+The other footer links go to external sites. Two of them need checking:
+
+- **Feedback Portal** is a tinyurl.com short link: confirm where it lands and link there directly.
+- **Online Substitution Form** is a Google Sheets edit link: decide whether it should be a form or
+  a view-only link.
+
+## Missing links
+
+- **LinkedIn.** The live site's LinkedIn icon points to an unrelated institution, so it was left
+  out of the footer. Find CST's real LinkedIn page and add it to `site.social` in
+  `src/content/site.ts`, with an icon in `src/components/ui/icons.tsx`.
 
 ## Features not built yet
 

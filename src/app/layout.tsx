@@ -33,7 +33,8 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${inter.variable} ${jost.variable} ${plexMono.variable}`}>
-      <body>
+      {/* id="top" is the target of the footer's "Back to top" link */}
+      <body id="top">
         <a
           href="#main"
           className="fixed top-3 left-3 z-[100] -translate-y-24 rounded-sm bg-primary-strong px-4 py-2.5 text-small font-semibold text-white shadow-md transition-transform focus-visible:translate-y-0"

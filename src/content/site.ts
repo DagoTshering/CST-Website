@@ -1,5 +1,5 @@
 /**
- * Site-wide content: names, contact details, navigation and footer links.
+ * Site-wide content: names, contact details, navigation and the footer.
  *
  * Paths marked TODO point at pages that do not exist yet in the new site; they are listed in
  * src/content/todo-links.md. Keep the two in step when a page is added.
@@ -51,12 +51,10 @@ export const site = {
     location: "Rinchending, Phuentsholing",
     phone: { label: "(+975) 17160538", href: "tel:+97517160538" },
     email: { label: "info.cst@rub.edu.bt", href: "mailto:info.cst@rub.edu.bt" },
-    address: ["College of Science and Technology", "Rinchending, Chhukha", "Bhutan"],
-    // PROVISIONAL: the old site only had placeholder hours. Confirm the real office hours (and
-    // whether they differ by day) with the college before launch.
-    hours: "8:00 AM – 4:00 PM",
   },
 
+  // TODO: CST's LinkedIn page. The live site links to an unrelated institution's page, so it
+  // is left out until the real one is found.
   social: [
     {
       network: "facebook",
@@ -110,28 +108,68 @@ export const mainNav: NavItem[] = [
   { label: "Research", href: "/research" },
 ];
 
-/** Footer link columns. Every path is TODO. */
-export const footerNav: { title: string; links: NavLink[] }[] = [
-  {
-    title: "Quick links",
+/**
+ * The footer, with the content of the live site's footer (cst.edu.bt). Links to other sites
+ * open in a new tab; "Downloads" is a page of our own (TODO).
+ */
+export const footer = {
+  quickLinks: {
+    title: "Quick Links",
     links: [
-      { label: "About us", href: "/about" },
-      { label: "Academics", href: "/academics/programmes" },
-      { label: "Admission", href: "/admissions" },
-      { label: "Research", href: "/research" },
-      { label: "Student life", href: "/student-life" },
+      { label: "Office of the Vice Chancellor", href: "https://www.rub.edu.bt/" },
+      { label: "Ministry of Education", href: "https://education.gov.bt/" },
+      {
+        label: "G2C Services",
+        href: "https://www.citizenservices.gov.bt/g2cportal/ListOfLifeEventComponent",
+      },
+      { label: "Ministry of Industry, Commerce & Employment", href: "https://www.moice.gov.bt/" },
+      { label: "Royal Civil Service Commission", href: "https://rcsc.gov.bt/" },
     ],
   },
-  {
-    // These are probably separate systems (portal, library catalogue, payments) whose real URLs
-    // replace these paths once known.
-    title: "E-services",
+  eServices: {
+    title: "E-Services",
     links: [
-      { label: "Student portal", href: "/e-services/student-portal" },
-      { label: "Online library", href: "/e-services/online-library" },
-      { label: "Hostel booking", href: "/e-services/hostel-booking" },
-      { label: "Fee payment", href: "/e-services/fee-payment" },
-      { label: "Downloads", href: "/downloads" },
+      { label: "RUB IMS", href: "https://ims.rub.edu.bt/public/auth/view-login" },
+      { label: "VLE (Moodle)", href: "https://vle.cst.edu.bt/" },
+      { label: "Library (OPAC)", href: "https://lib.cst.edu.bt/" },
+      { label: "Downloads", href: "/downloads" }, // TODO: page not built yet
+      { label: "No Due System", href: "https://nds.cst.edu.bt/login" },
     ],
   },
-];
+  hours: {
+    title: "Work Hours",
+    schedule: [
+      { days: "Mon–Fri", time: "08:00 AM – 04:00 PM" },
+      { days: "Sat–Sun", time: "Closed" },
+    ],
+    actions: [
+      // A short link (tinyurl.com): check where it lands, and link to the real address instead.
+      { label: "Feedback Portal", href: "https://tinyurl.com/4hvsat4m" },
+      // A Google Sheets *edit* link: anyone following it may be able to edit the sheet. Review
+      // whether it should be a form or a view-only link before launch.
+      {
+        label: "Online Substitution Form",
+        href: "https://docs.google.com/spreadsheets/d/1vH0HqfIbmSP_P_EXR_eTwJLVPMeCJE3jqSa1srS-QDI/edit?gid=450603648#gid=450603648",
+      },
+    ],
+  },
+  address: {
+    title: "Address",
+    lines: [
+      "College of Science and Technology",
+      "Rinchending, Phuentsholing",
+      "Chukkha: Bhutan",
+      "Post-Box No: 450",
+      "Postal Code: 21101",
+    ],
+    contacts: [
+      { label: "Email", value: "info.cst@rub.edu.bt", href: "mailto:info.cst@rub.edu.bt" },
+      {
+        label: "Web Manager",
+        value: "ictunit.cst@rub.edu.bt",
+        href: "mailto:ictunit.cst@rub.edu.bt",
+      },
+    ],
+  },
+  bottomLine: "College of Science and Technology, RUB",
+};

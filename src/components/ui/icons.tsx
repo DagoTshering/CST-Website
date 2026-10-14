@@ -116,6 +116,18 @@ export const CheckIcon = (props: IconProps) => (
   </Stroke>
 );
 
+export const ArrowUpIcon = (props: IconProps) => (
+  <Stroke {...props}>
+    <path d="M12 19.5v-15M6 10.5l6-6 6 6" />
+  </Stroke>
+);
+
+export const ExternalIcon = (props: IconProps) => (
+  <Stroke {...props}>
+    <path d="M8 16 16 8M9.5 8H16v6.5" />
+  </Stroke>
+);
+
 export const FacebookIcon = (props: IconProps) => (
   <Fill {...props}>
     <path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.25-1.55 1.57-1.55h1.68V4.4a22 22 0 0 0-2.45-.13c-2.42 0-4.08 1.48-4.08 4.2v2.33H7.5V14h2.72v8h3.28Z" />

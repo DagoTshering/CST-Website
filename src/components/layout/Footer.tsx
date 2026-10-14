@@ -1,18 +1,21 @@
 import { cacheLife } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
+import { ButtonLink } from "@/components/ui/Button";
 import {
+  ArrowUpIcon,
   ClockIcon,
+  ExternalIcon,
   FacebookIcon,
   InstagramIcon,
   MailIcon,
   MapPinIcon,
-  PhoneIcon,
   YouTubeIcon,
 } from "@/components/ui/icons";
 import { SmartLink } from "@/components/ui/SmartLink";
-import { footerNav, site, type SocialNetwork } from "@/content/site";
+import { footer, site, type NavLink, type SocialNetwork } from "@/content/site";
 
 const socialIcons: Record<SocialNetwork, typeof FacebookIcon> = {
   facebook: FacebookIcon,
@@ -27,7 +30,7 @@ async function currentYear() {
   return new Date().getFullYear();
 }
 
-function ColumnTitle({ children }: { children: string }) {
+function ColumnTitle({ children }: { children: ReactNode }) {
   return (
     <h2 className="eyebrow relative pb-3 text-white after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-9 after:bg-linear-to-r after:from-primary after:from-60% after:to-accent after:to-60%">
       {children}
@@ -35,18 +38,40 @@ function ColumnTitle({ children }: { children: string }) {
   );
 }
 
-const linkClass =
-  "inline-block py-1 text-small text-on-dark transition-[color,translate] duration-200 ease-out-soft hover:translate-x-1 hover:text-white";
+function LinkColumn({ title, links }: { title: string; links: NavLink[] }) {
+  return (
+    <nav aria-label={title}>
+      <ColumnTitle>{title}</ColumnTitle>
+      <ul className="mt-5 space-y-2.5">
+        {links.map((link) => (
+          <li key={link.href}>
+            <SmartLink
+              href={link.href}
+              className="group inline-block text-small leading-snug text-on-dark transition-[color,translate] duration-200 ease-out-soft hover:translate-x-1 hover:text-white"
+            >
+              {link.label}
+              {/* inline, so it follows the last word when a label wraps */}
+              {link.href.startsWith("http") && (
+                <ExternalIcon className="ml-1 inline-block size-3.5 align-[-0.15em] text-accent/70 transition-colors group-hover:text-accent" />
+              )}
+            </SmartLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
 
 export async function Footer() {
   const year = await currentYear();
-  const { contact } = site;
+  const { quickLinks, eServices, hours, address } = footer;
 
   return (
     <footer className="bg-primary-night text-on-dark [--focus-ring:var(--color-accent)]">
-      <div className="container-page grid grid-cols-2 gap-x-8 gap-y-12 pt-16 pb-12 lg:grid-cols-[1.5fr_1fr_1fr_1.3fr] lg:gap-x-10 lg:pt-20">
-        <div className="col-span-2 lg:col-span-1">
-          <Link href="/" className="inline-flex items-center gap-4 rounded-sm">
+      <div className="container-page pt-16 lg:pt-20">
+        {/* The college, and where to follow it */}
+        <div className="flex flex-col gap-6 border-b border-white/10 pb-10 md:flex-row md:items-center md:justify-between">
+          <Link href="/" className="inline-flex items-center gap-4 self-start rounded-sm">
             <span className="shrink-0 rounded-md bg-white p-2 shadow-sm">
               <Image
                 src={site.logos.crest.src}
@@ -57,13 +82,15 @@ export async function Footer() {
                 className="size-14"
               />
             </span>
-            <span className="font-display text-h4 leading-snug font-semibold text-white">
-              {site.name}
+            <span>
+              <span className="block font-display text-h4 leading-snug font-semibold text-white">
+                {site.name}
+              </span>
+              <span className="mt-1 block text-small text-on-dark">{site.tagline}</span>
             </span>
           </Link>
-          <p className="mt-5 max-w-xs text-small text-on-dark">{site.tagline}</p>
 
-          <ul className="mt-6 flex gap-3">
+          <ul className="flex gap-3" aria-label="CST on social media">
             {site.social.map(({ network, label, href }) => {
               const Icon = socialIcons[network];
               return (
@@ -71,7 +98,7 @@ export async function Footer() {
                   <SmartLink
                     href={href}
                     aria-label={label}
-                    className="grid size-10 place-items-center rounded-full border border-white/20 text-accent transition duration-200 ease-out-soft hover:-translate-y-0.5 hover:border-accent hover:bg-white/10 hover:text-white"
+                    className="grid size-11 place-items-center rounded-full border border-white/20 text-accent transition duration-200 ease-out-soft hover:-translate-y-0.5 hover:border-accent hover:bg-white/10 hover:text-white"
                   >
                     <Icon className="size-[1.125rem]" />
                   </SmartLink>
@@ -81,63 +108,80 @@ export async function Footer() {
           </ul>
         </div>
 
-        {footerNav.map((column) => (
-          <nav key={column.title} aria-label={column.title}>
-            <ColumnTitle>{column.title}</ColumnTitle>
-            <ul className="mt-5 space-y-1.5">
-              {column.links.map((link) => (
-                <li key={link.href}>
-                  <SmartLink href={link.href} className={linkClass}>
-                    {link.label}
-                  </SmartLink>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        ))}
+        <div className="grid gap-x-10 gap-y-12 py-12 min-[480px]:grid-cols-2 lg:grid-cols-[1.15fr_0.85fr_1fr_1.15fr] lg:py-14">
+          <LinkColumn title={quickLinks.title} links={quickLinks.links} />
+          <LinkColumn title={eServices.title} links={eServices.links} />
 
-        <div className="col-span-2 lg:col-span-1">
-          <ColumnTitle>Contact</ColumnTitle>
-          <address className="mt-5 space-y-4 text-small not-italic">
-            <p className="flex gap-3">
-              <MapPinIcon className="mt-0.5 size-4.5 shrink-0 text-accent" />
-              <span>
-                {contact.address.map((line) => (
-                  <span key={line} className="block">
-                    {line}
+          <div>
+            <ColumnTitle>{hours.title}</ColumnTitle>
+            <dl className="mt-5 space-y-2 text-small">
+              {hours.schedule.map(({ days, time }) => (
+                <div key={days} className="flex gap-3">
+                  <ClockIcon className="mt-0.5 size-4.5 shrink-0 text-accent" />
+                  <dt className="w-16 shrink-0 text-white">{days}</dt>
+                  <dd>{time}</dd>
+                </div>
+              ))}
+            </dl>
+            <div className="mt-6 flex flex-col items-start gap-3">
+              {hours.actions.map((action) => (
+                <ButtonLink
+                  key={action.label}
+                  href={action.href}
+                  variant="secondary"
+                  tone="dark"
+                  className="min-h-11 w-full max-w-64 px-4 py-2.5 text-small"
+                >
+                  {action.label}
+                </ButtonLink>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <ColumnTitle>{address.title}</ColumnTitle>
+            <address className="mt-5 space-y-4 text-small not-italic">
+              <p className="flex gap-3">
+                <MapPinIcon className="mt-0.5 size-4.5 shrink-0 text-accent" />
+                <span>
+                  {address.lines.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </span>
+              </p>
+              {address.contacts.map(({ label, value, href }) => (
+                <p key={label} className="flex gap-3">
+                  <MailIcon className="mt-0.5 size-4.5 shrink-0 text-accent" />
+                  <span className="min-w-0">
+                    <span className="block text-white">{label}</span>
+                    <a href={href} className="break-words transition-colors hover:text-white">
+                      {value}
+                    </a>
                   </span>
-                ))}
-              </span>
-            </p>
-            <p className="flex gap-3">
-              <PhoneIcon className="mt-0.5 size-4.5 shrink-0 text-accent" />
-              <a href={contact.phone.href} className="transition-colors hover:text-white">
-                {contact.phone.label}
-              </a>
-            </p>
-            <p className="flex gap-3">
-              <MailIcon className="mt-0.5 size-4.5 shrink-0 text-accent" />
-              <a href={contact.email.href} className="transition-colors hover:text-white">
-                {contact.email.label}
-              </a>
-            </p>
-            <p className="flex gap-3">
-              <ClockIcon className="mt-0.5 size-4.5 shrink-0 text-accent" />
-              <span>
-                <span className="block text-white">Office hours</span>
-                {contact.hours}
-              </span>
-            </p>
-          </address>
+                </p>
+              ))}
+            </address>
+          </div>
         </div>
       </div>
 
       <div className="border-t border-white/10">
-        <div className="container-page flex flex-col gap-2 py-6 text-[0.8125rem] text-on-dark-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {year} {site.name}. All rights reserved.
-          </p>
-          <p>A college of the {site.university}</p>
+        <div className="container-page flex flex-col gap-4 py-6 text-[0.8125rem] text-on-dark-muted sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-1 sm:flex sm:flex-wrap sm:gap-x-6 sm:space-y-0">
+            <p className="text-on-dark">{footer.bottomLine}</p>
+            <p>
+              © {year} {site.name}. All rights reserved.
+            </p>
+          </div>
+          <a
+            href="#top"
+            className="group inline-flex min-h-11 items-center gap-2 self-start rounded-full border border-white/20 py-2 pr-4 pl-3 text-on-dark transition-colors duration-200 hover:border-accent hover:text-white sm:self-auto"
+          >
+            <ArrowUpIcon className="size-4 text-accent transition-transform duration-200 ease-out-soft group-hover:-translate-y-0.5" />
+            Back to top
+          </a>
         </div>
       </div>
     </footer>
