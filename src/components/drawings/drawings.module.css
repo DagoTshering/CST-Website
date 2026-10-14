@@ -6,7 +6,8 @@
 
    Put .drawing on the element that holds a drawing's <svg>, with the colour
    variables from programmeColours() (--colour, --ink, --live). Add
-   [data-active] to speed its animation up. Marks sit inside .mark.
+   [data-active] to speed its animation up. Each mark sits in a .mark cell,
+   and the gear train lights up in Mechanical's colour with [data-active].
    ========================================================================== */
 
 .drawing {
@@ -325,33 +326,82 @@
   transition: opacity 0.5s ease;
 }
 
-.mark:hover,
-.mark[data-tapped] {
+/* A legend mark: a square cell holding one glyph. Its size comes from --mark-size. It lights
+   up on hover, when tapped, and when its programme is the one being toured ([data-active]). */
+.mark {
+  position: relative;
+  width: var(--mark-size, 44px);
+  aspect-ratio: 1;
+  transition: background-color 0.25s ease;
+}
+
+.markFace {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.mark svg {
+  width: 70%;
+  height: 70%;
+  overflow: visible;
+  transform-origin: center;
+  transition:
+    transform 0.55s cubic-bezier(0.2, 0.8, 0.25, 1),
+    filter 0.55s ease;
+}
+
+.mark::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--colour);
+  opacity: 0;
+  transform: scaleX(0.3);
+  transition:
+    opacity 0.45s ease,
+    transform 0.55s cubic-bezier(0.2, 0.8, 0.25, 1);
+}
+
+.mark:is(:hover, [data-tapped], [data-active]) {
   --spd: 1.5s;
   background: rgb(20 107 132 / 0.06);
 }
 
-.mark:hover svg,
-.mark[data-tapped] svg {
+.mark:is(:hover, [data-tapped], [data-active]) svg {
   transform: scale(1.1);
   filter: brightness(0.9);
 }
 
-.mark:hover .mk,
-.mark[data-tapped] .mk {
+.mark:is(:hover, [data-tapped], [data-active]) .mk {
   opacity: 1;
   stroke-width: 1.72;
 }
 
-.mark:hover .mkf,
-.mark[data-tapped] .mkf {
+.mark:is(:hover, [data-tapped], [data-active]) .mkf {
   opacity: 1;
 }
 
-.mark:hover::after,
-.mark[data-tapped]::after {
+.mark:is(:hover, [data-tapped], [data-active])::after {
   opacity: 1;
   transform: scaleX(1);
+}
+
+/* without hover the marks run a little quicker, read stronger and take taps */
+@media (hover: none) {
+  .mark {
+    --spd: 3.4s;
+    cursor: pointer;
+  }
+  .mk {
+    opacity: 0.86;
+  }
+  .mkf {
+    opacity: 0.9;
+  }
 }
 
 @keyframes mk-flow {

@@ -31,8 +31,7 @@ export type Programme = {
 };
 
 /**
- * College figures, from the counters on the old homepage. The hero's facts bar shows them, and
- * the Programmes section will reuse them.
+ * College figures, from the counters on the old homepage, for the Programmes section.
  */
 export const stats = [
   { value: "12", label: "Bachelor’s & master’s programmes" },
@@ -43,25 +42,21 @@ export const stats = [
 
 export const hero = {
   eyebrow: "Royal University of Bhutan · Rinchending, Phuentsholing",
-  /** The headline, one line each on screens wide enough. */
-  title: ["College of", "Science & Technology"],
+  title: { lead: "College of", emphasis: "Science & Technology" },
   tagline: "In pursuit of preparing for tomorrow’s Technologist",
   actions: [
     { label: "Explore programmes", href: "#programmes", variant: "primary" },
     { label: "Visit the campus", href: "#campus", variant: "secondary" },
   ],
-  image: {
-    src: "/images/home/campus-aerial-view.jpg",
-    width: 1280,
-    height: 1121,
-    alt: "Aerial view of the CST campus on the hillside at Rinchending, above Phuentsholing",
-    /** Focal point for object-position: the football ground and the main academic blocks. */
-    focus: "62% 42%",
-  },
-  facts: stats,
+  /** The faint aerial photograph under the drawing sheet. */
+  underlay: { src: "/images/home/campus-aerial-view.jpg", focus: "50% 38%" },
+  stripLabel: "Programmes offered at CST, by the year each began",
 };
 
-/** CST's programmes, in the order they were first offered. */
+/**
+ * CST's programmes, in the order they were first offered. The hero's drawing sheet lays them
+ * out clockwise in this order and tours them in it.
+ */
 export const programmes = [
   {
     key: "civil",

@@ -1,30 +1,63 @@
 /* ==========================================================================
-   Hero: the campus from the air, with the college's name over a dark teal
-   gradient and its figures along the bottom.
+   Hero: the animated drawing sheet
 
-   Height: one screen (the visible window less the header), kept between 520px
-   and 1100px. Vertical sizes are shares of that height (--hu = 1%), so the
-   hero scales down on short screens instead of overflowing.
-   Width: the decoration sits on a stage that stops at 1600px; the photograph,
-   gradient and facts bar run to the edges.
+   Every programme has a detail box on the sheet, laid out clockwise in the
+   order the programmes began. Three layouts:
+     wide   (>= 1240px)  a column of boxes down each side, a row across the
+                         top, two along the bottom and the gear train in the
+                         bottom-right corner, all on one grid
+     medium (660-1239px) the boxes take turns in one slot above the copy
+     phone  (< 660px)    the same slot, small, in the top-left corner
+   The space above and below the copy is reserved with padding, so the boxes
+   can never sit on the text and nothing has to be measured.
 
-   Contrast: the text sits on at least 94% of the deep teal, whatever the
-   photo shows underneath: at least 9.9:1 for white and 8.6:1 for the light tint.
+   Height: one screen (the window less the header), between 520 and 1100px.
+   Vertical sizes are shares of it (--hu); horizontal ones are shares of the
+   stage (--sw), which stops at 1600px.
+
+   Drawing strokes, the gear train and the legend marks are styled by
+   src/components/drawings/drawings.module.css. State comes from engine.ts:
+     section[data-live]         the pointer is in the margins (crosshair on)
+     figure[data-on]            the box in the shared slot (smaller screens)
+     [data-active]              the programme pointed at, or being toured
+     li[data-mark][data-tapped] [data-mark-label][data-on]
    ========================================================================== */
 
 .hero {
   --hero-h: clamp(520px, calc(100vh - var(--header-h)), 1100px);
   --hu: calc(var(--hero-h) / 100);
-  --abyss: 11 63 78; /* #0b3f4e, for the gradient and the facts bar */
+  --sw: calc(min(100vw, 1600px) / 100);
+
+  --inset: clamp(16px, min(3.2 * var(--sw), 4 * var(--hu)), 40px); /* the sheet border */
+  --gap: clamp(10px, 1.6 * var(--hu), 18px);
+  --ground: var(--color-white);
+  --line: var(--color-primary);
+  --tick: var(--color-sheet-tick);
+  --gold: var(--color-sheet-gold);
+  --plate-weight: 1.32;
+  --box-line: rgb(20 107 132 / 0.15);
+
+  /* the copy's vertical rhythm */
+  --gap-1: clamp(10px, 2 * var(--hu), 24px); /* eyebrow to headline */
+  --gap-2: clamp(12px, 2.2 * var(--hu), 28px); /* headline to tagline */
+  --gap-3: clamp(16px, 3 * var(--hu), 40px); /* tagline to buttons */
+  --gap-4: clamp(18px, 3.4 * var(--hu), 52px); /* buttons to the legend strip */
+
+  /* phone: one small slot, top left */
+  --slot-top: calc(var(--inset) + 10px);
+  --slot-h: clamp(92px, 15 * var(--hu), 140px); /* the box, caption included */
+  --reserve-top: calc(var(--slot-top) + var(--slot-h) + clamp(14px, 2.6 * var(--hu), 28px));
+  --reserve-bottom: clamp(40px, 7 * var(--hu), 64px);
 
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  display: grid;
-  grid-template-rows: 1fr auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   min-height: var(--hero-h);
-  background: var(--color-primary-night);
-  color: var(--color-white);
+  padding-block: var(--reserve-top) var(--reserve-bottom);
+  background: var(--ground);
 }
 
 @supports (height: 100svh) {
@@ -33,369 +66,729 @@
   }
 }
 
-/* ---------- photograph and gradient ------------------------------------- */
-
-.media {
-  position: absolute;
-  inset: 0;
-  z-index: -3;
-  overflow: hidden;
-}
-
-.photo {
-  object-fit: cover;
-  transform-origin: 65% 45%;
-}
-
-.shade {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  /* phones: the copy is anchored to the bottom and spans the width, so the gradient is
-     measured from the bottom too: full strength over the lowest 36rem, which always holds the
-     copy and the facts, then opening up to the photo above */
-  background: linear-gradient(
-    0deg,
-    rgb(var(--abyss) / 0.96) 0,
-    rgb(var(--abyss) / 0.95) 36rem,
-    rgb(var(--abyss) / 0.62) 42rem,
-    rgb(var(--abyss) / 0.42) 100%
-  );
-}
-
-@media (min-width: 768px) {
-  .shade {
-    /* where the 40rem text block ends, measured from the content edge */
-    --text-end: calc(max(var(--gutter), (100% - var(--container-page)) / 2) + 42rem);
-    background:
-      linear-gradient(0deg, rgb(var(--abyss) / 0.5) 0%, transparent 32%),
-      linear-gradient(
-        90deg,
-        rgb(var(--abyss) / 0.96) 0%,
-        rgb(var(--abyss) / 0.94) var(--text-end),
-        rgb(var(--abyss) / 0.5) calc(var(--text-end) + 16%),
-        rgb(var(--abyss) / 0.18) 100%
-      );
+/* a short phone has no room for the slot: the copy comes first */
+@media (max-width: 659px) and (max-height: 640px) {
+  .hero {
+    --reserve-top: calc(var(--inset) + clamp(12px, 2.4 * var(--hu), 24px));
   }
 }
 
-/* ---------- the body: copy over the stage -------------------------------- */
+@media (min-width: 660px) {
+  .hero {
+    --slot-top: calc(var(--inset) + clamp(8px, 1.6 * var(--hu), 16px));
+    --slot-h: clamp(110px, 19 * var(--hu), 200px);
+    --reserve-top: calc(var(--slot-top) + var(--slot-h) + clamp(16px, 3 * var(--hu), 40px));
+    --reserve-bottom: clamp(44px, 8 * var(--hu), 96px);
+  }
+}
 
-.body {
+@media (min-width: 660px) and (max-width: 1239px) and (max-height: 560px) {
+  .hero {
+    --reserve-top: calc(var(--inset) + clamp(12px, 2.4 * var(--hu), 24px));
+  }
+}
+
+/* The wide sheet's grid. Columns: a rail of boxes down each side; between them the middle,
+   which holds the top and bottom rows and the copy. Rows: four boxes per rail. */
+@media (min-width: 1240px) {
+  .hero {
+    --inset: clamp(16px, min(3.2 * var(--sw), 3.6 * var(--hu)), 40px);
+    --rail-w: clamp(150px, 13.5 * var(--sw), 216px);
+    --rail-x: calc(var(--inset) + clamp(10px, 1.25 * var(--sw), 22px));
+    --col-top: calc(var(--inset) + var(--gap));
+    --mid-x: calc(var(--rail-x) + var(--rail-w) + 2 * var(--gap));
+    /* the rows grow faster than the screen, so short laptops keep room for the copy */
+    --band-top: clamp(76px, 15 * var(--hu) - 10px, 164px);
+    --band-bottom: clamp(72px, 14 * var(--hu) - 10px, 150px);
+    --reserve-top: calc(var(--col-top) + var(--band-top) + 1.5 * var(--gap));
+    --reserve-bottom: calc(var(--col-top) + var(--band-bottom) + 1.5 * var(--gap));
+  }
+}
+
+/* a squat wide window drops the top row so the copy keeps its room */
+@media (min-width: 1240px) and (max-height: 680px) {
+  .hero {
+    --band-top: 0px;
+    --reserve-top: calc(var(--col-top) + var(--gap));
+  }
+}
+
+/* ---------- the copy ---------------------------------------------------- */
+
+.copy {
   position: relative;
-  display: grid;
-  align-content: end;
-  padding-block: clamp(2rem, 6 * var(--hu), 6rem) clamp(1.75rem, 5 * var(--hu), 3rem);
+  z-index: 2;
+  /* the headline is sized against the copy's own width, so it always holds two lines */
+  container-type: inline-size;
 }
 
-@media (min-width: 768px) {
-  .body {
-    align-content: center;
-    padding-block: clamp(2rem, 7 * var(--hu), 6rem) clamp(3.5rem, 9 * var(--hu), 6.5rem);
+@media (min-width: 1240px) {
+  .copy {
+    /* the middle of the sheet, between the two rails */
+    max-width: min(1000px, calc(100 * var(--sw) - 2 * var(--mid-x)));
   }
 }
 
-/* The stage holds the grid and the knots: it stops at 1600px and ends above the facts bar. */
+.eyebrow {
+  padding-bottom: clamp(10px, 1.8 * var(--hu), 16px);
+  font-size: clamp(0.75rem, min(1.15 * var(--sw), 1.6 * var(--hu)), 0.84375rem);
+  line-height: 1.4;
+  letter-spacing: 0.22em;
+}
+
+/* "Science & Technology" is about 9.4em wide: 10.2cqi keeps it on one line */
+.title {
+  margin-top: var(--gap-1);
+  font-size: clamp(1.75rem, min(10.2cqi, 8.4 * var(--hu)), 5.25rem);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+  color: var(--color-sheet-ink);
+}
+
+.tagline {
+  margin-top: var(--gap-2);
+  font-size: clamp(1rem, min(1.5 * var(--sw), 2.45 * var(--hu)), 1.3125rem);
+  line-height: 1.55;
+}
+
+.actions {
+  margin-top: var(--gap-3);
+}
+
+.legend {
+  margin-top: var(--gap-4);
+}
+
+/* the two-tone rule the drawing sheet uses: ink, then gold */
+.rule {
+  background-image: linear-gradient(90deg, var(--tick) 0 60%, var(--gold) 60% 100%);
+  background-repeat: no-repeat;
+  background-position: 50% 100%;
+  background-size: 100% 1px;
+}
+
+/* ---------- the sheet --------------------------------------------------- */
+
+.sheet {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  font-family: var(--font-display);
+}
+
+/* boxes, gears, frame and cue sit on a stage that stops at 1600px and stays centred */
 .stage {
   position: absolute;
   inset-block: 0;
   left: 50%;
-  z-index: -1;
   width: min(100%, 1600px);
   translate: -50% 0;
-  pointer-events: none;
 }
 
-/* The grid never runs behind the text, so it cannot lower the text's contrast: on phones it
-   only fills the photo above the lowest 38rem (where the copy sits), on tablets there is no
-   room for it, and from 1024px it sits beside the copy and fades in only past it. */
-.grid {
+.layer {
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 100%;
-  height: max(0px, 100% - 38rem);
-  overflow: hidden;
-  opacity: 0.12;
+  inset: 0;
+  will-change: transform;
+}
+
+/* The photograph frames the sheet: clear at the sides, faded almost away behind the copy,
+   so the text never needs a white haze to stay readable. */
+.photo {
+  opacity: calc(0.28 + 0.18 * var(--reveal, 0));
   mask-image:
-    linear-gradient(90deg, transparent 0%, #000 55%), linear-gradient(0deg, transparent, #000 70%);
+    linear-gradient(180deg, transparent 0%, #000 16%, #000 82%, transparent 100%),
+    linear-gradient(90deg, #000 0%, rgb(0 0 0 / 0.22) 34%, rgb(0 0 0 / 0.22) 66%, #000 100%);
   mask-composite: intersect;
 }
 
-@media (min-width: 768px) {
-  .grid {
+.photoImage {
+  object-fit: cover;
+  filter: saturate(0.7) contrast(0.9) brightness(1.08);
+}
+
+.grid {
+  inset: -4%;
+  background-image:
+    linear-gradient(var(--color-sheet-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-sheet-grid) 1px, transparent 1px),
+    linear-gradient(var(--color-sheet-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-sheet-grid) 1px, transparent 1px);
+  background-size:
+    128px 128px,
+    128px 128px,
+    16px 16px,
+    16px 16px;
+}
+
+.net {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- the detail boxes ---------------------------------------------
+   Each box is a small framed card, like a detail callout on a drawing: the
+   sketch fills it, and a title block underneath names the programme and the
+   year it began (postgraduate years are boxed, like a revision mark).
+   ------------------------------------------------------------------------- */
+
+.plate {
+  position: absolute;
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 6px;
+  padding: 10px 12px 8px;
+  color: var(--ink);
+  background: rgb(255 255 255 / 0.76);
+  border: 1px solid var(--box-line);
+  border-radius: 3px;
+  backdrop-filter: blur(2px);
+  transition:
+    border-color 0.5s ease,
+    box-shadow 0.5s ease,
+    opacity 0.6s ease,
+    visibility 0.6s;
+}
+
+/* the sketch is fitted into whatever space the box leaves it, never the other way round */
+.plateArt {
+  position: relative;
+  min-height: 0;
+}
+
+.plateArt svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform-origin: center;
+  transition:
+    transform 0.7s cubic-bezier(0.2, 0.8, 0.25, 1),
+    filter 0.7s ease;
+}
+
+.plate[data-active] {
+  border-color: rgb(20 107 132 / 0.4);
+  box-shadow: 0 8px 22px -12px rgb(33 85 99 / 0.45);
+}
+
+.plate[data-active] .plateArt svg {
+  transform: scale(1.04);
+  filter: brightness(0.86) saturate(1.08) drop-shadow(0 0 0.4px var(--ink));
+}
+
+.plateCaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding-top: 5px;
+  border-top: 1px solid var(--box-line);
+  color: var(--ink);
+}
+
+.plateName {
+  min-width: 0;
+  overflow: hidden;
+  font: 500 9.5px/1.2 var(--font-display);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  opacity: 0.72;
+  transition: opacity 0.45s ease;
+}
+
+.plateYear {
+  flex: none;
+  font: 400 9px/1.2 var(--font-mono);
+  letter-spacing: 0.12em;
+}
+
+.plate[data-pg] .plateYear {
+  padding: 1px 4px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+}
+
+.plate[data-active] .plateName,
+.gearsCell:has([data-active]) .plateName {
+  opacity: 1;
+}
+
+/* --- phone and medium: one slot, the boxes take turns --- */
+.plate {
+  left: calc(var(--inset) + 10px);
+  top: var(--slot-top);
+  width: min(58vw, 230px);
+  height: var(--slot-h);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.plate[data-on] {
+  opacity: 1;
+  visibility: visible;
+}
+
+@media (max-width: 659px) and (max-height: 640px),
+  (min-width: 660px) and (max-width: 1239px) and (max-height: 560px) {
+  .plate {
     display: none;
   }
 }
 
-@media (min-width: 1024px) {
-  .grid {
-    display: block;
-    width: min(44%, 760px);
-    height: 100%;
-    mask-image:
-      linear-gradient(90deg, transparent 0% 22%, #000 62%),
-      linear-gradient(0deg, transparent 8%, #000 45%);
+@media (min-width: 660px) {
+  .plate {
+    left: 50%;
+    width: clamp(240px, 34 * var(--sw), 340px);
+    translate: -50% 0;
   }
 }
 
-.column,
-.row {
+/* --- wide: every box at its place on the grid --- */
+@media (min-width: 1240px) {
+  .plate,
+  .plate[data-on] {
+    --cell-h: calc((100% - 2 * var(--col-top) - 3 * var(--gap)) / 4);
+    --cell-w: calc((100% - 2 * var(--mid-x) - 3 * var(--gap)) / 4);
+    translate: none;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* left rail, bottom to top: 2001 to 2010 */
+  .plate:is([data-prog="civil"], [data-prog="elec"], [data-prog="ece"], [data-prog="it"]) {
+    left: var(--rail-x);
+    width: var(--rail-w);
+    height: var(--cell-h);
+  }
+  .plate[data-prog="it"] {
+    top: var(--col-top);
+  }
+  .plate[data-prog="ece"] {
+    top: calc(var(--col-top) + var(--cell-h) + var(--gap));
+  }
+  .plate[data-prog="elec"] {
+    top: calc(var(--col-top) + 2 * (var(--cell-h) + var(--gap)));
+  }
+  .plate[data-prog="civil"] {
+    top: calc(var(--col-top) + 3 * (var(--cell-h) + var(--gap)));
+  }
+
+  /* top row, left to right: 2014 to 2019 */
+  .plate:is([data-prog="arch"], [data-prog="renew"], [data-prog="geo"], [data-prog="inst"]) {
+    top: var(--col-top);
+    width: var(--cell-w);
+    height: var(--band-top);
+  }
+  .plate[data-prog="arch"] {
+    left: var(--mid-x);
+  }
+  .plate[data-prog="renew"] {
+    left: calc(var(--mid-x) + var(--cell-w) + var(--gap));
+  }
+  .plate[data-prog="geo"] {
+    left: calc(var(--mid-x) + 2 * (var(--cell-w) + var(--gap)));
+  }
+  .plate[data-prog="inst"] {
+    left: calc(var(--mid-x) + 3 * (var(--cell-w) + var(--gap)));
+  }
+
+  /* right rail, top down: 2021 and 2023, then the gear train */
+  .plate:is([data-prog="constr"], [data-prog="water"]) {
+    left: auto;
+    right: var(--rail-x);
+    width: var(--rail-w);
+    height: var(--cell-h);
+  }
+  .plate[data-prog="constr"] {
+    top: var(--col-top);
+  }
+  .plate[data-prog="water"] {
+    top: calc(var(--col-top) + var(--cell-h) + var(--gap));
+  }
+
+  /* bottom row, right to left: 2023 and 2027, either side of the scroll cue */
+  .plate:is([data-prog="soft"], [data-prog="resrch"]) {
+    top: auto;
+    bottom: var(--col-top);
+    width: var(--cell-w);
+    height: var(--band-bottom);
+  }
+  .plate[data-prog="soft"] {
+    left: calc(var(--mid-x) + 3 * (var(--cell-w) + var(--gap)));
+  }
+  .plate[data-prog="resrch"] {
+    left: var(--mid-x);
+  }
+}
+
+@media (min-width: 1240px) and (max-height: 680px) {
+  .plate:is([data-prog="arch"], [data-prog="renew"], [data-prog="geo"], [data-prog="inst"]) {
+    display: none;
+  }
+}
+
+/* ---------- the gear train (Mechanical) ---------------------------------- */
+
+.gearsCell {
   position: absolute;
-  background: var(--color-white);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 6px;
+  /* phone: low in the corner, below the legend strip */
+  width: min(40vw, 20 * var(--hu), 200px);
+  height: min(40vw, 20 * var(--hu), 200px);
+  right: -12vw;
+  bottom: calc(-9 * var(--hu));
+  mask-image: radial-gradient(
+    closest-side at 36% 34%,
+    #000 76%,
+    rgb(0 0 0 / 0.8) 93%,
+    transparent 100%
+  );
 }
 
-.column {
+.gearsCell .plateCaption {
+  display: none;
+}
+
+@media (min-width: 660px) {
+  .gearsCell {
+    width: clamp(150px, min(23 * var(--sw), 26 * var(--hu)), 248px);
+    height: clamp(150px, min(23 * var(--sw), 26 * var(--hu)), 248px);
+    right: clamp(-14px, -1.1 * var(--sw), -3px);
+    bottom: clamp(-12px, -1.3 * var(--hu), -3px);
+  }
+}
+
+/* wide: the bottom two cells of the right rail, captioned like the boxes */
+@media (min-width: 1240px) {
+  .gearsCell {
+    --cell-h: calc((100% - 2 * var(--col-top) - 3 * var(--gap)) / 4);
+    top: calc(var(--col-top) + 2 * (var(--cell-h) + var(--gap)));
+    right: var(--rail-x);
+    bottom: auto;
+    width: var(--rail-w);
+    height: calc(2 * var(--cell-h) + var(--gap));
+    padding: 10px 12px 8px;
+    mask-image: none;
+    color: var(--ink);
+    background: rgb(255 255 255 / 0.76);
+    border: 1px solid var(--box-line);
+    border-radius: 3px;
+    backdrop-filter: blur(2px);
+    transition:
+      border-color 0.5s ease,
+      box-shadow 0.5s ease;
+  }
+
+  .gearsCell:has([data-active]) {
+    border-color: rgb(20 107 132 / 0.4);
+    box-shadow: 0 8px 22px -12px rgb(33 85 99 / 0.45);
+  }
+
+  .gearsCell .plateCaption {
+    display: flex;
+  }
+}
+
+.gears {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  /* a third-of-a-pixel shadow in the train's own ink thickens every stroke at once */
+  filter: drop-shadow(0 0 0.38px var(--color-sheet-gear));
+  transition: filter 0.8s ease;
+}
+
+.gears[data-active] {
+  filter: brightness(0.87) drop-shadow(0 0 0.45px var(--color-prog-mech));
+}
+
+/* ---------- crosshair, in the margins only ------------------------------ */
+
+.cross {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.hero[data-live] .cross {
+  opacity: 1;
+}
+
+.crossH,
+.crossV {
+  position: absolute;
+  background: var(--tick);
+}
+
+.crossH {
+  inset-inline: 0;
   top: 0;
-  bottom: 0;
-  width: 1px;
-  transform-origin: top;
+  height: 1px;
 }
 
-.row {
+.crossV {
+  inset-block: 0;
   left: 0;
-  right: 0;
-  height: 1px;
-  transform-origin: right;
+  width: 1px;
+}
+
+.crossTag {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font: 400 9.5px/1 var(--font-mono);
+  letter-spacing: 0.06em;
+  color: var(--line);
+  opacity: 0.6;
+  white-space: nowrap;
+}
+
+/* ---------- sheet border, endless knots, scroll cue --------------------- */
+
+.frame {
+  position: absolute;
+  inset: var(--inset);
+  border: 1px solid var(--color-sheet-hair);
 }
 
 .knot {
   position: absolute;
-  width: 14px;
-  height: 14px;
-  color: var(--color-sheet-gold);
-  opacity: 0.85;
+  width: 22px;
+  height: 22px;
+  color: var(--gold);
+  opacity: 0.92;
 }
 
-.knot[data-corner="tl"] {
-  top: 16px;
-  left: 16px;
+.knot[data-pos="tl"] {
+  left: -11px;
+  top: -11px;
 }
-.knot[data-corner="tr"] {
-  top: 16px;
-  right: 16px;
+.knot[data-pos="tr"] {
+  right: -11px;
+  top: -11px;
 }
-.knot[data-corner="bl"] {
-  bottom: 16px;
-  left: 16px;
+.knot[data-pos="bl"] {
+  left: -11px;
+  bottom: -11px;
 }
-.knot[data-corner="br"] {
-  bottom: 16px;
-  right: 16px;
-}
-
-/* on a short phone the copy reaches the top corners, so the top knots stand down */
-@media (max-width: 767px) and (max-height: 700px) {
-  .knot[data-corner="tl"],
-  .knot[data-corner="tr"] {
-    display: none;
-  }
-}
-
-.copy {
-  max-width: 40rem;
-  /* the headline is sized against this block's width, so it keeps its two lines */
-  container-type: inline-size;
-}
-
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: var(--font-display);
-  font-size: clamp(0.75rem, 1.6 * var(--hu), 0.875rem);
-  font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--color-accent-soft);
-}
-
-.eyebrow::before {
-  content: "";
-  flex: none;
-  width: 2rem;
-  height: 1px;
-  background: var(--color-accent);
-}
-
-/* "Science & Technology" is about 9.6em wide in this weight: 10cqi keeps it on one line */
-.title {
-  margin-top: clamp(0.75rem, 2.2 * var(--hu), 1.5rem);
-  font-family: var(--font-display);
-  font-size: clamp(1.75rem, min(10cqi, 8.8 * var(--hu)), 4.5rem);
-  font-weight: 600;
-  line-height: 1.04;
-  letter-spacing: -0.02em;
-  color: var(--color-white);
-}
-
-.tagline {
-  margin-top: clamp(0.875rem, 2.4 * var(--hu), 1.5rem);
-  max-width: 32em;
-  font-family: var(--font-display);
-  font-size: clamp(1.0625rem, min(1.4vw, 2.5 * var(--hu)), 1.375rem);
-  line-height: 1.5;
-  color: var(--color-accent-soft);
-}
-
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: clamp(1.25rem, 4 * var(--hu), 2.5rem);
-}
-
-@media (max-width: 479px) {
-  .actions > * {
-    flex: 1 1 100%;
-  }
+.knot[data-pos="br"] {
+  right: -11px;
+  bottom: -11px;
 }
 
 .cue {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(26px, 3.6 * var(--hu), 36px);
+  translate: -50% 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--line);
+  opacity: 0.8;
+}
+
+.cue span,
+.cue i {
   display: none;
 }
 
-@media (min-width: 768px) and (min-height: 700px) {
-  .cue {
-    position: absolute;
-    left: 50%;
-    bottom: clamp(1rem, 2.4 * var(--hu), 1.75rem);
-    translate: -50% 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    font: 600 0.6875rem/1 var(--font-display);
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--color-accent-soft);
-  }
+.cue svg {
+  display: block;
+  width: 20px;
+  height: 12px;
+  overflow: visible;
+}
 
+.cue path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (min-width: 660px) {
+  .cue {
+    bottom: clamp(7px, 1.3 * var(--hu), 15px);
+  }
+}
+
+@media (min-width: 1240px) and (min-height: 641px) {
+  .cue {
+    bottom: calc(var(--col-top) + 0.5 * var(--band-bottom) - 1.5rem);
+    gap: 8px;
+    opacity: 0.6;
+    font: 500 8.5px/1 var(--font-display);
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+  }
+  .cue span,
+  .cue i {
+    display: block;
+  }
   .cue i {
     width: 1px;
-    height: 1.75rem;
-    background: linear-gradient(var(--color-accent), transparent);
+    height: 26px;
+    background: linear-gradient(var(--gold), transparent);
+  }
+  .cue svg {
+    width: 17px;
+    height: 10px;
+  }
+  .cue path {
+    stroke-width: 1.6;
   }
 }
 
-/* ---------- facts bar ---------------------------------------------------- */
+/* ---------- the programme legend strip ---------------------------------- */
 
-.facts {
-  position: relative;
-  background: rgb(var(--abyss) / 0.95);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgb(255 255 255 / 0.1);
+.marksWrap {
+  width: 100%;
 }
 
-.fact {
+.marks {
   display: flex;
-  flex-direction: column-reverse; /* the figure reads first; the label stays its <dt> */
-  justify-content: flex-end;
-  gap: 0.25rem;
-  padding: clamp(0.75rem, 2 * var(--hu), 1.5rem) 1rem;
-  border-color: rgb(255 255 255 / 0.14);
+  flex-wrap: wrap;
+  justify-content: center;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--tick);
+  border-radius: 2px;
+  background: rgb(255 255 255 / 0.7);
+  backdrop-filter: blur(3px);
 }
 
-/* phones: two by two */
-.fact:nth-child(odd) {
-  padding-left: 0;
+.mark {
+  --mark-size: clamp(34px, min(3.9 * var(--sw), 4.7 * var(--hu)), 56px);
+  border-left: 1px solid var(--tick);
 }
 
-.fact:nth-child(even) {
-  padding-left: 1.25rem;
-  border-left-width: 1px;
+.mark:first-child {
+  border-left: 0;
 }
 
-.fact:nth-child(n + 3) {
-  border-top-width: 1px;
-}
-
-@media (min-width: 768px) {
-  .fact,
-  .fact:nth-child(odd),
-  .fact:nth-child(even) {
-    padding-inline: 2rem;
-    border-top-width: 0;
-    border-left-width: 1px;
+/* seven and six across on a narrow screen, rather than a squeezed row */
+@media (max-width: 760px) {
+  .marks {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    width: min(100%, 392px);
   }
-
-  .fact:first-child {
-    padding-left: 0;
-    border-left-width: 0;
+  .marks .mark {
+    width: auto;
+  }
+  .mark:nth-child(7n + 1) {
+    border-left: 0;
+  }
+  .mark:nth-child(n + 8) {
+    border-top: 1px solid var(--tick);
   }
 }
 
-.factValue {
-  font-family: var(--font-display);
-  font-size: clamp(1.5rem, min(2.6vw, 4.4 * var(--hu)), 2.5rem);
-  font-weight: 600;
-  line-height: 1.1;
-  font-variant-numeric: tabular-nums;
-  color: var(--color-white);
+.markLabel {
+  height: 17px;
+  margin-top: 12px;
+  padding: 0 4px;
+  text-align: center;
+  font: 500 10.5px/17px var(--font-display);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-primary-strong);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: opacity 0.22s ease;
 }
 
-.factLabel {
-  font-size: var(--text-small);
-  line-height: 1.35;
-  color: var(--color-accent-soft);
+.markLabel[data-on] {
+  opacity: 1;
 }
 
-/* ---------- motion -------------------------------------------------------
-   The photo zooms very slowly (paused off screen by HeroMotion), the text
-   rises in one step at a time, and the grid draws in once. Nothing else
-   moves, and none of it runs for visitors who prefer reduced motion.
+/* ---------- the entrance --------------------------------------------------
+   One sequence, on one easing curve: the copy rises line by line, then the
+   boxes and their legend marks appear clockwise around the sheet, in the
+   same order the tour will follow. After that only the tour moves.
    ------------------------------------------------------------------------- */
 
 @media (prefers-reduced-motion: no-preference) {
-  .photo {
-    animation: hero-zoom 20s ease-in-out infinite alternate;
-  }
-
-  .hero[data-paused] .photo {
-    animation-play-state: paused;
-  }
-
   .rise {
     animation: hero-rise 800ms var(--ease-out-soft) both;
-    animation-delay: calc(var(--step, 0) * 100ms + 80ms);
+    animation-delay: calc(var(--step, 0) * 100ms + 60ms);
   }
 
-  .column {
-    animation: hero-draw-down 1400ms var(--ease-in-out-soft) both;
-    animation-delay: calc(300ms + var(--step, 0) * 60ms);
+  .frame {
+    animation: hero-fade 900ms var(--ease-out-soft) both;
   }
 
-  .row {
-    animation: hero-draw-across 1400ms var(--ease-in-out-soft) both;
-    animation-delay: calc(300ms + var(--step, 0) * 60ms);
+  .plate,
+  .gearsCell,
+  .mark {
+    animation: hero-appear 700ms var(--ease-out-soft) both;
+    animation-delay: calc(450ms + var(--order, 0) * 80ms);
   }
-}
 
-@keyframes hero-zoom {
-  from {
-    scale: 1;
-  }
-  to {
-    scale: 1.05;
+  .cue svg {
+    animation: hero-nudge 1.9s ease-in-out 2s infinite;
   }
 }
 
 @keyframes hero-rise {
   from {
     opacity: 0;
-    translate: 0 1.25rem;
+    translate: 0 1rem;
   }
 }
 
-@keyframes hero-draw-down {
+@keyframes hero-fade {
   from {
-    scale: 1 0;
+    opacity: 0;
   }
 }
 
-@keyframes hero-draw-across {
+@keyframes hero-appear {
   from {
-    scale: 0 1;
+    opacity: 0;
+    scale: 0.97;
+  }
+}
+
+@keyframes hero-nudge {
+  0%,
+  100% {
+    transform: translateY(-2px);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(3px);
+    opacity: 1;
+  }
+}
+
+/* ---------- reduced motion: the static sheet ---------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .hero * {
+    animation: none !important;
+  }
+  .cross {
+    display: none;
+  }
+  .plate[data-active] .plateArt svg {
+    transform: none;
   }
 }
