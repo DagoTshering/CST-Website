@@ -162,8 +162,13 @@
 @layer base {
   :root {
     --gutter: 1.25rem;
-    /* Height of the part of the header that stays on screen, for in-page anchor offsets. */
-    --header-bar-h: 4rem;
+    /* Header geometry, shared by the Header and by the hero's "one screen" height.
+       --header-h is the whole header (top row, menu bar and borders); --header-bar-h is the
+       part that stays on screen when scrolling, used to offset in-page anchors. */
+    --header-row-h: 4rem;
+    --header-nav-h: 0px;
+    --header-h: calc(var(--header-row-h) + 1px);
+    --header-bar-h: var(--header-h);
     color-scheme: light;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
@@ -171,7 +176,7 @@
 
   @media (min-width: 40rem) {
     :root {
-      --header-bar-h: 4.5rem;
+      --header-row-h: 4.5rem;
     }
   }
 
@@ -183,7 +188,10 @@
 
   @media (min-width: 64rem) {
     :root {
-      --header-bar-h: 3.75rem;
+      --header-row-h: 6rem;
+      --header-nav-h: 3.75rem;
+      --header-h: calc(var(--header-row-h) + var(--header-nav-h) + 2px);
+      --header-bar-h: calc(var(--header-nav-h) + 2px);
     }
   }
 

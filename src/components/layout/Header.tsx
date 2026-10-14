@@ -18,13 +18,14 @@ const contacts = [
 
 /**
  * Site header. On large screens the white top row scrolls away and the menu bar sticks (the
- * header's negative sticky offset equals the top row's height). Below that, the single compact
+ * header's negative sticky offset equals the top row's height). Its heights come from the
+ * --header-* variables in globals.css, which the hero also uses to fill exactly one screen. Below that, the single compact
  * row sticks and the menu opens in a panel.
  */
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur-md lg:-top-24">
-      <div className="container-page flex h-16 items-center justify-between gap-4 sm:h-18 lg:h-24 lg:gap-6">
+    <header className="sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur-md lg:top-[calc(var(--header-row-h)*-1)]">
+      <div className="container-page flex h-(--header-row-h) items-center justify-between gap-4 lg:gap-6">
         <Link
           href="/"
           className="group flex min-w-0 items-center gap-3 rounded-sm lg:gap-4"

@@ -16,7 +16,13 @@
    ========================================================================== */
 
 .hero {
-  --inset: clamp(18px, 3.2vw, 40px); /* the sheet border */
+  /* One screen: the visible window less the whole header. svh is the height with the mobile
+     browser's bars showing, so the hero never hides behind them and never jumps as they
+     slide away. Every vertical size below is a share of this height (--hu = 1%). */
+  --hero-h: calc(100vh - var(--header-h));
+  --hu: calc(var(--hero-h) / 100);
+
+  --inset: clamp(16px, min(3.2vw, 4 * var(--hu)), 40px); /* the sheet border */
   --ground: var(--color-white);
   --line: var(--color-primary);
   --tick: var(--color-sheet-tick);
@@ -28,11 +34,17 @@
   --plate-rest: 0.92;
   --plate-weight: 1.32;
 
+  /* the copy's vertical rhythm */
+  --gap-1: clamp(10px, 2 * var(--hu), 24px); /* eyebrow to headline */
+  --gap-2: clamp(12px, 2.2 * var(--hu), 28px); /* headline to tagline */
+  --gap-3: clamp(16px, 3 * var(--hu), 40px); /* tagline to buttons */
+  --gap-4: clamp(18px, 3.4 * var(--hu), 52px); /* buttons to the legend strip */
+
   /* phone: one small slot top-left */
-  --slot-top: clamp(14px, 2.2vh, 24px);
-  --slot-h: clamp(76px, 12svh, 112px);
-  --reserve-top: calc(var(--slot-top) + var(--slot-h) + 3.75rem);
-  --reserve-bottom: clamp(4rem, 9svh, 5.5rem);
+  --slot-top: clamp(10px, 2.4 * var(--hu), 22px);
+  --slot-h: clamp(64px, 11 * var(--hu), 110px);
+  --reserve-top: calc(var(--slot-top) + var(--slot-h) + 26px + clamp(12px, 2.4 * var(--hu), 24px));
+  --reserve-bottom: clamp(40px, 7 * var(--hu), 64px);
 
   position: relative;
   isolation: isolate;
@@ -40,27 +52,59 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: max(38rem, calc(100svh - var(--header-bar-h)));
+  min-height: var(--hero-h);
   padding-block: var(--reserve-top) var(--reserve-bottom);
   background: var(--ground);
 }
 
+@supports (height: 100svh) {
+  .hero {
+    --hero-h: calc(100svh - var(--header-h));
+  }
+}
+
+/* A short phone has no room for the slot drawing: the copy comes first. */
+@media (max-width: 659px) and (max-height: 640px) {
+  .hero {
+    --reserve-top: calc(var(--inset) + clamp(12px, 2.4 * var(--hu), 24px));
+  }
+}
+
 @media (min-width: 660px) {
   .hero {
-    --slot-top: clamp(18px, 2.6vh, 32px);
-    --slot-h: clamp(104px, 16svh, 168px);
-    --reserve-top: calc(var(--slot-top) + var(--slot-h) + 4.75rem);
-    --reserve-bottom: clamp(4.5rem, 10svh, 7rem);
+    --slot-top: clamp(14px, 2.6 * var(--hu), 32px);
+    --slot-h: clamp(80px, 15 * var(--hu), 168px);
+    --reserve-top: calc(var(--slot-top) + var(--slot-h) + 30px + clamp(14px, 3 * var(--hu), 40px));
+    --reserve-bottom: clamp(44px, 8 * var(--hu), 96px);
   }
 }
 
 @media (min-width: 1240px) {
   .hero {
+    --inset: clamp(16px, min(3.2vw, 3.6 * var(--hu)), 40px);
     /* heights of the rows of drawings above and below the copy */
-    --band-top: clamp(96px, 15svh, 168px);
-    --band-bottom: clamp(90px, 13svh, 150px);
-    --reserve-top: calc(var(--inset) + var(--band-top) + 2.25rem);
-    --reserve-bottom: calc(var(--inset) + var(--band-bottom) + 2.25rem);
+    --band-top: clamp(70px, 14 * var(--hu), 168px);
+    --band-bottom: clamp(64px, 12 * var(--hu), 150px);
+    --reserve-top: calc(var(--inset) + 10px + var(--band-top) + clamp(10px, 2.2 * var(--hu), 36px));
+    --reserve-bottom: calc(
+      var(--inset) + 10px + var(--band-bottom) + clamp(10px, 2.2 * var(--hu), 36px)
+    );
+  }
+}
+
+/* Too short for everything (a phone on its side, a squat browser window): the headline,
+   tagline and buttons come first, so the slot drawing and the top row of drawings step aside
+   and the rest of the hero continues below the fold. */
+@media (min-width: 660px) and (max-width: 1239px) and (max-height: 560px) {
+  .hero {
+    --reserve-top: calc(var(--inset) + clamp(12px, 2.4 * var(--hu), 24px));
+  }
+}
+
+@media (min-width: 1240px) and (max-height: 680px) {
+  .hero {
+    --band-top: 0px;
+    --reserve-top: calc(var(--inset) + 10px + clamp(10px, 2.2 * var(--hu), 36px));
   }
 }
 
@@ -69,6 +113,8 @@
 .copy {
   position: relative;
   z-index: 2;
+  /* the headline is sized against the copy's own width, so it always holds two lines */
+  container-type: inline-size;
 }
 
 @media (min-width: 1240px) {
@@ -78,11 +124,34 @@
   }
 }
 
+.eyebrow {
+  padding-bottom: clamp(10px, 1.8 * var(--hu), 16px);
+  font-size: clamp(0.75rem, min(1.15vw, 1.6 * var(--hu)), 0.84375rem);
+  line-height: 1.4;
+  letter-spacing: 0.22em;
+}
+
+/* "Science & Technology" is about 9.4em wide: 10.2cqi keeps it on one line */
 .title {
-  font-size: clamp(2.25rem, min(6.6vw, 8.8svh), 5.25rem);
+  margin-top: var(--gap-1);
+  font-size: clamp(1.75rem, min(10.2cqi, 8.4 * var(--hu)), 5.25rem);
   line-height: 1.06;
   letter-spacing: -0.015em;
   color: var(--color-sheet-ink);
+}
+
+.tagline {
+  margin-top: var(--gap-2);
+  font-size: clamp(1rem, min(1.5vw, 2.45 * var(--hu)), 1.3125rem);
+  line-height: 1.55;
+}
+
+.actions {
+  margin-top: var(--gap-3);
+}
+
+.legend {
+  margin-top: var(--gap-4);
 }
 
 /* the two-tone rule the drawing sheet uses: ink, then gold */
@@ -148,7 +217,7 @@
   top: 50%;
   translate: -50% -50%;
   width: min(112vw, 1020px);
-  height: min(86svh, 740px);
+  height: min(86 * var(--hu), 740px);
   background: radial-gradient(closest-side, var(--scrim) 0%, var(--scrim) 30%, transparent 80%);
   opacity: calc(1 - 0.45 * var(--reveal, 0));
 }
@@ -158,10 +227,11 @@
 .gears {
   inset: auto;
   overflow: visible;
-  width: min(72vw, 34svh, 310px);
-  height: min(72vw, 34svh, 310px);
-  right: -19vw;
-  bottom: -7svh;
+  /* on a phone the train sits low in the corner, below the legend strip */
+  width: min(40vw, 20 * var(--hu), 200px);
+  height: min(40vw, 20 * var(--hu), 200px);
+  right: -12vw;
+  bottom: calc(-9 * var(--hu));
   opacity: var(--plate-rest);
   transition: filter 0.8s ease;
   /* a third-of-a-pixel shadow in the train's own ink thickens every stroke at once */
@@ -176,19 +246,19 @@
 
 @media (min-width: 660px) {
   .gears {
-    width: clamp(150px, min(23vw, 26svh), 248px);
-    height: clamp(150px, min(23vw, 26svh), 248px);
+    width: clamp(150px, min(23vw, 26 * var(--hu)), 248px);
+    height: clamp(150px, min(23vw, 26 * var(--hu)), 248px);
     right: clamp(-14px, -1.1vw, -3px);
-    bottom: clamp(-12px, -1.3svh, -3px);
+    bottom: clamp(-12px, -1.3 * var(--hu), -3px);
   }
 }
 
 @media (min-width: 1240px) {
   .gears {
-    width: clamp(150px, min(14.5vw, 19.5svh), 252px);
-    height: clamp(150px, min(14.5vw, 19.5svh), 252px);
+    width: clamp(150px, min(14.5vw, 19.5 * var(--hu)), 252px);
+    height: clamp(150px, min(14.5vw, 19.5 * var(--hu)), 252px);
     right: clamp(30px, 2.6vw, 54px);
-    bottom: clamp(34px, 5svh, 64px);
+    bottom: clamp(34px, 5 * var(--hu), 64px);
     mask-image: none;
   }
 }
@@ -260,8 +330,8 @@
   text-align: center;
   color: var(--ink);
   right: clamp(30px, 2.6vw, 54px);
-  bottom: calc(clamp(34px, 5svh, 64px) - 26px);
-  width: clamp(150px, min(14.5vw, 19.5svh), 252px);
+  bottom: calc(clamp(34px, 5 * var(--hu), 64px) - 26px);
+  width: clamp(150px, min(14.5vw, 19.5 * var(--hu)), 252px);
 }
 
 @media (min-width: 1240px) {
@@ -459,8 +529,9 @@
   }
 }
 
-/* a short phone has no room to spare for the slot */
-@media (max-width: 659px) and (max-height: 640px) {
+/* a short phone, or a short tablet window, has no room to spare for the slot */
+@media (max-width: 659px) and (max-height: 640px),
+  (min-width: 660px) and (max-width: 1239px) and (max-height: 560px) {
   .plate {
     display: none;
   }
@@ -521,16 +592,16 @@
     top: 74%;
   }
   .plate[data-prog="civil"] > svg {
-    width: clamp(120px, min(15vw, 19svh), 252px);
+    width: clamp(120px, min(15vw, 19 * var(--hu)), 252px);
     height: auto;
   }
   .plate[data-prog="elec"] > svg,
   .plate[data-prog="it"] > svg {
-    width: clamp(100px, min(11.4vw, 14.8svh), 198px);
+    width: clamp(100px, min(11.4vw, 14.8 * var(--hu)), 198px);
     height: auto;
   }
   .plate[data-prog="ece"] > svg {
-    width: clamp(104px, min(12vw, 15.4svh), 208px);
+    width: clamp(104px, min(12vw, 15.4 * var(--hu)), 208px);
     height: auto;
   }
 
@@ -568,7 +639,7 @@
   }
   .plate[data-prog="constr"] > svg,
   .plate[data-prog="water"] > svg {
-    width: clamp(100px, min(11.4vw, 14.8svh), 198px);
+    width: clamp(100px, min(11.4vw, 14.8 * var(--hu)), 198px);
     height: auto;
   }
 
@@ -583,6 +654,16 @@
   }
   .plate[data-prog="resrch"] {
     left: 31vw;
+  }
+
+  /* a short wide window drops the top row (see the reserves above) */
+  @media (max-height: 680px) {
+    .plate[data-prog="arch"],
+    .plate[data-prog="renew"],
+    .plate[data-prog="geo"],
+    .plate[data-prog="inst"] {
+      display: none;
+    }
   }
 
   /* the rows are sized by the height they have, never by their width */
@@ -826,7 +907,7 @@
 .cue {
   position: absolute;
   left: 50%;
-  bottom: clamp(26px, 3.6svh, 36px);
+  bottom: clamp(26px, 3.6 * var(--hu), 36px);
   translate: -50% 0;
   display: flex;
   flex-direction: column;
@@ -870,13 +951,13 @@
 
 @media (min-width: 660px) {
   .cue {
-    bottom: clamp(7px, 1.3svh, 15px);
+    bottom: clamp(7px, 1.3 * var(--hu), 15px);
   }
 }
 
 @media (min-width: 1240px) and (min-height: 641px) {
   .cue {
-    bottom: clamp(48px, 6svh, 66px);
+    bottom: clamp(48px, 6 * var(--hu), 66px);
     gap: 8px;
     opacity: 0.6;
     font: 500 8.5px/1 var(--font-display);
@@ -904,14 +985,7 @@
 /* ---------- the programme legend strip ---------------------------------- */
 
 .marksWrap {
-  display: none;
   width: 100%;
-}
-
-@media (min-width: 660px) {
-  .marksWrap {
-    display: block;
-  }
 }
 
 .marks {
@@ -931,7 +1005,7 @@
 .mark {
   --spd: 4.6s;
   position: relative;
-  width: clamp(34px, min(3.9vw, 4.7svh), 56px);
+  width: clamp(34px, min(3.9vw, 4.7 * var(--hu)), 56px);
   aspect-ratio: 1;
   border-left: 1px solid var(--tick);
   transition: background-color 0.25s ease;

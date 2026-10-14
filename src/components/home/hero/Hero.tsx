@@ -18,26 +18,23 @@ export function Hero() {
         className={`${s.copy} container-page flex flex-col items-center text-center`}
       >
         <p
-          className={`${s.rule} pb-4 font-display text-[clamp(0.625rem,min(1.15vw,1.6svh),0.84375rem)] font-medium tracking-[0.22em] text-primary-strong uppercase [background-size:3.5rem_1px]`}
+          className={`${s.rule} ${s.eyebrow} font-display font-medium text-primary-strong uppercase [background-size:3.5rem_1px]`}
         >
           {hero.eyebrow}
         </p>
 
-        <h1
-          id="hero-title"
-          className={`${s.title} mt-[clamp(0.75rem,2.2svh,1.75rem)] font-display`}
-        >
+        <h1 id="hero-title" className={`${s.title} font-display`}>
           <span className="block font-light">{hero.title.lead}</span>
           <span className={`${s.rule} block pb-[0.08em] font-medium text-primary`}>
             {hero.title.emphasis}
           </span>
         </h1>
 
-        <p className="mt-[clamp(1rem,2.4svh,1.75rem)] max-w-xl font-display text-[clamp(1rem,min(1.5vw,2.45svh),1.3125rem)] leading-[1.55] text-ink/80">
-          {hero.tagline}
-        </p>
+        <p className={`${s.tagline} max-w-xl font-display text-ink/80`}>{hero.tagline}</p>
 
-        <div className="mt-[clamp(1.5rem,3.4svh,2.5rem)] flex w-full flex-col items-center justify-center gap-3 min-[420px]:w-auto min-[420px]:flex-row">
+        <div
+          className={`${s.actions} flex w-full flex-col items-center justify-center gap-3 min-[420px]:w-auto min-[420px]:flex-row`}
+        >
           {hero.actions.map((action) => (
             <ButtonLink
               key={action.href}
@@ -50,7 +47,7 @@ export function Hero() {
           ))}
         </div>
 
-        <div className="mt-[clamp(2rem,4.4svh,3.25rem)] w-full">
+        <div className={`${s.legend} w-full`}>
           <MarkStrip programmes={hero.programmes} label={hero.stripLabel} />
         </div>
       </div>

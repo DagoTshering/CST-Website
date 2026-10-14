@@ -12,7 +12,7 @@ const HOVER_OPEN_MS = 60;
 const HOVER_CLOSE_MS = 160;
 
 const itemClass =
-  "relative inline-flex h-15 items-center gap-1.5 px-4 font-display text-[0.9375rem] font-medium text-ink transition-colors duration-200 hover:text-primary-strong " +
+  "relative inline-flex h-(--header-nav-h) items-center gap-1.5 px-4 font-display text-[0.9375rem] font-medium text-ink transition-colors duration-200 hover:text-primary-strong " +
   "after:absolute after:inset-x-4 after:bottom-0 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-primary after:transition-transform after:duration-300 after:ease-out-soft hover:after:scale-x-100";
 
 const activeClass = "text-primary-strong after:scale-x-100";
