@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
+  images: {
+    // Only optimise our own files under public/images, at the default quality.
+    localPatterns: [{ pathname: "/images/**", search: "" }],
+    qualities: [75],
+    formats: ["image/avif", "image/webp"],
+  },
   turbopack: {
     rules: {
       "*.css": {
