@@ -16,13 +16,16 @@
    ========================================================================== */
 
 .hero {
-  /* One screen: the visible window less the whole header. svh is the height with the mobile
-     browser's bars showing, so the hero never hides behind them and never jumps as they
-     slide away. Every vertical size below is a share of this height (--hu = 1%). */
-  --hero-h: calc(100vh - var(--header-h));
+  /* One screen: the visible window less the whole header, kept between 520px and 1100px.
+     svh is the height with the mobile browser's bars showing, so the hero never hides behind
+     them and never jumps as they slide away. Every vertical size below is a share of this
+     height (--hu = 1%). */
+  --hero-h: clamp(520px, calc(100vh - var(--header-h)), 1100px);
   --hu: calc(var(--hero-h) / 100);
+  /* Horizontal sizes are shares of the stage width, which stops growing at 1600px. */
+  --sw: calc(min(100vw, 1600px) / 100);
 
-  --inset: clamp(16px, min(3.2vw, 4 * var(--hu)), 40px); /* the sheet border */
+  --inset: clamp(16px, min(3.2 * var(--sw), 4 * var(--hu)), 40px); /* the sheet border */
   --ground: var(--color-white);
   --line: var(--color-primary);
   --tick: var(--color-sheet-tick);
@@ -59,7 +62,7 @@
 
 @supports (height: 100svh) {
   .hero {
-    --hero-h: calc(100svh - var(--header-h));
+    --hero-h: clamp(520px, calc(100svh - var(--header-h)), 1100px);
   }
 }
 
@@ -81,7 +84,7 @@
 
 @media (min-width: 1240px) {
   .hero {
-    --inset: clamp(16px, min(3.2vw, 3.6 * var(--hu)), 40px);
+    --inset: clamp(16px, min(3.2 * var(--sw), 3.6 * var(--hu)), 40px);
     /* heights of the rows of drawings above and below the copy */
     --band-top: clamp(70px, 14 * var(--hu), 168px);
     --band-bottom: clamp(64px, 12 * var(--hu), 150px);
@@ -120,13 +123,13 @@
 @media (min-width: 1240px) {
   .copy {
     /* wide enough that the headline keeps to two lines, clear of the side columns */
-    max-width: clamp(680px, 62vw, 1000px);
+    max-width: clamp(680px, 62 * var(--sw), 1000px);
   }
 }
 
 .eyebrow {
   padding-bottom: clamp(10px, 1.8 * var(--hu), 16px);
-  font-size: clamp(0.75rem, min(1.15vw, 1.6 * var(--hu)), 0.84375rem);
+  font-size: clamp(0.75rem, min(1.15 * var(--sw), 1.6 * var(--hu)), 0.84375rem);
   line-height: 1.4;
   letter-spacing: 0.22em;
 }
@@ -142,7 +145,7 @@
 
 .tagline {
   margin-top: var(--gap-2);
-  font-size: clamp(1rem, min(1.5vw, 2.45 * var(--hu)), 1.3125rem);
+  font-size: clamp(1rem, min(1.5 * var(--sw), 2.45 * var(--hu)), 1.3125rem);
   line-height: 1.55;
 }
 
@@ -171,6 +174,16 @@
   overflow: hidden;
   pointer-events: none;
   font-family: var(--font-display);
+}
+
+/* Drawings, gears, frame and cue sit on a stage that stops at 1600px and stays centred;
+   the photograph, grid, network and crosshair still run to the edges. */
+.stage {
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: min(100%, 1600px);
+  translate: -50% 0;
 }
 
 .layer {
@@ -216,7 +229,7 @@
   left: 50%;
   top: 50%;
   translate: -50% -50%;
-  width: min(112vw, 1020px);
+  width: min(112 * var(--sw), 1020px);
   height: min(86 * var(--hu), 740px);
   background: radial-gradient(closest-side, var(--scrim) 0%, var(--scrim) 30%, transparent 80%);
   opacity: calc(1 - 0.45 * var(--reveal, 0));
@@ -228,9 +241,9 @@
   inset: auto;
   overflow: visible;
   /* on a phone the train sits low in the corner, below the legend strip */
-  width: min(40vw, 20 * var(--hu), 200px);
-  height: min(40vw, 20 * var(--hu), 200px);
-  right: -12vw;
+  width: min(40 * var(--sw), 20 * var(--hu), 200px);
+  height: min(40 * var(--sw), 20 * var(--hu), 200px);
+  right: calc(-12 * var(--sw));
   bottom: calc(-9 * var(--hu));
   opacity: var(--plate-rest);
   transition: filter 0.8s ease;
@@ -246,18 +259,18 @@
 
 @media (min-width: 660px) {
   .gears {
-    width: clamp(150px, min(23vw, 26 * var(--hu)), 248px);
-    height: clamp(150px, min(23vw, 26 * var(--hu)), 248px);
-    right: clamp(-14px, -1.1vw, -3px);
+    width: clamp(150px, min(23 * var(--sw), 26 * var(--hu)), 248px);
+    height: clamp(150px, min(23 * var(--sw), 26 * var(--hu)), 248px);
+    right: clamp(-14px, -1.1 * var(--sw), -3px);
     bottom: clamp(-12px, -1.3 * var(--hu), -3px);
   }
 }
 
 @media (min-width: 1240px) {
   .gears {
-    width: clamp(150px, min(14.5vw, 19.5 * var(--hu)), 252px);
-    height: clamp(150px, min(14.5vw, 19.5 * var(--hu)), 252px);
-    right: clamp(30px, 2.6vw, 54px);
+    width: clamp(150px, min(14.5 * var(--sw), 19.5 * var(--hu)), 252px);
+    height: clamp(150px, min(14.5 * var(--sw), 19.5 * var(--hu)), 252px);
+    right: clamp(30px, 2.6 * var(--sw), 54px);
     bottom: clamp(34px, 5 * var(--hu), 64px);
     mask-image: none;
   }
@@ -329,9 +342,9 @@
   z-index: 6;
   text-align: center;
   color: var(--ink);
-  right: clamp(30px, 2.6vw, 54px);
+  right: clamp(30px, 2.6 * var(--sw), 54px);
   bottom: calc(clamp(34px, 5 * var(--hu), 64px) - 26px);
-  width: clamp(150px, min(14.5vw, 19.5 * var(--hu)), 252px);
+  width: clamp(150px, min(14.5 * var(--sw), 19.5 * var(--hu)), 252px);
 }
 
 @media (min-width: 1240px) {
@@ -488,7 +501,7 @@
 
 /* --- phone and medium: one slot, the drawings take turns --- */
 .plate {
-  left: 4.5vw;
+  left: calc(4.5 * var(--sw));
   top: var(--slot-top);
   opacity: 0;
   visibility: hidden;
@@ -500,7 +513,7 @@
 .plate > svg {
   height: var(--slot-h);
   width: auto;
-  max-width: 46vw;
+  max-width: calc(46 * var(--sw));
 }
 
 .plate[data-on] {
@@ -543,7 +556,7 @@
     translate: -50% 0;
   }
   .plate > svg {
-    max-width: 40vw;
+    max-width: calc(40 * var(--sw));
   }
 }
 
@@ -577,7 +590,7 @@
   .plate[data-prog="elec"],
   .plate[data-prog="ece"],
   .plate[data-prog="it"] {
-    left: 2.1vw;
+    left: calc(2.1 * var(--sw));
   }
   .plate[data-prog="civil"] {
     top: 3%;
@@ -592,16 +605,16 @@
     top: 74%;
   }
   .plate[data-prog="civil"] > svg {
-    width: clamp(120px, min(15vw, 19 * var(--hu)), 252px);
+    width: clamp(120px, min(15 * var(--sw), 19 * var(--hu)), 252px);
     height: auto;
   }
   .plate[data-prog="elec"] > svg,
   .plate[data-prog="it"] > svg {
-    width: clamp(100px, min(11.4vw, 14.8 * var(--hu)), 198px);
+    width: clamp(100px, min(11.4 * var(--sw), 14.8 * var(--hu)), 198px);
     height: auto;
   }
   .plate[data-prog="ece"] > svg {
-    width: clamp(104px, min(12vw, 15.4 * var(--hu)), 208px);
+    width: clamp(104px, min(12 * var(--sw), 15.4 * var(--hu)), 208px);
     height: auto;
   }
 
@@ -613,23 +626,23 @@
     top: calc(var(--inset) + 12px);
   }
   .plate[data-prog="arch"] {
-    left: 16.5vw;
+    left: calc(16.5 * var(--sw));
   }
   .plate[data-prog="renew"] {
-    left: 32.5vw;
+    left: calc(32.5 * var(--sw));
   }
   .plate[data-prog="geo"] {
-    left: 48.5vw;
+    left: calc(48.5 * var(--sw));
   }
   .plate[data-prog="inst"] {
-    left: 64.5vw;
+    left: calc(64.5 * var(--sw));
   }
 
   /* right margin, above the gear train */
   .plate[data-prog="constr"],
   .plate[data-prog="water"] {
     left: auto;
-    right: 2.1vw;
+    right: calc(2.1 * var(--sw));
   }
   .plate[data-prog="constr"] {
     top: 4%;
@@ -639,7 +652,7 @@
   }
   .plate[data-prog="constr"] > svg,
   .plate[data-prog="water"] > svg {
-    width: clamp(100px, min(11.4vw, 14.8 * var(--hu)), 198px);
+    width: clamp(100px, min(11.4 * var(--sw), 14.8 * var(--hu)), 198px);
     height: auto;
   }
 
@@ -650,10 +663,10 @@
     bottom: calc(var(--inset) + 12px);
   }
   .plate[data-prog="soft"] {
-    left: 16.5vw;
+    left: calc(16.5 * var(--sw));
   }
   .plate[data-prog="resrch"] {
-    left: 31vw;
+    left: calc(31 * var(--sw));
   }
 
   /* a short wide window drops the top row (see the reserves above) */
@@ -1005,7 +1018,7 @@
 .mark {
   --spd: 4.6s;
   position: relative;
-  width: clamp(34px, min(3.9vw, 4.7 * var(--hu)), 56px);
+  width: clamp(34px, min(3.9 * var(--sw), 4.7 * var(--hu)), 56px);
   aspect-ratio: 1;
   border-left: 1px solid var(--tick);
   transition: background-color 0.25s ease;

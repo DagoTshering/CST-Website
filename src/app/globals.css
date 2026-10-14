@@ -211,6 +211,8 @@
   }
 
   body {
+    /* Below 320px the layout stops shrinking and the page scrolls sideways instead. */
+    min-width: 320px;
     min-height: 100dvh;
     display: flex;
     flex-direction: column;

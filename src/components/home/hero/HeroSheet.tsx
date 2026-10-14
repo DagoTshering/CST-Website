@@ -39,58 +39,60 @@ export function HeroSheet({ programmes }: { programmes: Programme[] }) {
       <canvas className={`${s.layer} ${s.net}`} data-depth="9" data-net="" />
       <div className={s.scrim} />
 
-      <GearTrain className={`${s.layer} ${s.gears}`} />
-      {mech && (
-        <div className={s.gearCaption} data-gear-caption="" style={programmeColours("mech")}>
-          <span className={s.plateName}>{mech.label}</span>
-          <span className={s.plateYear}>{mech.year}</span>
-        </div>
-      )}
-
-      <div className={`${s.layer} ${s.plates}`} data-depth="15">
-        {plates.map((p, i) => {
-          const drawing = DRAWINGS[p.key as keyof typeof DRAWINGS];
-          return (
-            <figure
-              key={p.key}
-              className={s.plate}
-              data-prog={p.key}
-              data-pg={p.postgraduate ? "" : undefined}
-              data-on={i === 0 ? "" : undefined}
-              style={programmeColours(p.key)}
-            >
-              <svg viewBox={drawing.viewBox} preserveAspectRatio="xMidYMid meet">
-                {drawing.content}
-              </svg>
-              <figcaption>
-                <span className={s.plateName}>{p.label}</span>
-                <span className={s.plateYear}>{p.year}</span>
-              </figcaption>
-            </figure>
-          );
-        })}
-      </div>
-
       <div className={s.cross}>
         <i className={s.crossH} data-cross-h="" />
         <i className={s.crossV} data-cross-v="" />
         <span className={s.crossTag} data-cross-tag="" />
       </div>
 
-      <div className={s.frame}>
-        {KNOTS.map((pos) => (
-          <svg key={pos} className={s.knot} data-pos={pos} viewBox="0 0 5 5">
-            <path d={KNOT_PATH} />
-          </svg>
-        ))}
-      </div>
+      <div className={s.stage}>
+        <GearTrain className={`${s.layer} ${s.gears}`} />
+        {mech && (
+          <div className={s.gearCaption} data-gear-caption="" style={programmeColours("mech")}>
+            <span className={s.plateName}>{mech.label}</span>
+            <span className={s.plateYear}>{mech.year}</span>
+          </div>
+        )}
 
-      <div className={s.cue}>
-        <span>Scroll</span>
-        <i />
-        <svg viewBox="0 0 20 12">
-          <path d="M2 3 L10 10 L18 3" />
-        </svg>
+        <div className={`${s.layer} ${s.plates}`} data-depth="15">
+          {plates.map((p, i) => {
+            const drawing = DRAWINGS[p.key as keyof typeof DRAWINGS];
+            return (
+              <figure
+                key={p.key}
+                className={s.plate}
+                data-prog={p.key}
+                data-pg={p.postgraduate ? "" : undefined}
+                data-on={i === 0 ? "" : undefined}
+                style={programmeColours(p.key)}
+              >
+                <svg viewBox={drawing.viewBox} preserveAspectRatio="xMidYMid meet">
+                  {drawing.content}
+                </svg>
+                <figcaption>
+                  <span className={s.plateName}>{p.label}</span>
+                  <span className={s.plateYear}>{p.year}</span>
+                </figcaption>
+              </figure>
+            );
+          })}
+        </div>
+
+        <div className={s.frame}>
+          {KNOTS.map((pos) => (
+            <svg key={pos} className={s.knot} data-pos={pos} viewBox="0 0 5 5">
+              <path d={KNOT_PATH} />
+            </svg>
+          ))}
+        </div>
+
+        <div className={s.cue}>
+          <span>Scroll</span>
+          <i />
+          <svg viewBox="0 0 20 12">
+            <path d="M2 3 L10 10 L18 3" />
+          </svg>
+        </div>
       </div>
     </div>
   );
