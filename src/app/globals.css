@@ -131,27 +131,98 @@
   text-transform: uppercase;
 }
 
-/* ==========================================================================
-   Scroll reveal
-   A short fade and rise as an element enters the viewport, driven by scroll
-   position in CSS, with no JavaScript. Browsers without scroll-driven
-   animations, and visitors who prefer reduced motion, simply see the content.
-   ========================================================================== */
-
-@keyframes reveal-rise {
-  from {
-    opacity: 0;
-    translate: 0 1rem;
+/* Fine corner ticks round a photograph, like the registration marks on a drawing sheet.
+   Put it on the element that frames the photo (it needs position: relative). */
+@utility crop-marks {
+  &::after {
+    --tick: 14px;
+    --tick-colour: var(--color-sheet-tick);
+    content: "";
+    position: absolute;
+    inset: -9px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--tick-colour), var(--tick-colour)) top left / var(--tick) 1px,
+      linear-gradient(var(--tick-colour), var(--tick-colour)) top left / 1px var(--tick),
+      linear-gradient(var(--tick-colour), var(--tick-colour)) top right / var(--tick) 1px,
+      linear-gradient(var(--tick-colour), var(--tick-colour)) top right / 1px var(--tick),
+      linear-gradient(var(--tick-colour), var(--tick-colour)) bottom left / var(--tick) 1px,
+      linear-gradient(var(--tick-colour), var(--tick-colour)) bottom left / 1px var(--tick),
+      linear-gradient(var(--tick-colour), var(--tick-colour)) bottom right / var(--tick) 1px,
+      linear-gradient(var(--tick-colour), var(--tick-colour)) bottom right / 1px var(--tick);
+    background-repeat: no-repeat;
   }
 }
 
-@utility reveal {
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      animation: reveal-rise linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 55%;
-    }
+/* ==========================================================================
+   Reveal on scroll
+   Mark an element with data-reveal and it eases in the first time it enters
+   the screen (RevealObserver sets data-revealed). Variants:
+     data-reveal          fade and rise
+     data-reveal="photo"  a cover in the section's colour rises off the photograph,
+                          which settles from a slight zoom (set --reveal-curtain to
+                          the background colour; the element needs position)
+     data-reveal="rule"   a rule draws in from the left
+   Stagger with style="--reveal-delay: 120ms". Elements only start hidden
+   once the observer is running (html[data-reveal-ready]), so without
+   JavaScript, or with reduced motion, everything is simply shown.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    transition:
+      opacity 900ms var(--ease-out-soft),
+      translate 900ms var(--ease-out-soft),
+      scale 1100ms var(--ease-out-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  /* The cover is a pseudo-element rather than a clip on the photo itself: a fully clipped
+     element never counts as on screen, so it would never be revealed. */
+  [data-reveal="photo"]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: var(--reveal-curtain, var(--color-surface));
+    transform-origin: top;
+    scale: 1 0;
+    transition: scale 1300ms var(--ease-in-out-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+    pointer-events: none;
+  }
+
+  [data-reveal="photo"] img {
+    transition: scale 1800ms var(--ease-out-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  :root[data-reveal-ready] [data-reveal]:not([data-revealed]) {
+    opacity: 0;
+    translate: 0 1.5rem;
+  }
+
+  :root[data-reveal-ready] [data-reveal="photo"]:not([data-revealed]) {
+    opacity: 1;
+    translate: none;
+  }
+
+  :root[data-reveal-ready] [data-reveal="photo"]:not([data-revealed])::before {
+    scale: 1 1;
+  }
+
+  :root[data-reveal-ready] [data-reveal="photo"]:not([data-revealed]) img {
+    scale: 1.12;
+  }
+
+  :root[data-reveal-ready] [data-reveal="rule"]:not([data-revealed]) {
+    opacity: 1;
+    translate: none;
+    scale: 0 1;
+  }
+
+  [data-reveal="rule"] {
+    transform-origin: left;
   }
 }
 

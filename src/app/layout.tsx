@@ -3,6 +3,7 @@ import { IBM_Plex_Mono, Inter, Jost } from "next/font/google";
 
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { RevealObserver } from "@/components/motion/RevealObserver";
 import { site } from "@/content/site";
 
 import "./globals.css";
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <Footer />
+        <RevealObserver />
       </body>
     </html>
   );
