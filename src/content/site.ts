@@ -66,6 +66,9 @@ export const site = {
   ] satisfies { network: SocialNetwork; label: string; href: string }[],
 } as const;
 
+/** The header's one button. TODO: the contact page is not built yet. */
+export const headerAction = { label: "Contact us", href: "/contact" };
+
 /** Main menu ("CST Main Menu" in WordPress). Every path except "/" is TODO. */
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },

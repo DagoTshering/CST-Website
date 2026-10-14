@@ -163,35 +163,25 @@
   :root {
     --gutter: 1.25rem;
     /* Header geometry, shared by the Header and by the hero's "one screen" height.
-       --header-h is the whole header (top row, menu bar and borders); --header-bar-h is the
-       part that stays on screen when scrolling, used to offset in-page anchors. */
+       --header-h is the whole header at the top of the page (utility bar and main row). Once
+       scrolled, the utility bar slides away and the row shrinks: --header-bar-h is what stays
+       on screen, used to offset in-page anchors. */
+    --utility-h: 0px;
     --header-row-h: 4rem;
-    --header-nav-h: 0px;
-    --header-h: calc(var(--header-row-h) + 1px);
-    --header-bar-h: var(--header-h);
+    --header-row-h-scrolled: 4rem;
+    --header-h: calc(var(--utility-h) + var(--header-row-h));
+    --header-bar-h: var(--header-row-h-scrolled);
     color-scheme: light;
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
   }
 
-  @media (min-width: 40rem) {
-    :root {
-      --header-row-h: 4.5rem;
-    }
-  }
-
   @media (min-width: 48rem) {
     :root {
       --gutter: 2rem;
-    }
-  }
-
-  @media (min-width: 64rem) {
-    :root {
-      --header-row-h: 6rem;
-      --header-nav-h: 3.75rem;
-      --header-h: calc(var(--header-row-h) + var(--header-nav-h) + 2px);
-      --header-bar-h: calc(var(--header-nav-h) + 2px);
+      --utility-h: 2.25rem;
+      --header-row-h: 5rem;
+      --header-row-h-scrolled: 4.5rem;
     }
   }
 

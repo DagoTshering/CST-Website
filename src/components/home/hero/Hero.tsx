@@ -1,56 +1,99 @@
+import Image from "next/image";
+import type { CSSProperties } from "react";
+
 import { ButtonLink } from "@/components/ui/Button";
+import { EndlessKnot } from "@/components/ui/EndlessKnot";
 import { hero } from "@/content/home";
 
 import s from "./hero.module.css";
-import { HeroAnimator } from "./HeroAnimator";
-import { HeroSheet } from "./HeroSheet";
-import { MarkStrip } from "./MarkStrip";
+import { HeroMotion } from "./HeroMotion";
 
-const stops = hero.programmes.map(({ key, title, year }) => ({ key, title, year }));
+/** Lines of the faint blueprint grid; each draws in once, a little after the one before. */
+const GRID_COLUMNS = 11;
+const GRID_ROWS = 9;
+
+/** The step in the staggered entrance (and in the grid's draw-in). */
+const step = (n: number) => ({ "--step": n }) as CSSProperties;
 
 export function Hero() {
+  const { image } = hero;
+
   return (
-    <HeroAnimator stops={stops} aria-labelledby="hero-title" className={s.hero}>
-      <HeroSheet programmes={hero.programmes} />
+    <HeroMotion aria-labelledby="hero-title" className={s.hero}>
+      <div className={s.media}>
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          preload
+          sizes="100vw"
+          className={s.photo}
+          style={{ objectPosition: image.focus }}
+        />
+      </div>
+      <div className={s.shade} aria-hidden="true" />
 
-      <div
-        data-hero-copy=""
-        className={`${s.copy} container-page flex flex-col items-center text-center`}
-      >
-        <p
-          className={`${s.rule} ${s.eyebrow} font-display font-medium text-primary-strong uppercase [background-size:3.5rem_1px]`}
-        >
-          {hero.eyebrow}
-        </p>
-
-        <h1 id="hero-title" className={`${s.title} font-display`}>
-          <span className="block font-light">{hero.title.lead}</span>
-          <span className={`${s.rule} block pb-[0.08em] font-medium text-primary`}>
-            {hero.title.emphasis}
-          </span>
-        </h1>
-
-        <p className={`${s.tagline} max-w-xl font-display text-ink/80`}>{hero.tagline}</p>
-
-        <div
-          className={`${s.actions} flex w-full flex-col items-center justify-center gap-3 min-[420px]:w-auto min-[420px]:flex-row`}
-        >
-          {hero.actions.map((action) => (
-            <ButtonLink
-              key={action.href}
-              href={action.href}
-              variant={action.variant === "primary" ? "primary" : "secondary"}
-              className="w-full max-w-72 min-[420px]:w-auto"
-            >
-              {action.label}
-            </ButtonLink>
+      <div className={s.body}>
+        <div className={s.stage} aria-hidden="true">
+          <div className={s.grid}>
+            {Array.from({ length: GRID_COLUMNS }, (_, i) => (
+              <i key={`c${i}`} className={s.column} style={{ ...step(i), left: `${i * 6}rem` }} />
+            ))}
+            {Array.from({ length: GRID_ROWS }, (_, i) => (
+              <i key={`r${i}`} className={s.row} style={{ ...step(i + 2), top: `${i * 6}rem` }} />
+            ))}
+          </div>
+          {(["tl", "tr", "bl", "br"] as const).map((corner) => (
+            <EndlessKnot key={corner} className={s.knot} data-corner={corner} />
           ))}
         </div>
 
-        <div className={`${s.legend} w-full`}>
-          <MarkStrip programmes={hero.programmes} label={hero.stripLabel} />
+        <div className="container-page">
+          <div className={s.copy}>
+            <p className={`${s.eyebrow} ${s.rise}`} style={step(0)}>
+              {hero.eyebrow}
+            </p>
+            <h1 id="hero-title" className={`${s.title} ${s.rise}`} style={step(1)}>
+              {hero.title.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+            </h1>
+            <p className={`${s.tagline} ${s.rise}`} style={step(2)}>
+              {hero.tagline}
+            </p>
+            <div className={`${s.actions} ${s.rise}`} style={step(3)}>
+              {hero.actions.map((action) => (
+                <ButtonLink
+                  key={action.href}
+                  href={action.href}
+                  tone="dark"
+                  variant={action.variant === "primary" ? "primary" : "secondary"}
+                >
+                  {action.label}
+                </ButtonLink>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className={s.cue} aria-hidden="true">
+          <span>Scroll</span>
+          <i />
         </div>
       </div>
-    </HeroAnimator>
+
+      <div className={`${s.facts} ${s.rise}`} style={step(4)}>
+        <dl className="container-page grid grid-cols-2 md:grid-cols-4">
+          {hero.facts.map((fact) => (
+            <div key={fact.label} className={s.fact}>
+              <dt className={s.factLabel}>{fact.label}</dt>
+              <dd className={s.factValue}>{fact.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </HeroMotion>
   );
 }

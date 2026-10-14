@@ -1,12 +1,13 @@
 import { GEAR_MODULE, GEAR_TRAIN, gearOutline, gearRotations } from "./geometry";
-import s from "./hero.module.css";
+import s from "./drawings.module.css";
 
 const { gears, viewBox } = GEAR_TRAIN;
 const restingAngles = gearRotations(gears, 0);
 
 /**
- * Mechanical's drawing: a meshing gear train with pitch circles and timing marks. It is drawn
- * at rest on the server; engine.ts turns each wheel (the [data-gear] groups) at its ratio.
+ * Mechanical's drawing: a meshing gear train with pitch circles and timing marks, drawn at
+ * rest. To animate it, set each [data-gear] group's transform to rotate(angle) with the angles
+ * from gearRotations(), so every wheel turns at its true ratio.
  */
 export function GearTrain({ className }: { className?: string }) {
   const driver = gears[0];
@@ -16,10 +17,9 @@ export function GearTrain({ className }: { className?: string }) {
 
   return (
     <svg
-      className={className}
+      className={className ? `${s.gears} ${className}` : s.gears}
       viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`}
       data-gears=""
-      data-depth="22"
     >
       <path
         className={s.axis}

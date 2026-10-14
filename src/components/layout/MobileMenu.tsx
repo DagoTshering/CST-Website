@@ -12,10 +12,10 @@ import {
   MenuIcon,
   PhoneIcon,
 } from "@/components/ui/icons";
-import { isNavGroup, site, type NavItem } from "@/content/site";
+import { headerAction, isNavGroup, site, type NavItem } from "@/content/site";
 import { cx } from "@/lib/cx";
 
-const DESKTOP_QUERY = "(min-width: 64rem)";
+const DESKTOP_QUERY = "(min-width: 80rem)"; // where DesktopNav takes over (Tailwind xl)
 
 /**
  * The menu for phones and tablets: a button that opens the navigation in a modal side panel.
@@ -58,7 +58,7 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
         aria-haspopup="dialog"
         aria-expanded={isOpen}
         aria-controls={dialogId}
-        className="grid size-11 place-items-center rounded-full border border-line text-ink transition-colors hover:border-primary hover:bg-accent-soft lg:hidden"
+        className="grid size-11 place-items-center rounded-full border border-line text-ink transition-colors hover:border-primary hover:bg-accent-soft xl:hidden"
       >
         <MenuIcon className="size-5" />
         <span className="sr-only">Open menu</span>
@@ -162,7 +162,18 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
             </ul>
           </nav>
 
-          <address className="shrink-0 space-y-3 border-t border-line-soft bg-surface px-5 py-5 text-small not-italic">
+          <div className="shrink-0 border-t border-line-soft px-5 py-4">
+            <Link
+              href={headerAction.href}
+              prefetch={false}
+              onClick={close}
+              className="flex min-h-12 w-full items-center justify-center rounded-sm bg-primary-strong px-6 font-display text-[0.9375rem] font-semibold text-white transition-colors hover:bg-primary-deep"
+            >
+              {headerAction.label}
+            </Link>
+          </div>
+
+          <address className="shrink-0 space-y-3 bg-surface px-5 py-5 text-small not-italic">
             <p className="flex items-center gap-3">
               <MapPinIcon className="size-4.5 shrink-0 text-primary-strong" />
               {contact.location}

@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import type { ProgrammeKey } from "@/content/home";
 
 import { gearOutline, polar, sinePath } from "./geometry";
-import s from "./hero.module.css";
+import s from "./drawings.module.css";
 
 /**
  * The small moving glyph for each programme in the legend strip under the buttons, on a 24px

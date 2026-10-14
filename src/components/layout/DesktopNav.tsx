@@ -11,9 +11,10 @@ import { cx } from "@/lib/cx";
 const HOVER_OPEN_MS = 60;
 const HOVER_CLOSE_MS = 160;
 
+// A thin underline grows from the left under the label, for hover and for the current page.
 const itemClass =
-  "relative inline-flex h-(--header-nav-h) items-center gap-1.5 px-4 font-display text-[0.9375rem] font-medium text-ink transition-colors duration-200 hover:text-primary-strong " +
-  "after:absolute after:inset-x-4 after:bottom-0 after:h-0.5 after:origin-center after:scale-x-0 after:rounded-full after:bg-primary after:transition-transform after:duration-300 after:ease-out-soft hover:after:scale-x-100";
+  "relative inline-flex h-full items-center gap-1.5 font-display text-[0.9375rem] font-medium text-ink transition-colors duration-200 hover:text-primary-strong " +
+  "after:absolute after:inset-x-0 after:bottom-[calc(50%-0.875rem)] after:h-[1.5px] after:origin-left after:scale-x-0 after:rounded-full after:bg-primary after:transition-transform after:duration-300 after:ease-out-soft hover:after:scale-x-100";
 
 const activeClass = "text-primary-strong after:scale-x-100";
 
@@ -71,13 +72,13 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
   };
 
   return (
-    <nav ref={navRef} aria-label="Main">
-      <ul className="container-page flex items-center justify-center gap-1 xl:gap-3">
+    <nav ref={navRef} aria-label="Main" className="hidden h-full xl:block">
+      <ul className="flex h-full items-center gap-8 2xl:gap-10">
         {items.map((item, index) => {
           if (!isNavGroup(item)) {
             const current = pathname === item.href;
             return (
-              <li key={item.label}>
+              <li key={item.label} className="h-full">
                 <Link
                   href={item.href}
                   prefetch={false}
@@ -96,7 +97,7 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
           return (
             <li
               key={item.label}
-              className="relative"
+              className="relative h-full"
               onPointerEnter={(e) => e.pointerType === "mouse" && hover(index, HOVER_OPEN_MS)}
               onPointerLeave={(e) =>
                 e.pointerType === "mouse" && isOpen && hover(null, HOVER_CLOSE_MS)
@@ -127,13 +128,13 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
               <div
                 id={panelId}
                 className={cx(
-                  "absolute top-full left-0 z-10 w-max max-w-80 min-w-60 pt-px transition-[opacity,translate,visibility] duration-200 ease-out-soft",
+                  "absolute top-[calc(100%-0.75rem)] -left-4 z-10 w-max max-w-80 min-w-64 pt-3 transition-[opacity,translate,visibility] duration-200 ease-out-soft",
                   isOpen
                     ? "visible translate-y-0 opacity-100"
                     : "invisible -translate-y-1 opacity-0",
                 )}
               >
-                <ul className="rounded-b-md border border-t-2 border-line-soft border-t-primary bg-white p-2 shadow-lg">
+                <ul className="rounded-lg bg-white p-2.5 shadow-lg ring-1 ring-ink/5">
                   {item.items.map((link) => {
                     const current = pathname === link.href;
                     return (
@@ -144,7 +145,7 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
                           aria-current={current ? "page" : undefined}
                           onClick={() => setOpen(null)}
                           className={cx(
-                            "block rounded-sm px-3.5 py-2.5 text-small text-copy transition-colors duration-150 hover:bg-surface hover:text-primary-strong",
+                            "block rounded-md px-4 py-3 text-[0.9375rem] leading-snug text-copy transition-colors duration-150 hover:bg-surface hover:text-primary-strong",
                             current && "bg-surface font-medium text-primary-strong",
                           )}
                         >

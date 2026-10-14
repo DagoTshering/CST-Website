@@ -11,6 +11,7 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 | About Us › About Us                              | `/about`                                         |                                                              |
 | About Us › FAQ                                   | `/faq`                                           | The old site had a FAQ page (WordPress page 636) to migrate. |
 | About Us › Contact                               | `/contact`                                       |                                                              |
+| Header button › Contact us                       | `/contact`                                       | Same page as About Us › Contact.                             |
 | About Us › Executives                            | `/about/executives`                              |                                                              |
 | About Us › Staff Directory                       | `/about/staff-directory`                         |                                                              |
 | Academics › Programmes                           | `/academics/programmes`                          |                                                              |
