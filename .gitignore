@@ -32,3 +32,5 @@ npm-debug.log*
 next-env.d.ts
 
 elementor-export/
+
+prototype/
