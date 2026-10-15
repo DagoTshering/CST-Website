@@ -17,6 +17,15 @@ const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   display: "swap",
 });
+// Its italic, for the About heading. Below the fold, so it is not preloaded.
+const cormorantItalic = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: "500",
+  style: "italic",
+  variable: "--font-cormorant-italic",
+  display: "swap",
+  preload: false,
+});
 // Only the hero's year labels and drawing captions use the mono face, so it is not preloaded.
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
@@ -42,7 +51,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jost.variable} ${cormorant.variable} ${plexMono.variable}`}
+      className={`${inter.variable} ${jost.variable} ${cormorant.variable} ${cormorantItalic.variable} ${plexMono.variable}`}
     >
       {/* id="top" is the target of the footer's "Back to top" link */}
       <body id="top">

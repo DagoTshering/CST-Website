@@ -10,6 +10,8 @@ type SectionHeadingProps = {
   align?: "start" | "center";
   tone?: "light" | "dark";
   className?: string;
+  /** Extra classes for the h2, for a section that sets its own heading type. */
+  titleClassName?: string;
 };
 
 /**
@@ -23,6 +25,7 @@ export function SectionHeading({
   align = "start",
   tone = "light",
   className,
+  titleClassName,
 }: SectionHeadingProps) {
   return (
     <div className={cx(align === "center" && "text-center", className)}>
@@ -50,6 +53,7 @@ export function SectionHeading({
         className={cx(
           "mt-4 text-h2 font-semibold text-balance",
           tone === "light" ? "text-ink" : "text-white",
+          titleClassName,
         )}
       >
         {children}

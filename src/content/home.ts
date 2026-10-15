@@ -134,6 +134,10 @@ export const about = {
   id: "about",
   label: "About CST",
   heading: "Bhutan’s premier institute for engineering education",
+  /** The word in the heading shown in colour, with a gold underline. */
+  emphasis: "engineering",
+  // NEEDS REVIEW: added copy, not from the old site.
+  subtitle: "Royal University of Bhutan · Rinchending",
   body: [
     "The nation’s leading institution offers internationally recognised bachelor’s and master’s degrees in various engineering fields. With over two decades of experience, CST has been shaping the future of engineering with a strong emphasis on hands-on learning, innovative research, and industry collaboration.",
     "CST currently offers master’s programmes in Renewable Energy and Construction Management, providing advanced education and research opportunities for aspiring engineers.",
