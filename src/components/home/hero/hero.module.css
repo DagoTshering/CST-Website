@@ -420,8 +420,8 @@
     )
   );
   transition:
-    transform 0.7s var(--ease-tick),
-    width 0.7s cubic-bezier(0.35, 1.2, 0.45, 1);
+    transform 1.1s var(--ease-tick),
+    width 1.1s cubic-bezier(0.35, 1.2, 0.45, 1);
   animation: appear 800ms ease 1.4s both;
 }
 
@@ -1050,7 +1050,7 @@
   transform-box: view-box;
   transform-origin: 66px 66px;
   transform: rotate(calc(var(--hand-theta) * 1deg + var(--hand-laps) * 1turn));
-  transition: transform 0.65s var(--ease-tick);
+  transition: transform 1s var(--ease-tick);
 }
 
 .dialHub {
