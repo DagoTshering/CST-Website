@@ -2,7 +2,7 @@ import s from "./hero.module.css";
 
 /*
  * The monument-inspired ornament behind the copy, very faint: a globe lattice, a silver
- * figure-eight ribbon and a gold armillary ring. Each piece is drawn on a unit grid and
+ * figure-eight ribbon and a gold armillary ring (that one a little stronger, see Armillary). Each piece is drawn on a unit grid and
  * stretched to its size by the stylesheet (preserveAspectRatio="none", with strokes that do
  * not scale), so it fits any hero without measuring anything.
  */
@@ -68,12 +68,20 @@ export function Ornament() {
         <path d={RIBBON_PATH} className={s.ribbonBand} stroke="url(#hero-silver)" />
         <path d={RIBBON_PATH} className={s.ribbonEdge} />
       </svg>
-
-      <svg className={s.armillary} viewBox="-1 -1 2 2" preserveAspectRatio="none">
-        <ellipse rx={1} ry={1} className={s.armillaryGold} stroke="url(#hero-gold)" />
-        <ellipse rx={1.05} ry={1.08} className={s.armillarySilver} stroke="url(#hero-silver)" />
-      </svg>
     </>
+  );
+}
+
+/**
+ * The gold armillary ring round the headline, with its silver twin. It sits above the copy's
+ * fog (HeroSheet places it), so it reads clearly while the rest of the ornament stays faint.
+ */
+export function Armillary() {
+  return (
+    <svg className={s.armillary} viewBox="-1 -1 2 2" preserveAspectRatio="none">
+      <ellipse rx={1} ry={1} className={s.armillaryGold} stroke="url(#hero-gold)" />
+      <ellipse rx={1.05} ry={1.08} className={s.armillarySilver} stroke="url(#hero-silver)" />
+    </svg>
   );
 }
 

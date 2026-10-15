@@ -368,14 +368,15 @@
   rotate: -9deg;
 }
 
+/* the ring's strength: it sits above the fog, so small changes show */
 .armillaryGold {
   stroke-width: 2.4;
-  stroke-opacity: 0.36;
+  stroke-opacity: 0.42;
 }
 
 .armillarySilver {
   stroke-width: 1.2;
-  stroke-opacity: 0.6;
+  stroke-opacity: 0.7;
 }
 
 .frame {
@@ -419,8 +420,8 @@
     )
   );
   transition:
-    transform 1.1s var(--ease-tick),
-    width 1.1s cubic-bezier(0.35, 1.2, 0.45, 1);
+    transform 0.7s var(--ease-tick),
+    width 0.7s cubic-bezier(0.35, 1.2, 0.45, 1);
   animation: appear 800ms ease 1.4s both;
 }
 
@@ -699,13 +700,162 @@
   fill: var(--live);
 }
 
-/* the current line in the code listing */
-.runbar {
-  opacity: 0;
+/* ---------- the drawings' own motion ------------------------------------ */
+
+/* Each drawing moves only while its programme is active: the hand arrives and it comes to life.
+   The others rest in their first pose. --spd is one cycle. */
+.station {
+  --spd: 2.6s;
 }
 
+.station:not([data-on]) .drawing * {
+  animation: none;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -320;
+  }
+}
+@keyframes blink {
+  0%,
+  48% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes step {
+  to {
+    transform: translateY(60px);
+  }
+}
+@keyframes swing {
+  0%,
+  14% {
+    transform: rotate(0deg);
+  }
+  46%,
+  60% {
+    transform: rotate(-86deg);
+  }
+  92%,
+  100% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes load {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+@keyframes sweep {
+  to {
+    transform: translateX(186px);
+  }
+}
+@keyframes drift {
+  to {
+    transform: translateX(26px);
+  }
+}
+@keyframes drill {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(70px);
+  }
+}
+@keyframes stem {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+@keyframes pulse-dot {
+  0%,
+  100% {
+    r: 2.2;
+  }
+  50% {
+    r: 3.6;
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes gantt-sweep {
+  to {
+    transform: translateX(146px);
+  }
+}
+
+.pulse {
+  stroke-dasharray: 5 315;
+  animation: flow var(--spd) linear infinite;
+}
+.caret {
+  animation: blink 1.1s steps(1) infinite;
+}
+.runbar {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: step var(--spd) steps(5) infinite;
+}
 .station[data-on] .runbar {
   opacity: 0.2;
+}
+.door {
+  transform-origin: 150px 60px;
+  animation: swing var(--spd) ease-in-out infinite;
+}
+.load {
+  animation: load var(--spd) ease-in-out infinite;
+}
+.sweep {
+  animation: sweep var(--spd) linear infinite;
+}
+.drift {
+  animation: drift var(--spd) linear infinite;
+}
+.bit {
+  animation: drill var(--spd) ease-in-out infinite;
+}
+.stem {
+  animation: stem var(--spd) ease-in-out infinite;
+}
+.head {
+  animation: pulse-dot var(--spd) ease-in-out infinite;
+}
+.rotor {
+  transform-box: view-box;
+  transform-origin: 112px 47.5px;
+  animation: spin calc(var(--spd) * 1.6) linear infinite;
+}
+.gsweep {
+  animation: gantt-sweep var(--spd) linear infinite;
+}
+
+/* the gear train turns at its true ratios: every wheel's period is proportional to its teeth,
+   and meshing wheels turn opposite ways (set inline by GearTrain) */
+.station[data-on] .gearSpin {
+  animation: spin var(--turn) linear infinite;
+  animation-direction: var(--way);
 }
 
 /* Mechanical's drawing, the gear train, is taller than it is wide */
@@ -759,6 +909,103 @@
   stroke: none;
 }
 
+.dial {
+  --spd: 3.4s;
+}
+
+@keyframes mk-flow {
+  to {
+    stroke-dashoffset: -46;
+  }
+}
+@keyframes mk-needle {
+  0%,
+  100% {
+    transform: rotate(-54deg);
+  }
+  50% {
+    transform: rotate(54deg);
+  }
+}
+@keyframes mk-hinge {
+  0%,
+  16% {
+    transform: rotate(0);
+  }
+  50%,
+  66% {
+    transform: rotate(-80deg);
+  }
+  94%,
+  100% {
+    transform: rotate(0);
+  }
+}
+@keyframes mk-bob {
+  0%,
+  100% {
+    transform: translateY(-1.6px);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(1.6px);
+    opacity: 1;
+  }
+}
+@keyframes mk-sink {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+@keyframes mk-slide {
+  from {
+    transform: translateX(-2.6px);
+  }
+  to {
+    transform: translateX(2.6px);
+  }
+}
+
+.mkFlow {
+  stroke-dasharray: 2.4 44;
+  stroke-linecap: round;
+  animation: mk-flow var(--spd) linear infinite;
+}
+.mkSpin {
+  transform-box: view-box;
+  transform-origin: 12px 12px;
+  animation: spin calc(var(--spd) * 2.6) linear infinite;
+}
+.mkNeedle {
+  transform-box: view-box;
+  transform-origin: 12px 13px;
+  animation: mk-needle var(--spd) ease-in-out infinite;
+}
+.mkHinge {
+  transform-box: view-box;
+  transform-origin: 17px 18px;
+  animation: mk-hinge var(--spd) ease-in-out infinite;
+}
+.mkBob {
+  transform-box: view-box;
+  animation: mk-bob var(--spd) ease-in-out infinite;
+}
+.mkSink {
+  transform-box: view-box;
+  animation: mk-sink var(--spd) ease-in-out infinite;
+}
+.mkSlide {
+  transform-box: view-box;
+  animation: mk-slide var(--spd) ease-in-out infinite alternate;
+}
+.mkWink {
+  animation: blink 1.05s steps(1) infinite;
+}
+
 /* ---------- phones and tablets: the dial and its caption ---------------- */
 
 .dial {
@@ -803,7 +1050,7 @@
   transform-box: view-box;
   transform-origin: 66px 66px;
   transform: rotate(calc(var(--hand-theta) * 1deg + var(--hand-laps) * 1turn));
-  transition: transform 1s var(--ease-tick);
+  transition: transform 0.65s var(--ease-tick);
 }
 
 .dialHub {
@@ -879,5 +1126,10 @@
 
   .station[data-on] .drawing {
     transform: none;
+  }
+
+  .drawing *,
+  .dial * {
+    animation: none !important;
   }
 }

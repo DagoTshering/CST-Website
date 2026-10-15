@@ -2,7 +2,7 @@ import Image from "next/image";
 
 import { ClockHand } from "./ClockHand";
 import s from "./hero.module.css";
-import { Frame, Ornament } from "./Ornament";
+import { Armillary, Frame, Ornament } from "./Ornament";
 import { SurveyWeb } from "./SurveyWeb";
 
 /**
@@ -13,7 +13,7 @@ import { SurveyWeb } from "./SurveyWeb";
  * separately, are the real controls).
  *
  * Layers, bottom to top: photograph, grid, ornament and frame; the hand's shaft; the fog
- * behind the copy; the survey web; the hand's tip.
+ * behind the copy; the armillary ring; the survey web; the hand's tip.
  */
 export function HeroSheet() {
   return (
@@ -38,6 +38,7 @@ export function HeroSheet() {
 
       <ClockHand part="shaft" />
       <div className={s.fog} />
+      <Armillary />
       <SurveyWeb />
       <ClockHand part="tip" />
     </div>
