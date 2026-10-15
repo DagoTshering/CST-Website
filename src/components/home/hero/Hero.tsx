@@ -12,7 +12,7 @@ import { HeroSheet } from "./HeroSheet";
 import { MARKS } from "./marks";
 import { MiniDial } from "./MiniDial";
 import { Stations } from "./Stations";
-import { TourCaption, TourToggle } from "./TourControls";
+import { TourCaption } from "./TourCaption";
 
 /** Each programme's drawing, in tour order. Mechanical's drawing is the gear train. */
 const drawings = stations.map(({ key }) => {
@@ -88,7 +88,6 @@ export function Hero() {
       </div>
 
       <Stations drawings={drawings} label={hero.clockLabel} />
-      <TourToggle />
     </HeroFrame>
   );
 }

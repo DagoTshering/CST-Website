@@ -5,29 +5,6 @@ import s from "./hero.module.css";
 import { programmeColours } from "./palette";
 import { useTourContext } from "./useTour";
 
-/** Pauses and resumes the tour. */
-export function TourToggle() {
-  const { paused, toggle } = useTourContext();
-
-  return (
-    <button
-      type="button"
-      className={s.toggle}
-      aria-label={paused ? "Play tour of programmes" : "Pause tour of programmes"}
-      onClick={toggle}
-    >
-      <svg viewBox="0 0 12 12" aria-hidden="true">
-        {paused ? (
-          <path d="M3 1.5L10.5 6L3 10.5Z" />
-        ) : (
-          <path d="M2.5 1.5h2.5v9H2.5ZM7 1.5h2.5v9H7Z" />
-        )}
-      </svg>
-      <span className={s.toggleText}>{paused ? "Play tour" : "Pause tour"}</span>
-    </button>
-  );
-}
-
 /** Phones and tablets: which programme the dial shows, read out as it changes. */
 export function TourCaption() {
   const { active } = useTourContext();

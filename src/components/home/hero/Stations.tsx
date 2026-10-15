@@ -11,7 +11,7 @@ import { useTourContext } from "./useTour";
  * The programmes around the clock face, one button each, in tour order. Each is placed by the
  * stylesheet from its cos/sin, so the server renders them in position. The drawings are
  * rendered on the server and passed in. Clicking one (or Enter/Space) moves the hand there and
- * stops the tour; hovering does nothing.
+ * holds the tour for a while; hovering does nothing.
  */
 export function Stations({ drawings, label }: { drawings: ReactNode[]; label: string }) {
   const { active, pick } = useTourContext();

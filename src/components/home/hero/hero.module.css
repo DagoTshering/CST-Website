@@ -865,71 +865,6 @@
   }
 }
 
-/* ---------- pause / play ------------------------------------------------ */
-
-.toggle {
-  position: absolute;
-  z-index: 3;
-  top: 10px;
-  right: 10px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-width: 44px;
-  min-height: 44px;
-  padding: 0;
-  font: 600 14px/1 var(--font-display);
-  color: var(--color-primary-deep);
-  background: rgb(255 255 255 / 0.92);
-  border: 1px solid rgb(33 85 99 / 0.35);
-  border-radius: 2px;
-  cursor: pointer;
-  transition:
-    background-color 0.25s ease,
-    border-color 0.25s ease;
-  animation: appear 800ms ease 1.6s both;
-}
-
-.toggle:hover {
-  background: var(--color-white);
-  border-color: var(--color-primary-strong);
-}
-
-.toggle svg {
-  width: 11px;
-  height: 11px;
-  fill: currentColor;
-}
-
-/* on a phone it is an icon in the corner; its name is still "Pause tour" / "Play tour" */
-.toggleText {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-
-@media (min-width: 1000px) {
-  .toggle {
-    top: auto;
-    /* the bottom-right corner of the stage, just inside the frame */
-    right: calc(max(0px, (100cqw - 1600px) / 2) + var(--inset) + 22px);
-    bottom: calc(var(--inset) + 22px);
-    padding: 0 14px;
-  }
-
-  .toggleText {
-    position: static;
-    width: auto;
-    height: auto;
-    overflow: visible;
-    clip-path: none;
-  }
-}
-
 /* ---------- reduced motion: the static sheet ---------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -938,8 +873,7 @@
   .web,
   .station,
   .dial,
-  .caption,
-  .toggle {
+  .caption {
     animation: none;
   }
 

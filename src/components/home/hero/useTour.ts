@@ -10,15 +10,12 @@ import {
   type RefObject,
 } from "react";
 
-import { moveHand, STEP_MS, stations, TOUR_START_MS, type HandPosition } from "./clock";
+import { HOLD_MS, moveHand, STEP_MS, stations, TOUR_START_MS, type HandPosition } from "./clock";
 import { useReducedMotion } from "./useReducedMotion";
 
 export type Tour = HandPosition & {
-  /** True when the visitor has paused the tour (or prefers reduced motion and has not pressed Play). */
-  paused: boolean;
-  /** Moves the hand to a programme and stops the tour until Play is pressed. */
+  /** Moves the hand to a programme and holds the tour there for a while. */
   pick: (index: number) => void;
-  toggle: () => void;
 };
 
 export const TourContext = createContext<Tour | null>(null);
@@ -44,15 +41,16 @@ function sinceEntrance(root: HTMLElement) {
 
 /**
  * The clock that steps the hand from programme to programme. It runs only once the entrance
- * is over, while the hero is on screen and the tab is visible, and never after the visitor
- * pauses it or picks a programme. With reduced motion it starts paused.
+ * is over, while the hero is on screen and the tab is visible. A programme the visitor picks
+ * holds the hand for HOLD_MS before the tour moves on. With reduced motion it never runs.
  */
 export function useTour(root: RefObject<HTMLElement | null>): Tour {
   const reducedMotion = useReducedMotion();
   const [hand, setHand] = useState<HandPosition>({ active: 0, laps: 0 });
-  const [userPaused, setUserPaused] = useState<boolean | null>(null);
   const [ready, setReady] = useState(false);
-  const paused = userPaused ?? reducedMotion;
+  /** Counts the visitor's picks; each one restarts the hold. */
+  const [picks, setPicks] = useState(0);
+  const [held, setHeld] = useState(false);
 
   useEffect(() => {
     if (!root.current) return;
@@ -64,8 +62,14 @@ export function useTour(root: RefObject<HTMLElement | null>): Tour {
   }, [root]);
 
   useEffect(() => {
+    if (!picks) return;
+    const id = window.setTimeout(() => setHeld(false), HOLD_MS);
+    return () => window.clearTimeout(id);
+  }, [picks]);
+
+  useEffect(() => {
     const el = root.current;
-    if (!ready || paused || !el) return;
+    if (!ready || reducedMotion || held || !el) return;
 
     let timer = 0;
     let onScreen = false;
@@ -90,14 +94,13 @@ export function useTour(root: RefObject<HTMLElement | null>): Tour {
       document.removeEventListener("visibilitychange", sync);
       window.clearInterval(timer);
     };
-  }, [root, ready, paused]);
+  }, [root, ready, reducedMotion, held]);
 
   const pick = useCallback((index: number) => {
-    setUserPaused(true);
+    setHeld(true);
+    setPicks((n) => n + 1);
     setHand((h) => moveHand(h, index, "nearest"));
   }, []);
 
-  const toggle = useCallback(() => setUserPaused(!paused), [paused]);
-
-  return useMemo(() => ({ ...hand, paused, pick, toggle }), [hand, paused, pick, toggle]);
+  return useMemo(() => ({ ...hand, pick }), [hand, pick]);
 }

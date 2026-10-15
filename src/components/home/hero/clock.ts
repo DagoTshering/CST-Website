@@ -9,6 +9,8 @@ import { hero, type Programme } from "@/content/home";
 
 /** One beat of the tour. */
 export const STEP_MS = 4200;
+/** How long a programme the visitor picks holds the hand before the tour moves on. */
+export const HOLD_MS = 12000;
 /** When the tour starts, measured from the hero's first paint (the hand appears at 1.4s). */
 export const TOUR_START_MS = 2300;
 
