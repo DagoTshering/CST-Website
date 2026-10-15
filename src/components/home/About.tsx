@@ -67,18 +67,7 @@ export function About() {
             </p>
           ))}
 
-          <ol data-reveal="" style={delay(340)} className={s.commitments}>
-            {about.commitments.map((item, i) => (
-              <li key={item.slice(0, 24)}>
-                <span aria-hidden="true" className={s.number}>
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                {item}
-              </li>
-            ))}
-          </ol>
-
-          <SmartLink href={about.link.href} data-reveal="" style={delay(400)} className={s.button}>
+          <SmartLink href={about.link.href} data-reveal="" style={delay(340)} className={s.button}>
             {about.link.label}
             <svg viewBox="0 0 18 10" aria-hidden="true" focusable="false">
               <path d="M0 5H17M12.5 .8L17 5l-4.5 4.2" />
