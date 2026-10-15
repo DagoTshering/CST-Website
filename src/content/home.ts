@@ -31,7 +31,7 @@ export type Programme = {
 };
 
 export const hero = {
-  eyebrow: "Royal University of Bhutan · Rinchending, Phuentsholing",
+  eyebrow: "Royal University of Bhutan",
   title: { lead: "College of", emphasis: "Science & Technology" },
   tagline: "In pursuit of preparing for tomorrow’s Technologist",
   actions: [

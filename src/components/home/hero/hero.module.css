@@ -147,22 +147,6 @@
     no-repeat;
 }
 
-/* The eyebrow breaks at its "·" rather than anywhere. Below 1500px it always takes two short
-   lines, so its ends stay clear of the stations on the diagonals. */
-.eyebrowPart {
-  display: inline-block;
-}
-
-@media (max-width: 1499px) {
-  .eyebrowDot {
-    display: none;
-  }
-
-  .eyebrowPart {
-    display: block;
-  }
-}
-
 @media (max-width: 479px) {
   .eyebrow {
     letter-spacing: 0.1em;

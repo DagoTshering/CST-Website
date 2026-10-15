@@ -47,16 +47,7 @@ export function Hero() {
           className={`${s.rise} ${s.eyebrow} font-display font-medium text-primary-deep uppercase`}
           style={rise(0)}
         >
-          {hero.eyebrow.split(" · ").map((part, i) => (
-            <Fragment key={part}>
-              {i > 0 && (
-                <span className={s.eyebrowDot} aria-hidden="true">
-                  {" · "}
-                </span>
-              )}
-              <span className={s.eyebrowPart}>{part}</span>
-            </Fragment>
-          ))}
+          {hero.eyebrow}
         </p>
 
         <h1 id="hero-title" className={`${s.rise} ${s.title}`} style={rise(1)}>
