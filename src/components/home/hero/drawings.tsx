@@ -16,8 +16,6 @@ import s from "./hero.module.css";
 
 type Drawing = { viewBox: string; content: ReactNode };
 
-const delay = (seconds: number) => ({ animationDelay: `${seconds}s` });
-
 /* Warren truss under point loads ------------------------------------------- */
 function civil(): Drawing {
   const L = 14;
@@ -60,11 +58,11 @@ function civil(): Drawing {
         <path className={s.ln} d={`M${L} ${bot} l-7 12 h14 Z M${L - 11} 90 h22`} />
         <circle className={s.ln} cx={R} cy={bot + 6} r={5} />
         <path className={s.ln} d={`M${R - 11} 90 h22`} />
-        {[1, 3, 5].map((k, i) => {
+        {[1, 3, 5].map((k) => {
           const x = (L + (k - 0.5) * step).toFixed(1);
           const arrow = `M${x} 6 V26 M${(+x - 4).toFixed(1)} 20 L${x} 26 L${(+x + 4).toFixed(1)} 20`;
           return (
-            <g key={k} className={s.load} style={delay(i * 0.18)}>
+            <g key={k}>
               {/* a pale halo under each load arrow, so white still reads on white */}
               <path className={`${s.ln} ${s.halo}`} d={arrow} strokeOpacity={0.9} />
               <path className={s.g} d={arrow} />
@@ -95,7 +93,7 @@ function elec(): Drawing {
         <path className={s.ln} d={wave(0)} strokeOpacity={0.45} />
         <path className={s.ln} d={wave(2.094)} strokeOpacity={0.26} />
         <path className={s.g} d={wave(4.189)} />
-        <path className={`${s.g} ${s.sweep}`} d="M8 8 V84" strokeOpacity={0.6} />
+        <path className={s.g} d="M8 8 V84" strokeOpacity={0.6} />
         <text className={s.tx} x={8} y={101} opacity={0.85}>
           3Ø 400 V 50 Hz
         </text>
@@ -135,11 +133,8 @@ function ece(): Drawing {
         {rows.map((i) => (
           <path key={i} className={s.ln} d={`M96 ${52 + i * 12} h-10 M170 ${52 + i * 12} h10`} />
         ))}
-        {traces.map((d, i) => (
-          <g key={d}>
-            <path className={s.g} d={d} strokeOpacity={0.36} />
-            <path className={`${s.g} ${s.pulse}`} d={d} style={delay(i * 0.22)} />
-          </g>
+        {traces.map((d) => (
+          <path key={d} className={s.g} d={d} />
         ))}
         {[
           [14, 38],
@@ -208,7 +203,7 @@ function it(): Drawing {
             </g>
           );
         })}
-        <rect className={`${s.gf} ${s.caret}`} x={150} y={85} width={5} height={11} />
+        <rect className={s.gf} x={150} y={85} width={5} height={11} />
       </>
     ),
   };
@@ -240,7 +235,7 @@ function arch(): Drawing {
           strokeDasharray="3 3"
           strokeOpacity={0.5}
         />
-        <g className={s.door}>
+        <g>
           <path className={s.g} d="M150 60 V82" />
         </g>
         <path
@@ -272,7 +267,7 @@ function renew(): Drawing {
         {/* the tower stands right of the array, so the swept circle never reaches the panel */}
         <path className={s.ln} d="M121 118 V52 M112 118 h18" />
         <rect className={s.ln} x={112} y={43} width={22} height={9} rx={3} />
-        <g className={s.rotor}>
+        <g>
           {blades.map((d) => (
             <path key={d} className={s.g} d={d} strokeLinecap="round" />
           ))}
@@ -281,11 +276,7 @@ function renew(): Drawing {
         <path className={s.ln} d="M10 118 L26 90 H70 L54 118 Z" />
         <path className={s.ln} d={cells} strokeOpacity={0.55} />
         <path className={s.ln} d="M14 118 v8 M50 118 v8 M8 126 h48" strokeOpacity={0.5} />
-        <path
-          className={`${s.g} ${s.pulse}`}
-          d="M26 60 L33 78 M44 54 L51 72"
-          strokeLinecap="round"
-        />
+        <path className={s.g} d="M26 60 L33 78 M44 54 L51 72" strokeLinecap="round" />
         <text className={`${s.tx} ${s.mono}`} x={20} y={136} fillOpacity={0.6}>
           TILT 27°
         </text>
@@ -339,7 +330,7 @@ function geo(): Drawing {
           24°
         </text>
         <path className={s.g} d="M56 4 V114" strokeDasharray="4 3" strokeOpacity={0.8} />
-        <g className={s.bit}>
+        <g>
           <path className={s.g} d="M50 10 h12 M52 14 h8 M56 10 v8" />
         </g>
         <text className={s.tx} x={8} y={122} opacity={0.7}>
@@ -391,13 +382,7 @@ function inst(): Drawing {
           strokeDasharray="5 3"
           strokeOpacity={0.7}
         />
-        <path className={`${s.g} ${s.pulse}`} d="M86 62 H103 M129 62 C 150 62, 164 56, 164 43" />
-        <path
-          className={`${s.g} ${s.pulse}`}
-          d="M164 17 C 164 8, 210 8, 210 46 V 84"
-          style={delay(0.9)}
-        />
-        <g className={s.stem}>
+        <g>
           <rect className={s.ln} x={201} y={80} width={18} height={8} rx={4} />
           <path className={s.ln} d="M210 88 V96" />
         </g>
@@ -455,7 +440,7 @@ function constr(): Drawing {
             </g>
           );
         })}
-        <g className={s.gsweep}>
+        <g>
           <path className={s.g} d="M32 18 V112" strokeDasharray="4 3" />
           <path className={s.gf} d="M27.5 18 h9 l-4.5 6 Z" />
         </g>
@@ -492,8 +477,8 @@ function water(): Drawing {
         {/* the nappe as it springs off the crest */}
         <path className={s.g} d="M128 46 C 150 46, 156 66, 152 104" />
         <path className={s.g} d="M152 86 C 168 80, 178 92, 192 86 H222" strokeOpacity={0.85} />
-        {[46, 62, 78].map((y, i) => (
-          <g key={y} className={s.drift} style={delay(i * 0.5)}>
+        {[46, 62, 78].map((y) => (
+          <g key={y}>
             <path className={s.g} d={`M16 ${y} h26 M36 ${y - 3} l6 3 l-6 3`} strokeOpacity={0.55} />
           </g>
         ))}
@@ -523,7 +508,7 @@ function soft(): Drawing {
           strokeOpacity={0.45}
           strokeDasharray="4 3"
         />
-        <path className={`${s.g} ${s.pulse}`} d="M34 12 V122" />
+        <path className={s.g} d="M34 12 V122" />
         {[12, 38, 64, 96, 122].map((cy) => (
           <circle key={cy} className={`${s.ln} ${s.paper}`} cx={34} cy={cy} r={3.4} />
         ))}
@@ -543,7 +528,7 @@ function soft(): Drawing {
             strokeOpacity={0.7}
           />
         ))}
-        <circle className={`${s.gf} ${s.head}`} cx={34} cy={122} r={2.2} />
+        <circle className={s.gf} cx={34} cy={122} r={2.2} />
         <text className={s.tx} x={48} y={15} opacity={0.85}>
           main
         </text>
@@ -583,19 +568,14 @@ function resrch(): Drawing {
         <path className={s.ln} d="M32 94 L180 32" strokeDasharray="4 3" strokeOpacity={0.4} />
         <path className={s.ln} d="M32 110 L180 48" strokeDasharray="4 3" strokeOpacity={0.4} />
         <path className={s.g} d="M32 102 L180 40" />
-        {points.map(([x, y], i) => (
+        {points.map(([x, y]) => (
           <g key={x}>
             <path
               className={s.ln}
               d={`M${x} ${y - 6} v12 M${x - 3.2} ${y - 6} h6.4 M${x - 3.2} ${y + 6} h6.4`}
               strokeOpacity={0.5}
             />
-            <circle
-              className={`${s.ln} ${s.node} ${i === 3 ? s.head : ""}`}
-              cx={x}
-              cy={y}
-              r={2.6}
-            />
+            <circle className={`${s.ln} ${s.node}`} cx={x} cy={y} r={2.6} />
           </g>
         ))}
         <text className={`${s.tx} ${s.mono}`} x={107} y={124} textAnchor="middle">

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, Inter, Jost } from "next/font/google";
+import { Cormorant_Garamond, IBM_Plex_Mono, Inter, Jost } from "next/font/google";
 
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
@@ -10,7 +10,14 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
 const jost = Jost({ subsets: ["latin"], variable: "--font-jost", display: "swap" });
-// Only the hero's drawing captions use the mono face, so it is not preloaded.
+// The hero headline only.
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-cormorant",
+  display: "swap",
+});
+// Only the hero's year labels and drawing captions use the mono face, so it is not preloaded.
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
@@ -33,7 +40,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${jost.variable} ${plexMono.variable}`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${jost.variable} ${cormorant.variable} ${plexMono.variable}`}
+    >
       {/* id="top" is the target of the footer's "Back to top" link */}
       <body id="top">
         <a

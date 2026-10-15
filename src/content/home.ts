@@ -21,9 +21,9 @@ export type ProgrammeKey =
 
 export type Programme = {
   key: ProgrammeKey;
-  /** Short name on the drawing sheet. */
+  /** Short name, used in the caption under the phone dial. */
   label: string;
-  /** Full title, used for accessible names and the legend label. */
+  /** Full title, shown on the clock and used for accessible names. */
   title: string;
   /** Year the programme was first offered. */
   year: number;
@@ -38,8 +38,9 @@ export const hero = {
     { label: "Explore programmes", href: "#programmes", variant: "primary" },
     { label: "Visit the campus", href: "#campus", variant: "secondary" },
   ],
-  stripLabel: "Programmes offered at CST, by the year each began",
-  /** In the order they were first offered, which is the order the sheet tours them in. */
+  /** Accessible name of the group of programmes round the clock. */
+  clockLabel: "Programmes offered at CST, by the year each began",
+  /** In the order they were first offered, which is the order the clock tours them in. */
   programmes: [
     {
       key: "civil",

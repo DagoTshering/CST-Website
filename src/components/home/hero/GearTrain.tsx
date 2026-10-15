@@ -5,8 +5,8 @@ const { gears, viewBox } = GEAR_TRAIN;
 const restingAngles = gearRotations(gears, 0);
 
 /**
- * Mechanical's drawing: a meshing gear train with pitch circles and timing marks. It is drawn
- * at rest on the server; engine.ts turns each wheel (the [data-gear] groups) at its ratio.
+ * Mechanical's drawing: a meshing gear train with pitch circles and timing marks, drawn at rest
+ * with every wheel turned so its teeth mesh.
  */
 export function GearTrain({ className }: { className?: string }) {
   const driver = gears[0];
@@ -16,10 +16,9 @@ export function GearTrain({ className }: { className?: string }) {
 
   return (
     <svg
-      className={className}
+      className={`${s.gears} ${className ?? ""}`}
       viewBox={`${viewBox.x} ${viewBox.y} ${viewBox.width} ${viewBox.height}`}
-      data-gears=""
-      data-depth="22"
+      aria-hidden="true"
     >
       <path
         className={s.axis}
@@ -33,7 +32,7 @@ export function GearTrain({ className }: { className?: string }) {
         const spokeCount = g.z >= 30 ? 6 : 5;
         return (
           <g key={i} transform={`translate(${g.cx} ${g.cy})`}>
-            <g data-gear={i} transform={`rotate(${restingAngles[i].toFixed(3)})`}>
+            <g transform={`rotate(${restingAngles[i].toFixed(3)})`}>
               <path
                 d={gearOutline(g.z, GEAR_MODULE)}
                 strokeWidth={g.z > 24 ? 1.5 : 1.15}

@@ -1,21 +1,22 @@
 /**
- * A requestAnimationFrame loop that runs only while `target` is on screen and the tab is
- * visible. `frame` receives the timestamp and the time since the last frame (capped, so a
- * long pause does not make everything jump). Returns a function that stops it for good.
+ * A requestAnimationFrame loop that runs only while it has something to do: `frame` receives
+ * the timestamp and the time since the last frame (capped, so a long pause does not make
+ * anything jump) and returns false once it is done; wake() starts it again. It never runs
+ * while `target` is off screen or the tab is hidden. dispose() stops it for good.
  */
-export function startFrameLoop(target: Element, frame: (now: number, dt: number) => void) {
+export function createFrameLoop(target: Element, frame: (now: number, dt: number) => boolean) {
   let raf = 0;
   let last = 0;
   let onScreen = true;
+  let disposed = false;
 
   const tick = (now: number) => {
     const dt = Math.min(48, now - last);
     last = now;
-    frame(now, dt);
-    raf = requestAnimationFrame(tick);
+    raf = frame(now, dt) ? requestAnimationFrame(tick) : 0;
   };
-  const start = () => {
-    if (raf || !onScreen || document.hidden) return;
+  const wake = () => {
+    if (raf || disposed || !onScreen || document.hidden) return;
     last = performance.now();
     raf = requestAnimationFrame(tick);
   };
@@ -26,18 +27,21 @@ export function startFrameLoop(target: Element, frame: (now: number, dt: number)
 
   const observer = new IntersectionObserver(([entry]) => {
     onScreen = entry.isIntersecting;
-    if (onScreen) start();
+    if (onScreen) wake();
     else stop();
   });
   observer.observe(target);
 
-  const onVisibility = () => (document.hidden ? stop() : start());
+  const onVisibility = () => (document.hidden ? stop() : wake());
   document.addEventListener("visibilitychange", onVisibility);
-  start();
 
-  return () => {
-    stop();
-    observer.disconnect();
-    document.removeEventListener("visibilitychange", onVisibility);
+  return {
+    wake,
+    dispose() {
+      disposed = true;
+      stop();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
+    },
   };
 }

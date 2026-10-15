@@ -1,39 +1,76 @@
+import { Fragment, type CSSProperties } from "react";
+
 import { ButtonLink } from "@/components/ui/Button";
 import { hero } from "@/content/home";
 
+import { stations } from "./clock";
+import { DRAWINGS } from "./drawings";
+import { GearTrain } from "./GearTrain";
 import s from "./hero.module.css";
-import { HeroAnimator } from "./HeroAnimator";
+import { HeroFrame } from "./HeroFrame";
 import { HeroSheet } from "./HeroSheet";
-import { MarkStrip } from "./MarkStrip";
+import { MARKS } from "./marks";
+import { MiniDial } from "./MiniDial";
+import { Stations } from "./Stations";
+import { TourCaption, TourToggle } from "./TourControls";
 
-const stops = hero.programmes.map(({ key, title, year }) => ({ key, title, year }));
+/** Each programme's drawing, in tour order. Mechanical's drawing is the gear train. */
+const drawings = stations.map(({ key }) => {
+  if (key === "mech") return <GearTrain key={key} className={s.drawing} />;
+  const drawing = DRAWINGS[key];
+  return (
+    <svg key={key} className={s.drawing} viewBox={drawing.viewBox} aria-hidden="true">
+      {drawing.content}
+    </svg>
+  );
+});
 
+const marks = stations.map(({ key }) => <Fragment key={key}>{MARKS[key]}</Fragment>);
+
+/** The copy rises in order, one beat apart. */
+const rise = (n: number) => ({ "--n": n }) as CSSProperties;
+
+/**
+ * The homepage hero: the programme clock. The programmes sit round one large oval like the
+ * numbers on a clock face, and a gold hand steps from one to the next in the order they were
+ * first offered. Below 1000px a small dial above the copy takes its place.
+ */
 export function Hero() {
   return (
-    <HeroAnimator stops={stops} aria-labelledby="hero-title" className={s.hero}>
-      <HeroSheet programmes={hero.programmes} />
+    <HeroFrame aria-labelledby="hero-title" className={s.hero}>
+      <HeroSheet />
 
-      <div
-        data-hero-copy=""
-        className={`${s.copy} container-page flex flex-col items-center text-center`}
-      >
+      <div className={`${s.copy} flex flex-col items-center text-center`}>
+        <MiniDial marks={marks} />
+
         <p
-          className={`${s.rule} ${s.eyebrow} font-display font-medium text-primary-strong uppercase [background-size:3.5rem_1px]`}
+          className={`${s.rise} ${s.eyebrow} font-display font-medium text-primary-deep uppercase`}
+          style={rise(0)}
         >
-          {hero.eyebrow}
+          {hero.eyebrow.split(" · ").map((part, i) => (
+            <Fragment key={part}>
+              {i > 0 && (
+                <span className={s.eyebrowDot} aria-hidden="true">
+                  {" · "}
+                </span>
+              )}
+              <span className={s.eyebrowPart}>{part}</span>
+            </Fragment>
+          ))}
         </p>
 
-        <h1 id="hero-title" className={`${s.title} font-display`}>
-          <span className="block font-light">{hero.title.lead}</span>
-          <span className={`${s.rule} block pb-[0.08em] font-medium text-primary`}>
-            {hero.title.emphasis}
-          </span>
+        <h1 id="hero-title" className={`${s.rise} ${s.title}`} style={rise(1)}>
+          <span className={s.titleLead}>{hero.title.lead}</span>
+          <span className={s.titleEmphasis}>{hero.title.emphasis}</span>
         </h1>
 
-        <p className={`${s.tagline} max-w-xl font-display text-ink/80`}>{hero.tagline}</p>
+        <p className={`${s.rise} ${s.tagline} font-display text-ink/80`} style={rise(2)}>
+          {hero.tagline}
+        </p>
 
         <div
-          className={`${s.actions} flex w-full flex-col items-center justify-center gap-3 min-[420px]:w-auto min-[420px]:flex-row`}
+          className={`${s.rise} ${s.actions} flex w-full flex-col items-center justify-center gap-3 min-[420px]:w-auto min-[420px]:flex-row`}
+          style={rise(3)}
         >
           {hero.actions.map((action) => (
             <ButtonLink
@@ -47,10 +84,11 @@ export function Hero() {
           ))}
         </div>
 
-        <div className={`${s.legend} w-full`}>
-          <MarkStrip programmes={hero.programmes} label={hero.stripLabel} />
-        </div>
+        <TourCaption />
       </div>
-    </HeroAnimator>
+
+      <Stations drawings={drawings} label={hero.clockLabel} />
+      <TourToggle />
+    </HeroFrame>
   );
 }
