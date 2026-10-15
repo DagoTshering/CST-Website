@@ -32,6 +32,7 @@ export function SectionHeading({
       {label && (
         <p
           data-reveal
+          suppressHydrationWarning
           className={cx(
             "eyebrow flex items-center gap-3",
             align === "center" && "justify-center",
@@ -41,6 +42,7 @@ export function SectionHeading({
           <span
             aria-hidden="true"
             data-reveal="rule"
+            suppressHydrationWarning
             className="block h-px w-10 shrink-0 bg-linear-to-r from-sheet-tick from-60% to-sheet-gold to-60%"
           />
           {label}
@@ -49,6 +51,7 @@ export function SectionHeading({
       <h2
         id={id}
         data-reveal
+        suppressHydrationWarning
         style={{ "--reveal-delay": "80ms" } as CSSProperties}
         className={cx(
           "mt-4 text-h2 font-semibold text-balance",

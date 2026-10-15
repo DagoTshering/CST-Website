@@ -49,7 +49,7 @@ export function About() {
           <SectionHeading label={about.label} id="about-title" titleClassName={s.title}>
             <Heading />
           </SectionHeading>
-          <p data-reveal="" style={delay(160)} className={s.subtitle}>
+          <p data-reveal="" suppressHydrationWarning style={delay(160)} className={s.subtitle}>
             {/* the separator keeps to the place name, so a wrapped line never ends with it */}
             {about.subtitle.replace(" · ", " · ")}
           </p>
@@ -60,6 +60,7 @@ export function About() {
             <p
               key={paragraph.slice(0, 24)}
               data-reveal=""
+              suppressHydrationWarning
               style={delay(220 + i * 60)}
               className={i === 0 ? s.lead : s.body}
             >
@@ -67,7 +68,13 @@ export function About() {
             </p>
           ))}
 
-          <SmartLink href={about.link.href} data-reveal="" style={delay(340)} className={s.button}>
+          <SmartLink
+            href={about.link.href}
+            data-reveal=""
+            suppressHydrationWarning
+            style={delay(340)}
+            className={s.button}
+          >
             {about.link.label}
             <svg viewBox="0 0 18 10" aria-hidden="true" focusable="false">
               <path d="M0 5H17M12.5 .8L17 5l-4.5 4.2" />
@@ -78,7 +85,7 @@ export function About() {
         <figure className={s.figure}>
           {/* the graph-paper strip: right of the section on a desktop, behind the photo below */}
           <div className={s.panel} aria-hidden="true">
-            <div data-reveal="" className={s.emblem}>
+            <div data-reveal="" suppressHydrationWarning className={s.emblem}>
               <AboutEmblem />
             </div>
           </div>
@@ -88,7 +95,7 @@ export function About() {
             <i className={`${s.tick} ${s.tickTr}`} aria-hidden="true" />
             <i className={`${s.tick} ${s.tickBl}`} aria-hidden="true" />
             <i className={`${s.tick} ${s.tickBr}`} aria-hidden="true" />
-            <div data-reveal="photo" className={s.photo}>
+            <div data-reveal="photo" suppressHydrationWarning className={s.photo}>
               <Image
                 src={photo.src}
                 alt={photo.alt}

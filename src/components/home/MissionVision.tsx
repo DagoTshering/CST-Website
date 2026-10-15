@@ -20,6 +20,7 @@ export function MissionVision() {
             <article
               key={item.title}
               data-reveal="photo"
+              suppressHydrationWarning
               style={{ "--reveal-delay": `${i * 160}ms` } as CSSProperties}
               className="group relative isolate flex min-h-[clamp(22rem,36vw,31rem)] flex-col justify-end overflow-hidden rounded-md bg-primary-night"
             >

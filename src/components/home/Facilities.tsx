@@ -23,19 +23,25 @@ export function Facilities() {
         <div className="lg:col-span-6 lg:col-start-7">
           <p
             data-reveal
+            suppressHydrationWarning
             style={delay(120)}
             className="font-display text-h3 font-light text-primary-deep"
           >
             &ldquo;{facilities.quote}&rdquo;
           </p>
-          <p data-reveal style={delay(200)} className="mt-3 max-w-xl text-copy">
+          <p
+            data-reveal
+            suppressHydrationWarning
+            style={delay(200)}
+            className="mt-3 max-w-xl text-copy"
+          >
             {facilities.intro}
           </p>
         </div>
       </div>
 
       {/* the row reveals as one, so the next card always peeks in from the edge */}
-      <div data-reveal style={delay(260)} className="mt-12 lg:mt-16">
+      <div data-reveal suppressHydrationWarning style={delay(260)} className="mt-12 lg:mt-16">
         <Carousel label="Campus facilities" count={facilities.items.length}>
           {facilities.items.map((item, i) => (
             <li key={item.title} className="group w-[min(80vw,23rem)] shrink-0 snap-start">

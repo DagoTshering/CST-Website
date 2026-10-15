@@ -6,6 +6,10 @@ import { useEffect } from "react";
  * Reveals [data-reveal] elements the first time they enter the screen, by setting
  * [data-revealed] (globals.css does the easing). Elements already on screen when the page
  * loads are marked before anything is hidden, so nothing flashes. Renders nothing.
+ *
+ * This can run before React has hydrated the page's content (for example when the page is
+ * reloaded scrolled down), so every [data-reveal] element also needs suppressHydrationWarning:
+ * React then accepts the added data-revealed attribute instead of reporting a mismatch.
  */
 export function RevealObserver() {
   useEffect(() => {
