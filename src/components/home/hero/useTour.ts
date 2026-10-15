@@ -42,11 +42,13 @@ function sinceEntrance(root: HTMLElement) {
 /**
  * The clock that steps the hand from programme to programme. It runs only once the entrance
  * is over, while the hero is on screen and the tab is visible. A programme the visitor picks
- * holds the hand for HOLD_MS before the tour moves on. With reduced motion it never runs.
+ * holds the hand for HOLD_MS before the tour moves on. Until the tour starts the hand rests just
+ * before the first programme and nothing is lit. With reduced motion the first programme is lit
+ * at the same moment, but the tour never runs.
  */
 export function useTour(root: RefObject<HTMLElement | null>): Tour {
   const reducedMotion = useReducedMotion();
-  const [hand, setHand] = useState<HandPosition>({ active: 0, laps: 0 });
+  const [hand, setHand] = useState<HandPosition>({ active: -1, laps: 0 });
   const [ready, setReady] = useState(false);
   /** Counts the visitor's picks; each one restarts the hold. */
   const [picks, setPicks] = useState(0);
@@ -54,8 +56,12 @@ export function useTour(root: RefObject<HTMLElement | null>): Tour {
 
   useEffect(() => {
     if (!root.current) return;
+    // once the page has settled the hand moves on to the first programme (unless one is picked)
     const id = window.setTimeout(
-      () => setReady(true),
+      () => {
+        setReady(true);
+        setHand((h) => (h.active < 0 ? moveHand(h, 0, "forward") : h));
+      },
       Math.max(0, TOUR_START_MS - sinceEntrance(root.current)),
     );
     return () => window.clearTimeout(id);

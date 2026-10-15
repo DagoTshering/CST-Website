@@ -48,10 +48,24 @@ export const stations: Station[] = hero.programmes.map((programme, index, all) =
   };
 });
 
+/**
+ * Where the hand rests before the tour starts: in the gap just before the first programme, so
+ * nothing is lit while the page loads and the first step lands on it.
+ */
+export const REST = (() => {
+  const theta = stations[0].theta - 180 / stations.length;
+  const rad = (theta * Math.PI) / 180;
+  return { theta: round(theta), cos: round(Math.cos(rad)), sin: round(Math.sin(rad)), wrap: 0 };
+})();
+
+/** The station the hand points at, or its resting place (-1). */
+export const pointOf = (active: number) => (active < 0 ? REST : stations[active]);
+
 /** "2" -> "02" */
 export const pad2 = (n: number) => String(n).padStart(2, "0");
 
 export type HandPosition = {
+  /** The active station, or -1 while the hand rests before the tour starts. */
   active: number;
   /** Whole turns the hand has made, so it never has to swing backwards. */
   laps: number;
@@ -64,7 +78,7 @@ export type HandPosition = {
  */
 export function moveHand(from: HandPosition, to: number, way: "forward" | "nearest"): HandPosition {
   if (to === from.active) return from;
-  const now = stations[from.active].theta + 360 * from.laps;
+  const now = pointOf(from.active).theta + 360 * from.laps;
   const target = stations[to].theta;
   // the most turns that still leave the target behind (or level with) the hand
   const behind = Math.floor((now - target) / 360);

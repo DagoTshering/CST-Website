@@ -2,7 +2,7 @@
 
 import { useRef, type ComponentPropsWithoutRef, type CSSProperties } from "react";
 
-import { stations } from "./clock";
+import { pointOf } from "./clock";
 import { TourContext, useTour } from "./useTour";
 
 /**
@@ -13,7 +13,7 @@ import { TourContext, useTour } from "./useTour";
 export function HeroFrame({ children, style, ...props }: ComponentPropsWithoutRef<"section">) {
   const ref = useRef<HTMLElement>(null);
   const tour = useTour(ref);
-  const station = stations[tour.active];
+  const station = pointOf(tour.active);
 
   const hand = {
     "--hand-cos": station.cos,

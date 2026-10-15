@@ -28,7 +28,7 @@ const dots = stations.map((station) => {
  */
 export function MiniDial({ marks }: { marks: ReactNode[] }) {
   const { active } = useTourContext();
-  const station = stations[active];
+  const station = active < 0 ? null : stations[active];
 
   return (
     <div className={s.dial} aria-hidden="true">
@@ -52,14 +52,16 @@ export function MiniDial({ marks }: { marks: ReactNode[] }) {
           </g>
         </g>
         <circle className={s.dialHub} cx={C} cy={C} r={27} />
-        <g style={programmeColours(station.key)}>
-          <svg x={51} y={39} width={30} height={30} viewBox="0 0 24 24" overflow="visible">
-            {marks[active]}
-          </svg>
-          <text className={s.dialYear} x={C} y={85} textAnchor="middle">
-            {station.year}
-          </text>
-        </g>
+        {station && (
+          <g style={programmeColours(station.key)}>
+            <svg x={51} y={39} width={30} height={30} viewBox="0 0 24 24" overflow="visible">
+              {marks[active]}
+            </svg>
+            <text className={s.dialYear} x={C} y={85} textAnchor="middle">
+              {station.year}
+            </text>
+          </g>
+        )}
       </svg>
     </div>
   );
