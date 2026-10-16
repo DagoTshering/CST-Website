@@ -160,28 +160,36 @@ export const about = {
 };
 
 export const missionVision = {
-  heading: "Mission & Vision",
+  heading: "Vision & Mission",
+  /** Vision first, then mission. */
   items: [
-    {
-      title: "Mission",
-      statement: "To offer internationally recognised programmes in science and technology.",
-      photo: {
-        src: "/images/home/surveying-practical.jpg",
-        width: 2560,
-        height: 1707,
-        alt: "Students in uniform setting up a surveying instrument with their lecturer",
-        focus: "50% 35%",
-      } satisfies Photo,
-    },
     {
       title: "Vision",
       statement: "A centre of excellence in science and technology enriched with GNH values.",
+      /** The phrase set in colour, with the gold underline. */
+      emphasis: "GNH values",
+      // TODO(copy): caption added for the redesign; confirm wording.
+      caption: "Solar panels on the campus roofs",
       photo: {
-        src: "/images/home/students-walking-on-campus.jpg",
-        width: 2560,
-        height: 1707,
-        alt: "Students in gho walking together along a campus road",
-        focus: "50% 55%",
+        src: "/images/home/solar-rooftops.jpg",
+        width: 1950,
+        height: 1098,
+        alt: "Rows of solar panels on the teal roofs of campus buildings, with flowering bougainvillea and the hills behind",
+        focus: "50% 50%",
+      } satisfies Photo,
+    },
+    {
+      title: "Mission",
+      statement: "To offer internationally recognised programmes in science and technology.",
+      emphasis: "internationally recognised",
+      // TODO(copy): caption added for the redesign; confirm wording.
+      caption: "A lecture on solar energy",
+      photo: {
+        src: "/images/home/whiteboard-lecture.jpg",
+        width: 2688,
+        height: 1792,
+        alt: "A lecturer in gho sketching a solar power curve on the whiteboard for a class",
+        focus: "55% 35%",
       } satisfies Photo,
     },
   ],

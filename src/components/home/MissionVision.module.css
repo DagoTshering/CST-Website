@@ -1,0 +1,532 @@
+/* ==========================================================================
+   Mission & Vision
+   Two plates, alternating sides. Desktop (>= 901px): each is a 12-column row,
+   the photo in columns 1-6 and the statement in 8-12 (the other way round for
+   the second). Behind each photo a strip of graph paper runs out to the edge
+   of the screen on the photo's side, like About's.
+   Below 901px: statement, then photo, in one column; the strip sits behind
+   the lower part of the photo.
+   Pinned ([data-pinned], set by ScrollPin when motion is allowed): the section
+   is about two screens tall and its contents stick below the header while the
+   plates turn from vision to mission with the scroll; see the end of the file.
+   Motion uses the site's [data-reveal] system (globals.css, RevealObserver).
+   ========================================================================== */
+
+.section {
+  /* About's values, so the two sections read as one sheet */
+  --panel: #eeeeeb;
+  --grid-line: rgb(22 35 43 / 0.055);
+  --gold: #b8923a;
+  --gold-deep: #8a6a1f;
+  --text-caption: #5d6d76;
+
+  position: relative;
+  overflow: clip; /* the strips run off the edges */
+  padding-block: clamp(72px, 3.6rem + 4vw, 128px);
+  background: var(--color-white);
+}
+
+/* ---------- heading ------------------------------------------------------ */
+
+.title {
+  font-family: var(--font-cormorant-italic), var(--font-serif);
+  font-size: clamp(36px, 4.4vw, 60px);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.02;
+  letter-spacing: -0.012em;
+  color: var(--color-ink);
+}
+
+.amp {
+  color: var(--gold);
+}
+
+/* the progress scale, the shared strip and the gold sweep belong to the pinned plates only */
+.scale,
+.sheet,
+.scan {
+  display: none;
+}
+
+/* ---------- the plates ---------------------------------------------------- */
+
+.items {
+  display: grid;
+  gap: clamp(64px, 7vw, 104px);
+  margin-top: clamp(40px, 5vw, 72px);
+}
+
+.item {
+  position: relative;
+}
+
+@media (min-width: 901px) {
+  .item {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: 24px;
+    align-items: center;
+  }
+
+  .figure {
+    grid-column: 1 / 7;
+    grid-row: 1;
+  }
+
+  .text {
+    grid-column: 8 / 13;
+    grid-row: 1;
+  }
+
+  .item:nth-of-type(even) .figure {
+    grid-column: 7 / 13;
+  }
+
+  .item:nth-of-type(even) .text {
+    grid-column: 1 / 6;
+  }
+}
+
+/* ---------- the statement -------------------------------------------------- */
+
+/* the callout: a numbered bubble, the two-tone rule, then the label */
+.index {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font: 500 13px/1 var(--font-display);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-primary-strong);
+}
+
+.bubble {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgb(22 35 43 / 0.55);
+  border-radius: 50%;
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--color-ink);
+}
+
+.rule {
+  display: block;
+  flex: none;
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--color-sheet-tick) 0 60%,
+    var(--color-sheet-gold) 60% 100%
+  );
+}
+
+.statement {
+  max-width: 17em;
+  margin-top: clamp(18px, 2vw, 26px);
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 2.6vw, 38px);
+  font-weight: 600;
+  line-height: 1.18;
+  letter-spacing: -0.005em;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+.emphasis {
+  position: relative;
+  display: inline-block;
+  font-style: normal;
+  color: var(--color-primary-strong);
+}
+
+/* a hand-drawn gold underline, just under the baseline (About's) */
+.swash {
+  position: absolute;
+  left: -2%;
+  bottom: -0.1em;
+  width: 104%;
+  height: 0.2em;
+  overflow: visible;
+  fill: none;
+}
+
+.swash path {
+  stroke: var(--gold);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 0;
+}
+
+/* ---------- the photograph ------------------------------------------------- */
+
+.figure {
+  position: relative;
+  margin: 0;
+}
+
+/* the graph-paper strip: from the edge of the screen to 78% of the way under the photo */
+.panel {
+  position: absolute;
+  top: -44px;
+  bottom: -56px;
+  left: -100vw;
+  right: 22%;
+  pointer-events: none;
+  background-color: var(--panel);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+}
+
+.item:nth-of-type(even) .panel {
+  left: 22%;
+  right: -100vw;
+}
+
+.frame {
+  position: relative;
+  z-index: 1;
+}
+
+.photo {
+  --reveal-curtain: var(--panel);
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--color-line-soft);
+  box-shadow: 0 30px 60px -28px rgb(22 35 43 / 0.35);
+}
+
+/* a slow, slight lean in while the plate is under the pointer */
+.item:hover .photo img {
+  scale: 1.03;
+}
+
+/* crop marks 12px outside the photo, the last one in gold (About's) */
+.tick {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 0 solid var(--color-ink);
+  opacity: 0.7;
+}
+
+.tickTl {
+  top: -12px;
+  left: -12px;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.tickTr {
+  top: -12px;
+  right: -12px;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+}
+
+.tickBl {
+  bottom: -12px;
+  left: -12px;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.tickBr {
+  right: -12px;
+  bottom: -12px;
+  border-right-width: 1.5px;
+  border-bottom-width: 1.5px;
+  border-color: var(--gold);
+}
+
+/* over the graph paper, so it carries a white backing to keep its contrast */
+.caption {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  margin-top: 14px;
+  margin-left: -8px;
+  padding: 6px 8px;
+  background: rgb(255 255 255 / 0.88);
+  font: 400 11px/1.5 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-caption);
+}
+
+.fig {
+  font-weight: 500;
+  color: var(--gold-deep);
+}
+
+/* ---------- motion ----------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* the copy rises 18px rather than the site's 24px (as in About) */
+  :global(:root[data-reveal-ready])
+    .section
+    [data-reveal]:not([data-reveal="photo"]):not([data-reveal="rule"]):not([data-revealed]) {
+    translate: 0 18px;
+  }
+
+  /* the underline draws itself once the statement is in */
+  .swash path {
+    transition: stroke-dashoffset 1.4s cubic-bezier(0.6, 0, 0.2, 1) 0.8s;
+  }
+
+  :global(:root[data-reveal-ready]) .statement:not([data-revealed]) .swash path {
+    stroke-dashoffset: 260;
+  }
+}
+
+/* ---------- tablet and phone ----------------------------------------------- */
+
+@media (max-width: 900px) {
+  .figure {
+    width: min(100%, 560px);
+    margin-top: 40px;
+  }
+
+  .item:nth-of-type(even) .figure {
+    margin-left: auto;
+  }
+
+  /* the strip sits behind the lower part of the photo, out to the screen's edge */
+  .panel {
+    top: 34%;
+    bottom: -36px;
+    left: calc(-1 * var(--gutter));
+    right: 16%;
+  }
+
+  .item:nth-of-type(even) .panel {
+    left: 16%;
+    right: calc(-1 * var(--gutter));
+  }
+}
+
+/* ==========================================================================
+   Pinned: one plate turning into the other
+   --p (0-1, from ScrollPin) is how far the page has scrolled through the
+   section. The first and last fifths hold each plate still for reading; the
+   middle three fifths play the turn (--t), eased (--s) for the movement:
+     the vision statement lifts out    (--out, first third of the turn)
+     the photographs slide across, a gold line sweeping the mission's in
+                                       (--s, the whole turn)
+     the strip of graph paper slides with them
+     the mission statement settles in  (--in, last third)
+     its gold underline draws          (--draw, at the end)
+   ========================================================================== */
+
+.section[data-pinned] {
+  /* the room below the header once it has shrunk on scrolling */
+  --view: calc(100svh - var(--header-bar-h));
+  --t: clamp(0, (var(--p, 0) - 0.2) / 0.6, 1);
+  --s: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
+  --out: calc(1 - clamp(0, var(--t) / 0.35, 1));
+  --in: clamp(0, (var(--t) - 0.65) / 0.35, 1);
+  --draw: clamp(0, (var(--t) - 0.8) / 0.2, 1);
+  /* everything in the frame but the photograph: heading, gaps, caption, padding */
+  --chrome: 250px;
+
+  height: calc(var(--view) * 2.2);
+  padding-block: 0;
+}
+
+.section[data-pinned] .pin {
+  position: sticky;
+  top: var(--header-bar-h);
+  display: flex;
+  align-items: center;
+  height: var(--view);
+  overflow: hidden;
+  padding-block: 20px;
+}
+
+.section[data-pinned] .head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+/* 01 ——— 02, the rule filling in gold as the plates turn */
+.section[data-pinned] .scale {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.1em;
+  color: var(--text-caption);
+}
+
+.section[data-pinned] .scale span:last-child {
+  color: color-mix(in srgb, var(--color-ink) calc(var(--s) * 100%), var(--text-caption));
+}
+
+.track {
+  position: relative;
+  display: block;
+  width: 120px;
+  height: 1px;
+  background: var(--color-line);
+}
+
+.fill {
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform-origin: left;
+  scale: var(--t) 1;
+}
+
+/* the two plates lie on top of each other */
+.section[data-pinned] .items {
+  position: relative;
+  display: grid;
+  margin-top: clamp(20px, 4svh, 44px);
+}
+
+.section[data-pinned] .item {
+  grid-area: 1 / 1;
+  container-type: inline-size;
+}
+
+.section[data-pinned] .panel {
+  display: none;
+}
+
+/* one strip for both plates, running to the screen's edges; it slides from the left two
+   fifths of the screen to the right two fifths */
+.section[data-pinned] .sheet {
+  position: absolute;
+  top: -40px;
+  bottom: -40px;
+  left: calc(50% - 50vw);
+  width: 100vw;
+  display: block;
+  pointer-events: none;
+  background-color: var(--panel);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+  clip-path: inset(0 calc((1 - var(--s)) * 60%) 0 calc(var(--s) * 60%));
+}
+
+/* the photograph is sized to the screen, so the whole plate fits below the header */
+.section[data-pinned] .figure {
+  width: min(100%, calc((var(--view) - var(--chrome)) * 1.6));
+  justify-self: center;
+}
+
+/* the statements trade places: the vision's lifts out, the mission's settles in */
+.section[data-pinned] .item:first-of-type .text {
+  opacity: var(--out);
+  translate: 0 calc((1 - var(--out)) * -24px);
+}
+
+.section[data-pinned] .item:last-of-type .text {
+  opacity: var(--in);
+  translate: 0 calc((1 - var(--in)) * 24px);
+}
+
+/* the mission's photograph is revealed from the left behind the sweeping gold line */
+.section[data-pinned] .item:last-of-type .photo {
+  clip-path: inset(0 calc((1 - var(--s)) * 100%) 0 0);
+}
+
+.section[data-pinned] .item:last-of-type .scan {
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  left: calc(var(--s) * 100%);
+  z-index: 3;
+  display: block;
+  width: 1.5px;
+  margin-left: -0.75px;
+  background: var(--gold);
+  box-shadow: 0 0 14px 2px rgb(184 146 58 / 0.55);
+  /* only while it is crossing */
+  opacity: clamp(0, min(var(--s), 1 - var(--s)) * 14, 1);
+  pointer-events: none;
+}
+
+/* the captions share a place, so one is gone before the other comes */
+.section[data-pinned] .item:first-of-type .caption {
+  opacity: clamp(0, 1 - var(--s) / 0.4, 1);
+}
+
+.section[data-pinned] .item:last-of-type .caption {
+  opacity: clamp(0, (var(--s) - 0.6) / 0.4, 1);
+}
+
+/* the mission's underline draws with the scroll, not on reveal */
+.section[data-pinned] .item:last-of-type .swash path {
+  stroke-dashoffset: calc(260 * (1 - var(--draw)));
+  transition: none;
+}
+
+/* desktop: the photographs travel across together, from the left half to the right */
+@media (min-width: 901px) {
+  .section[data-pinned] .item:first-of-type .figure {
+    translate: calc(var(--s) * (50cqw + 12px)) 0;
+  }
+
+  .section[data-pinned] .item:last-of-type .figure {
+    translate: calc((var(--s) - 1) * (50cqw + 12px)) 0;
+  }
+}
+
+/* phones and tablets: the photograph stays put above the statement, which changes below it */
+@media (max-width: 900px) {
+  .section[data-pinned] {
+    --chrome: 440px;
+  }
+
+  .section[data-pinned] .item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .section[data-pinned] .figure,
+  .section[data-pinned] .item:nth-of-type(even) .figure {
+    order: -1;
+    margin: 0 auto 28px;
+  }
+
+  .section[data-pinned] .scale {
+    display: none;
+  }
+
+  /* each photograph keeps its own strip, behind its lower part, and the two cross over (a
+     strip the height of the plate would show as a grey column mid-turn) */
+  .section[data-pinned] .sheet {
+    display: none;
+  }
+
+  .section[data-pinned] .panel {
+    display: block;
+  }
+
+  .section[data-pinned] .item:first-of-type .panel {
+    opacity: calc(1 - var(--s));
+  }
+
+  .section[data-pinned] .item:last-of-type .panel {
+    opacity: var(--s);
+  }
+}
