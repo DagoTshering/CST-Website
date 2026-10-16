@@ -10,12 +10,19 @@ import {
   type RefObject,
 } from "react";
 
-import { HOLD_MS, moveHand, STEP_MS, stations, TOUR_START_MS, type HandPosition } from "./clock";
-import { useReducedMotion } from "./useReducedMotion";
+import { HOLD_MS, STEP_MS, stations, TOUR_START_MS } from "./clock";
+import { useReducedMotion } from "@/components/motion/useReducedMotion";
 
-export type Tour = HandPosition & {
-  /** Moves the hand to a programme and holds the tour there for a while. */
+export type Tour = {
+  /** The active station, or -1 until the tour starts. */
+  active: number;
+  /** Lights a programme and holds the tour there for a while (a tap or the keyboard). */
   pick: (index: number) => void;
+  /**
+   * Lights the programme under the pointer (or keyboard focus) and holds the tour there until
+   * it is released with null; the tour then carries on in order from that programme.
+   */
+  point: (index: number | null) => void;
 };
 
 export const TourContext = createContext<Tour | null>(null);
@@ -40,27 +47,28 @@ function sinceEntrance(root: HTMLElement) {
 }
 
 /**
- * The clock that steps the hand from programme to programme. It runs only once the entrance
- * is over, while the hero is on screen and the tab is visible. A programme the visitor picks
- * holds the hand for HOLD_MS before the tour moves on. Until the tour starts the hand rests just
- * before the first programme and nothing is lit. With reduced motion the first programme is lit
- * at the same moment, but the tour never runs.
+ * The tour that lights the programmes one after another. It runs only once the entrance is
+ * over, while the hero is on screen, the tab is visible and no programme is held: one under
+ * the pointer, or one picked in the last HOLD_MS. When the hold ends it waits a full beat and
+ * moves on to the next programme in order. Until the tour starts nothing is lit. With reduced
+ * motion the first programme is lit at the same moment, but the tour never runs.
  */
 export function useTour(root: RefObject<HTMLElement | null>): Tour {
   const reducedMotion = useReducedMotion();
-  const [hand, setHand] = useState<HandPosition>({ active: -1, laps: 0 });
+  const [active, setActive] = useState(-1);
   const [ready, setReady] = useState(false);
-  /** Counts the visitor's picks; each one restarts the hold. */
+  /** Counts the picks; each one restarts the hold. */
   const [picks, setPicks] = useState(0);
-  const [held, setHeld] = useState(false);
+  const [picked, setPicked] = useState(false);
+  const [pointed, setPointed] = useState(false);
 
   useEffect(() => {
     if (!root.current) return;
-    // once the page has settled the hand moves on to the first programme (unless one is picked)
+    // once the page has settled the first programme lights up (unless one already is)
     const id = window.setTimeout(
       () => {
         setReady(true);
-        setHand((h) => (h.active < 0 ? moveHand(h, 0, "forward") : h));
+        setActive((a) => (a < 0 ? 0 : a));
       },
       Math.max(0, TOUR_START_MS - sinceEntrance(root.current)),
     );
@@ -69,9 +77,11 @@ export function useTour(root: RefObject<HTMLElement | null>): Tour {
 
   useEffect(() => {
     if (!picks) return;
-    const id = window.setTimeout(() => setHeld(false), HOLD_MS);
+    const id = window.setTimeout(() => setPicked(false), HOLD_MS);
     return () => window.clearTimeout(id);
   }, [picks]);
+
+  const held = picked || pointed;
 
   useEffect(() => {
     const el = root.current;
@@ -79,7 +89,7 @@ export function useTour(root: RefObject<HTMLElement | null>): Tour {
 
     let timer = 0;
     let onScreen = false;
-    const step = () => setHand((h) => moveHand(h, (h.active + 1) % stations.length, "forward"));
+    const step = () => setActive((a) => (a + 1) % stations.length);
     const sync = () => {
       const run = onScreen && !document.hidden;
       if (run && !timer) timer = window.setInterval(step, STEP_MS);
@@ -103,10 +113,15 @@ export function useTour(root: RefObject<HTMLElement | null>): Tour {
   }, [root, ready, reducedMotion, held]);
 
   const pick = useCallback((index: number) => {
-    setHeld(true);
+    setPicked(true);
     setPicks((n) => n + 1);
-    setHand((h) => moveHand(h, index, "nearest"));
+    setActive(index);
   }, []);
 
-  return useMemo(() => ({ ...hand, pick }), [hand, pick]);
+  const point = useCallback((index: number | null) => {
+    setPointed(index !== null);
+    if (index !== null) setActive(index);
+  }, []);
+
+  return useMemo(() => ({ active, pick, point }), [active, pick, point]);
 }

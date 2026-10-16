@@ -2,7 +2,6 @@
 
 import type { ReactNode } from "react";
 
-import { TipOrnament } from "./ClockHand";
 import { stations } from "./clock";
 import s from "./hero.module.css";
 import { programmeColours } from "./palette";
@@ -21,10 +20,10 @@ const dots = stations.map((station) => {
 });
 
 /**
- * Phones and tablets: the clock in miniature above the copy. A dot per programme at the same
- * angles as the big clock, the same hand, and the active programme's mark and year in the
- * middle. The marks are rendered on the server and passed in. Decorative: the caption under
- * the buttons says the same in words.
+ * Phones and tablets: the clock in miniature above the copy. A dot per programme round the
+ * ring, in tour order, and the active programme's mark and year in the middle. The marks are
+ * rendered on the server and passed in. Decorative: the caption under the buttons says the
+ * same in words.
  */
 export function MiniDial({ marks }: { marks: ReactNode[] }) {
   const { active } = useTourContext();
@@ -46,11 +45,6 @@ export function MiniDial({ marks }: { marks: ReactNode[] }) {
             style={programmeColours(dot.key)}
           />
         ))}
-        <g className={s.dialHand}>
-          <g transform="translate(61.6 60.7) scale(0.44)">
-            <TipOrnament gradientId="hero-dial-brass" ringWidth={3.2} />
-          </g>
-        </g>
         <circle className={s.dialHub} cx={C} cy={C} r={27} />
         {station && (
           <g style={programmeColours(station.key)}>

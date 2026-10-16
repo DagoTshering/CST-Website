@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 import s from "./hero.module.css";
 import { createFrameLoop } from "./loop";
-import { useReducedMotion } from "./useReducedMotion";
+import { useReducedMotion } from "@/components/motion/useReducedMotion";
 import { drawWeb, hexToRgb, scatterNodes, type WebNode, type WebPointer } from "./web";
 
 /** The web belongs to the big clock; phones and tablets do not get it. */
@@ -22,8 +22,8 @@ function mountWeb(canvas: HTMLCanvasElement, hero: HTMLElement, still: boolean) 
   // colours are read once, not every frame
   const styles = getComputedStyle(canvas);
   const colours = {
-    line: hexToRgb(styles.getPropertyValue("--color-primary"), "51,139,163"),
-    trace: hexToRgb(styles.getPropertyValue("--color-primary-strong"), "43,122,144"),
+    line: hexToRgb(styles.getPropertyValue("--color-primary-strong"), "43,122,144"),
+    trace: hexToRgb(styles.getPropertyValue("--color-primary-deep"), "33,85,99"),
     gold: hexToRgb(styles.getPropertyValue("--brass"), "184,146,58"),
   };
 

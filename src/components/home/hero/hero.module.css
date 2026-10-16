@@ -1,15 +1,16 @@
 /* ==========================================================================
    Hero: the programme clock
    Two layouts:
-     clock (>= 1000px)  the programmes sit round one large oval, a gold hand
-                        steps between them, the survey web wakes near the pointer
+     clock (>= 1000px)  the programmes sit round one large oval and light up in
+                        turn, the survey web wakes near the pointer
      dial  (< 1000px)   a small dial above the copy, a caption under the buttons
 
    Geometry lives in custom properties, so the server-rendered page is already
    in place before any JavaScript runs:
-     --rx, --ry           the oval's radii, from the size of the hero
-     --cos, --sin         each station's direction (set inline, from clock.ts)
-     --hand-*             the active station, set on the section by HeroFrame
+     --rx, --ry           the fallback oval's radii, from the size of the hero
+     --cos, --sin         each station's fallback position on it (inline, clock.ts)
+     --x, --y, --lean     each station's place on its orbit (set by Stations as
+                          the stations travel; .ring[data-laid] once it has)
    --rx, --ry, --za and --zb use container units, so they are only valid inside
    .sheet and .ring, which are size containers exactly the size of the hero.
 
@@ -26,7 +27,7 @@
   /* the oval (stations sit on it) and the text zone (stations stay out of it) */
   --stage-w: min(100cqw, 1600px);
   --rx: min(var(--stage-w) / 2 - 84px, 760px);
-  --ry: calc(50cqh - 94px);
+  --ry: calc(50cqh - 86px);
   --za: min(360px, 30cqw);
   --zb: min(205px, 27cqh);
   --inset: clamp(12px, 1.75cqw, 28px); /* the sheet border */
@@ -40,9 +41,8 @@
   --brass-deep: #8a6a1f;
   --silver: #8a979e;
   --silver-light: #eef2f4;
-  --grey-teal: #8aa0a9;
+  --slate: #3c5560;
   --plate-weight: 1.32;
-  --ease-tick: cubic-bezier(0.35, 1.3, 0.45, 1);
 
   position: relative;
   isolation: isolate;
@@ -107,8 +107,7 @@
 }
 
 /* Each line of copy carries a soft white patch, in the copy's own layer, so nothing on the
-   sheet (the fog's edge, the ornament, the hand's tip on a short screen) is ever directly
-   behind the letters. */
+   sheet (the fog's edge, the ornament, the web) is ever directly behind the letters. */
 .eyebrow,
 .title,
 .tagline {
@@ -122,9 +121,9 @@
   position: absolute;
   inset: -0.08em -0.12em;
   z-index: -1;
-  border-radius: 16px;
-  background: rgb(255 255 255 / 0.96);
-  box-shadow: 0 0 24px 14px rgb(255 255 255 / 0.94);
+  border-radius: 32px;
+  background: rgb(255 255 255 / 0.72);
+  box-shadow: 0 0 30px 16px rgb(255 255 255 / 0.62);
   pointer-events: none;
 }
 
@@ -175,7 +174,7 @@
 
 .titleEmphasis {
   font-weight: 700;
-  color: var(--color-primary-strong);
+  color: color-mix(in srgb, var(--color-primary-strong) 45%, var(--color-primary-deep));
 }
 
 .tagline {
@@ -220,10 +219,10 @@
   mask-image: linear-gradient(
     180deg,
     transparent 0,
-    rgb(0 0 0 / 0.55) 45px,
-    #000 120px,
-    #000 calc(100% - 140px),
-    rgb(0 0 0 / 0.5) calc(100% - 55px),
+    rgb(0 0 0 / 0.7) 30px,
+    #000 80px,
+    #000 calc(100% - 90px),
+    rgb(0 0 0 / 0.6) calc(100% - 35px),
     transparent 100%
   );
 }
@@ -236,13 +235,13 @@
 .photo {
   position: absolute;
   inset: 0;
-  opacity: 0.22;
+  opacity: 0.5;
 }
 
 .photoImage {
   object-fit: cover;
   object-position: 50% 34%;
-  filter: saturate(0.62) contrast(0.82) brightness(1.14);
+  filter: saturate(1) contrast(1.15) brightness(0.98);
 }
 
 .grid {
@@ -281,8 +280,16 @@
 
 @media (min-width: 1000px) {
   .fog {
-    width: calc(var(--za) * 3);
-    height: calc(var(--zb) * 3.1);
+    /* it grows with the headline on a large screen, so the copy's patches melt into it */
+    width: max(var(--za) * 2.5, 64cqw);
+    height: max(var(--zb) * 2.6, 66cqh);
+    background: radial-gradient(
+      closest-side,
+      rgb(255 255 255 / 0.94) 0,
+      rgb(255 255 255 / 0.9) 50%,
+      rgb(255 255 255 / 0.5) 76%,
+      transparent 100%
+    );
   }
 }
 
@@ -354,13 +361,14 @@
 
 /* the ring's strength: it sits above the fog, so small changes show */
 .armillaryGold {
-  stroke-width: 2.4;
-  stroke-opacity: 0.42;
+  stroke-width: 3;
+  stroke-opacity: 0.85;
 }
 
-.armillarySilver {
-  stroke-width: 1.2;
-  stroke-opacity: 0.7;
+.armillaryTeal {
+  stroke: var(--color-primary-deep);
+  stroke-width: 1.5;
+  stroke-opacity: 0.8;
 }
 
 .frame {
@@ -376,83 +384,8 @@
   height: calc(100% + 2px);
   overflow: visible;
   fill: none;
-  stroke-width: 1.3;
+  stroke-width: 1.4;
   stroke-linejoin: round;
-}
-
-/* ---------- the clock hand --------------------------------------------- */
-
-/* Both layers pivot on the centre of the sheet and reach to 46px short of the active station.
-   The angle is the station's direction on the oval, plus whole turns so it only ever moves
-   forward (or the short way, when a visitor picks a programme). */
-.hand {
-  display: none;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  height: 24px;
-  margin-top: -12px;
-  transform-origin: 0 50%;
-  width: max(
-    140px,
-    hypot(calc(var(--rx) * var(--hand-cos)), calc(var(--ry) * var(--hand-sin))) - 46px
-  );
-  transform: rotate(
-    calc(
-      atan2(calc(var(--ry) * var(--hand-sin)), calc(var(--rx) * var(--hand-cos))) +
-        (var(--hand-wrap) + var(--hand-laps)) * 1turn
-    )
-  );
-  transition:
-    transform 1.1s var(--ease-tick),
-    width 1.1s cubic-bezier(0.35, 1.2, 0.45, 1);
-  animation: appear 800ms ease 1.4s both;
-}
-
-@media (min-width: 1000px) {
-  .hand {
-    display: block;
-  }
-}
-
-/* without CSS trigonometry the hand cannot be aimed, so it is left out */
-@supports not (width: hypot(1px, 1px)) {
-  .hand {
-    display: none !important;
-  }
-}
-
-.shaft {
-  position: absolute;
-  left: 0;
-  right: 94px;
-  top: calc(50% - 1.5px);
-  height: 3px;
-  background: linear-gradient(90deg, var(--brass), rgb(184 146 58 / 0.9));
-  clip-path: polygon(0 50%, 100% 0, 100% 100%);
-}
-
-.hub {
-  position: absolute;
-  left: -8px;
-  top: calc(50% - 8px);
-  width: 16px;
-  height: 16px;
-  border: 3px solid var(--brass);
-  border-radius: 50%;
-}
-
-.handTip {
-  filter: drop-shadow(0 1px 1px rgb(70 50 10 / 0.25));
-}
-
-.tip {
-  position: absolute;
-  right: 0;
-  top: 2.75px;
-  width: 100px;
-  height: 18.5px;
-  overflow: visible;
 }
 
 /* ---------- survey web -------------------------------------------------- */
@@ -485,16 +418,43 @@
   }
 }
 
+/* the thin gold orbit the stations travel along: the measured curve (an SVG the size of the
+   stage), or before that the fallback oval */
+.orbit {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: var(--brass);
+  stroke-width: 1.2;
+  opacity: 0.6;
+  pointer-events: none;
+  animation: appear 1.2s ease 0.4s both;
+}
+
+.orbitFallback {
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--rx) * 2);
+  height: calc(var(--ry) * 2);
+  translate: -50% -50%;
+  border: 1.2px solid var(--brass);
+  border-radius: 50%;
+}
+
 .station {
   /* the drawing's box, sized by what the hero has room for */
-  --dw: clamp(84px, min(9cqw, 16cqh), 168px);
+  --dw: clamp(72px, min(9cqw, 16cqh - 10px), 168px);
   --dh: calc(var(--dw) * 0.62);
-  /* a muted grey-teal with a hint of the programme's own colour */
-  --muted: color-mix(in srgb, var(--colour) 36%, var(--grey-teal));
+  /* a dark slate with a hint of the programme's own colour */
+  --muted: color-mix(in srgb, var(--colour) 30%, var(--slate));
 
   position: absolute;
-  left: calc(50% + var(--rx) * var(--cos));
-  top: calc(50% + var(--ry) * var(--sin));
+  left: var(--x, calc(50% + var(--rx) * var(--cos)));
+  top: var(--y, calc(50% + var(--ry) * var(--sin)));
   translate: -50% -50%;
   isolation: isolate;
   display: flex;
@@ -503,9 +463,8 @@
   padding: 6px 8px;
   border-radius: 4px;
   color: var(--muted);
-  opacity: 0.9;
   pointer-events: auto;
-  cursor: pointer;
+  cursor: default;
   transition:
     opacity 0.7s ease,
     color 0.6s ease;
@@ -514,12 +473,11 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-/* on a tall sheet the drawings are large, so the lower stations sit a touch higher to keep a
-   title under them on the sheet */
-@container (height >= 800px) {
-  .station {
-    translate: -50% calc(-50% - max(0, var(--sin)) * 14px);
-  }
+/* on the orbit: placed by transform, so travelling never touches layout */
+.ring[data-laid] .station {
+  left: 0;
+  top: 0;
+  transform: translate(var(--x), var(--y));
 }
 
 /* inactive drawings are drawn in the muted colour throughout (set on the drawing, because the
@@ -531,31 +489,19 @@
   --gold-ink: var(--muted);
 }
 
-.station:not([data-on]):hover {
-  --muted: color-mix(in srgb, var(--colour) 52%, #6d858f);
-}
-
 .station[data-on] {
-  opacity: 1;
   color: var(--ink);
 }
 
-/* each station carries its own patch of fog, so it reads wherever it lands */
+/* the lit station (the tour's, or the one under the pointer) carries its own patch of fog, so
+   it reads clearly over the photograph; the others sit on the sheet without one */
 .station::before {
   content: "";
   position: absolute;
   inset: -16px -10px;
   z-index: -1;
-  background: radial-gradient(
-    closest-side,
-    rgb(255 255 255 / 0.95),
-    rgb(255 255 255 / 0.75) 62%,
-    transparent
-  );
-  transition: background 0.5s;
-}
-
-.station[data-on]::before {
+  opacity: 0;
+  transition: opacity 0.5s ease;
   background:
     radial-gradient(closest-side, rgb(255 255 255 / 0.96), rgb(255 255 255 / 0.8) 60%, transparent),
     radial-gradient(
@@ -563,6 +509,22 @@
       color-mix(in srgb, var(--live) 24%, transparent),
       transparent
     );
+}
+
+.station[data-on]::before {
+  opacity: 1;
+}
+
+/* without a patch, an unlit drawing and its year keep a hairline of white round their strokes,
+   so they read over the photograph without a box behind them */
+.station:not([data-on]) .drawing {
+  filter: drop-shadow(0 0 1.2px rgb(255 255 255 / 0.95)) drop-shadow(0 0 3px rgb(255 255 255 / 0.6));
+}
+
+.station:not([data-on]) .year {
+  text-shadow:
+    0 0 2px #fff,
+    0 0 6px rgb(255 255 255 / 0.8);
 }
 
 .station:focus-visible {
@@ -594,34 +556,30 @@
   padding-top: 3px;
 }
 
-/* the full title, under the year of the active station only; it leans inwards near the sides
-   so it never runs off the sheet */
+/* The programme's name, on one line, for the active station only: under the year, or above
+   the drawing for the stations in the top half, so it never reaches towards the copy. Near the
+   ends of the oval it leans inwards, so it stays on the sheet. */
 .name {
   position: absolute;
   left: 50%;
   top: 100%;
-  width: 190px;
-  translate: calc(-50% - var(--cos) * 26px) 0;
+  translate: calc(-50% - var(--lean, var(--cos)) * 30%) 0;
+  white-space: nowrap;
   font: 500 13px/1.25 var(--font-display);
   font-variant-caps: all-small-caps;
   letter-spacing: 0.07em;
-  text-wrap: balance;
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
 }
 
-.station[data-on] .name {
-  opacity: 1;
+.station[data-above] .name {
+  top: auto;
+  bottom: 100%;
 }
 
-/* a short sheet has no room between the top stations and the copy: their title goes above */
-@container (height < 800px) {
-  .station[data-above] .name {
-    top: auto;
-    bottom: 100%;
-    width: 260px;
-  }
+.station[data-on] .name {
+  opacity: 1;
 }
 
 /* ---------- the drawings ------------------------------------------------ */
@@ -686,7 +644,7 @@
 
 /* ---------- the drawings' own motion ------------------------------------ */
 
-/* Each drawing moves only while its programme is active: the hand arrives and it comes to life.
+/* Each drawing moves only while its programme is active: it comes to life as it lights up.
    The others rest in their first pose. --spd is one cycle. */
 .station {
   --spd: 2.6s;
@@ -1030,13 +988,6 @@
   stroke-width: 0.8;
 }
 
-.dialHand {
-  transform-box: view-box;
-  transform-origin: 66px 66px;
-  transform: rotate(calc(var(--hand-theta) * 1deg + var(--hand-laps) * 1turn));
-  transition: transform 1s var(--ease-tick);
-}
-
 .dialHub {
   fill: rgb(255 255 255 / 0.92);
 }
@@ -1100,8 +1051,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .rise,
-  .hand,
   .web,
+  .orbit,
   .station,
   .dial,
   .caption {

@@ -32,15 +32,16 @@ const rise = (n: number) => ({ "--n": n }) as CSSProperties;
 
 /**
  * The homepage hero: the programme clock. The programmes sit round one large oval like the
- * numbers on a clock face, and a gold hand steps from one to the next in the order they were
- * first offered. Below 1000px a small dial above the copy takes its place.
+ * numbers on a clock face, and light up one after another in the order they were first
+ * offered; hovering one lights it instead. Below 1000px a small dial above the copy takes its
+ * place.
  */
 export function Hero() {
   return (
     <HeroFrame aria-labelledby="hero-title" className={s.hero}>
       <HeroSheet />
 
-      <div className={`${s.copy} flex flex-col items-center text-center`}>
+      <div className={`${s.copy} flex flex-col items-center text-center`} data-hero-copy>
         <MiniDial marks={marks} />
 
         <p

@@ -32,7 +32,7 @@ type DrawOptions = {
   colours: WebColours;
 };
 
-const LINK = 150; // points closer than this are joined
+const LINK = 160; // points closer than this are joined
 const SIGHT = 190; // sight lines from the pointer reach this far
 const WAKE = 170; // points this close to the pointer turn into marks
 const MAX_ALPHA = 0.55;
@@ -146,7 +146,7 @@ export function drawWeb(ctx: CanvasRenderingContext2D, nodes: WebNode[], o: Draw
   const zoneA = Math.min(360, w * 0.3) * 1.05;
   const zoneB = Math.min(205, h * 0.27) * 1.05;
   const quiet = (x: number, y: number) =>
-    Math.min(1, Math.max(0.15, (Math.hypot((x - cx) / zoneA, (y - cy) / zoneB) - 0.55) / 0.6));
+    Math.min(1, Math.max(0.4, (Math.hypot((x - cx) / zoneA, (y - cy) / zoneB) - 0.55) / 0.6));
 
   const xs = nodes.map((n) => n.u * w);
   const ys = nodes.map((n) => n.v * h);
@@ -156,7 +156,7 @@ export function drawWeb(ctx: CanvasRenderingContext2D, nodes: WebNode[], o: Draw
     for (let j = i + 1; j < nodes.length; j++) {
       const d = Math.hypot(xs[i] - xs[j], ys[i] - ys[j]);
       if (d >= LINK) continue;
-      const alpha = (1 - d / LINK) * 0.15 * Math.min(zone[i], zone[j]);
+      const alpha = (1 - d / LINK) * 0.45 * Math.min(zone[i], zone[j]);
       ctx.strokeStyle = `rgba(${colours.line},${alpha.toFixed(3)})`;
       ctx.beginPath();
       ctx.moveTo(xs[i], ys[i]);
@@ -171,15 +171,15 @@ export function drawWeb(ctx: CanvasRenderingContext2D, nodes: WebNode[], o: Draw
     const d = pointer.a > 0.01 ? Math.hypot(x - pointer.x, y - pointer.y) : Infinity;
     const f = pointer.a * smoothstep(Math.max(0, 1 - d / WAKE));
 
-    ctx.fillStyle = `rgba(${colours.line},${(0.36 * zone[i] * (1 - 0.8 * f)).toFixed(3)})`;
+    ctx.fillStyle = `rgba(${colours.line},${(0.8 * zone[i] * (1 - 0.8 * f)).toFixed(3)})`;
     ctx.beginPath();
-    ctx.arc(x, y, 1.7, 0, Math.PI * 2);
+    ctx.arc(x, y, 2.2, 0, Math.PI * 2);
     ctx.fill();
 
     if (f > 0.03 && nodes[i].shape !== "dot") drawMark(ctx, nodes[i], x, y, f, o.time, colours);
 
     if (d < SIGHT) {
-      ctx.strokeStyle = `rgba(${colours.gold},${((1 - d / SIGHT) * pointer.a * 0.32).toFixed(3)})`;
+      ctx.strokeStyle = `rgba(${colours.gold},${((1 - d / SIGHT) * pointer.a * 0.42).toFixed(3)})`;
       ctx.beginPath();
       ctx.moveTo(pointer.x, pointer.y);
       ctx.lineTo(x, y);

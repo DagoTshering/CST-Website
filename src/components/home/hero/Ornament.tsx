@@ -73,19 +73,20 @@ export function Ornament() {
 }
 
 /**
- * The gold armillary ring round the headline, with its silver twin. It sits above the copy's
- * fog (HeroSheet places it), so it reads clearly while the rest of the ornament stays faint.
+ * The brass armillary ring round the headline, with a deep-teal twin turned a few degrees so
+ * the two cross. It sits above the copy's fog (HeroSheet places it), so it reads clearly while
+ * the rest of the ornament stays faint.
  */
 export function Armillary() {
   return (
     <svg className={s.armillary} viewBox="-1 -1 2 2" preserveAspectRatio="none">
       <ellipse rx={1} ry={1} className={s.armillaryGold} stroke="url(#hero-gold)" />
-      <ellipse rx={1.05} ry={1.08} className={s.armillarySilver} stroke="url(#hero-silver)" />
+      <ellipse rx={1.03} ry={1.06} transform="rotate(5)" className={s.armillaryTeal} />
     </svg>
   );
 }
 
-/** The sheet border, with a small gold polyhedron at each corner. */
+/** The sheet border, with a small gold medallion (a polyhedron in a circle) at each corner. */
 export function Frame() {
   return (
     <div className={s.frame}>
@@ -97,6 +98,7 @@ export function Frame() {
           ["100%", "100%"],
         ].map(([x, y]) => (
           <svg key={`${x}${y}`} x={x} y={y} overflow="visible" stroke="url(#hero-gold)">
+            <circle r={14} />
             <polygon points={POLY.hexagon} />
             <polygon points={POLY.triangle} />
             <path d={POLY.spokes} />
