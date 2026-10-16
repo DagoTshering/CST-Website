@@ -1,0 +1,40 @@
+/* About's emphasised word, shared by the sections below it. */
+
+.emphasis {
+  position: relative;
+  display: inline-block;
+  color: var(--color-primary-strong);
+}
+
+.emphasis[data-tone="dark"] {
+  color: var(--color-accent);
+}
+
+/* just under the baseline, a little wider than the word */
+.swash {
+  position: absolute;
+  left: -2%;
+  bottom: -0.12em;
+  width: 104%;
+  height: 0.2em;
+  overflow: visible;
+  fill: none;
+}
+
+.swash path {
+  stroke: var(--color-brass);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .swash path {
+    transition: stroke-dashoffset 1.4s cubic-bezier(0.6, 0, 0.2, 1) 0.7s;
+  }
+
+  :global(:root[data-reveal-ready]) :global([data-reveal]:not([data-revealed])) .swash path {
+    stroke-dashoffset: 260;
+  }
+}

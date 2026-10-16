@@ -37,6 +37,12 @@
   --color-sheet-hair: rgb(152 214 230 / 0.9); /* sheet border */
   --color-sheet-tick: rgb(20 107 132 / 0.3); /* ticks, crosshair */
   --color-sheet-grid: rgb(20 107 132 / 0.075);
+  /* the sections' drafting details (About's values): graph paper, brass rules and captions */
+  --color-paper: #eeeeeb;
+  --color-paper-soft: #f5f5f2;
+  --color-paper-grid: rgb(22 35 43 / 0.055);
+  --color-brass: #b8923a;
+  --color-brass-deep: #8a6a1f;
   --color-prog-arch: #46a86f;
   --color-prog-arch-ink: #246142;
   --color-prog-civil: #ffffff;
@@ -120,6 +126,32 @@
 /* Vertical rhythm shared by every homepage section: 80px on phones, 128px on desktop. */
 @utility section-y {
   padding-block: clamp(5rem, 3.6rem + 4vw, 8rem);
+}
+
+/* A section heading set like About's: Cormorant italic, large and close-set. */
+@utility heading-serif {
+  font-family: var(--font-cormorant-italic), var(--font-serif);
+  font-size: clamp(2.125rem, 1.4rem + 2.8vw, 3.75rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+}
+
+/* The heading's face alone, for smaller italic lines (a quote, a pull statement). Not named
+   font-*: that prefix belongs to Tailwind's font-family and font-weight utilities. */
+@utility serif-italic {
+  font-family: var(--font-cormorant-italic), var(--font-serif);
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Graph paper, as on About's strip. On a dark section, set --paper-grid to a light line. */
+@utility graph-paper {
+  background-image:
+    linear-gradient(var(--paper-grid, var(--color-paper-grid)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--paper-grid, var(--color-paper-grid)) 1px, transparent 1px);
+  background-size: 28px 28px;
 }
 
 /* Small uppercase label above a section heading. */

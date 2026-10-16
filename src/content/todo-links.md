@@ -26,6 +26,18 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 | Department › Science & Humanities                | `/departments/science-humanities`                |                                                              |
 | Research                                         | `/research`                                      |                                                              |
 
+## Homepage sections
+
+| Label                                      | Path                    | Notes                                      |
+| ------------------------------------------ | ----------------------- | ------------------------------------------ |
+| Academic › View all programmes (and rows)  | `/academics/programmes` | Same page as Academics › Programmes.       |
+| Events › View all events (and each event)  | `/events`               | Each event should get its own page later.  |
+| Leadership › Leadership & governance       | `/about/governance`     |                                            |
+| Leadership › Meet the executives           | `/about/executives`     | Same page as About Us › Executives.        |
+| Announcements › View all (and each notice) | `/announcements`        | Each notice should get its own page later. |
+| Opportunities › Exchange programmes        | `/exchange-programmes`  |                                            |
+| Opportunities › Career opportunities       | `/careers`              |                                            |
+
 ## Footer
 
 | Label                  | Path         | Notes                                                    |

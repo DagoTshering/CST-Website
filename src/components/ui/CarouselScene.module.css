@@ -1,0 +1,90 @@
+/* ==========================================================================
+   Carousel scene: a section that is a heading over a Carousel (Facilities,
+   Events), sized to one screen on a desktop and pinned while the page's
+   scroll carries the cards past.
+   Markup: ScrollPin.scene > .frame > (.head, .rows > Carousel); each card
+   (li) holds a .photo and a .caption, with an optional .text in it.
+   Desktop (>= 1024px): the frame is exactly one screen below the (scrolled)
+   header, with its contents centred. The cards keep their width and the
+   photographs take whatever height is left: each level from the frame down to
+   the photo is a column that may shrink (min-height: 0), and only the photo
+   actually gives way, from the full 4:3 (276px) on a tall screen to a wide
+   crop on a short laptop, never below 150px.
+   Pinned ([data-pinned], set by ScrollPin when motion is allowed), desktop
+   only: the section is one screen plus --travel tall (set by the Carousel, so
+   the cards move about as far as the page does; nothing when they all fit)
+   and the frame sticks below the header.
+   Below 1024px the section keeps its natural height and the row swipes.
+   ========================================================================== */
+
+@media (min-width: 1024px) {
+  .frame {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100svh - var(--header-bar-h));
+    /* the hero's own floor: below this the section grows rather than squeezing further */
+    min-height: 520px;
+    padding-block: clamp(20px, 4svh, 64px);
+  }
+
+  .scene[data-pinned] {
+    height: calc(100svh - var(--header-bar-h) + var(--travel, 0px));
+  }
+
+  .scene[data-pinned] .frame {
+    position: sticky;
+    top: var(--header-bar-h);
+  }
+
+  .head {
+    flex: none;
+  }
+
+  /* the carousel's wrapper, the carousel, and its row of cards */
+  .rows,
+  .rows > div {
+    display: flex;
+    flex: 0 1 auto;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .rows {
+    margin-top: clamp(20px, 4svh, 48px);
+  }
+
+  .rows ul {
+    flex: 0 1 auto;
+    min-height: 0;
+    margin-top: 20px;
+  }
+
+  .rows li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .photo {
+    flex: 0 1 276px;
+    aspect-ratio: auto;
+    min-height: 150px;
+  }
+
+  .caption {
+    flex: none;
+  }
+
+  /* every card's text keeps room for three lines, so the captions are one height and the
+     photographs above them shrink alike */
+  .text {
+    min-height: 3lh;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 820px) {
+  .caption {
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+}

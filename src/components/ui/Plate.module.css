@@ -1,0 +1,90 @@
+/* A photograph in crop marks with a figure caption (About's plate, shared). */
+
+.plate {
+  --tick-colour: var(--color-ink);
+  --reveal-curtain: var(--color-white);
+}
+
+.plate[data-tone="dark"] {
+  --tick-colour: rgb(255 255 255 / 0.75);
+  --reveal-curtain: var(--color-primary-night);
+}
+
+.frame {
+  position: relative;
+}
+
+.photo {
+  position: relative;
+  overflow: hidden;
+  background: var(--color-line-soft);
+  box-shadow: 0 30px 60px -28px rgb(22 35 43 / 0.35);
+}
+
+.plate[data-tone="dark"] .photo {
+  box-shadow: 0 30px 60px -28px rgb(0 0 0 / 0.5);
+}
+
+.tick {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 0 solid var(--tick-colour);
+  opacity: 0.7;
+}
+
+.tl {
+  top: -12px;
+  left: -12px;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.tr {
+  top: -12px;
+  right: -12px;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+}
+
+.bl {
+  bottom: -12px;
+  left: -12px;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.br {
+  right: -12px;
+  bottom: -12px;
+  border-right-width: 1.5px;
+  border-bottom-width: 1.5px;
+  border-color: var(--color-brass);
+  opacity: 1;
+}
+
+.caption {
+  display: inline-block;
+  margin-top: 14px;
+  margin-left: -8px;
+  padding: 6px 8px;
+  background: rgb(255 255 255 / 0.88);
+  font: 400 11px/1.5 var(--font-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5d6d76;
+}
+
+.plate[data-tone="dark"] .caption {
+  background: none;
+  color: var(--color-on-dark-muted);
+}
+
+.fig {
+  font-weight: 500;
+  color: var(--color-brass-deep);
+}
+
+.plate[data-tone="dark"] .fig {
+  color: var(--color-brass);
+}

@@ -1,0 +1,14 @@
+/* Facilities: the layout is the shared carousel scene (ui/CarouselScene.module.css); this only
+   brings the quote and intro down a size on a short laptop, so the photographs keep their room. */
+
+@media (min-width: 1024px) and (max-height: 820px) {
+  .quote {
+    font-size: 1.5rem;
+  }
+
+  .intro {
+    margin-top: 6px;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+  }
+}

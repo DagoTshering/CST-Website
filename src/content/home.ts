@@ -199,6 +199,8 @@ export const facilities = {
   id: "facilities",
   label: "Facilities",
   heading: "What we provide",
+  /** The heading's word set in colour, with the gold underline. */
+  emphasis: "provide",
   quote: "Where curiosity meets care",
   intro:
     "Explore passions, build skills, and stay balanced with tech clubs, community service, health-care and counselling designed for your success.",
@@ -272,4 +274,194 @@ export const facilities = {
       },
     },
   ] satisfies { title: string; text: string; photo: Photo }[],
+};
+
+/*
+ * The sections below came over from the homepage on main (commit 2695bb3), where the text was
+ * transcribed from the previous website. Their "To verify" notes are kept.
+ */
+
+export const programmesSection = {
+  id: "programmes",
+  label: "Academic",
+  heading: "Find your path in engineering and technology",
+  emphasis: "path",
+  text: "CST offers internationally recognised engineering and management programmes focused on hands-on learning, innovation, and global relevance, ensuring students are well prepared for successful careers.",
+  photo: {
+    src: "/images/home/graduation-ceremony.jpg",
+    width: 1827,
+    height: 1219,
+    alt: "Graduates in academic gowns throwing their caps at a convocation ceremony",
+    focus: "50% 40%",
+  } satisfies Photo,
+  // TODO(copy): caption added for the restyle; confirm wording.
+  caption: "Convocation at CST",
+  link: { label: "View all programmes", href: "/academics/programmes" },
+  /** The programmes themselves are the hero's list, grouped by level. */
+  groups: [
+    { postgraduate: false, title: "Undergraduate", note: "Bachelor’s degrees" },
+    { postgraduate: true, title: "Postgraduate", note: "Master’s degrees" },
+  ],
+  // VERIFY: figures shown on the previous website; confirm they are current before launch.
+  figures: [
+    { value: "12", label: "Bachelor’s & Master’s programmes" },
+    { value: "1K+", label: "Students" },
+    { value: "77", label: "Lecturers" },
+    { value: "2,775", label: "Graduates" },
+  ],
+};
+
+/** A photograph cropped from the screenshot of the old site: low resolution, to be replaced. */
+type TemporaryPhoto = Photo & { temporary: true };
+
+export type CollegeEvent = {
+  title: string;
+  /** False when the source only showed a truncated title. */
+  titleComplete: boolean;
+  /** ISO dates (YYYY-MM-DD). */
+  startDate: string;
+  endDate?: string;
+  summary?: string;
+  photo: Photo | TemporaryPhoto;
+  href: string;
+};
+
+export const eventsSection = {
+  id: "events",
+  label: "Campus life",
+  heading: "Our latest events",
+  text: "Explore our latest events and campus highlights.",
+  link: { label: "View all events", href: "/events" },
+  // VERIFY: titles were truncated on the previous website and no summaries were visible.
+  items: [
+    {
+      title: "Empowering Future Engineers Through The…",
+      titleComplete: false,
+      startDate: "2026-05-28",
+      photo: {
+        src: "/images/temp/event-empowering-future-engineers.jpg",
+        width: 277,
+        height: 230,
+        alt: "A speaker addressing students in a lecture hall",
+        temporary: true,
+      },
+      href: "/events",
+    },
+    {
+      title: "Consultative Stakeholder Workshop on New Module…",
+      titleComplete: false,
+      startDate: "2026-05-09",
+      photo: {
+        src: "/images/temp/event-stakeholder-workshop.jpg",
+        width: 278,
+        height: 230,
+        alt: "Participants of a consultative stakeholder workshop standing before a banner",
+        temporary: true,
+      },
+      href: "/events",
+    },
+    {
+      title: "Bhutan Space Week 2026 Highlights Space Science A…",
+      titleComplete: false,
+      startDate: "2026-02-17",
+      endDate: "2026-03-23",
+      photo: {
+        src: "/images/temp/event-bhutan-space-week.jpg",
+        width: 279,
+        height: 230,
+        alt: "Guests on stage in front of a Bhutan Space Week screen",
+        temporary: true,
+      },
+      href: "/events",
+    },
+  ] satisfies CollegeEvent[] as CollegeEvent[],
+};
+
+export const leadership = {
+  id: "leadership",
+  label: "Leadership and governance",
+  heading: "Leadership with vision and purpose",
+  emphasis: "vision",
+  // TODO(copy): caption added for the restyle; confirm wording.
+  caption: "Office of the President",
+  statement:
+    "At CST, our executive leadership led by the Vice Chancellor and President guides the institution with a strong commitment to academic excellence, innovation, and student success.",
+  name: "Dr. Tshewang Lhendup",
+  designation: "President, College of Science and Technology",
+  // VERIFY: no biography was present on the previous website.
+  bio: null as string | null,
+  photo: {
+    src: "/images/temp/president-portrait.jpg",
+    width: 294,
+    height: 338,
+    alt: "Portrait of Dr. Tshewang Lhendup, President of CST",
+    temporary: true,
+  } satisfies TemporaryPhoto,
+  links: [
+    { label: "Leadership & governance", href: "/about/governance" },
+    { label: "Meet the executives", href: "/about/executives" },
+  ],
+};
+
+export type Announcement = {
+  title: string;
+  /** ISO date; null when the publication date still needs confirming. */
+  date: string | null;
+  category: string;
+  href: string;
+  /** Set when the notice is a downloadable document (e.g. PDF). */
+  documentType?: "PDF";
+};
+
+export const announcementsSection = {
+  id: "announcements",
+  label: "Notices",
+  heading: "Announcements",
+  link: { label: "View all announcements", href: "/announcements" },
+  items: [
+    {
+      title:
+        "Provisional Selection Results: Student Exchange Programme at UPV, Spain – Spring Semester 2027",
+      date: "2026-10-08",
+      category: "Exchange",
+      href: "/announcements",
+    },
+    {
+      title: "Application Call: Student Exchange Programme at UPV, Spain – Spring Semester 2027",
+      date: "2026-09-17",
+      category: "Exchange",
+      href: "/announcements",
+    },
+    {
+      // VERIFY: publication date was not shown.
+      title: "Call for Admission — MSc. Eng (By Research), February 2027 Intake",
+      date: null,
+      category: "Admission",
+      href: "/announcements",
+    },
+  ] satisfies Announcement[] as Announcement[],
+  opportunities: {
+    label: "Opportunities",
+    // TODO(copy): caption added for the restyle; confirm wording.
+    caption: "Students on the campus road",
+    photo: {
+      src: "/images/home/students-walking-on-campus.jpg",
+      width: 2560,
+      height: 1707,
+      alt: "Students in gho walking together along a campus road",
+      focus: "50% 55%",
+    } satisfies Photo,
+    items: [
+      {
+        title: "Exchange programmes",
+        text: "Learn globally, grow personally.",
+        href: "/exchange-programmes",
+      },
+      {
+        title: "Career opportunities",
+        text: "Unlock pathways to rewarding careers after graduation.",
+        href: "/careers",
+      },
+    ],
+  },
 };

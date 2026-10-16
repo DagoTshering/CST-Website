@@ -122,6 +122,13 @@ export const ArrowUpIcon = (props: IconProps) => (
   </Stroke>
 );
 
+export const DocumentIcon = (props: IconProps) => (
+  <Stroke {...props}>
+    <path d="M14 3H7a1.5 1.5 0 0 0-1.5 1.5v15A1.5 1.5 0 0 0 7 21h10a1.5 1.5 0 0 0 1.5-1.5V7.5Z" />
+    <path d="M14 3v4.5h4.5M9 13h6M9 16.5h4" />
+  </Stroke>
+);
+
 export const ExternalIcon = (props: IconProps) => (
   <Stroke {...props}>
     <path d="M8 16 16 8M9.5 8H16v6.5" />

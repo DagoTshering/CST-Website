@@ -16,7 +16,8 @@ type SectionHeadingProps = {
 
 /**
  * A section's label and h2. The label carries the hero's two-tone drafting rule (ink, then
- * gold), which draws in as the heading comes into view.
+ * gold), which draws in as the heading comes into view; the h2 is set in Cormorant italic, as
+ * About's is. Wrap a word of it in <Emphasis> for the teal word with the gold underline.
  */
 export function SectionHeading({
   label,
@@ -54,7 +55,7 @@ export function SectionHeading({
         suppressHydrationWarning
         style={{ "--reveal-delay": "80ms" } as CSSProperties}
         className={cx(
-          "mt-4 text-h2 font-semibold text-balance",
+          "mt-4 heading-serif text-balance",
           tone === "light" ? "text-ink" : "text-white",
           titleClassName,
         )}
