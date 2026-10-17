@@ -15,16 +15,8 @@ export const metadata: Metadata = {
 
 export default function StaffDirectoryPage() {
   return (
-    <div className="bg-paper-soft">
-      <PageHeader
-        title="Staff Directory"
-        breadcrumbs={[
-          { label: "Home", href: "/" },
-          { label: "About Us" },
-          { label: "Staff Directory" },
-        ]}
-        intro={`${staff.length} people across ${departments.length} departments and units at the ${site.name}.`}
-      />
+    <div className="bg-white">
+      <PageHeader title="Staff Directory" />
       <StaffDirectory staff={staff} departments={departments} />
     </div>
   );

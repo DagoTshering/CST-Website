@@ -664,7 +664,7 @@
       "rank": "Lecturer",
       "roles": ["Head of Department"],
       "tags": ["HoD"],
-      "programmes": [],
+      "programmes": ["Information Technology"],
       "department": "CTD",
       "email": "parshuram.cst@rub.edu.bt",
       "image": "/images/staff/parshuram.cst.jpg"
@@ -676,7 +676,7 @@
       "rank": "Lecturer",
       "roles": [],
       "tags": [],
-      "programmes": [],
+      "programmes": ["Information Technology"],
       "department": "CTD",
       "email": "tshetendorji.cst@rub.edu.bt",
       "image": "/images/staff/tshetendorji.cst.jpg"
@@ -688,7 +688,7 @@
       "rank": "Lecturer",
       "roles": [],
       "tags": [],
-      "programmes": [],
+      "programmes": ["Information Technology"],
       "department": "CTD",
       "email": "tandinwangchuk.cst@rub.edu.bt",
       "image": "/images/staff/tandinwangchuk.cst.jpg"
@@ -700,7 +700,7 @@
       "rank": "Lecturer",
       "roles": [],
       "tags": [],
-      "programmes": [],
+      "programmes": ["Information Technology"],
       "department": "CTD",
       "email": "manoj_chhetri.cst@rub.edu.bt",
       "image": "/images/staff/manoj_chhetri.cst.jpg"
@@ -712,7 +712,7 @@
       "rank": "Lecturer",
       "roles": [],
       "tags": [],
-      "programmes": [],
+      "programmes": ["Information Technology"],
       "department": "CTD",
       "email": "kezangdema.cst@rub.edu.bt",
       "image": "/images/staff/kezangdema.cst.jpg"
@@ -724,7 +724,7 @@
       "rank": "Lecturer",
       "roles": [],
       "tags": [],
-      "programmes": [],
+      "programmes": ["Information Technology"],
       "department": "CTD",
       "email": "karma.cst@rub.edu.bt",
       "image": "/images/staff/karma.cst.jpg"
@@ -736,7 +736,7 @@
       "rank": "Lecturer",
       "roles": [],
       "tags": [],
-      "programmes": [],
+      "programmes": ["Information Technology"],
       "department": "CTD",
       "email": "jeewangurung.cst@rub.edu.bt",
       "image": "/images/staff/jeewangurung.cst.jpg"
@@ -748,7 +748,7 @@
       "rank": "Assistant Lecturer",
       "roles": [],
       "tags": [],
-      "programmes": [],
+      "programmes": ["Information Technology"],
       "department": "CTD",
       "email": "ugyenpenjor.cst@rub.edu.bt",
       "image": "/images/staff/ugyenpenjor.cst.jpg"
@@ -760,7 +760,7 @@
       "rank": "Assistant Lecturer",
       "roles": [],
       "tags": [],
-      "programmes": [],
+      "programmes": ["Information Technology"],
       "department": "CTD",
       "email": "nimayoezer.cst@rub.edu.bt",
       "image": "/images/staff/nimayoezer.cst.jpg"
@@ -772,7 +772,7 @@
       "rank": "Assistant Lecturer",
       "roles": [],
       "tags": [],
-      "programmes": [],
+      "programmes": ["Information Technology"],
       "department": "CTD",
       "email": "nyingyemetogdorji.cst@rub.edu.bt",
       "image": "/images/staff/nyingyemetogdorji.cst.jpg"
@@ -784,7 +784,7 @@
       "rank": "Assistant Lecturer",
       "roles": [],
       "tags": [],
-      "programmes": [],
+      "programmes": ["Information Technology"],
       "department": "CTD",
       "email": "dagotshering.cst@rub.edu.bt",
       "image": "/images/staff/dagotshering.cst.jpg"
@@ -1072,7 +1072,7 @@
       "rank": "Laboratory Assistant",
       "roles": [],
       "tags": [],
-      "programmes": ["Mechanical Engineering"],
+      "programmes": [],
       "department": "MECH",
       "email": "lungtengyeltshen.cst@rub.edu.bt",
       "image": "/images/staff/lungtengyeltshen.cst.jpg"

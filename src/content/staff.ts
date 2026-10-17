@@ -10,6 +10,11 @@
  * (it lacked ".edu.bt"), Thinley Wangmo's email (a JNEC address; her id keeps the old name, as
  * her photo is filed under it) and Phurpa Zangmo's name (it read "Purpa"). The seven support
  * staff without an email (cooks, gardeners, the water fitter) are shown without one.
+ *
+ * Programmes: every lecturer in the five engineering, computing and architecture departments has
+ * one; technicians and other support staff belong to their department in general and have none.
+ * Computing Technologies' lecturers outside Software Engineering teach Information Technology
+ * (not in the export, added here). Science & Humanities runs no programme of its own.
  */
 import data from "./staff.json";
 
@@ -57,12 +62,6 @@ export function initials(name: string) {
   const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
   return (first + last).toUpperCase();
 }
-
-/** The person's programmes, without one that only repeats the department's name. */
-export const visibleProgrammes = (person: StaffMember) => {
-  const department = departmentLabel(person.department).toLowerCase();
-  return person.programmes.filter((p) => p.toLowerCase() !== department);
-};
 
 /**
  * Whether the person matches a search: every word of the query must appear somewhere in their

@@ -1,4 +1,4 @@
-import { departmentLabel, visibleProgrammes, type StaffMember } from "@/content/staff";
+import { departmentLabel, type StaffMember } from "@/content/staff";
 import { cx } from "@/lib/cx";
 
 import s from "./StaffDetails.module.css";
@@ -29,11 +29,11 @@ function Email({ address }: { address: string }) {
 }
 
 /**
- * What follows a person's name: rank, roles in teal, a short brass rule, then Programme (when it
- * says more than the department), Department and Email (left out for someone without one).
+ * What follows a person's name: rank, roles in teal, a short brass rule, then Programme,
+ * Department and Email (Programme and Email are left out for someone without one).
  */
 export function StaffDetails({ person, layout = "row", className }: StaffDetailsProps) {
-  const programmes = visibleProgrammes(person);
+  const { programmes } = person;
 
   return (
     <div className={cx(s.details, className)} data-layout={layout}>

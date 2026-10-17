@@ -5,7 +5,7 @@
    ========================================================================== */
 
 .directory {
-  padding-top: clamp(28px, 1.5rem + 1vw, 40px);
+  padding-top: clamp(12px, 0.5rem + 0.5vw, 20px);
   padding-bottom: clamp(5rem, 3.6rem + 4vw, 8rem); /* the site's section rhythm */
 }
 
@@ -148,7 +148,12 @@
 
 /* ---------- department sections ----------------------------------------- */
 
+/* A department never runs taller than the screen below the header (less the 1rem that in-page
+   links leave under it): its carousel gives up height instead (StaffCarousel.module.css). */
 .section {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100svh - var(--header-bar-h) - 1rem);
   margin-top: clamp(48px, 2.5rem + 2vw, 72px);
 }
 
@@ -157,6 +162,7 @@
 }
 
 .sectionHead {
+  flex: none;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -217,7 +223,7 @@
   overflow: hidden;
   border-radius: var(--radius-sm);
   background: var(--color-white);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-sm), var(--shadow-lg); /* a crisp edge and a soft depth */
 }
 
 .resultPhoto {

@@ -5,6 +5,7 @@ import {
   useId,
   useRef,
   useState,
+  useSyncExternalStore,
   type CSSProperties,
   type KeyboardEvent,
   type PointerEvent,
@@ -30,6 +31,15 @@ const DOT_WINDOW = 11;
  */
 const PHOTO_SIZES = "(max-width: 767px) 340px, 290px";
 
+/** The phone tier, where the active card shows its photo first and turns over for the details. */
+const PHONE = "(max-width: 767.98px)";
+const onPhoneChange = (notify: () => void) => {
+  const query = window.matchMedia(PHONE);
+  query.addEventListener("change", notify);
+  return () => query.removeEventListener("change", notify);
+};
+const isPhone = () => window.matchMedia(PHONE).matches;
+
 /** The notch that joins a side card to its neighbour (scaled to the gap by CSS). */
 const CONNECTOR =
   "M0 0C0 0 1.2422 13.5759 10 13.5759C18.7578 13.5759 20 0 20 0V37.3338C20 37.3338 18.7578 23.7578 10 23.7578C1.2422 23.7578 0 37.3338 0 37.3338V0Z";
@@ -43,7 +53,8 @@ type StaffCarouselProps = {
 /**
  * A department's people as a connected carousel: the active person on a large card (details
  * and photo), their neighbours as narrow photo cards joined to it by notches. A side card, the
- * arrow keys, a swipe or the dots move it on; there is no autoplay.
+ * arrow keys, a swipe or the dots move it on; there is no autoplay. On a phone the active card
+ * shows the photo alone; tapping it ("More details") turns the card over to the details.
  *
  * Every card's place comes from CSS (StaffCarousel.module.css), from its offset to the active
  * card in data-o and the screen's width, so the server renders the right layout for any screen
@@ -55,6 +66,11 @@ export function StaffCarousel({ people, label }: StaffCarouselProps) {
   /** The active card's position on an endless strip; wrapped onto `people` when looping. */
   const [page, setPage] = useState(0);
   const [announcement, setAnnouncement] = useState("");
+  /** Phones: whether the active card is turned over to its details. */
+  const [flipped, setFlipped] = useState(false);
+  /** Set when the visitor turns the card, so focus moves to the face that comes up. */
+  const focusFace = useRef(false);
+  const phone = useSyncExternalStore(onPhoneChange, isPhone, () => false);
   const rootRef = useRef<HTMLDivElement>(null);
   const tabsRef = useRef<HTMLDivElement>(null);
   const focusTab = useRef(false);
@@ -71,6 +87,7 @@ export function StaffCarousel({ people, label }: StaffCarouselProps) {
     const next = loop ? page + delta : Math.max(0, Math.min(total - 1, page + delta));
     if (next === page) return;
     setPage(next);
+    setFlipped(false); // the next person shows their photo first
     const index = wrap(next);
     setAnnouncement(`${people[index].name}, ${index + 1} of ${total}`);
   }
@@ -82,6 +99,23 @@ export function StaffCarousel({ people, label }: StaffCarouselProps) {
     else if (loop && delta < -total / 2) delta += total;
     go(delta);
   }
+
+  /** Phones: turns the active card over (true: to the details) and focuses the face that comes up. */
+  function turn(toDetails: boolean) {
+    if (swiped.current) return; // the tap that ends a swipe is not a turn
+    focusFace.current = true;
+    setFlipped(toDetails);
+  }
+
+  useEffect(() => {
+    if (!focusFace.current) return;
+    focusFace.current = false;
+    rootRef.current
+      ?.querySelector<HTMLElement>(
+        `[aria-roledescription="slide"] [data-face="${flipped ? "back" : "front"}"]`,
+      )
+      ?.focus();
+  }, [flipped]);
 
   // After a key press on a dot, focus follows the selected dot (a roving tab stop).
   useEffect(() => {
@@ -175,6 +209,7 @@ export function StaffCarousel({ people, label }: StaffCarouselProps) {
               key={v}
               className={s.card}
               data-o={Math.max(-3, Math.min(3, o))}
+              data-flipped={(active && flipped) || undefined}
               {...(active
                 ? {
                     role: "group",
@@ -201,13 +236,45 @@ export function StaffCarousel({ people, label }: StaffCarouselProps) {
                 </div>
                 <div className={s.stage}>
                   <div className={s.body} inert={!active}>
-                    <div className={s.info}>
+                    {/* on a phone, the card's back: hidden until the card is turned over */}
+                    <div
+                      id={`${id}-details-${v}`}
+                      className={s.info}
+                      inert={phone && !(active && flipped)}
+                    >
                       <h3 className={s.name}>{person.name}</h3>
                       <StaffDetails person={person} className={s.details} />
+                      <button
+                        type="button"
+                        className={s.flipBack}
+                        data-face="back"
+                        onClick={() => turn(false)}
+                      >
+                        <svg viewBox="0 0 18 10" aria-hidden="true" focusable="false">
+                          <path d="M18 5H1M5.5 .8L1 5l4.5 4.2" />
+                        </svg>
+                        Back to photo
+                      </button>
                     </div>
                     <div className={`crop-marks ${s.portrait}`}>
                       <StaffPhoto person={person} sizes={PHOTO_SIZES} className={s.fill} />
                     </div>
+                    {/* on a phone, the card's face: the photo alone, which turns it over */}
+                    <button
+                      type="button"
+                      className={s.front}
+                      data-face="front"
+                      inert={phone && active && flipped}
+                      aria-expanded={active && flipped}
+                      aria-controls={`${id}-details-${v}`}
+                      aria-label={`More details about ${person.name}`}
+                      onClick={() => turn(true)}
+                    >
+                      <StaffPhoto person={person} alt="" sizes={PHOTO_SIZES} className={s.fill} />
+                      <span className={s.frontLabel} aria-hidden="true">
+                        More details
+                      </span>
+                    </button>
                   </div>
                 </div>
               </div>
