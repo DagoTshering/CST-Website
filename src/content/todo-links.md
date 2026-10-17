@@ -6,25 +6,26 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 
 ## Main menu (header)
 
-| Label                                            | Path                                             | Notes                                                        |
-| ------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------------------ |
-| About Us › About Us                              | `/about`                                         |                                                              |
-| About Us › FAQ                                   | `/faq`                                           | The old site had a FAQ page (WordPress page 636) to migrate. |
-| About Us › Contact                               | `/contact`                                       |                                                              |
-| Header button › Contact us                       | `/contact`                                       | Same page as About Us › Contact.                             |
-| About Us › Executives                            | `/about/executives`                              |                                                              |
-| About Us › Staff Directory                       | `/about/staff-directory`                         |                                                              |
-| Academics › Programmes                           | `/academics/programmes`                          |                                                              |
-| Academics › Academic Calendar                    | `/academics/calendar`                            |                                                              |
-| Academics › Examination                          | `/academics/examination`                         |                                                              |
-| Academics › Library                              | `/library`                                       |                                                              |
-| Department › Architecture                        | `/departments/architecture`                      |                                                              |
-| Department › Civil & Environmental Engineering   | `/departments/civil-environmental-engineering`   |                                                              |
-| Department › Computing Technologies              | `/departments/computing-technologies`            |                                                              |
-| Department › Electrical & Electronic Engineering | `/departments/electrical-electronic-engineering` |                                                              |
-| Department › Mechanical Engineering              | `/departments/mechanical-engineering`            |                                                              |
-| Department › Science & Humanities                | `/departments/science-humanities`                |                                                              |
-| Research                                         | `/research`                                      |                                                              |
+| Label                                   | Path                     | Notes                                                    |
+| --------------------------------------- | ------------------------ | -------------------------------------------------------- |
+| About Us › About CST                    | `/about`                 |                                                          |
+| About Us › Executives                   | `/about/executives`      |                                                          |
+| About Us › Staff Directory              | `/about/staff-directory` |                                                          |
+| Academics                               | `/academics`             |                                                          |
+| Announcements                           | `/announcements`         | Same page as the homepage's Announcements › View all.    |
+| Admissions                              | `/admissions`            | Admission for new students.                              |
+| Others › Vacancies                      | `/vacancies`             |                                                          |
+| Others › Student Hub                    | `/student-hub`           |                                                          |
+| Others › EU Project Links               | `/eu-projects`           |                                                          |
+| Others › Downloads                      | `/downloads`             | Same page as the footer's E-Services › Downloads.        |
+| Others › Live Campus Air & Climate Data | `/campus-climate`        | May be an external dashboard: link there directly if so. |
+| Header button › Contact us              | `/contact`               |                                                          |
+
+The Important Links (Research, Student Life, Hostel Booking, CST-25) go to other CST sites.
+Programmes, Academic Calendar, Examination and Library are no longer in the menu: link them from
+the Academics page. The October 2026 menu also dropped the old Department submenu
+(`/departments/...`) and About Us › FAQ (`/faq`). The old site's FAQ page (WordPress page 636)
+still needs a home if it is kept.
 
 ## Homepage sections
 

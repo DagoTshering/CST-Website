@@ -10,15 +10,23 @@ export type NavLink = {
   href: string;
 };
 
-/** A top-level item without a page of its own: it only opens its submenu. */
-export type NavGroup = {
+/** A titled set of links inside a submenu, such as "Important links" under "Others". */
+export type NavSubgroup = {
   label: string;
   items: NavLink[];
 };
 
+/** A top-level item without a page of its own: it only opens its submenu. */
+export type NavGroup = {
+  label: string;
+  items: (NavLink | NavSubgroup)[];
+};
+
 export type NavItem = NavLink | NavGroup;
 
-export function isNavGroup(item: NavItem): item is NavGroup {
+export function isNavGroup(item: NavItem): item is NavGroup;
+export function isNavGroup(item: NavLink | NavSubgroup): item is NavSubgroup;
+export function isNavGroup(item: NavItem | NavSubgroup): boolean {
   return "items" in item;
 }
 
@@ -69,46 +77,42 @@ export const site = {
 /** The header's one button. TODO: the contact page is not built yet. */
 export const headerAction = { label: "Contact us", href: "/contact" };
 
-/** Main menu ("CST Main Menu" in WordPress). Every path except "/" is TODO. */
+/**
+ * Main menu, as agreed by the team in October 2026. The "Important Links" go to other CST
+ * sites and open in a new tab; every other path except "/" is TODO.
+ */
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
   {
     label: "About Us",
     items: [
-      { label: "About Us", href: "/about" },
-      { label: "FAQ", href: "/faq" },
-      { label: "Contact", href: "/contact" },
+      { label: "About CST", href: "/about" },
       { label: "Executives", href: "/about/executives" },
       { label: "Staff Directory", href: "/about/staff-directory" },
     ],
   },
+  { label: "Academics", href: "/academics" },
+  { label: "Announcements", href: "/announcements" },
+  { label: "Admissions", href: "/admissions" },
   {
-    label: "Academics",
+    label: "Others",
     items: [
-      { label: "Programmes", href: "/academics/programmes" },
-      { label: "Academic Calendar", href: "/academics/calendar" },
-      { label: "Examination", href: "/academics/examination" },
-      { label: "Library", href: "/library" },
+      { label: "Vacancies", href: "/vacancies" },
+      { label: "Student Hub", href: "/student-hub" },
+      { label: "EU Project Links", href: "/eu-projects" },
+      { label: "Downloads", href: "/downloads" },
+      { label: "Live Campus Air & Climate Data", href: "/campus-climate" },
+      {
+        label: "Important Links",
+        items: [
+          { label: "Research", href: "https://ril.cst.edu.bt/" },
+          { label: "Student Life", href: "https://sa.cst.edu.bt/" },
+          { label: "Hostel Booking", href: "https://hostel.cst.edu.bt/login" },
+          { label: "CST-25", href: "https://cst25.cst.edu.bt/" },
+        ],
+      },
     ],
   },
-  {
-    label: "Department",
-    items: [
-      { label: "Architecture", href: "/departments/architecture" },
-      {
-        label: "Civil & Environmental Engineering",
-        href: "/departments/civil-environmental-engineering",
-      },
-      { label: "Computing Technologies", href: "/departments/computing-technologies" },
-      {
-        label: "Electrical & Electronic Engineering",
-        href: "/departments/electrical-electronic-engineering",
-      },
-      { label: "Mechanical Engineering", href: "/departments/mechanical-engineering" },
-      { label: "Science & Humanities", href: "/departments/science-humanities" },
-    ],
-  },
-  { label: "Research", href: "/research" },
 ];
 
 /**

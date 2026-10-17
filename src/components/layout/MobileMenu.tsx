@@ -12,7 +12,8 @@ import {
   MenuIcon,
   PhoneIcon,
 } from "@/components/ui/icons";
-import { headerAction, isNavGroup, site, type NavItem } from "@/content/site";
+import { SmartLink } from "@/components/ui/SmartLink";
+import { headerAction, isNavGroup, site, type NavItem, type NavLink } from "@/content/site";
 import { cx } from "@/lib/cx";
 
 const DESKTOP_QUERY = "(min-width: 80rem)"; // where DesktopNav takes over (Tailwind xl)
@@ -20,7 +21,8 @@ const DESKTOP_QUERY = "(min-width: 80rem)"; // where DesktopNav takes over (Tail
 /**
  * The menu for phones and tablets: a button that opens the navigation in a modal side panel.
  * The native <dialog> keeps focus inside the panel, closes on Escape and gives focus back to
- * the button. Items without a page of their own expand in place.
+ * the button. Items without a page of their own expand in place, with any titled subgroup
+ * ("Important Links" under "Others") listed under its own small heading.
  */
 export function MobileMenu({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
@@ -47,6 +49,18 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
   }, []);
 
   const { contact } = site;
+  const subLink = (link: NavLink) => (
+    <li key={link.href} className="pb-1">
+      <SmartLink
+        href={link.href}
+        aria-current={pathname === link.href ? "page" : undefined}
+        onClick={close}
+        className="flex min-h-11 items-center border-l-2 border-line pl-4 text-body text-copy transition-colors hover:border-primary hover:text-primary-strong"
+      >
+        {link.label}
+      </SmartLink>
+    </li>
+  );
   const linkClass =
     "flex min-h-14 w-full items-center justify-between gap-4 font-display text-lg font-medium text-ink transition-colors hover:text-primary-strong";
 
@@ -140,21 +154,25 @@ export function MobileMenu({ items }: { items: NavItem[] }) {
                         isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
                       )}
                     >
-                      <ul className="overflow-hidden">
-                        {item.items.map((link) => (
-                          <li key={link.href} className="pb-1 last:pb-4">
-                            <Link
-                              href={link.href}
-                              prefetch={false}
-                              aria-current={pathname === link.href ? "page" : undefined}
-                              onClick={close}
-                              className="flex min-h-11 items-center border-l-2 border-line pl-4 text-body text-copy transition-colors hover:border-primary hover:text-primary-strong"
-                            >
-                              {link.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
+                      <div className="overflow-hidden">
+                        <ul className="pb-3">
+                          {item.items.map((link, linkIndex) => {
+                            if (!isNavGroup(link)) return subLink(link);
+                            const headingId = `${groupId}-sub-${linkIndex}`;
+                            return (
+                              <li key={link.label} className="pt-3">
+                                <p
+                                  id={headingId}
+                                  className="pb-2 font-mono text-[0.6875rem] tracking-[0.14em] text-muted uppercase"
+                                >
+                                  {link.label}
+                                </p>
+                                <ul aria-labelledby={headingId}>{link.items.map(subLink)}</ul>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
                     </div>
                   </li>
                 );

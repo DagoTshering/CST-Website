@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 
 import { ChevronDownIcon } from "@/components/ui/icons";
-import { isNavGroup, type NavItem } from "@/content/site";
+import { SmartLink } from "@/components/ui/SmartLink";
+import { isNavGroup, type NavItem, type NavLink } from "@/content/site";
 import { cx } from "@/lib/cx";
 
 const HOVER_OPEN_MS = 60;
@@ -21,7 +22,8 @@ const activeClass = "text-primary-strong after:scale-x-100";
 /**
  * Desktop menu bar, following the WAI-ARIA disclosure navigation pattern: items without a page
  * are buttons that show their submenu. A submenu opens on click, or on hover with a mouse, and
- * closes on Escape, on a click elsewhere, or when focus leaves it.
+ * closes on Escape, on a click elsewhere, or when focus leaves it. A submenu with titled
+ * subgroups ("Important Links" under "Others") shows them in a second column.
  */
 export function DesktopNav({ items }: { items: NavItem[] }) {
   const pathname = usePathname();
@@ -73,7 +75,7 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
 
   return (
     <nav ref={navRef} aria-label="Main" className="hidden h-full xl:block">
-      <ul className="flex h-full items-center gap-8 2xl:gap-10">
+      <ul className="flex h-full items-center gap-7">
         {items.map((item, index) => {
           if (!isNavGroup(item)) {
             const current = pathname === item.href;
@@ -93,7 +95,31 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
 
           const isOpen = open === index;
           const panelId = `${baseId}-panel-${index}`;
-          const groupActive = item.items.some((link) => link.href === pathname);
+          const links = item.items.filter((link): link is NavLink => !isNavGroup(link));
+          const subgroups = item.items.filter(isNavGroup);
+          const groupActive = [...links, ...subgroups.flatMap((group) => group.items)].some(
+            (link) => link.href === pathname,
+          );
+          // The last menus sit near the right edge, so their panels open leftwards.
+          const alignEnd = index >= items.length - 2;
+          const renderLink = (link: NavLink) => {
+            const current = pathname === link.href;
+            return (
+              <li key={link.href}>
+                <SmartLink
+                  href={link.href}
+                  aria-current={current ? "page" : undefined}
+                  onClick={() => setOpen(null)}
+                  className={cx(
+                    "block rounded-md px-4 py-3 text-[0.9375rem] leading-snug text-copy transition-colors duration-150 hover:bg-surface hover:text-primary-strong",
+                    current && "bg-surface font-medium text-primary-strong",
+                  )}
+                >
+                  {link.label}
+                </SmartLink>
+              </li>
+            );
+          };
           return (
             <li
               key={item.label}
@@ -128,33 +154,33 @@ export function DesktopNav({ items }: { items: NavItem[] }) {
               <div
                 id={panelId}
                 className={cx(
-                  "absolute top-[calc(100%-0.75rem)] -left-4 z-10 w-max max-w-80 min-w-64 pt-3 transition-[opacity,translate,visibility] duration-200 ease-out-soft",
+                  "absolute top-[calc(100%-0.75rem)] z-10 w-max min-w-64 pt-3 transition-[opacity,translate,visibility] duration-200 ease-out-soft",
+                  alignEnd ? "-right-4" : "-left-4",
                   isOpen
                     ? "visible translate-y-0 opacity-100"
                     : "invisible -translate-y-1 opacity-0",
                 )}
               >
-                <ul className="rounded-lg bg-white p-2.5 shadow-lg ring-1 ring-ink/5">
-                  {item.items.map((link) => {
-                    const current = pathname === link.href;
+                <div className="flex rounded-lg bg-white p-2.5 shadow-lg ring-1 ring-ink/5">
+                  <ul className="w-max max-w-80">{links.map(renderLink)}</ul>
+                  {subgroups.map((group, groupIndex) => {
+                    const headingId = `${panelId}-group-${groupIndex}`;
                     return (
-                      <li key={link.href}>
-                        <Link
-                          href={link.href}
-                          prefetch={false}
-                          aria-current={current ? "page" : undefined}
-                          onClick={() => setOpen(null)}
-                          className={cx(
-                            "block rounded-md px-4 py-3 text-[0.9375rem] leading-snug text-copy transition-colors duration-150 hover:bg-surface hover:text-primary-strong",
-                            current && "bg-surface font-medium text-primary-strong",
-                          )}
+                      <div
+                        key={group.label}
+                        className="ml-2.5 w-56 border-l border-line-soft pl-2.5"
+                      >
+                        <p
+                          id={headingId}
+                          className="px-4 pt-3 pb-1.5 font-mono text-[0.6875rem] tracking-[0.14em] text-muted uppercase"
                         >
-                          {link.label}
-                        </Link>
-                      </li>
+                          {group.label}
+                        </p>
+                        <ul aria-labelledby={headingId}>{group.items.map(renderLink)}</ul>
+                      </div>
                     );
                   })}
-                </ul>
+                </div>
               </div>
             </li>
           );

@@ -92,7 +92,7 @@ export function Header() {
               </span>
             </div>
 
-            <div className="flex h-full shrink-0 items-center gap-4 xl:gap-10">
+            <div className="flex h-full shrink-0 items-center gap-4 xl:gap-8">
               <DesktopNav items={mainNav} />
               {/* the button's own inline-flex would beat "hidden", so a wrapper does the hiding */}
               <div className="hidden md:block">
