@@ -1,0 +1,87 @@
+/*
+ * The emblem's motion. Only whole layers move, by transform and rotate, so the browser turns
+ * them on the GPU without redrawing the paths: no JavaScript, nothing extra to download.
+ *
+ *   gear   one turn every 90s
+ *   ticks  the degree ring, the other way round, one turn every 180s
+ *   sweep  a brass arc orbiting the outer circle every 14s
+ *
+ * When the section is revealed (About's wrapper gets [data-revealed]), the gear and the ring
+ * wind up into place. With reduced motion, nothing moves.
+ */
+
+.root {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  /* the drawing's centre, (494, 478), in the 980 × 954 viewBox from (6, 4) */
+  transform-origin: 49.796% 49.686%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .gear,
+  .ticks,
+  .sweep {
+    will-change: transform;
+  }
+
+  .gear {
+    animation: turn 90s linear infinite;
+  }
+
+  .ticks {
+    animation: turn 180s linear infinite reverse;
+  }
+
+  .sweep {
+    animation: turn 14s linear infinite;
+  }
+
+  /* `rotate` composes with the running `transform`, so the wind-up adds to the turning */
+  :global([data-revealed]) .gear {
+    animation:
+      turn 90s linear infinite,
+      wind 2.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  :global([data-revealed]) .ticks {
+    animation:
+      turn 180s linear infinite reverse,
+      unwind 3.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  :global([data-revealed]) .sweep {
+    animation:
+      turn 14s linear infinite,
+      fade-in 1.6s ease 0.9s both;
+  }
+}
+
+@keyframes turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes wind {
+  from {
+    rotate: -75deg;
+  }
+}
+
+@keyframes unwind {
+  from {
+    rotate: 40deg;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
