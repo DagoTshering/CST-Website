@@ -81,7 +81,7 @@ export function MediaField({
         label={field.label}
         required={field.required}
         help={
-          field.help ?? (kind === "image" ? "JPEG, PNG or WebP, up to 8 MB." : "PDF, up to 15 MB.")
+          field.help ?? (kind === "image" ? "JPEG, PNG or WebP, up to 8 MB." : "PDF, up to 100 MB.")
         }
         error={shownError}
       >

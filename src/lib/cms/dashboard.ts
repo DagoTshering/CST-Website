@@ -5,10 +5,10 @@ import { count, desc, eq, sql } from "drizzle-orm";
 import { requireAdmin } from "@/lib/auth/dal";
 import { getDb, schema } from "@/lib/db";
 
-const { aboutSection, announcements, events, facilities, leaders, programmes } = schema;
+const { aboutSection, announcements, downloads, events, facilities, leaders, programmes } = schema;
 
 export type CategoryKey =
-  "programmes" | "facilities" | "events" | "announcements" | "leadership" | "about";
+  "programmes" | "facilities" | "events" | "announcements" | "leadership" | "downloads" | "about";
 
 /** Total and published counts per content category, straight from the database. */
 export async function getContentCounts() {
@@ -20,6 +20,7 @@ export async function getContentCounts() {
     | typeof events
     | typeof leaders
     | typeof announcements
+    | typeof downloads
     | typeof aboutSection;
   const tally = (table: ContentTable) =>
     db
@@ -32,12 +33,13 @@ export async function getContentCounts() {
       .from(table)
       .then(([row]) => row);
 
-  const [prog, fac, ev, ann, lead, about] = await Promise.all([
+  const [prog, fac, ev, ann, lead, down, about] = await Promise.all([
     tally(programmes),
     tally(facilities),
     tally(events),
     tally(announcements),
     tally(leaders),
+    tally(downloads),
     tally(aboutSection),
   ]);
   return {
@@ -46,6 +48,7 @@ export async function getContentCounts() {
     events: ev,
     announcements: ann,
     leadership: lead,
+    downloads: down,
     about,
   } satisfies Record<CategoryKey, { total: number; published: number }>;
 }
@@ -131,6 +134,19 @@ export async function getRecentlyUpdated(limit = 8): Promise<RecentItem[]> {
         })
         .from(leaders)
         .orderBy(desc(leaders.updatedAt))
+        .limit(limit),
+    ),
+    latest(
+      "downloads",
+      db
+        .select({
+          id: downloads.id,
+          title: downloads.title,
+          status: downloads.status,
+          updatedAt: downloads.updatedAt,
+        })
+        .from(downloads)
+        .orderBy(desc(downloads.updatedAt))
         .limit(limit),
     ),
     latest(

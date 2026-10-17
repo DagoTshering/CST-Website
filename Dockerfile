@@ -25,8 +25,8 @@ RUN pnpm build
 
 # ---------- migrator: one-off image that applies Drizzle migrations ----------
 # Run with: docker compose run --rm migrate
-# It also carries the seed script, which creates the initial administrator and the homepage's
-# initial content (copying its photographs into the `uploads` volume):
+# It also carries the seed script, which creates the initial administrator, the homepage's
+# initial content and the Downloads page's documents (copying files into the `uploads` volume):
 #   docker compose run --rm migrate ./node_modules/.bin/tsx scripts/seed.ts
 FROM base AS migrator
 ENV NODE_ENV=production
@@ -35,10 +35,13 @@ COPY package.json drizzle.config.ts ./
 COPY drizzle ./drizzle
 COPY src/lib/db ./src/lib/db
 COPY src/lib/auth/password.ts ./src/lib/auth/password.ts
-COPY src/lib/media/paths.ts ./src/lib/media/paths.ts
+COPY src/lib/media/paths.ts src/lib/media/url.ts ./src/lib/media/
 COPY src/content/home.ts ./src/content/home.ts
 COPY public/images ./public/images
-COPY scripts/seed.ts scripts/seed-content.ts ./scripts/
+COPY scripts/seed.ts scripts/seed-content.ts scripts/seed-downloads.ts scripts/organise-uploads.ts ./scripts/
+# The Downloads page's documents: the manifest (committed) and the PDFs fetched by
+# `pnpm downloads:fetch` before the image is built.
+COPY data/legacy-downloads ./data/legacy-downloads
 RUN mkdir -p storage/uploads && chown node:node storage/uploads
 USER node
 CMD ["./node_modules/.bin/drizzle-kit", "migrate"]

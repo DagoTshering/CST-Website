@@ -37,3 +37,6 @@ prototype/
 
 # uploaded files (admin panel)
 /storage/
+
+# PDFs fetched from the old site by `pnpm downloads:fetch` (the manifest is committed)
+/data/legacy-downloads/files/

@@ -2,6 +2,7 @@ import {
   ArrowRight,
   Building2,
   CalendarPlus,
+  FileDown,
   History,
   Landmark,
   Megaphone,
@@ -32,6 +33,7 @@ const SUMMARY: CategoryKey[] = [
   "events",
   "announcements",
   "leadership",
+  "downloads",
 ];
 
 const quickActions = [
@@ -40,6 +42,7 @@ const quickActions = [
   { href: "/admin/announcements/new", label: "Publish an announcement", icon: Megaphone },
   { href: "/admin/facilities", label: "Manage facilities", icon: Building2 },
   { href: "/admin/about", label: "Edit About CST", icon: Landmark },
+  { href: "/admin/downloads/new", label: "Add a download", icon: FileDown },
 ];
 
 /** The welcome shows at once; the counts and activity stream in behind it. */
@@ -67,8 +70,8 @@ function DashboardSkeleton() {
   return (
     <div aria-busy="true">
       <span className="sr-only">Loading…</span>
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-        {Array.from({ length: 5 }, (_, i) => (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6">
+        {Array.from({ length: 6 }, (_, i) => (
           <div
             key={i}
             className="h-36 animate-pulse rounded-lg border border-admin-line bg-white"
@@ -103,7 +106,7 @@ async function DashboardContent() {
         <h2 id="summary-title" className="sr-only">
           Content summary
         </h2>
-        <ul className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6">
           {SUMMARY.map((key) => {
             const { label, href, icon: Icon } = categories[key];
             const { total, published } = counts[key];

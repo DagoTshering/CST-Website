@@ -11,6 +11,8 @@ type Database = PostgresJsDatabase<typeof schema> & { $client: postgres.Sql };
  */
 const globalForDb = globalThis as typeof globalThis & { __db?: Database };
 
+const POOL_SIZE = process.env.NODE_ENV === "production" ? 10 : 5;
+
 function createDb(): Database {
   const url = process.env.DATABASE_URL;
   if (!url) {
@@ -18,9 +20,13 @@ function createDb(): Database {
   }
 
   const client = postgres(url, {
-    max: process.env.NODE_ENV === "production" ? 10 : 5,
-    idle_timeout: 20,
+    max: POOL_SIZE,
     connect_timeout: 10,
+    // Connections stay open rather than closing when idle (or after a random lifetime). Opening
+    // a connection calls Math.random(), which Next.js does not allow while it prerenders a page;
+    // with the pool opened at startup (openDbPool) and kept, pages only ever borrow a connection.
+    idle_timeout: 0,
+    max_lifetime: 0,
   });
 
   return drizzle({ client, schema });
@@ -36,6 +42,16 @@ export function getDb(): Database {
     globalForDb.__db = createDb();
   }
   return globalForDb.__db;
+}
+
+/**
+ * Opens every connection in the pool. Called once at server startup (src/instrumentation.ts),
+ * outside any request, so no page render ever has to open one. Queries sent together, while no
+ * connection is open yet, each open a connection of their own.
+ */
+export async function openDbPool() {
+  const { $client } = getDb();
+  await Promise.all(Array.from({ length: POOL_SIZE }, () => $client`select 1`));
 }
 
 export { schema };

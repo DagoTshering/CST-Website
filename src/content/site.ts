@@ -117,7 +117,7 @@ export const mainNav: NavItem[] = [
 
 /**
  * The footer, with the content of the live site's footer (cst.edu.bt). Links to other sites
- * open in a new tab; "Downloads" is a page of our own (TODO).
+ * open in a new tab; "Downloads" is a page of our own.
  */
 export const footer = {
   quickLinks: {
@@ -139,7 +139,7 @@ export const footer = {
       { label: "RUB IMS", href: "https://ims.rub.edu.bt/public/auth/view-login" },
       { label: "VLE (Moodle)", href: "https://vle.cst.edu.bt/" },
       { label: "Library (OPAC)", href: "https://lib.cst.edu.bt/" },
-      { label: "Downloads", href: "/downloads" }, // TODO: page not built yet
+      { label: "Downloads", href: "/downloads" },
       { label: "No Due System", href: "https://nds.cst.edu.bt/login" },
     ],
   },

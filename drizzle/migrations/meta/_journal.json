@@ -15,6 +15,20 @@
       "when": 1792223986349,
       "tag": "0001_admin_and_content",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792235343309,
+      "tag": "0002_downloads",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792239548865,
+      "tag": "0003_downloads_by_programme",
+      "breakpoints": true
     }
   ]
 }

@@ -1,23 +1,26 @@
 import "server-only";
 
 import { randomUUID } from "node:crypto";
-import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
+import { createReadStream } from "node:fs";
+import { mkdir, stat, unlink, writeFile } from "node:fs/promises";
+import { Readable } from "node:stream";
 import path from "node:path";
 
 import sharp from "sharp";
 
-import { uploadDir } from "./paths";
+import { uploadPath } from "./paths";
 import { STORAGE_KEY_PATTERN } from "./url";
 
 /*
  * Uploaded files on local disk, under UPLOAD_DIR (default storage/uploads, a Docker volume in
- * production). File names are generated here, never taken from the upload, and every path is
+ * production), images and documents in separate folders (see paths.ts). File names are generated here, never taken from the upload, and every path is
  * checked against STORAGE_KEY_PATTERN, so nothing outside the directory can be reached.
  */
 
 export const UPLOAD_LIMITS = {
   image: 8 * 1024 * 1024,
-  document: 15 * 1024 * 1024,
+  // the largest document imported from the old site's Downloads page (the student handbook) is 71 MB
+  document: 100 * 1024 * 1024,
 } as const;
 
 /** Largest side of a stored image; bigger uploads are scaled down. */
@@ -25,7 +28,7 @@ const MAX_IMAGE_SIDE = 2560;
 
 function filePath(storageKey: string) {
   if (!STORAGE_KEY_PATTERN.test(storageKey)) throw new Error("Invalid storage key");
-  return path.join(uploadDir(), storageKey);
+  return uploadPath(storageKey);
 }
 
 export type ProcessedFile = {
@@ -82,7 +85,7 @@ export function processPdf(input: Buffer): ProcessedFile | null {
 /** Writes the file under a new random name and returns that name. */
 export async function storeFile(file: ProcessedFile): Promise<string> {
   const storageKey = `${randomUUID()}.${file.extension}`;
-  await mkdir(uploadDir(), { recursive: true });
+  await mkdir(path.dirname(filePath(storageKey)), { recursive: true });
   // "wx" never overwrites; 0o640 keeps files non-executable.
   await writeFile(filePath(storageKey), file.data, { flag: "wx", mode: 0o640 });
   return storageKey;
@@ -92,10 +95,13 @@ export async function removeFile(storageKey: string) {
   await unlink(filePath(storageKey)).catch(() => undefined);
 }
 
-/** The file's bytes, or null when it is missing from disk. */
-export async function readStoredFile(storageKey: string): Promise<Buffer | null> {
+/** The file as a stream with its size, or null when it is missing from disk. */
+export async function openStoredFile(storageKey: string) {
   try {
-    return await readFile(filePath(storageKey));
+    const location = filePath(storageKey);
+    const { size } = await stat(location);
+    const body = Readable.toWeb(createReadStream(location)) as ReadableStream<Uint8Array>;
+    return { body, size };
   } catch {
     return null;
   }

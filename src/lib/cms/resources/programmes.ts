@@ -1,13 +1,13 @@
 import "server-only";
 
-import { asc, eq } from "drizzle-orm";
+import { asc, count, eq } from "drizzle-orm";
 import { cacheLife, cacheTag } from "next/cache";
 import { z } from "zod";
 
 import { requireAdmin } from "@/lib/auth/dal";
 import { getDb, schema } from "@/lib/db";
 
-import type { ResourceDef } from "../crud";
+import { ActionError, type ResourceDef } from "../crud";
 import type { FieldDef, FormInitial } from "../form";
 import {
   optionalMediaId,
@@ -19,7 +19,7 @@ import {
 } from "../validation";
 import { asField, loadPreview, mediaColumns, toPreview } from "./shared";
 
-const { programmes, media } = schema;
+const { downloads, programmes, media } = schema;
 
 export const PROGRAMMES_TAG = "cms:programmes";
 
@@ -110,9 +110,22 @@ export const programmeResource: ResourceDef<ProgrammeInput> = {
         .where(eq(programmes.id, id))
         .returning({ id: programmes.id })
     ).length > 0,
-  remove: async (tx, id) =>
-    (await tx.delete(programmes).where(eq(programmes.id, id)).returning({ id: programmes.id }))
-      .length > 0,
+  remove: async (tx, id) => {
+    // Downloads (the students' project reports) filed under the programme keep it in place.
+    const [{ n }] = await tx
+      .select({ n: count() })
+      .from(downloads)
+      .where(eq(downloads.programmeId, id));
+    if (n > 0) {
+      throw new ActionError(
+        `${n} download${n === 1 ? " is" : "s are"} filed under this programme (Downloads › Students Project Reports). Move or delete ${n === 1 ? "it" : "them"} first.`,
+      );
+    }
+    return (
+      (await tx.delete(programmes).where(eq(programmes.id, id)).returning({ id: programmes.id }))
+        .length > 0
+    );
+  },
 };
 
 export async function listProgrammes() {

@@ -2,7 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useActionState, useEffect, useRef, useState } from "react";
+import { useActionState, useEffect, useRef, useState, type ReactNode } from "react";
 
 import { idleState, type FieldDef, type FormInitial, type FormState } from "@/lib/cms/form";
 import { cx } from "@/lib/cx";
@@ -28,6 +28,8 @@ export function ResourceForm({ action, fields, initial, submitLabel, cancelHref 
   const [state, formAction, pending] = useActionState(action, idleState);
   const [media, setMedia] = useState(initial.media);
   const [uploads, setUploads] = useState(0);
+  // Values of the fields other fields depend on (showWhen), as the administrator changes them.
+  const [watched, setWatched] = useState<Record<string, string>>({});
   const summary = useRef<HTMLDivElement>(null);
 
   const values = state.status === "idle" ? initial.values : state.values;
@@ -36,12 +38,29 @@ export function ResourceForm({ action, fields, initial, submitLabel, cancelHref 
   // After each submission the fields re-mount, so they show what was submitted.
   const version = state.status === "idle" ? 0 : state.at;
 
+  const controllers = new Set(fields.flatMap((f) => (f.showWhen ? [f.showWhen.field] : [])));
+  const isShown = ({ showWhen }: FieldDef) => {
+    if (!showWhen) return true;
+    const value = watched[showWhen.field] ?? values[showWhen.field] ?? "";
+    return showWhen.oneOf.includes(value) !== Boolean(showWhen.not);
+  };
+
   useEffect(() => {
     if (state.status !== "idle") summary.current?.focus();
   }, [state]);
 
   return (
-    <form action={formAction} className="rounded-lg border border-admin-line bg-white shadow-xs">
+    <form
+      action={formAction}
+      onChange={(event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLInputElement || target instanceof HTMLSelectElement)) return;
+        if (controllers.has(target.name)) {
+          setWatched((current) => ({ ...current, [target.name]: target.value }));
+        }
+      }}
+      className="rounded-lg border border-admin-line bg-white shadow-xs"
+    >
       <div className="space-y-6 p-5 sm:p-7">
         {state.status !== "idle" && (
           <Notice
@@ -56,8 +75,21 @@ export function ResourceForm({ action, fields, initial, submitLabel, cancelHref 
 
         <div key={version} className="grid gap-x-6 gap-y-6 sm:grid-cols-2">
           {fields.map((field) => {
+            // A hidden field stays in the form (the server ignores it) but must not block the
+            // browser's own validation, so it is no longer required.
+            const shown = isShown(field);
+            if (!shown) field = { ...field, required: false };
+            const wrap = (node: ReactNode) =>
+              shown ? (
+                node
+              ) : (
+                <div key={field.name} hidden>
+                  {node}
+                </div>
+              );
+
             if (field.kind === "image" || field.kind === "document") {
-              return (
+              return wrap(
                 <MediaField
                   key={field.name}
                   field={field}
@@ -69,10 +101,10 @@ export function ResourceForm({ action, fields, initial, submitLabel, cancelHref 
                   altValue={field.kind === "image" ? (values[field.altName] ?? "") : ""}
                   error={error(field.name)}
                   altError={field.kind === "image" ? error(field.altName) : undefined}
-                />
+                />,
               );
             }
-            return (
+            return wrap(
               <FieldShell
                 key={field.name}
                 id={`field-${field.name}`}
@@ -88,7 +120,7 @@ export function ResourceForm({ action, fields, initial, submitLabel, cancelHref 
                   value={values[field.name] ?? ""}
                   error={error(field.name)}
                 />
-              </FieldShell>
+              </FieldShell>,
             );
           })}
         </div>

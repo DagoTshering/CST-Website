@@ -129,6 +129,19 @@ export const DocumentIcon = (props: IconProps) => (
   </Stroke>
 );
 
+export const DownloadIcon = (props: IconProps) => (
+  <Stroke {...props}>
+    <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19.5h14" />
+  </Stroke>
+);
+
+export const SearchIcon = (props: IconProps) => (
+  <Stroke {...props}>
+    <circle cx="10.5" cy="10.5" r="6" />
+    <path d="m15 15 5 5" />
+  </Stroke>
+);
+
 export const ExternalIcon = (props: IconProps) => (
   <Stroke {...props}>
     <path d="M8 16 16 8M9.5 8H16v6.5" />

@@ -11,6 +11,11 @@ type BaseField = {
   required?: boolean;
   /** Fields are laid out in two columns on wide screens; "half" shares a row. */
   width?: "full" | "half";
+  /**
+   * Show the field only while another field has one of these values (e.g. the file only for the
+   * "file" type), or, with `not`, while it has none of them.
+   */
+  showWhen?: { field: string; oneOf: string[]; not?: boolean };
 };
 
 export type FieldDef =

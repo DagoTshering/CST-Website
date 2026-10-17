@@ -17,7 +17,6 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 | Others › Vacancies                      | `/vacancies`             |                                                          |
 | Others › Student Hub                    | `/student-hub`           |                                                          |
 | Others › EU Project Links               | `/eu-projects`           |                                                          |
-| Others › Downloads                      | `/downloads`             | Same page as the footer's E-Services › Downloads.        |
 | Others › Live Campus Air & Climate Data | `/campus-climate`        | May be an external dashboard: link there directly if so. |
 | Header button › Contact us              | `/contact`               |                                                          |
 
@@ -41,11 +40,7 @@ still needs a home if it is kept.
 
 ## Footer
 
-| Label                  | Path         | Notes                                                    |
-| ---------------------- | ------------ | -------------------------------------------------------- |
-| E-Services › Downloads | `/downloads` | The live site has it at cst.edu.bt/downloads to migrate. |
-
-The other footer links go to external sites. Two of them need checking:
+The footer links go to external sites, apart from Downloads. Two of them need checking:
 
 - **Feedback Portal** is a tinyurl.com short link: confirm where it lands and link there directly.
 - **Online Substitution Form** is a Google Sheets edit link: decide whether it should be a form or

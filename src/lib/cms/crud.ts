@@ -33,11 +33,17 @@ export type ResourceDef<T> = {
   schema: z.ZodType<T>;
   /** The uploaded files the data points at, checked to exist and be of the right kind. */
   media?: (data: T) => MediaRef[];
+  /** Further checks against the database (inside the save's transaction); field errors or null. */
+  validate?: (tx: Tx, data: T) => Promise<Record<string, string[]> | null>;
   create: (tx: Tx, data: T) => Promise<void>;
   /** Returns false when the record no longer exists. */
   update: (tx: Tx, id: number, data: T) => Promise<boolean>;
+  /** Returns false when the record no longer exists; throws ActionError when it may not go. */
   remove: (tx: Tx, id: number) => Promise<boolean>;
 };
+
+/** A failure whose message is safe and useful to show the administrator. */
+export class ActionError extends Error {}
 
 export type Notice = "created" | "updated" | "deleted" | "missing";
 
@@ -89,7 +95,10 @@ export async function saveResource<T>(
   let outcome: Notice;
   try {
     const result = await getDb().transaction(async (tx) => {
-      const mediaErrors = await checkMedia(tx, def.media?.(parsed.data) ?? []);
+      const mediaErrors =
+        (await checkMedia(tx, def.media?.(parsed.data) ?? [])) ??
+        (await def.validate?.(tx, parsed.data)) ??
+        null;
       if (mediaErrors) return { mediaErrors };
       if (id === null) {
         await def.create(tx, parsed.data);
@@ -103,6 +112,7 @@ export async function saveResource<T>(
     }
     outcome = result.notice;
   } catch (error) {
+    if (error instanceof ActionError) return failed(error.message, values);
     console.error(`Admin: saving a ${def.singular} failed`, error);
     return failed(`The ${def.singular} could not be saved. Please try again.`, values);
   }
@@ -130,6 +140,7 @@ export async function deleteResource<T>(def: ResourceDef<T>, rawId: number): Pro
   try {
     removed = await getDb().transaction((tx) => def.remove(tx, id.data));
   } catch (error) {
+    if (error instanceof ActionError) return { ok: false, message: error.message };
     console.error(`Admin: deleting a ${def.singular} failed`, error);
     return { ok: false, message: `The ${def.singular} could not be deleted. Please try again.` };
   }

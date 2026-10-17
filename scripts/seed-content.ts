@@ -17,7 +17,7 @@ import sharp from "sharp";
 
 import { hero } from "../src/content/home";
 import type { getDb, schema as Schema } from "../src/lib/db";
-import { uploadDir } from "../src/lib/media/paths";
+import { uploadPath } from "../src/lib/media/paths";
 
 type Db = ReturnType<typeof getDb>;
 type Tx = Parameters<Parameters<Db["transaction"]>[0]>[0];
@@ -110,8 +110,8 @@ export async function seedContent(db: Db, schema: typeof Schema) {
     if (!format) throw new Error(`${publicPath} is not a JPEG, PNG or WebP image`);
 
     const storageKey = `${randomUUID()}.${format.extension}`;
-    await mkdir(uploadDir(), { recursive: true });
-    await writeFile(path.join(uploadDir(), storageKey), data, { flag: "wx", mode: 0o640 });
+    await mkdir(path.dirname(uploadPath(storageKey)), { recursive: true });
+    await writeFile(uploadPath(storageKey), data, { flag: "wx", mode: 0o640 });
     written.push(storageKey);
 
     const [row] = await tx
@@ -142,7 +142,7 @@ export async function seedContent(db: Db, schema: typeof Schema) {
       console.log(`${label}: seeded ${created}.`);
     } catch (error) {
       // The transaction rolled back; remove the files it had copied.
-      await Promise.all(written.map((key) => unlink(path.join(uploadDir(), key)).catch(() => {})));
+      await Promise.all(written.map((key) => unlink(uploadPath(key)).catch(() => {})));
       throw error;
     }
   }

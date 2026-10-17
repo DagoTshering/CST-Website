@@ -1,6 +1,7 @@
 import {
   Building2,
   CalendarDays,
+  FileDown,
   GraduationCap,
   Landmark,
   Megaphone,
@@ -49,6 +50,13 @@ export const categories: Record<
     icon: Users,
     description: "Leadership profiles; the first is featured on the homepage.",
     unit: "profiles",
+  },
+  downloads: {
+    label: "Downloads",
+    href: "/admin/downloads",
+    icon: FileDown,
+    description: "Forms, guidelines and publications on the Downloads page.",
+    unit: "downloads",
   },
   about: {
     label: "About CST",

@@ -3,7 +3,7 @@ import { connection } from "next/server";
 
 import { getCurrentAdmin } from "@/lib/auth/dal";
 import { getDb, schema } from "@/lib/db";
-import { readStoredFile } from "@/lib/media/storage";
+import { openStoredFile } from "@/lib/media/storage";
 import { STORAGE_KEY_PATTERN } from "@/lib/media/url";
 
 /*
@@ -24,18 +24,22 @@ async function isUsedByPublishedContent(mediaId: string) {
       or exists (select 1 from leaders where portrait_id = ${mediaId} and status = 'published')
       or exists (select 1 from announcements where attachment_id = ${mediaId} and status = 'published')
       or exists (select 1 from about_section where image_id = ${mediaId} and status = 'published')
+      or exists (select 1 from downloads where file_id = ${mediaId} and status = 'published')
     ) as used
   `);
   return Boolean(row?.used);
 }
 
-/** "Fees 2027.pdf" -> a Content-Disposition value that is safe for any name. */
-function disposition(name: string) {
+/**
+ * "Fees 2027.pdf" -> a Content-Disposition value that is safe for any name. "attachment" makes
+ * the browser save the file (the Downloads page asks for that with ?download=1).
+ */
+function disposition(name: string, type: "inline" | "attachment") {
   const ascii = name.replace(/[^\x20-\x7E]|["\\]/g, "_");
-  return `inline; filename="${ascii}"; filename*=UTF-8''${encodeURIComponent(name)}`;
+  return `${type}; filename="${ascii}"; filename*=UTF-8''${encodeURIComponent(name)}`;
 }
 
-export async function GET(_request: Request, ctx: RouteContext<"/media/[file]">) {
+export async function GET(request: Request, ctx: RouteContext<"/media/[file]">) {
   await connection();
 
   const { file } = await ctx.params;
@@ -51,13 +55,16 @@ export async function GET(_request: Request, ctx: RouteContext<"/media/[file]">)
   const isPublic = await isUsedByPublishedContent(item.id);
   if (!isPublic && !(await getCurrentAdmin())) return notFound();
 
-  const data = await readStoredFile(item.storageKey);
-  if (!data) return notFound();
+  const stored = await openStoredFile(item.storageKey);
+  if (!stored) return notFound();
 
   const headers = new Headers({
     "Content-Type": item.mimeType,
-    "Content-Length": String(data.length),
-    "Content-Disposition": disposition(item.originalName),
+    "Content-Length": String(stored.size),
+    "Content-Disposition": disposition(
+      item.originalName,
+      new URL(request.url).searchParams.get("download") === "1" ? "attachment" : "inline",
+    ),
     "X-Content-Type-Options": "nosniff",
     // Short public caching, so unpublishing takes effect soon; drafts are never cached.
     "Cache-Control": isPublic ? "public, max-age=300" : "private, no-store",
@@ -68,5 +75,5 @@ export async function GET(_request: Request, ctx: RouteContext<"/media/[file]">)
     headers.set("Content-Security-Policy", "default-src 'none'; img-src 'self'; sandbox");
   }
 
-  return new Response(new Uint8Array(data), { headers });
+  return new Response(stored.body, { headers });
 }

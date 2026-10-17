@@ -170,8 +170,10 @@ item of a category is deleted, the next seed run adds the initial items back.
 - Public pages read published content in Server Components through cached queries
   (`src/lib/cms/resources/*`); admin forms save through Server Actions, which refresh that cache.
 - Uploads go to `POST /api/admin/uploads`: images are decoded and re-encoded with `sharp` (JPEG,
-  PNG or WebP, up to 8 MB, metadata stripped), PDFs are checked by signature (up to 15 MB), and files
-  get random names under `UPLOAD_DIR`. `GET /media/<file>` serves a file publicly only while
+  PNG or WebP, up to 8 MB, metadata stripped), PDFs are checked by signature (up to 100 MB), and files
+  get random names under `UPLOAD_DIR`, images in `images/` and documents in `documents/`. (Files
+  stored before this split sat directly in `UPLOAD_DIR`; `pnpm uploads:organise` moves them, and
+  is safe to rerun.) `GET /media/<file>` serves a file publicly only while
   published content uses it; otherwise only to a signed-in administrator.
 
 **Adding a content category:** add a table to `src/lib/db/schema/content.ts` and generate a
@@ -182,6 +184,28 @@ an existing one; add the pages and `actions.ts` under `src/app/admin/(panel)/<na
 **In production**, also: serve the site over HTTPS only; run it behind a reverse proxy that sets
 `X-Forwarded-For` (the login throttle uses it, and a client could otherwise set it); and back up the
 `uploads` volume together with the database.
+
+## Downloads page
+
+`/downloads` lists forms, guidelines, regulations, reports and publications by category. A
+download is either a PDF (uploaded in the admin panel, served from `/media/...?download=1` so the
+browser saves it) or a link, such as a Google Drive folder. Administrators manage downloads and
+their categories under **Admin → Downloads**; drafts stay off the page.
+
+**Importing the previous website's downloads.** `pnpm downloads:fetch` reads
+<https://cst.edu.bt/downloads/>, downloads every file it can (Google Drive files, and Google Docs
+and Slides exported as PDF), keeps folders and web pages as links, and writes:
+
+- `data/legacy-downloads/manifest.json` — every entry with its category, title, original URL,
+  result and checksum (committed);
+- `data/legacy-downloads/files/` — the PDFs (gitignored: about 240 MB).
+
+It is resumable (files already downloaded are not fetched again) and reports failures, links that
+several entries share, and unrelated links found outside the page's content. Then
+`pnpm db:seed` adds every entry as a published download, once: rerunning it never duplicates an
+entry, overwrites an edit or brings back one an administrator deleted. Entries whose PDF is missing
+are skipped with a message, so run `pnpm downloads:fetch` before seeding on a new machine (and
+before `docker compose build`, so the migrator image carries the PDFs).
 
 ## Database migrations
 
