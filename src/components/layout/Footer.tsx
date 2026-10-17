@@ -1,6 +1,4 @@
 import { cacheLife } from "next/cache";
-import Image from "next/image";
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { ButtonLink } from "@/components/ui/Button";
@@ -68,47 +66,8 @@ export async function Footer() {
 
   return (
     <footer className="bg-primary-night text-on-dark [--focus-ring:var(--color-accent)]">
-      <div className="container-page pt-16 lg:pt-20">
-        {/* The college, and where to follow it */}
-        <div className="flex flex-col gap-6 border-b border-white/10 pb-10 md:flex-row md:items-center md:justify-between">
-          <Link href="/" className="inline-flex items-center gap-4 self-start rounded-sm">
-            <span className="shrink-0 rounded-md bg-white p-2 shadow-sm">
-              <Image
-                src={site.logos.crest.src}
-                alt=""
-                width={56}
-                height={56}
-                sizes="56px"
-                className="size-14"
-              />
-            </span>
-            <span>
-              <span className="block font-display text-h4 leading-snug font-semibold text-white">
-                {site.name}
-              </span>
-              <span className="mt-1 block text-small text-on-dark">{site.tagline}</span>
-            </span>
-          </Link>
-
-          <ul className="flex gap-3" aria-label="CST on social media">
-            {site.social.map(({ network, label, href }) => {
-              const Icon = socialIcons[network];
-              return (
-                <li key={network}>
-                  <SmartLink
-                    href={href}
-                    aria-label={label}
-                    className="grid size-11 place-items-center rounded-full border border-white/20 text-accent transition duration-200 ease-out-soft hover:-translate-y-0.5 hover:border-accent hover:bg-white/10 hover:text-white"
-                  >
-                    <Icon className="size-[1.125rem]" />
-                  </SmartLink>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        <div className="grid gap-x-10 gap-y-12 py-12 min-[480px]:grid-cols-2 lg:grid-cols-[1.15fr_0.85fr_1fr_1.15fr] lg:py-14">
+      <div className="container-page">
+        <div className="grid gap-x-10 gap-y-12 py-14 min-[480px]:grid-cols-2 lg:grid-cols-[1.15fr_0.85fr_1fr_1.15fr] lg:py-16">
           <LinkColumn title={quickLinks.title} links={quickLinks.links} />
           <LinkColumn title={eServices.title} links={eServices.links} />
 
@@ -163,6 +122,27 @@ export async function Footer() {
                 </p>
               ))}
             </address>
+
+            {/* where to follow the college, with the other ways to reach it */}
+            <div className="mt-6">
+              <p className="text-small text-white">Follow us</p>
+              <ul className="mt-3 flex gap-3" aria-label="CST on social media">
+                {site.social.map(({ network, label, href }) => {
+                  const Icon = socialIcons[network];
+                  return (
+                    <li key={network}>
+                      <SmartLink
+                        href={href}
+                        aria-label={label}
+                        className="grid size-11 place-items-center rounded-full border border-white/20 text-accent transition duration-200 ease-out-soft hover:-translate-y-0.5 hover:border-accent hover:bg-white/10 hover:text-white"
+                      >
+                        <Icon className="size-[1.125rem]" />
+                      </SmartLink>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
