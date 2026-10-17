@@ -1,0 +1,1820 @@
+{
+  "departments": [
+    {
+      "key": "CEED",
+      "label": "Civil & Environmental Engineering",
+      "group": "Department"
+    },
+    {
+      "key": "EEED",
+      "label": "Electrical & Electronics Engineering",
+      "group": "Department"
+    },
+    {
+      "key": "CTD",
+      "label": "Computing Technologies",
+      "group": "Department"
+    },
+    {
+      "key": "ARCH",
+      "label": "Architecture",
+      "group": "Department"
+    },
+    {
+      "key": "MECH",
+      "label": "Mechanical Engineering",
+      "group": "Department"
+    },
+    {
+      "key": "SHD",
+      "label": "Science & Humanities",
+      "group": "Department"
+    },
+    {
+      "key": "ADM",
+      "label": "Administration",
+      "group": "Administration"
+    },
+    {
+      "key": "FIN",
+      "label": "Finance Section",
+      "group": "Administration"
+    },
+    {
+      "key": "ICT",
+      "label": "ICT Unit",
+      "group": "Administration"
+    },
+    {
+      "key": "LIB",
+      "label": "Library",
+      "group": "Administration"
+    },
+    {
+      "key": "EST",
+      "label": "Estate",
+      "group": "Administration"
+    }
+  ],
+  "staff": [
+    {
+      "id": "nimeshchhetri.cst",
+      "name": "Nimesh Chhetri",
+      "designation": "Assistant Professor/HoD CEED/PL (Civil)",
+      "rank": "Assistant Professor",
+      "roles": [
+        "Head of Department",
+        "Programme Leader"
+      ],
+      "tags": [
+        "HoD",
+        "PL"
+      ],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "nimeshchhetri.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-21-at-10.01.44-AM-1-261x300.jpeg"
+    },
+    {
+      "id": "chekidorji.cst",
+      "name": "Dr. Cheki Dorji",
+      "designation": "Senior Academic Fellow (Civil)",
+      "rank": "Senior Academic Fellow",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "chekidorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/02/Dr.-Cheki-Dorji-e1753980671664-266x300.jpg"
+    },
+    {
+      "id": "ugyendorji.cst",
+      "name": "Dr. Ugyen Dorji",
+      "designation": "Assistant Professor / PL (CM) (Civil)",
+      "rank": "Assistant Professor",
+      "roles": [
+        "Programme Leader"
+      ],
+      "tags": [
+        "PL"
+      ],
+      "programmes": [
+        "Civil",
+        "Construction Management"
+      ],
+      "department": "CEED",
+      "email": "ugyendorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/08/Ugyen-Dorji-242x300.jpg"
+    },
+    {
+      "id": "namgayom.cst",
+      "name": "Namgay Om",
+      "designation": "Lecturer (Civil)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "namgayom.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Namgay-Om-223x300.jpg"
+    },
+    {
+      "id": "tsheringtobgyel.cst",
+      "name": "Tshering Tobgyel",
+      "designation": "Lecturer (Civil)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "tsheringtobgyel.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tshering-Tobgyel-civil-210x300.jpg"
+    },
+    {
+      "id": "monikathapa.cst",
+      "name": "Monika Thapa",
+      "designation": "Lecturer (Civil)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "monikathapa.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Monika-Thapa-231x300.jpg"
+    },
+    {
+      "id": "tnidup.cst",
+      "name": "Tshewang Nidup",
+      "designation": "Lecturer (Civil)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "tnidup.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tshewang-Nidup-civil-267x300.jpg"
+    },
+    {
+      "id": "tsheringcheki.cst",
+      "name": "Tshering Cheki",
+      "designation": "Lecturer (Civil)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "tsheringcheki.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tshering-Cheki-civil-241x300.jpg"
+    },
+    {
+      "id": "tekindraneopaney.cst",
+      "name": "Tekindra Neopaney",
+      "designation": "Assistant Lecturer (Civil)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "tekindraneopaney.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1067-289x300.jpg"
+    },
+    {
+      "id": "tashidorji.cst",
+      "name": "Tashi Dorji",
+      "designation": "Assistant Lecturer (Civil)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "tashidorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1753-278x300.jpg"
+    },
+    {
+      "id": "sanjitalimboo.cst",
+      "name": "Sanjita Limboo",
+      "designation": "Assistant Lecturer (Civil)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "sanjitalimboo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1271-269x300.jpg"
+    },
+    {
+      "id": "kelzangwangmo.cst",
+      "name": "Kelzang Wangmo",
+      "designation": "Assistant Lecturer (Civil)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "kelzangwangmo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0964-1-273x300.jpg"
+    },
+    {
+      "id": "dhanrajghalley.cst",
+      "name": "Dhan Raj Ghalley",
+      "designation": "Assistant Lecturer (Civil)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "dhanrajghalley.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0955-259x300.jpg"
+    },
+    {
+      "id": "amritagurung.cst",
+      "name": "Amrita Gurung",
+      "designation": "Assistant Lecturer (Civil)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Civil"
+      ],
+      "department": "CEED",
+      "email": "amritagurung.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0965-1-260x300.jpg"
+    },
+    {
+      "id": "karmatempa.cst",
+      "name": "Karma Tempa",
+      "designation": "Assistant Professor (Geology)",
+      "rank": "Assistant Professor",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Geology"
+      ],
+      "department": "CEED",
+      "email": "karmatempa.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Karma-Tempa-242x300.jpg"
+    },
+    {
+      "id": "lilygurung.cst",
+      "name": "Lily Gurung",
+      "designation": "Lecturer (Geology)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Geology"
+      ],
+      "department": "CEED",
+      "email": "lilygurung.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/02/Lily-Gurung-e1753980759942-266x300.jpg"
+    },
+    {
+      "id": "bhawani.cst",
+      "name": "Bhawani Shankar Nirola",
+      "designation": "Lecturer (Geology)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Geology"
+      ],
+      "department": "CEED",
+      "email": "bhawani.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/08/Bhawani-Shankar-257x300.jpg"
+    },
+    {
+      "id": "karmadema.cst",
+      "name": "Karma Dema",
+      "designation": "Lecturer (Geology)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Geology"
+      ],
+      "department": "CEED",
+      "email": "karmadema.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Karma-Dema-277x300.jpg"
+    },
+    {
+      "id": "chimiwangmo.cst",
+      "name": "Dr. Chimi Wangmo",
+      "designation": "Assistant Professor / PL (WRE)",
+      "rank": "Assistant Professor",
+      "roles": [
+        "Programme Leader"
+      ],
+      "tags": [
+        "PL"
+      ],
+      "programmes": [
+        "Water Resources Engineering"
+      ],
+      "department": "CEED",
+      "email": "chimiwangmo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/WhatsApp-Image-2025-09-01-at-15.04.07-244x300.jpeg"
+    },
+    {
+      "id": "lekidorji.cst",
+      "name": "Leki Dorji",
+      "designation": "Lecturer (WRE)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Water Resources Engineering"
+      ],
+      "department": "CEED",
+      "email": "lekidorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1671-272x300.jpg"
+    },
+    {
+      "id": "rigzinnorbu.cst",
+      "name": "Rigzin Norbu",
+      "designation": "Assistant Lecturer (WRE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Water Resources Engineering"
+      ],
+      "department": "CEED",
+      "email": "rigzinnorbu.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Rigzin-Norbu-1-220x300.jpg"
+    },
+    {
+      "id": "lhunduptshomo.cst",
+      "name": "Lhundup Tshomo",
+      "designation": "Assistant Lecturer (WRE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Water Resources Engineering"
+      ],
+      "department": "CEED",
+      "email": "lhunduptshomo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1184-275x300.jpg"
+    },
+    {
+      "id": "subashpakural.cst",
+      "name": "Subash Pakural",
+      "designation": "Assistant Lecturer (WRE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Water Resources Engineering"
+      ],
+      "department": "CEED",
+      "email": "subashpakural.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1220-261x300.jpg"
+    },
+    {
+      "id": "udorji.cst",
+      "name": "Ugyen Dorji",
+      "designation": "Sr. Technician",
+      "rank": "Sr. Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CEED",
+      "email": "udorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Ugyen-Dorji-civil-245x300.jpg"
+    },
+    {
+      "id": "tashiphuntsho.cst",
+      "name": "Tashi Phungtsho",
+      "designation": "Sr. Laboratory Assistant",
+      "rank": "Sr. Laboratory Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CEED",
+      "email": "tashiphuntsho.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tashi-Phungtsho-civil-228x300.jpg"
+    },
+    {
+      "id": "khampa.cst",
+      "name": "Khampa",
+      "designation": "Sr. Technician",
+      "rank": "Sr. Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CEED",
+      "email": "khampa.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Khampa-229x300.jpg"
+    },
+    {
+      "id": "sonamchoden.cst",
+      "name": "Sonam Choden",
+      "designation": "Sr. Laboratory Technician",
+      "rank": "Sr. Laboratory Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CEED",
+      "email": "sonamchoden.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Sonam-Choden-civil-249x300.jpg"
+    },
+    {
+      "id": "purnabhujel.cst",
+      "name": "Purna Bdr Bhujel",
+      "designation": "Sr. Laboratory Technician",
+      "rank": "Sr. Laboratory Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CEED",
+      "email": "purnabhujel.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Purna-Bdr-Bhujel-217x300.jpg"
+    },
+    {
+      "id": "gembotshering.cst",
+      "name": "Gembo Tshering",
+      "designation": "Laboratory Assistant",
+      "rank": "Laboratory Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CEED",
+      "email": "gembotshering.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Gembo-Tshering-shd-252x300.jpg"
+    },
+    {
+      "id": "namgaytenzin.cst",
+      "name": "Namgay Tenzin",
+      "designation": "Lecturer/HoD EEED (Electrical)",
+      "rank": "Lecturer",
+      "roles": [
+        "Head of Department"
+      ],
+      "tags": [
+        "HoD"
+      ],
+      "programmes": [
+        "Electrical"
+      ],
+      "department": "EEED",
+      "email": "namgaytenzin.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Namgay-Tenzin-EED-259x300.jpg"
+    },
+    {
+      "id": "manojsharma.cst",
+      "name": "Manoj Sharma",
+      "designation": "Lecturer (Electrical)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Electrical"
+      ],
+      "department": "EEED",
+      "email": "manojsharma.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1169-273x300.jpg"
+    },
+    {
+      "id": "chekudorji.cst",
+      "name": "Cheku Dorji",
+      "designation": "Assistant Professor (Electrical)",
+      "rank": "Assistant Professor",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Electrical"
+      ],
+      "department": "EEED",
+      "email": "chekudorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Cheku-Dorji-EED-248x300.jpg"
+    },
+    {
+      "id": "bikramchhetri.cst",
+      "name": "Bikram Chhetri",
+      "designation": "Lecturer (Electrical)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Electrical"
+      ],
+      "department": "EEED",
+      "email": "bikramchhetri.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Bikram-Chhetri-EED-244x300.jpg"
+    },
+    {
+      "id": "aitasubba.cst",
+      "name": "Aita Bahadur Subba",
+      "designation": "Lecturer (Electrical)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Electrical"
+      ],
+      "department": "EEED",
+      "email": "aitasubba.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1187-1-295x300.jpg"
+    },
+    {
+      "id": "tulasasharma.cst",
+      "name": "Tulasa Sharma",
+      "designation": "Assistant Lecturer (Electrical)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Electrical"
+      ],
+      "department": "EEED",
+      "email": "tulasasharma.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A1715-257x300.jpg"
+    },
+    {
+      "id": "pemazangmo.cst",
+      "name": "Pema Zangmo",
+      "designation": "Associate Lecturer/PL (ECE)",
+      "rank": "Associate Lecturer",
+      "roles": [
+        "Programme Leader"
+      ],
+      "tags": [
+        "PL"
+      ],
+      "programmes": [
+        "Electronics & Communication Engineering"
+      ],
+      "department": "EEED",
+      "email": "pemazangmo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1678-237x300.jpg"
+    },
+    {
+      "id": "tashi.cst",
+      "name": "Dr. Tashi",
+      "designation": "Assistant Professor (ECE)",
+      "rank": "Assistant Professor",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Electronics & Communication Engineering"
+      ],
+      "department": "EEED",
+      "email": "tashi.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/02/Dr.-Tashi-e1753980690895-267x300.jpg"
+    },
+    {
+      "id": "kamal.cst",
+      "name": "Kamal Kumar Chapagai",
+      "designation": "Lecturer (ECE)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Electronics & Communication Engineering"
+      ],
+      "department": "EEED",
+      "email": "kamal.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1272-254x300.jpg"
+    },
+    {
+      "id": "karmakelzang.cst",
+      "name": "Karma Kelzang Eudon",
+      "designation": "Lecturer (ECE)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Electronics & Communication Engineering"
+      ],
+      "department": "EEED",
+      "email": "karmakelzang.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Karma-Kezang-Eudon-ece-235x300.jpg"
+    },
+    {
+      "id": "dechenlhamo.cst",
+      "name": "Dechen Lhamo",
+      "designation": "Lecturer (ECE)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Electronics & Communication Engineering"
+      ],
+      "department": "EEED",
+      "email": "dechenlhamo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Dechen-Lhamo-ece-254x300.jpg"
+    },
+    {
+      "id": "kuenzangthinley.cst",
+      "name": "Kuenzang Thinley",
+      "designation": "Associate Lecturer (ECE)",
+      "rank": "Associate Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Electronics & Communication Engineering"
+      ],
+      "department": "EEED",
+      "email": "kuenzangthinley.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/08/Kuenzang-Thinley-258x300.jpg"
+    },
+    {
+      "id": "dpowdyel.cst",
+      "name": "Duk Bahadur Powdyel",
+      "designation": "Assistant Lecturer (ECE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Electronics & Communication Engineering"
+      ],
+      "department": "EEED",
+      "email": "dpowdyel.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Duk-Bahadur-Powdyel-ece-229x300.jpg"
+    },
+    {
+      "id": "seemapowdel.cst",
+      "name": "Seema Powdel",
+      "designation": "Associate Lecturer/PL (ICE)",
+      "rank": "Associate Lecturer",
+      "roles": [
+        "Programme Leader"
+      ],
+      "tags": [
+        "PL"
+      ],
+      "programmes": [
+        "Instrumentation & Control Engineering"
+      ],
+      "department": "EEED",
+      "email": "seemapowdel.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/08/seema-268x300.jpg"
+    },
+    {
+      "id": "chadorwangmo.cst",
+      "name": "Chador Wangmo",
+      "designation": "Associate Lecturer (ICE)",
+      "rank": "Associate Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Instrumentation & Control Engineering"
+      ],
+      "department": "EEED",
+      "email": "chadorwangmo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1186-264x300.jpg"
+    },
+    {
+      "id": "manikumarpowdyel.cst",
+      "name": "Mani Kumar Powdyel",
+      "designation": "Assistant Lecturer (ICE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Instrumentation & Control Engineering"
+      ],
+      "department": "EEED",
+      "email": "manikumarpowdyel.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1193-300x300.jpg"
+    },
+    {
+      "id": "nimatashitamang.cst",
+      "name": "Nima Tashi Tamang",
+      "designation": "Assistant Lecturer (ICE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Instrumentation & Control Engineering"
+      ],
+      "department": "EEED",
+      "email": "nimatashitamang.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0947-276x300.jpg"
+    },
+    {
+      "id": "nidup.cst",
+      "name": "Nidup",
+      "designation": "Sr. Technician",
+      "rank": "Sr. Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "EEED",
+      "email": "nidup.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Nidup-EED-243x300.jpg"
+    },
+    {
+      "id": "dorjiwangdi.cst",
+      "name": "Dorji Wangdi",
+      "designation": "Sr. Technician",
+      "rank": "Sr. Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "EEED",
+      "email": "dorjiwangdi.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Dorji-Wangdi-EED-207x300.jpg"
+    },
+    {
+      "id": "rinchenwangmo.cst",
+      "name": "Rinchen Wangmo",
+      "designation": "Sr. Technician",
+      "rank": "Sr. Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "EEED",
+      "email": "rinchenwangmo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Rinchen-Wangmo-ece-248x300.jpg"
+    },
+    {
+      "id": "tenzindorji.cst",
+      "name": "Tenzin Dorji",
+      "designation": "Sr. Technician",
+      "rank": "Sr. Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "EEED",
+      "email": "tenzindorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tenzin-Dorji-ece-233x300.jpg"
+    },
+    {
+      "id": "parshuram.cst",
+      "name": "Parshu Ram Dhungyel",
+      "designation": "Lecturer/HoD CTD (CTD)",
+      "rank": "Lecturer",
+      "roles": [
+        "Head of Department"
+      ],
+      "tags": [
+        "HoD"
+      ],
+      "programmes": [],
+      "department": "CTD",
+      "email": "parshuram.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Parshu-Ram-Dhungyel-ICT-233x300.jpg"
+    },
+    {
+      "id": "tshetendorji.cst",
+      "name": "Tsheten Dorji",
+      "designation": "Lecturer (CTD)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "tshetendorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tsheten-Dorji-ICT-267x300.jpg"
+    },
+    {
+      "id": "tandinwangchuk.cst",
+      "name": "Tandin Wangchuk",
+      "designation": "Lecturer (CTD)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "tandinwangchuk.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tandin-Wangchuk-ICT-250x300.jpg"
+    },
+    {
+      "id": "manoj_chhetri.cst",
+      "name": "Manoj Chhetri",
+      "designation": "Lecturer (CTD)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "manoj_chhetri.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Manoj-Chhetri-ICT-216x300.jpg"
+    },
+    {
+      "id": "kezangdema.cst",
+      "name": "Kezang Dema",
+      "designation": "Lecturer (CTD)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "kezangdema.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Kezang-Dema-ICT-232x300.jpg"
+    },
+    {
+      "id": "karma.cst",
+      "name": "Karma Wangchuk",
+      "designation": "Lecturer (CTD)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "karma.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Karma-Wangchuk-ICT-223x300.jpg"
+    },
+    {
+      "id": "jeewangurung.cst",
+      "name": "Jeevan Gurung",
+      "designation": "Lecturer (CTD)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "jeewangurung.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Jeevan-Gurung-244x300.jpg"
+    },
+    {
+      "id": "ugyenpenjor.cst",
+      "name": "Ugyen Penjor",
+      "designation": "Assistant Lecturer (CTD)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "ugyenpenjor.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0953-263x300.jpg"
+    },
+    {
+      "id": "nimayoezer.cst",
+      "name": "Nima Yoezer",
+      "designation": "Assistant Lecturer (CTD)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "nimayoezer.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A1030-227x300.jpg"
+    },
+    {
+      "id": "nyingyemetogdorji.cst",
+      "name": "Nyingye Metog Dorji",
+      "designation": "Assistant Lecturer (CTD)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "nyingyemetogdorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0960-249x300.jpg"
+    },
+    {
+      "id": "dagotshering.cst",
+      "name": "Dago Tshering",
+      "designation": "Assistant Lecturer (CTD)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "dagotshering.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0959-256x300.jpg"
+    },
+    {
+      "id": "yjamtsho.cst",
+      "name": "Yeshi Jamtsho",
+      "designation": "Lecturer/PL (SWE)",
+      "rank": "Lecturer",
+      "roles": [
+        "Programme Leader"
+      ],
+      "tags": [
+        "PL"
+      ],
+      "programmes": [
+        "Software Engineering"
+      ],
+      "department": "CTD",
+      "email": "yjamtsho.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Yeshi-Jamtsho-ICT-225x300.jpg"
+    },
+    {
+      "id": "pemathinley.cst",
+      "name": "Pema Thinley",
+      "designation": "Assistant Lecturer (SWE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Software Engineering"
+      ],
+      "department": "CTD",
+      "email": "pemathinley.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Pema-Thinley-ICT-250x300.jpg"
+    },
+    {
+      "id": "sarojsanyasi.cst",
+      "name": "Saroj Sanyasi",
+      "designation": "Assistant Lecturer (SWE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Software Engineering"
+      ],
+      "department": "CTD",
+      "email": "sarojsanyasi.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A1029-263x300.jpg"
+    },
+    {
+      "id": "nimayoezer1.cst",
+      "name": "Nima Yoezer",
+      "designation": "Assistant Lecturer (SWE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Software Engineering"
+      ],
+      "department": "CTD",
+      "email": "nimayoezer1.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0963-241x300.jpg"
+    },
+    {
+      "id": "dechentshomo.cst",
+      "name": "Dechen Tshomo",
+      "designation": "Assistant Lecturer (SWE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Software Engineering"
+      ],
+      "department": "CTD",
+      "email": "dechentshomo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1703-1-1-254x300.jpeg"
+    },
+    {
+      "id": "ashischettri.cst",
+      "name": "Ashis Chettri",
+      "designation": "Assistant Lecturer (SWE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Software Engineering"
+      ],
+      "department": "CTD",
+      "email": "ashischettri.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0962-252x300.jpg"
+    },
+    {
+      "id": "pemanamgay.cst",
+      "name": "Pema Namgay",
+      "designation": "Assistant Lecturer (SWE)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Software Engineering"
+      ],
+      "department": "CTD",
+      "email": "pemanamgay.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0951-267x300.jpg"
+    },
+    {
+      "id": "ngawangdhendup.cst",
+      "name": "Ngawang Dendup",
+      "designation": "Sr. Laboratory Technician",
+      "rank": "Sr. Laboratory Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "ngawangdhendup.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Ngawang-Dendup-ICT-249x300.jpg"
+    },
+    {
+      "id": "tshewangtobgay.cst",
+      "name": "Tshewang Tobjay",
+      "designation": "Sr. Technician",
+      "rank": "Sr. Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "tshewangtobgay.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tshewang-Tobjay-ICT-229x300.jpg"
+    },
+    {
+      "id": "knamgay.cst",
+      "name": "Kelzang Namgay",
+      "designation": "Sr. Technician",
+      "rank": "Sr. Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "knamgay.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Kelzang-Namgay-ICT-1-233x300.jpg"
+    },
+    {
+      "id": "sangayeden.cst",
+      "name": "Sangay Eden",
+      "designation": "Laboratory Technician",
+      "rank": "Laboratory Technician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "CTD",
+      "email": "sangayeden.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1336-1-272x300.jpg"
+    },
+    {
+      "id": "sonamchuki.cst",
+      "name": "Sonam Chuki",
+      "designation": "Associate Lecturer/HoD (Architecture)",
+      "rank": "Associate Lecturer",
+      "roles": [
+        "Head of Department"
+      ],
+      "tags": [
+        "HoD"
+      ],
+      "programmes": [
+        "Architecture"
+      ],
+      "department": "ARCH",
+      "email": "sonamchuki.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Sonam-Chuki-arch-260x300.jpg"
+    },
+    {
+      "id": "chimi.cst",
+      "name": "Chimi",
+      "designation": "Lecturer/DAA (Architecture)",
+      "rank": "Lecturer",
+      "roles": [
+        "Dean of Academic Affairs"
+      ],
+      "tags": [
+        "DAA"
+      ],
+      "programmes": [
+        "Architecture"
+      ],
+      "department": "ARCH",
+      "email": "chimi.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Chimi-arch-294x300.jpg"
+    },
+    {
+      "id": "jigmethinley.cst",
+      "name": "Jigme Thinley",
+      "designation": "Lecturer (Architecture)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Architecture"
+      ],
+      "department": "ARCH",
+      "email": "jigmethinley.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Jigme-Thinley-arch-249x300.jpg"
+    },
+    {
+      "id": "jamyangpdorji.cst",
+      "name": "Jamyang P Dorji",
+      "designation": "Associate Lecturer (Architecture)",
+      "rank": "Associate Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Architecture"
+      ],
+      "department": "ARCH",
+      "email": "jamyangpdorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1697-270x300.jpg"
+    },
+    {
+      "id": "divyachhetri.cst",
+      "name": "Divya Chhetri",
+      "designation": "Assistant Lecturer (Architecture)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Architecture"
+      ],
+      "department": "ARCH",
+      "email": "divyachhetri.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Divya-Chhetri-arch-255x300.jpg"
+    },
+    {
+      "id": "kinzangwangchuk.cst",
+      "name": "Kinzang Wangchuk",
+      "designation": "Assistant Lecturer (Architecture)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Architecture"
+      ],
+      "department": "ARCH",
+      "email": "kinzangwangchuk.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1192-300x292.jpg"
+    },
+    {
+      "id": "karmayangchintsho.cst",
+      "name": "Karma Yangchin Tsho",
+      "designation": "Assistant Lecturer (Architecture)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Architecture"
+      ],
+      "department": "ARCH",
+      "email": "karmayangchintsho.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0943-245x300.jpg"
+    },
+    {
+      "id": "tshewangdorji.cst",
+      "name": "Tshewang Dorji",
+      "designation": "Assistant Lecturer (Architecture)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Architecture"
+      ],
+      "department": "ARCH",
+      "email": "tshewangdorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0942-262x300.jpg"
+    },
+    {
+      "id": "jigmetenzin1.cst",
+      "name": "Jigme Tenzin",
+      "designation": "Assistant Lecturer (Architecture)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Architecture"
+      ],
+      "department": "ARCH",
+      "email": "jigmetenzin1.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0944-278x300.jpg"
+    },
+    {
+      "id": "tenzin.cst",
+      "name": "Tenzin",
+      "designation": "Assistant Lecturer/PL (ME)",
+      "rank": "Assistant Lecturer",
+      "roles": [
+        "Programme Leader"
+      ],
+      "tags": [
+        "PL"
+      ],
+      "programmes": [
+        "Mechanical Engineering"
+      ],
+      "department": "MECH",
+      "email": "tenzin.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/WhatsApp-Image-2025-08-13-at-10.56.05-240x300.jpeg"
+    },
+    {
+      "id": "damchowangchuk.cst",
+      "name": "Damcho Wangchuk",
+      "designation": "Assistant Lecturer (ME)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Mechanical Engineering"
+      ],
+      "department": "MECH",
+      "email": "damchowangchuk.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1280-269x300.jpg"
+    },
+    {
+      "id": "phurpazangmo.cst",
+      "name": "Purpa Zangmo",
+      "designation": "Assistant Lecturer (ME)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Mechanical Engineering"
+      ],
+      "department": "MECH",
+      "email": "phurpazangmo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0945-245x300.jpg"
+    },
+    {
+      "id": "lungtengyeltshen.cst",
+      "name": "Lungten Gyeltshen",
+      "designation": "Laboratory Assistant (ME)",
+      "rank": "Laboratory Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [
+        "Mechanical Engineering"
+      ],
+      "department": "MECH",
+      "email": "lungtengyeltshen.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Lungten-Gyeltshen-mech-248x300.jpg"
+    },
+    {
+      "id": "tsheringdenka.cst",
+      "name": "Tshering Denka",
+      "designation": "Lecturer/HoD SHD (SHD)",
+      "rank": "Lecturer",
+      "roles": [
+        "Head of Department"
+      ],
+      "tags": [
+        "HoD"
+      ],
+      "programmes": [],
+      "department": "SHD",
+      "email": "tsheringdenka.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-21-at-10.28.43-AM-1-1-233x300.jpeg"
+    },
+    {
+      "id": "kelzangdorji.cst",
+      "name": "Kelzang Dorji",
+      "designation": "Lecturer/DSA (SHD)",
+      "rank": "Lecturer",
+      "roles": [
+        "Dean of Student Affairs"
+      ],
+      "tags": [
+        "DSA"
+      ],
+      "programmes": [],
+      "department": "SHD",
+      "email": "kelzangdorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Kelzang-Dorji-shd-233x300.jpg"
+    },
+    {
+      "id": "venkatesan.cst",
+      "name": "S.T Venkatesan",
+      "designation": "Assistant Professor (SHD)",
+      "rank": "Assistant Professor",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "venkatesan.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/S.T-Venkatesan-shd-207x300.jpg"
+    },
+    {
+      "id": "jayachandran.cst",
+      "name": "Jayachandran V",
+      "designation": "Assistant Professor (SHD)",
+      "rank": "Assistant Professor",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "jayachandran.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Jayachandran-V-shd-242x300.jpg"
+    },
+    {
+      "id": "bharat.cst",
+      "name": "Bharat Kumar Humagai",
+      "designation": "Lecturer (SHD)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "bharat.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Bharat-Kumar-Humagai-shd-232x300.jpg"
+    },
+    {
+      "id": "thinleywangmo.jnec",
+      "name": "Thinley Wangmo",
+      "designation": "Lecturer (SHD)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "thinleywangmo.jnec@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Thinley-Wangmo-shd-274x300.jpg"
+    },
+    {
+      "id": "jyothilakshmi.cst",
+      "name": "Jyothi Lakshmi S",
+      "designation": "Associate Lecturer (SHD)",
+      "rank": "Associate Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "jyothilakshmi.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Jyothi-Lakshmi-S-shd-239x300.jpg"
+    },
+    {
+      "id": "jigmenamgyal.cst",
+      "name": "Jigme Namgyal",
+      "designation": "Lecturer (SHD)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "jigmenamgyal.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Jigme-Namgyal-shd-236x300.jpg"
+    },
+    {
+      "id": "ngawangzepa.cst",
+      "name": "Ngawang Zepa",
+      "designation": "Lecturer (SHD)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "ngawangzepa.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Ngawang-Zepa-shd-236x300.jpg"
+    },
+    {
+      "id": "ganapatighimiray.cst",
+      "name": "Ganapati Ghimiray",
+      "designation": "Lecturer (SHD)",
+      "rank": "Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "ganapatighimiray.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Ganapati-Ghimiray-shd-231x300.jpg"
+    },
+    {
+      "id": "kinzangchoden.cst",
+      "name": "Kinzang Choden",
+      "designation": "Associate Lecturer (SHD)",
+      "rank": "Associate Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "kinzangchoden.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1326-268x300.jpg"
+    },
+    {
+      "id": "sangayphuntsho.cst",
+      "name": "Sangay Phuntsho",
+      "designation": "Associate Lecturer (SHD)",
+      "rank": "Associate Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "sangayphuntsho.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1312-290x300.jpg"
+    },
+    {
+      "id": "shankardassharma.cst",
+      "name": "Shankar Das Sharma",
+      "designation": "Assistant Lecturer (SHD)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "shankardassharma.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1217-294x300.jpg"
+    },
+    {
+      "id": "phurpasamdrup.cst",
+      "name": "Phurpa Samdrup",
+      "designation": "Assistant Lecturer (SHD)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "phurpasamdrup.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1619-276x300.jpg"
+    },
+    {
+      "id": "jigmetenzin.cst",
+      "name": "Jigme Tenzin",
+      "designation": "Assistant Lecturer (SHD)",
+      "rank": "Assistant Lecturer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "SHD",
+      "email": "jigmetenzin.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0948-1-284x300.jpg"
+    },
+    {
+      "id": "chokizangmo.cst",
+      "name": "Choki Zangmo",
+      "designation": "Assistant ADM Officer",
+      "rank": "Assistant ADM Officer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "chokizangmo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1502-250x300.jpg"
+    },
+    {
+      "id": "sunitatamang.cst",
+      "name": "Sunita Tamang",
+      "designation": "Personal Assistant",
+      "rank": "Personal Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "sunitatamang.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0968-247x300.jpg"
+    },
+    {
+      "id": "tsheringwangmo.cst",
+      "name": "Tshering Wangmo",
+      "designation": "Sr. Administrative Assistant",
+      "rank": "Sr. Administrative Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "tsheringwangmo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1285-251x300.jpg"
+    },
+    {
+      "id": "passangdema.cst",
+      "name": "Passang Dema sherpa",
+      "designation": "Administrative Assistant",
+      "rank": "Administrative Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "passangdema.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1507-242x300.jpg"
+    },
+    {
+      "id": "pzangmo.cst",
+      "name": "Pema Zangmo",
+      "designation": "Exam and Student Record Officer",
+      "rank": "Exam and Student Record Officer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "pzangmo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Pema-Zangmo-240x300.jpg"
+    },
+    {
+      "id": "purnabdrmongar.cst",
+      "name": "Purna Bdr Mongar",
+      "designation": "Assistant Student Services Officer",
+      "rank": "Assistant Student Services Officer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "purnabdrmongar.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Purna-Bdr-Mongar-273x300.jpg"
+    },
+    {
+      "id": "phublham.cst",
+      "name": "Phub Lham",
+      "designation": "Assistant Student Services Officer",
+      "rank": "Assistant Student Services Officer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "phublham.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1364-253x300.jpg"
+    },
+    {
+      "id": "nimadema.cst",
+      "name": "Nima Dema",
+      "designation": "Assistant Liaison Officer",
+      "rank": "Assistant Liaison Officer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "nimadema.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1351-240x300.jpg"
+    },
+    {
+      "id": "sujatarai.cst",
+      "name": "Sujata Rai",
+      "designation": "Assistant Research Officer",
+      "rank": "Assistant Research Officer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "sujatarai.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-27-at-8.33.52-PM-229x300.jpeg"
+    },
+    {
+      "id": "tenzingdorji.cst",
+      "name": "Tenzin Dorji",
+      "designation": "Store Keeper",
+      "rank": "Store Keeper",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "tenzingdorji.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tenzin-Dorji-212x300.jpg"
+    },
+    {
+      "id": "samtenchoda.cst",
+      "name": "Samten Choda",
+      "designation": "Driver",
+      "rank": "Driver",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "samtenchoda.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Samten-Chodra-253x300.jpg"
+    },
+    {
+      "id": "tpenjor.cst",
+      "name": "Tshering Penjor",
+      "designation": "Driver",
+      "rank": "Driver",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": "tpenjor.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tshering-Penjor-251x300.jpg"
+    },
+    {
+      "id": "tshering-dorji-cook-adm",
+      "name": "Tshering Dorji",
+      "designation": "Cook",
+      "rank": "Cook",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": null,
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tshering-Dorji-248x300.jpg"
+    },
+    {
+      "id": "lungten-cook-adm",
+      "name": "Lungten",
+      "designation": "Cook",
+      "rank": "Cook",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": null,
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Lungten-240x300.jpg"
+    },
+    {
+      "id": "sonam-cook-adm",
+      "name": "Sonam",
+      "designation": "Cook",
+      "rank": "Cook",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": null,
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Sonam-244x300.jpg"
+    },
+    {
+      "id": "choki-dorji-cook-adm",
+      "name": "Choki Dorji",
+      "designation": "Cook",
+      "rank": "Cook",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ADM",
+      "email": null,
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Cheki-Dorji-225x300.jpg"
+    },
+    {
+      "id": "chundutshering.cst",
+      "name": "Chundu Tshering",
+      "designation": "Assistant Finance Officer",
+      "rank": "Assistant Finance Officer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "FIN",
+      "email": "chundutshering.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Chundu-Tshering-270x300.jpg"
+    },
+    {
+      "id": "khemsharma.cst",
+      "name": "Khem Prasad Sharma",
+      "designation": "Sr. Accounts Assistant",
+      "rank": "Sr. Accounts Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "FIN",
+      "email": "khemsharma.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Khem-Prased-Sharma-243x300.jpg"
+    },
+    {
+      "id": "tashitshomo.cst",
+      "name": "Tashi Tshomo",
+      "designation": "Assistant ICT Officer",
+      "rank": "Assistant ICT Officer",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ICT",
+      "email": "tashitshomo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/myhalfphoto-251x300.jpeg"
+    },
+    {
+      "id": "mahindra.cst",
+      "name": "Mahindra Rai",
+      "designation": "Sr. ICT Associate",
+      "rank": "Sr. ICT Associate",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "ICT",
+      "email": "mahindra.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Mahendra-Rai-221x300.jpg"
+    },
+    {
+      "id": "tsheringyangchen.cst",
+      "name": "Tshering Yangchen",
+      "designation": "Assistant Librarian",
+      "rank": "Assistant Librarian",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "LIB",
+      "email": "tsheringyangchen.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1331-250x300.jpg"
+    },
+    {
+      "id": "tularamghalley.cst",
+      "name": "Tula Ram Ghalley",
+      "designation": "Library Assistant",
+      "rank": "Library Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "LIB",
+      "email": "tularamghalley.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tula-Ram-Ghalley-279x300.jpg"
+    },
+    {
+      "id": "dechenpeldon.cst",
+      "name": "Dechen Peldon",
+      "designation": "Library Assistant",
+      "rank": "Library Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "LIB",
+      "email": "dechenpeldon.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1733-256x300.jpg"
+    },
+    {
+      "id": "phubdem.cst",
+      "name": "Phub Dem",
+      "designation": "Library Assistant",
+      "rank": "Library Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "LIB",
+      "email": "phubdem.cst@rub",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1395-250x300.jpg"
+    },
+    {
+      "id": "pemachoden.cst",
+      "name": "Pema Choden",
+      "designation": "Library Assistant",
+      "rank": "Library Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "LIB",
+      "email": "pemachoden.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Pema-Choden-234x300.jpg"
+    },
+    {
+      "id": "dawazangmo.cst",
+      "name": "Dawa Zangmo",
+      "designation": "Library Assistant",
+      "rank": "Library Assistant",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "LIB",
+      "email": "dawazangmo.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2026/08/651A1737-242x300.jpg"
+    },
+    {
+      "id": "dorjiphuntsho.cst",
+      "name": "Dorji Phuntsho",
+      "designation": "Estate Manager",
+      "rank": "Estate Manager",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "EST",
+      "email": "dorjiphuntsho.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/10/Dorji-Phuntsho-255x300-1.jpg"
+    },
+    {
+      "id": "tshewangpenjor.cst",
+      "name": "Tshewang Penjor",
+      "designation": "Sr. Electrician",
+      "rank": "Sr. Electrician",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "EST",
+      "email": "tshewangpenjor.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tshewang-Penjor-257x300.jpg"
+    },
+    {
+      "id": "partiman.cst",
+      "name": "Pratiman Singer",
+      "designation": "Sr. Carpenter",
+      "rank": "Sr. Carpenter",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "EST",
+      "email": "partiman.cst@rub.edu.bt",
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Pratiman-Singer-295x300.jpg"
+    },
+    {
+      "id": "tshering-water-fitter-est",
+      "name": "Tshering",
+      "designation": "Water Fitter",
+      "rank": "Water Fitter",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "EST",
+      "email": null,
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tshering--233x300.jpg"
+    },
+    {
+      "id": "singye-yeshi-gardener-est",
+      "name": "Singye Yeshi",
+      "designation": "Gardener",
+      "rank": "Gardener",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "EST",
+      "email": null,
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Singye-Yeshi-221x300.jpg"
+    },
+    {
+      "id": "tshering-gardener-est",
+      "name": "Tshering",
+      "designation": "Gardener",
+      "rank": "Gardener",
+      "roles": [],
+      "tags": [],
+      "programmes": [],
+      "department": "EST",
+      "email": null,
+      "image": "https://cst.edu.bt/wp-content/uploads/2025/09/Tshering-232x300.jpg"
+    }
+  ]
+}

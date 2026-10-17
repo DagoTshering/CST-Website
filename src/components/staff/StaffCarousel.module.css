@@ -1,0 +1,451 @@
+/* ==========================================================================
+   Staff carousel (a connected carousel)
+   Every card is absolutely placed from the panel's centre. Its offset to the
+   active card (data-o, -3 to 3; 3 means "3 or more") picks its place, size and
+   visibility for the screen's tier:
+     phone   (< 768px)     active card --aw x 490, one narrow peek card each side
+     tablet  (768-1119px)  active card 560 x 440, one side card each side
+     desktop (>= 1120px)   active card 762 x 513, two side cards each side
+   Side cards show the portrait alone; the active card's body (details and
+   photo) is laid out at full size inside every card and clipped, so it slides
+   in as a card grows. A white notch joins each side card to its neighbour.
+   [data-resizing] is set by the component while the window is resized, so the
+   cards snap rather than glide. Reduced motion: globals.css shortens every
+   transition to nothing.
+   ========================================================================== */
+
+.carousel {
+  /* the tier's geometry: active card, gap, side card */
+  --aw: min(340px, 100cqw - 68px);
+  --ah: 490px;
+  --gap: 12px;
+  --pw: 60px;
+  --ph: 410px;
+  --glide: 600ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  position: relative;
+  container-type: inline-size;
+  /* out into the page gutters, so the side cards run to the screen's edge */
+  margin-inline: calc(-1 * var(--gutter));
+  padding: 22px 0 10px;
+  overflow: hidden;
+  user-select: none;
+  touch-action: pan-y; /* vertical drags scroll the page; horizontal ones swipe */
+}
+
+/* the carousel runs edge to edge, so its focus ring sits inside it */
+.carousel:focus-visible {
+  outline-offset: -2px;
+}
+
+.panel {
+  position: relative;
+  height: var(--ah);
+}
+
+/* ---------- cards -------------------------------------------------------- */
+
+.card {
+  /* off stage unless a rule below says otherwise */
+  --x: 0px;
+  --y: calc(var(--ph) / -2);
+  --w: var(--pw);
+  --h: var(--ph);
+  --op: 0;
+  --z: 0;
+  --pe: none;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: var(--z);
+  width: var(--w);
+  height: var(--h);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  box-shadow: var(--shadow-md);
+  opacity: var(--op);
+  pointer-events: var(--pe);
+  transform: translate(var(--x), var(--y));
+  will-change: transform;
+  transition:
+    transform var(--glide),
+    width var(--glide),
+    height var(--glide),
+    opacity 450ms ease;
+}
+
+.card:not([data-o="0"]) {
+  cursor: pointer;
+}
+
+.card[data-o="0"] {
+  --x: calc(var(--aw) / -2);
+  --y: calc(var(--ah) / -2);
+  --w: var(--aw);
+  --h: var(--ah);
+  --op: 1;
+  --z: 1;
+  --pe: auto;
+}
+
+.card[data-o="-1"] {
+  --x: calc(var(--aw) / -2 - var(--gap) - var(--pw));
+  --op: 1;
+  --z: 2;
+  --pe: auto;
+}
+
+.card[data-o="1"] {
+  --x: calc(var(--aw) / 2 + var(--gap));
+  --op: 1;
+  --z: 2;
+  --pe: auto;
+}
+
+.card[data-o="-2"],
+.card[data-o="-3"] {
+  --x: calc(var(--aw) / -2 - 220px - var(--pw));
+}
+
+.card[data-o="2"],
+.card[data-o="3"] {
+  --x: calc(var(--aw) / 2 + 220px);
+}
+
+@media (min-width: 768px) {
+  .carousel {
+    --aw: 560px;
+    --ah: 440px;
+    --gap: 18px;
+    --pw: 100px;
+    --ph: 340px;
+  }
+
+  .card[data-o="-2"],
+  .card[data-o="-3"],
+  .card[data-o="2"],
+  .card[data-o="3"] {
+    --y: -102.5px;
+    --w: 74px;
+    --h: 205px;
+  }
+
+  .card[data-o="-2"],
+  .card[data-o="-3"] {
+    --x: -594px;
+  }
+
+  .card[data-o="2"],
+  .card[data-o="3"] {
+    --x: 520px;
+  }
+}
+
+@media (min-width: 1120px) {
+  .carousel {
+    --aw: 762px;
+    --ah: 513px;
+    --gap: 20px;
+    --pw: 105px;
+    --ph: 344px;
+  }
+
+  /* a second, smaller side card each side */
+  .card[data-o="-2"] {
+    --x: -596px;
+    --op: 1;
+    --z: 2;
+    --pe: auto;
+  }
+
+  .card[data-o="2"] {
+    --x: 522px;
+    --op: 1;
+    --z: 2;
+    --pe: auto;
+  }
+
+  .card[data-o="-3"] {
+    --x: -720px;
+  }
+
+  .card[data-o="3"] {
+    --x: 646px;
+  }
+}
+
+/* ---------- the notch between neighbours -------------------------------- */
+
+.connector {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  display: none;
+  width: calc(var(--gap) + 2px);
+  height: 42px;
+  margin-block: auto;
+  color: var(--color-white);
+  pointer-events: none;
+}
+
+.connector svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: currentColor;
+}
+
+/* on the side facing the active card */
+.card[data-o="-1"] .connector,
+.card[data-o="-2"] .connector {
+  left: calc(100% - 1px);
+}
+
+.card[data-o="1"] .connector,
+.card[data-o="2"] .connector {
+  right: calc(100% - 1px);
+}
+
+.card[data-o="-1"] .connector,
+.card[data-o="1"] .connector {
+  display: block;
+}
+
+@media (min-width: 1120px) {
+  .card[data-o="-2"] .connector,
+  .card[data-o="2"] .connector {
+    display: block;
+    width: 18px;
+    height: 28px;
+  }
+}
+
+/* ---------- inside a card ------------------------------------------------ */
+
+.clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.fill {
+  width: 100%;
+  height: 100%;
+}
+
+/* a side card's portrait */
+.thumb {
+  position: absolute;
+  inset: 0;
+  padding: 6px;
+  transition: opacity 220ms ease-out;
+}
+
+.card[data-o="0"] .thumb {
+  opacity: 0;
+}
+
+/* the active card's contents, always at the active card's size */
+.stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--aw);
+  height: var(--ah);
+  transform: translate(-50%, -50%);
+}
+
+.body {
+  --shift: 822px;
+
+  display: flex;
+  gap: 36px;
+  width: 100%;
+  height: 100%;
+  padding: 40px 40px 40px 48px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(var(--shift));
+  transition:
+    opacity 450ms ease,
+    transform var(--glide);
+}
+
+.card[data-o^="-"] .body {
+  --shift: -822px;
+}
+
+.card[data-o="0"] .body {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+.info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 2.625rem;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.details {
+  margin-top: 10px;
+}
+
+/* the active card's photo, in the drawing's crop marks */
+.portrait {
+  position: relative;
+  flex: none;
+  width: clamp(180px, 42%, 320px);
+  height: 100%;
+}
+
+@media (max-width: 1119.98px) {
+  .body {
+    gap: 22px;
+    padding: 28px 28px 28px 34px;
+  }
+
+  .name {
+    font-size: 2.125rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .body {
+    flex-direction: column;
+    gap: 14px;
+    padding: 22px 20px;
+  }
+
+  .info {
+    justify-content: flex-start;
+  }
+
+  .name {
+    font-size: 1.625rem;
+  }
+
+  .details {
+    margin-top: 6px;
+  }
+
+  .portrait {
+    flex: 1;
+    width: 100%;
+    height: auto;
+    min-height: 80px;
+    max-height: 190px;
+  }
+}
+
+/* ---------- dots --------------------------------------------------------- */
+
+.dots {
+  margin-top: 18px;
+  padding-inline: var(--gutter);
+}
+
+.track {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 4px;
+}
+
+/* a 24px target round a short bar */
+.dot {
+  position: relative;
+  width: 20px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: width 300ms ease-out;
+}
+
+.dot::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1.5px);
+  right: 3px;
+  left: 3px;
+  height: 3px;
+  background: color-mix(in srgb, var(--color-muted) 45%, transparent);
+  transition: background-color 300ms;
+}
+
+.dot:hover::before {
+  background: var(--color-muted);
+}
+
+.dot[aria-selected="true"] {
+  width: 46px;
+}
+
+.dot[aria-selected="true"]::before {
+  background: var(--color-primary-strong);
+}
+
+/* A phone, and more people than fit one row: a window of 11 dots that slides to keep the
+   selected one in the middle (stopping at either end), rather than rows of wrapped dots.
+   --i and --n (the selected index and the count) are set by the component. */
+@media (max-width: 767.98px) {
+  .dots[data-many] {
+    --pitch: 16px;
+    --selected: 30px;
+    --view: calc(10 * var(--pitch) + var(--selected));
+
+    width: var(--view);
+    margin-inline: auto;
+    padding: 6px 0; /* room for a dot's focus ring */
+    overflow: hidden;
+  }
+
+  .dots[data-many] .track {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 0;
+    transform: translateX(
+      clamp(
+        calc(var(--view) - (var(--n) - 1) * var(--pitch) - var(--selected)),
+        calc(var(--view) / 2 - var(--i) * var(--pitch) - var(--selected) / 2),
+        0px
+      )
+    );
+    transition: transform 300ms ease-out;
+  }
+
+  .dots[data-many] .dot {
+    flex: none;
+    width: var(--pitch);
+  }
+
+  .dots[data-many] .dot[aria-selected="true"] {
+    width: var(--selected);
+  }
+}
+
+/* ---------- while resizing ---------------------------------------------- */
+
+.carousel[data-resizing] .card,
+.carousel[data-resizing] .body,
+.carousel[data-resizing] .thumb {
+  transition: none;
+}

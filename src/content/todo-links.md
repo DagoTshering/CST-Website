@@ -6,20 +6,19 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 
 ## Main menu (header)
 
-| Label                                   | Path                     | Notes                                                    |
-| --------------------------------------- | ------------------------ | -------------------------------------------------------- |
-| About Us › About CST                    | `/about`                 |                                                          |
-| About Us › Executives                   | `/about/executives`      |                                                          |
-| About Us › Staff Directory              | `/about/staff-directory` |                                                          |
-| Academics                               | `/academics`             |                                                          |
-| Announcements                           | `/announcements`         | Same page as the homepage's Announcements › View all.    |
-| Admissions                              | `/admissions`            | Admission for new students.                              |
-| Others › Vacancies                      | `/vacancies`             |                                                          |
-| Others › Student Hub                    | `/student-hub`           |                                                          |
-| Others › EU Project Links               | `/eu-projects`           |                                                          |
-| Others › Downloads                      | `/downloads`             | Same page as the footer's E-Services › Downloads.        |
-| Others › Live Campus Air & Climate Data | `/campus-climate`        | May be an external dashboard: link there directly if so. |
-| Header button › Contact us              | `/contact`               |                                                          |
+| Label                                   | Path                | Notes                                                    |
+| --------------------------------------- | ------------------- | -------------------------------------------------------- |
+| About Us › About CST                    | `/about`            |                                                          |
+| About Us › Executives                   | `/about/executives` |                                                          |
+| Academics                               | `/academics`        |                                                          |
+| Announcements                           | `/announcements`    | Same page as the homepage's Announcements › View all.    |
+| Admissions                              | `/admissions`       | Admission for new students.                              |
+| Others › Vacancies                      | `/vacancies`        |                                                          |
+| Others › Student Hub                    | `/student-hub`      |                                                          |
+| Others › EU Project Links               | `/eu-projects`      |                                                          |
+| Others › Downloads                      | `/downloads`        | Same page as the footer's E-Services › Downloads.        |
+| Others › Live Campus Air & Climate Data | `/campus-climate`   | May be an external dashboard: link there directly if so. |
+| Header button › Contact us              | `/contact`          |                                                          |
 
 The Important Links (Research, Student Life, Hostel Booking, CST-25) go to other CST sites.
 Programmes, Academic Calendar, Examination and Library are no longer in the menu: link them from
