@@ -34,3 +34,6 @@ next-env.d.ts
 elementor-export/
 
 prototype/
+
+# uploaded files (admin panel)
+/storage/

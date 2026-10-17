@@ -66,6 +66,22 @@
   --color-prog-pg: #338ba3;
   --color-prog-pg-ink: #08313c;
 
+  /* Admin panel (/admin) --------------------------------------------------- */
+  --color-admin-accent: #34acc8; /* indicators, focus, highlights (not text on white) */
+  --color-admin-accent-strong: #1f7f97; /* AA on white: buttons, links */
+  --color-admin-accent-soft: #e7f5f9;
+  --color-admin-navy: #102b3a; /* sidebar, headings */
+  --color-admin-navy-soft: #1b3d50;
+  --color-admin-bg: #f4f8fa;
+  --color-admin-line: #dde5ea;
+  --color-admin-muted: #5f6f79; /* 5.2:1 on white */
+  --color-admin-danger: #b42318;
+  --color-admin-danger-soft: #fef3f2;
+  --color-admin-success: #067647;
+  --color-admin-success-soft: #ecfdf3;
+  --color-admin-warning: #93370d;
+  --color-admin-warning-soft: #fffaeb;
+
   /* Type scale (fluid between 360px and 1440px) ---------------------------- */
   --text-display: clamp(2.625rem, 1.75rem + 3.9vw, 5rem);
   --text-display--line-height: 1.04;

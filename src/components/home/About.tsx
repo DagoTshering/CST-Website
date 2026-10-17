@@ -4,6 +4,8 @@ import type { CSSProperties } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartLink } from "@/components/ui/SmartLink";
 import { about } from "@/content/home";
+import { loadPublished } from "@/lib/cms/public";
+import { getPublishedAbout } from "@/lib/cms/resources/about";
 
 import s from "./About.module.css";
 import { AboutEmblem } from "./AboutEmblem";
@@ -11,14 +13,14 @@ import { AboutEmblem } from "./AboutEmblem";
 const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
 
 /** The heading with its emphasised word in colour, underlined by a gold stroke that draws in. */
-function Heading() {
-  const at = about.heading.indexOf(about.emphasis);
-  if (at < 0) return about.heading;
+function Heading({ text, emphasis }: { text: string; emphasis: string | null }) {
+  const at = emphasis ? text.indexOf(emphasis) : -1;
+  if (!emphasis || at < 0) return text;
   return (
     <>
-      {about.heading.slice(0, at)}
+      {text.slice(0, at)}
       <em className={s.emphasis}>
-        {about.emphasis}
+        {emphasis}
         <svg
           className={s.swash}
           viewBox="0 0 240 14"
@@ -29,7 +31,7 @@ function Heading() {
           <path d="M3 9C40 3 80 12 120 7S200 3 237 8" />
         </svg>
       </em>
-      {about.heading.slice(at + about.emphasis.length)}
+      {text.slice(at + emphasis.length)}
     </>
   );
 }
@@ -37,28 +39,33 @@ function Heading() {
 /**
  * About CST: the heading overlaps the aerial photograph, and behind the photograph a strip of
  * graph paper carries a technical drawing of the emblem. On a desktop the section fills one
- * screen below the header.
+ * screen below the header. The text and photograph are edited in the admin panel (About CST);
+ * the section is left out while it is unpublished.
  */
-export function About() {
-  const { photo } = about;
+export async function About() {
+  const result = await loadPublished("About CST", getPublishedAbout);
+  if (!result.ok || !result.data) return null;
+  const { heading, emphasis, subtitle, paragraphs, caption, photo } = result.data;
 
   return (
     <section id={about.id} aria-labelledby="about-title" className={s.section}>
       <div className={`container-page ${s.grid}`}>
         <header className={s.head}>
           <SectionHeading label={about.label} id="about-title" titleClassName={s.title}>
-            <Heading />
+            <Heading text={heading} emphasis={emphasis} />
           </SectionHeading>
-          <p data-reveal="" suppressHydrationWarning style={delay(160)} className={s.subtitle}>
-            {/* the separator keeps to the place name, so a wrapped line never ends with it */}
-            {about.subtitle.replace(" · ", " · ")}
-          </p>
+          {subtitle && (
+            <p data-reveal="" suppressHydrationWarning style={delay(160)} className={s.subtitle}>
+              {/* the separator keeps to the place name, so a wrapped line never ends with it */}
+              {subtitle.replace(" · ", " · ")}
+            </p>
+          )}
         </header>
 
         <div className={s.copy}>
-          {about.body.map((paragraph, i) => (
+          {paragraphs.map((paragraph, i) => (
             <p
-              key={paragraph.slice(0, 24)}
+              key={i}
               data-reveal=""
               suppressHydrationWarning
               style={delay(220 + i * 60)}
@@ -109,7 +116,8 @@ export function About() {
           </div>
 
           <figcaption className={s.caption}>
-            <span className={s.fig}>Fig. 01</span> — {about.caption}
+            <span className={s.fig}>Fig. 01</span>
+            {caption && <> — {caption}</>}
           </figcaption>
         </figure>
       </div>

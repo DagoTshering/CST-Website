@@ -6,6 +6,8 @@ import { Carousel } from "@/components/ui/Carousel";
 import { Emphasised } from "@/components/ui/Emphasis";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { facilities } from "@/content/home";
+import { loadPublished } from "@/lib/cms/public";
+import { getPublishedFacilities } from "@/lib/cms/resources/facilities";
 
 import scene from "@/components/ui/CarouselScene.module.css";
 
@@ -17,9 +19,14 @@ const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties
  * The campus facilities: the heading and quote above a carousel of photographs. On a desktop
  * the section fits one screen below the header, and with motion allowed it holds there
  * (ScrollPin) while the page's scroll carries the cards past, one after another, until the last
- * is in view; then it scrolls away. See ui/CarouselScene.module.css.
+ * is in view; then it scrolls away. See ui/CarouselScene.module.css. The facilities are edited
+ * in the admin panel; with none published, the section is left out.
  */
-export function Facilities() {
+export async function Facilities() {
+  const result = await loadPublished("facilities", getPublishedFacilities);
+  if (!result.ok || result.data.length === 0) return null;
+  const items = result.data;
+
   return (
     <ScrollPin
       id={facilities.id}
@@ -63,9 +70,9 @@ export function Facilities() {
           style={delay(260)}
           className={`mt-12 lg:mt-16 ${scene.rows}`}
         >
-          <Carousel label="Campus facilities" count={facilities.items.length} pinned>
-            {facilities.items.map((item, i) => (
-              <li key={item.title} className="group w-[min(80vw,23rem)] shrink-0 snap-start">
+          <Carousel label="Campus facilities" count={items.length} pinned>
+            {items.map((item, i) => (
+              <li key={item.id} className="group w-[min(80vw,23rem)] shrink-0 snap-start">
                 <div
                   className={`relative aspect-[4/3] overflow-hidden bg-line-soft shadow-[0_24px_48px_-26px_rgb(22_35_43/0.35)] ${scene.photo}`}
                 >
@@ -75,7 +82,6 @@ export function Facilities() {
                     fill
                     sizes="(min-width: 768px) 368px, 80vw"
                     className="object-cover transition-[scale] duration-[1200ms] ease-out-soft group-hover:scale-[1.05]"
-                    style={{ objectPosition: item.photo.focus }}
                   />
                 </div>
                 <div

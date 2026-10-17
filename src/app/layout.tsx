@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, IBM_Plex_Mono, Inter, Jost } from "next/font/google";
 
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
-import { RevealObserver } from "@/components/motion/RevealObserver";
 import { site } from "@/content/site";
 
 import "./globals.css";
@@ -51,23 +48,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      // globals.css turns on smooth scrolling; this tells Next.js to pause it during route changes
+      data-scroll-behavior="smooth"
       className={`${inter.variable} ${jost.variable} ${cormorant.variable} ${cormorantItalic.variable} ${plexMono.variable}`}
     >
       {/* id="top" is the target of the footer's "Back to top" link */}
-      <body id="top">
-        <a
-          href="#main"
-          className="fixed top-3 left-3 z-[100] -translate-y-24 rounded-sm bg-primary-strong px-4 py-2.5 text-small font-semibold text-white shadow-md transition-transform focus-visible:translate-y-0"
-        >
-          Skip to main content
-        </a>
-        <Header />
-        <main id="main" tabIndex={-1} className="flex-1 focus:outline-none">
-          {children}
-        </main>
-        <Footer />
-        <RevealObserver />
-      </body>
+      <body id="top">{children}</body>
     </html>
   );
 }

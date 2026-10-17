@@ -66,13 +66,16 @@ pnpm install
 cp .env.example .env        # Windows PowerShell: Copy-Item .env.example .env
 ```
 
-| Variable            | Used by                  | Purpose                                                          |
-| ------------------- | ------------------------ | ---------------------------------------------------------------- |
-| `POSTGRES_DB`       | `db` container           | Database created on first start                                  |
-| `POSTGRES_USER`     | `db` container           | Superuser created on first start                                 |
-| `POSTGRES_PASSWORD` | `db` container           | Password for that user                                           |
-| `DATABASE_URL`      | Next.js app, drizzle-kit | Connection string the **application** uses                       |
-| `NODE_ENV`          | Node.js                  | `development` locally; Compose forces `production` in containers |
+| Variable                 | Used by                  | Purpose                                                            |
+| ------------------------ | ------------------------ | ------------------------------------------------------------------ |
+| `POSTGRES_DB`            | `db` container           | Database created on first start                                    |
+| `POSTGRES_USER`          | `db` container           | Superuser created on first start                                   |
+| `POSTGRES_PASSWORD`      | `db` container           | Password for that user                                             |
+| `DATABASE_URL`           | Next.js app, drizzle-kit | Connection string the **application** uses                         |
+| `NODE_ENV`               | Node.js                  | `development` locally; Compose forces `production` in containers   |
+| `ADMIN_EMAIL`            | `pnpm db:seed`           | Email of the initial administrator                                 |
+| `ADMIN_INITIAL_PASSWORD` | `pnpm db:seed`           | Initial password (12+ characters); see [Admin panel](#admin-panel) |
+| `UPLOAD_DIR`             | Next.js app              | Where uploaded files are stored (default `storage/uploads`)        |
 
 **`DATABASE_URL` vs `POSTGRES_*`.** The `POSTGRES_*` variables only _initialise_ the PostgreSQL
 container, and only the first time its data volume is created; changing them later does not change an
@@ -95,7 +98,8 @@ manager. `.env` and `.env.*` (except `.env.example`) are git- and docker-ignored
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d db
 
 pnpm db:migrate     # apply migrations
-pnpm dev            # http://localhost:3000
+pnpm db:seed        # initial administrator and homepage content (safe to rerun)
+pnpm dev            # http://localhost:3000, admin at http://localhost:3000/admin
 ```
 
 Check the database connection at <http://localhost:3000/api/health>
@@ -109,6 +113,7 @@ You can also point `DATABASE_URL` at any other PostgreSQL server you already run
 docker compose build
 docker compose up -d db                 # start the database
 docker compose run --rm migrate         # apply migrations (explicit deployment step)
+docker compose run --rm migrate ./node_modules/.bin/tsx scripts/seed.ts   # administrator + initial content
 docker compose up -d                    # start app + db
 ```
 
@@ -124,11 +129,59 @@ What the Compose setup does:
 
 - **app** — built from the `runner` stage (Next.js standalone output), runs as the non-root `node`
   user with a read-only root filesystem, waits for the `db` health check, exposes port 3000 and has
-  its own health check against `/api/health`.
+  its own health check against `/api/health`. Files uploaded in the admin panel are written to the
+  named volume `uploads` (mounted at `/app/storage/uploads`), the only writable application path.
 - **migrate** — built from the `migrator` stage; runs `drizzle-kit migrate` once and exits. It is in
   the `tools` profile, so `docker compose up` does not start it.
 - **db** — official `postgres:18-alpine`, data in the named volume `pgdata`, `pg_isready` health
   check, attached only to the internal `backend` network. Its port is **not** published.
+
+## Admin panel
+
+An administration panel at `/admin` lets authorised administrators manage the homepage content:
+About CST, Facilities, Academic Programmes, Events, Leadership & Governance and Announcements.
+Each has a draft/published status; the public site shows only published content, and saving in the
+admin panel updates the homepage immediately.
+
+**First sign-in.** Set `ADMIN_EMAIL` and `ADMIN_INITIAL_PASSWORD` in `.env` (never prefix them with
+`NEXT_PUBLIC_`), run `pnpm db:migrate` then `pnpm db:seed`, and sign in at
+<http://localhost:3000/admin/login>. The seed is idempotent: if the administrator already exists it
+is left untouched, so rerunning it never duplicates the account or resets a changed password.
+
+The seed also fills the homepage with its initial content: About CST, the six facilities, the
+programmes and the President's profile, all published (`scripts/seed-content.ts`; photographs are
+copied from `public/images` into the upload store). Events and announcements are not seeded. Each
+category is seeded only while its table is empty, so a rerun never overwrites edits — but if every
+item of a category is deleted, the next seed run adds the initial items back.
+
+> [!WARNING]
+> The initial password is for first sign-in only. Before production deployment, sign in, change it
+> under **Settings**, and remove `ADMIN_INITIAL_PASSWORD` from the environment. The dashboard shows
+> a warning until it has been changed.
+
+**How it works**
+
+- Sign-in: Argon2id password hashes (`@node-rs/argon2`); server-side sessions in `admin_sessions`
+  (the HTTP-only, SameSite=Lax cookie holds a random token, the database only its SHA-256 hash;
+  12-hour lifetime; `Secure` in production). Failed sign-ins are throttled per email (5 per 15
+  minutes) and per client address (25), with one generic error message. No self-registration.
+- Authorisation is checked on the server in every admin page, Server Action and Route Handler
+  (`src/lib/auth/dal.ts`). `src/proxy.ts` only redirects visitors without a session cookie early.
+- Public pages read published content in Server Components through cached queries
+  (`src/lib/cms/resources/*`); admin forms save through Server Actions, which refresh that cache.
+- Uploads go to `POST /api/admin/uploads`: images are decoded and re-encoded with `sharp` (JPEG,
+  PNG or WebP, up to 8 MB, metadata stripped), PDFs are checked by signature (up to 15 MB), and files
+  get random names under `UPLOAD_DIR`. `GET /media/<file>` serves a file publicly only while
+  published content uses it; otherwise only to a signed-in administrator.
+
+**Adding a content category:** add a table to `src/lib/db/schema/content.ts` and generate a
+migration; add `src/lib/cms/resources/<name>.ts` (schema, form fields, writes, queries) following
+an existing one; add the pages and `actions.ts` under `src/app/admin/(panel)/<name>/`; add it to
+`src/components/admin/nav.ts`.
+
+**In production**, also: serve the site over HTTPS only; run it behind a reverse proxy that sets
+`X-Forwarded-For` (the login throttle uses it, and a client could otherwise set it); and back up the
+`uploads` volume together with the database.
 
 ## Database migrations
 

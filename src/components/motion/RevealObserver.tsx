@@ -28,8 +28,11 @@ export function RevealObserver() {
       { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
     );
 
+    const watched = new WeakSet<Element>();
     const watch = () => {
       for (const el of document.querySelectorAll("[data-reveal]:not([data-revealed])")) {
+        if (watched.has(el)) continue;
+        watched.add(el);
         const box = el.getBoundingClientRect();
         if (box.top < window.innerHeight && box.bottom > 0) reveal(el);
         else observer.observe(el);
@@ -38,7 +41,21 @@ export function RevealObserver() {
     watch();
     root.setAttribute("data-reveal-ready", "");
 
+    // Sections that read the database stream in after this has run (they sit behind Suspense),
+    // so elements added later are picked up too; otherwise they would stay hidden.
+    let queued = false;
+    const added = new MutationObserver(() => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        watch();
+      });
+    });
+    added.observe(document.body, { childList: true, subtree: true });
+
     return () => {
+      added.disconnect();
       observer.disconnect();
       root.removeAttribute("data-reveal-ready");
     };

@@ -4,12 +4,16 @@ import type { CSSProperties } from "react";
 import { ScrollPin } from "@/components/motion/ScrollPin";
 import { Carousel } from "@/components/ui/Carousel";
 import scene from "@/components/ui/CarouselScene.module.css";
-import { ClockIcon } from "@/components/ui/icons";
+import { ClockIcon, MapPinIcon } from "@/components/ui/icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SheetLink } from "@/components/ui/SheetLink";
 import { SmartLink } from "@/components/ui/SmartLink";
-import { eventsSection, type CollegeEvent } from "@/content/home";
+import { eventsSection } from "@/content/home";
+import { loadPublished } from "@/lib/cms/public";
+import { getPublishedEvents } from "@/lib/cms/resources/events";
 import { dateParts, formatDate } from "@/lib/dates";
+
+type CollegeEvent = Awaited<ReturnType<typeof getPublishedEvents>>[number];
 
 const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
 
@@ -48,7 +52,7 @@ function EventCard({ event }: { event: CollegeEvent }) {
           {/* two lines kept for every title, so the cards are one height */}
           <h3 className="min-h-[2lh] font-serif text-[1.25rem] leading-snug font-semibold text-ink">
             <SmartLink
-              href={event.href}
+              href={eventsSection.link.href}
               className="transition-colors after:absolute after:inset-0 group-hover:text-primary-strong"
             >
               {event.title}
@@ -58,9 +62,10 @@ function EventCard({ event }: { event: CollegeEvent }) {
             <ClockIcon className="size-4 text-brass" />
             {range}
           </p>
-          {!event.titleComplete && (
-            <p className="mt-1.5 text-xs text-muted">
-              <span className="font-semibold">To verify:</span> full title and summary.
+          {event.location && (
+            <p className="mt-1.5 flex items-center gap-2 text-xs text-muted">
+              <MapPinIcon className="size-4 text-brass" />
+              {event.location}
             </p>
           )}
         </div>
@@ -73,9 +78,14 @@ function EventCard({ event }: { event: CollegeEvent }) {
  * The latest events as a carousel of cards on the graph paper Facilities uses, in the same
  * carousel scene: one screen on a desktop, held there while the page's scroll carries the
  * cards past when there are more than fit (see ui/CarouselScene.module.css). From the homepage
- * on main, set in the drafting style of the sections above.
+ * on main, set in the drafting style of the sections above. The events are edited in the admin
+ * panel; with none published, the section is left out.
  */
-export function Events() {
+export async function Events() {
+  const result = await loadPublished("events", getPublishedEvents);
+  if (!result.ok || result.data.length === 0) return null;
+  const items = result.data;
+
   return (
     <ScrollPin
       id={eventsSection.id}
@@ -110,9 +120,9 @@ export function Events() {
           style={delay(240)}
           className={`mt-10 lg:mt-14 ${scene.rows}`}
         >
-          <Carousel label="Latest events" count={eventsSection.items.length} pinned>
-            {eventsSection.items.map((event) => (
-              <EventCard key={event.title} event={event} />
+          <Carousel label="Latest events" count={items.length} pinned>
+            {items.map((event) => (
+              <EventCard key={event.id} event={event} />
             ))}
           </Carousel>
         </div>

@@ -5,10 +5,12 @@ type SmartLinkProps = Omit<ComponentPropsWithoutRef<"a">, "href"> & { href: stri
 
 const isExternal = (href: string) => /^https?:\/\//.test(href);
 const isProtocol = (href: string) => /^(mailto|tel):/.test(href);
+/** Uploaded files (src/app/media) are documents, not pages to navigate to client-side. */
+const isFile = (href: string) => href.startsWith("/media/");
 
 /**
  * Internal paths and in-page anchors go through next/link; other websites open in a new tab
- * (and say so to screen readers); mailto: and tel: links stay plain anchors. Internal links
+ * (and say so to screen readers); mailto: and tel: links and uploaded files stay plain anchors. Internal links
  * are not prefetched, because most of them point at pages that do not exist yet (see
  * src/content/todo-links.md).
  */
@@ -22,7 +24,7 @@ export function SmartLink({ href, children, ...props }: SmartLinkProps) {
       </a>
     );
   }
-  if (isProtocol(href)) {
+  if (isProtocol(href) || isFile(href)) {
     return (
       <a href={href} {...props}>
         {children}

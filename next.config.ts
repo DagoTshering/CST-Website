@@ -7,8 +7,11 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   poweredByHeader: false,
   images: {
-    // Only optimise our own files under public/images, at the default quality.
-    localPatterns: [{ pathname: "/images/**", search: "" }],
+    // Only optimise our own files: public/images, and uploads served from /media.
+    localPatterns: [
+      { pathname: "/images/**", search: "" },
+      { pathname: "/media/**", search: "" },
+    ],
     qualities: [75],
     formats: ["image/avif", "image/webp"],
   },

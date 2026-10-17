@@ -24,6 +24,9 @@ services:
     tmpfs:
       - /tmp
       - /app/.next/cache:uid=1000,gid=1000,mode=0755
+    volumes:
+      # Images and documents uploaded in the admin panel. Back this volume up with the database.
+      - uploads:/app/storage/uploads
     security_opt:
       - no-new-privileges:true
     healthcheck:
@@ -45,6 +48,9 @@ services:
     environment:
       NODE_ENV: production
       DATABASE_URL: postgres://${POSTGRES_USER:?set in .env}:${POSTGRES_PASSWORD:?set in .env}@db:5432/${POSTGRES_DB:?set in .env}
+    volumes:
+      # The seed copies the homepage's initial photographs here.
+      - uploads:/app/storage/uploads
     depends_on:
       db:
         condition: service_healthy
@@ -83,3 +89,4 @@ networks:
 
 volumes:
   pgdata:
+  uploads:

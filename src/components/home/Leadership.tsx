@@ -1,11 +1,12 @@
 import type { CSSProperties } from "react";
 
 import { Emphasised } from "@/components/ui/Emphasis";
-import { PendingNote } from "@/components/ui/PendingNote";
 import { Plate } from "@/components/ui/Plate";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SheetLink } from "@/components/ui/SheetLink";
 import { leadership } from "@/content/home";
+import { loadPublished } from "@/lib/cms/public";
+import { getFeaturedLeader } from "@/lib/cms/resources/leaders";
 
 import s from "./Leadership.module.css";
 
@@ -15,9 +16,14 @@ const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties
  * The college president, on the drawing sheet in blueprint: deep teal with a faint light grid
  * and a hairline sheet border, the portrait as a plate (Fig. 05). On a desktop it fits one
  * screen below the header (see Leadership.module.css). From the homepage on main, set in the
- * drafting style of the sections above.
+ * drafting style of the sections above. The profile is the first published one in the admin
+ * panel's Leadership & Governance; with none published, the section is left out.
  */
-export function Leadership() {
+export async function Leadership() {
+  const result = await loadPublished("leadership", getFeaturedLeader);
+  if (!result.ok || !result.data) return null;
+  const leader = result.data;
+
   return (
     <section
       id={leadership.id}
@@ -35,7 +41,7 @@ export function Leadership() {
             className={`mx-auto w-full max-w-xs md:col-span-5 md:max-w-none lg:col-span-4 ${s.portrait}`}
           >
             <Plate
-              photo={leadership.photo}
+              photo={leader.photo}
               fig={5}
               caption={leadership.caption}
               aspect="4 / 5"
@@ -44,10 +50,10 @@ export function Leadership() {
             />
             <p data-reveal suppressHydrationWarning style={delay(200)} className="mt-5">
               <span className="block font-serif text-[1.625rem] leading-tight font-semibold">
-                {leadership.name}
+                {leader.name}
               </span>
               <span className="mt-2 block font-mono text-[11px] tracking-[0.1em] text-on-dark-muted uppercase">
-                {leadership.designation}
+                {leader.designation}
               </span>
             </p>
           </div>
@@ -69,12 +75,12 @@ export function Leadership() {
             >
               {leadership.statement}
             </blockquote>
-            {leadership.bio ? (
-              <p className="mt-6 leading-relaxed text-on-dark">{leadership.bio}</p>
-            ) : (
-              <PendingNote tone="dark" className={`mt-6 ${s.note}`}>
-                President&apos;s biography or message to be supplied by the college.
-              </PendingNote>
+            {leader.biography && (
+              <p
+                className={`mt-6 line-clamp-5 leading-relaxed whitespace-pre-line text-on-dark ${s.note}`}
+              >
+                {leader.biography}
+              </p>
             )}
             <div className={`mt-8 flex flex-wrap gap-x-10 gap-y-2 ${s.links}`}>
               {leadership.links.map((link) => (

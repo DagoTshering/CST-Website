@@ -6,6 +6,8 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SheetLink } from "@/components/ui/SheetLink";
 import { SmartLink } from "@/components/ui/SmartLink";
 import { announcementsSection } from "@/content/home";
+import { loadPublished } from "@/lib/cms/public";
+import { getPublishedAnnouncements } from "@/lib/cms/resources/announcements";
 import { formatDate } from "@/lib/dates";
 
 import s from "./Announcements.module.css";
@@ -18,9 +20,13 @@ const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties
  * A notice board beside the opportunities: a plate (Fig. 06) on a strip of graph paper that
  * runs off the right edge, as About's does, with the two links under it. On a desktop it fits
  * one screen below the header (see Announcements.module.css). From the homepage on main, set in
- * the drafting style of the sections above.
+ * the drafting style of the sections above. The notices are the latest published in the admin
+ * panel; a notice with a PDF opens it.
  */
-export function Announcements() {
+export async function Announcements() {
+  const result = await loadPublished("announcements", getPublishedAnnouncements);
+  const items = result.ok ? result.data : [];
+
   return (
     <section
       id={announcementsSection.id}
@@ -39,42 +45,48 @@ export function Announcements() {
               </SheetLink>
             </div>
 
-            <ul className={`mt-10 border-t border-ink ${s.list}`}>
-              {announcementsSection.items.map((item, i) => (
-                <li key={item.title} data-reveal suppressHydrationWarning style={delay(i * 100)}>
-                  <SmartLink
-                    href={item.href}
-                    className={`group grid gap-x-8 gap-y-2 border-b border-line py-6 transition-colors hover:border-primary sm:grid-cols-[8.5rem_1fr_auto] sm:items-start ${s.row}`}
-                  >
-                    <span className="font-mono text-xs tracking-[0.06em] text-muted sm:pt-1.5">
-                      {item.date ? (
-                        <time dateTime={item.date}>{formatDate(item.date)}</time>
-                      ) : (
-                        <span title="Publication date to be verified">Date to verify</span>
-                      )}
-                    </span>
-                    <span>
-                      <span className="eyebrow text-primary-strong">
-                        {item.category}
-                        {item.documentType && (
-                          <span className="ml-2 text-muted">· {item.documentType}</span>
+            {items.length === 0 ? (
+              <p className="mt-10 border-t border-ink pt-6 text-copy">
+                There are no announcements at the moment.
+              </p>
+            ) : (
+              <ul className={`mt-10 border-t border-ink ${s.list}`}>
+                {items.map((item, i) => (
+                  <li key={item.id} data-reveal suppressHydrationWarning style={delay(i * 100)}>
+                    <SmartLink
+                      href={item.documentUrl ?? announcementsSection.link.href}
+                      className={`group grid gap-x-8 gap-y-2 border-b border-line py-6 transition-colors hover:border-primary sm:grid-cols-[8.5rem_1fr_auto] sm:items-start ${s.row}`}
+                    >
+                      <span className="font-mono text-xs tracking-[0.06em] text-muted sm:pt-1.5">
+                        <time dateTime={item.publishedOn}>{formatDate(item.publishedOn)}</time>
+                      </span>
+                      <span>
+                        {(item.category || item.documentUrl) && (
+                          <span className="eyebrow text-primary-strong">
+                            {item.category}
+                            {item.documentUrl && (
+                              <span className={item.category ? "ml-2 text-muted" : "text-muted"}>
+                                {item.category ? "· " : ""}PDF
+                              </span>
+                            )}
+                          </span>
                         )}
+                        <span
+                          className={`mt-1.5 block font-serif text-[1.375rem] leading-snug font-semibold text-ink transition-colors group-hover:text-primary-strong ${s.title}`}
+                        >
+                          {item.title}
+                        </span>
                       </span>
-                      <span
-                        className={`mt-1.5 block font-serif text-[1.375rem] leading-snug font-semibold text-ink transition-colors group-hover:text-primary-strong ${s.title}`}
-                      >
-                        {item.title}
-                      </span>
-                    </span>
-                    {item.documentType ? (
-                      <DocumentIcon className="hidden size-5 text-muted transition-colors group-hover:text-primary-strong sm:block" />
-                    ) : (
-                      <ExternalIcon className="hidden size-5 text-muted transition-colors group-hover:text-primary-strong sm:block" />
-                    )}
-                  </SmartLink>
-                </li>
-              ))}
-            </ul>
+                      {item.documentUrl ? (
+                        <DocumentIcon className="hidden size-5 text-muted transition-colors group-hover:text-primary-strong sm:block" />
+                      ) : (
+                        <ExternalIcon className="hidden size-5 text-muted transition-colors group-hover:text-primary-strong sm:block" />
+                      )}
+                    </SmartLink>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <aside aria-label={opportunities.label} className="relative lg:col-span-4 lg:col-start-9">

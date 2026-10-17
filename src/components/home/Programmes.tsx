@@ -7,11 +7,13 @@ import { Plate } from "@/components/ui/Plate";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SheetLink } from "@/components/ui/SheetLink";
 import { SmartLink } from "@/components/ui/SmartLink";
-import { hero, programmesSection, type Programme } from "@/content/home";
+import { programmesSection } from "@/content/home";
+import { loadPublished } from "@/lib/cms/public";
+import { getPublishedProgrammes } from "@/lib/cms/resources/programmes";
 
 import s from "./Programmes.module.css";
 
-const { programmes } = hero;
+type Programme = Awaited<ReturnType<typeof getPublishedProgrammes>>[number];
 
 const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
 
@@ -29,11 +31,13 @@ function ProgrammeRow({ programme, number }: { programme: Programme; number: num
           {String(number).padStart(2, "0")}
         </span>
         <span className="font-serif text-[1.375rem] leading-snug font-semibold text-ink transition-[translate,color] duration-200 group-hover:translate-x-1 group-hover:text-primary-strong sm:text-[1.5rem]">
-          {shortName(programme.title)}
-          <span className="sr-only">, {programme.title}</span>
+          {shortName(programme.name)}
+          <span className="sr-only">, {programme.name}</span>
         </span>
         {/* the year it was first offered (or will be), as on the hero's clock */}
-        <span className="font-mono text-xs tracking-[0.12em] text-muted">{programme.year}</span>
+        <span className="font-mono text-xs tracking-[0.12em] text-muted">
+          {programme.startYear}
+        </span>
         <ExternalIcon className="size-5 text-muted transition-colors group-hover:text-primary-strong" />
       </SmartLink>
     </li>
@@ -44,10 +48,14 @@ function ProgrammeRow({ programme, number }: { programme: Programme; number: num
  * The programmes as an index, beside an introduction with the convocation photograph as
  * a plate (Fig. 04), with the college's key figures closing the list. On a desktop the
  * introduction fits one screen and holds still while the list and figures scroll past, to the end
- * of the section (see Programmes.module.css). The list is the hero's, so the
- * two always agree. From the homepage on main, set in the drafting style of the sections above.
+ * of the section (see Programmes.module.css). The list is the published programmes from the
+ * admin panel (the hero's clock keeps its own, fixed list). The section always renders, as the
+ * hero links to it. From the homepage on main, set in the drafting style of the sections above.
  */
-export function Programmes() {
+export async function Programmes() {
+  const result = await loadPublished("programmes", getPublishedProgrammes);
+  const programmes = result.ok ? result.data : [];
+
   return (
     <section
       id={programmesSection.id}
@@ -88,27 +96,31 @@ export function Programmes() {
           </div>
 
           <div className="grid gap-14 lg:col-span-7">
-            {programmesSection.groups.map((group, g) => (
-              <div key={group.title} data-reveal suppressHydrationWarning style={delay(g * 120)}>
-                <div className="flex items-baseline justify-between gap-4 border-b border-ink pb-3">
-                  <h3 className="eyebrow text-ink">{group.title}</h3>
-                  <p className="font-mono text-[11px] tracking-[0.1em] text-muted uppercase">
-                    {group.note}
-                  </p>
-                </div>
-                <ul>
-                  {programmes
-                    .filter((programme) => Boolean(programme.postgraduate) === group.postgraduate)
-                    .map((programme) => (
+            {programmesSection.groups.map((group, g) => {
+              const inGroup = programmes.filter(
+                (programme) => (programme.level === "postgraduate") === group.postgraduate,
+              );
+              if (inGroup.length === 0) return null;
+              return (
+                <div key={group.title} data-reveal suppressHydrationWarning style={delay(g * 120)}>
+                  <div className="flex items-baseline justify-between gap-4 border-b border-ink pb-3">
+                    <h3 className="eyebrow text-ink">{group.title}</h3>
+                    <p className="font-mono text-[11px] tracking-[0.1em] text-muted uppercase">
+                      {group.note}
+                    </p>
+                  </div>
+                  <ul>
+                    {inGroup.map((programme) => (
                       <ProgrammeRow
-                        key={programme.key}
+                        key={programme.id}
                         programme={programme}
                         number={programmes.indexOf(programme) + 1}
                       />
                     ))}
-                </ul>
-              </div>
-            ))}
+                  </ul>
+                </div>
+              );
+            })}
 
             {/* the key figures close the list, so the introduction stays in view to the end */}
             <div className="border-t border-line pt-10">
