@@ -1,0 +1,564 @@
+/* ==========================================================================
+   Staff carousel (a connected carousel)
+   Every card is absolutely placed from the panel's centre. Its offset to the
+   active card (data-o, -3 to 3; 3 means "3 or more") picks its place, size and
+   visibility for the screen's tier:
+     phone   (< 768px)     active card --aw wide, one narrow peek card each side
+     tablet  (768-1119px)  active card 560 wide, one side card each side
+     desktop (>= 1120px)   active card 762 wide, two side cards each side
+   Heights fit the screen: a department (heading, carousel, dots) is never taller
+   than the screen below the header, so the panel takes what the heading and
+   dots leave it, from the tier's full height (490, 440, 513: the prototype's)
+   down to a floor that still holds a card's details. The panel is a size
+   container and every height inside it is a share of its height (cqh).
+   Side cards show the portrait alone; the active card's body (details and
+   photo) is laid out at full size inside every card and clipped, so it slides
+   in as a card grows. A white notch joins each side card to its neighbour.
+   [data-resizing] is set by the component while the window is resized, so the
+   cards snap rather than glide. Reduced motion: globals.css shortens every
+   transition to nothing.
+   ========================================================================== */
+
+.carousel {
+  /* the tier's geometry: active card, gap, side card */
+  --aw: min(340px, 100cqw - 68px);
+  --ah-max: 490px;
+  --ah-min: 400px;
+  --gap: 12px;
+  --pw: 60px;
+  --ph: calc(100cqh - 80px); /* the side cards' height */
+  --fh: calc(100cqh * 0.4); /* the cards further out */
+  --glide: 600ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  position: relative;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  /* out into the page gutters, so the side cards run to the screen's edge */
+  margin-inline: calc(-1 * var(--gutter));
+  padding: 22px 0 10px;
+  overflow: hidden;
+  user-select: none;
+  touch-action: pan-y; /* vertical drags scroll the page; horizontal ones swipe */
+}
+
+/* the carousel runs edge to edge, so its focus ring sits inside it */
+.carousel:focus-visible {
+  outline-offset: -2px;
+}
+
+/* as tall as the tier allows, shrinking (to --ah-min) when the department would not fit */
+.panel {
+  position: relative;
+  flex: 0 1 var(--ah-max);
+  height: var(--ah-max);
+  min-height: var(--ah-min);
+  container-type: size;
+}
+
+/* ---------- cards -------------------------------------------------------- */
+
+.card {
+  /* off stage unless a rule below says otherwise */
+  --x: 0px;
+  --w: var(--pw);
+  --h: var(--ph);
+  --op: 0;
+  --z: 0;
+  --pe: none;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: var(--z);
+  width: var(--w);
+  height: var(--h);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  box-shadow: var(--shadow-sm), var(--shadow-lg); /* a crisp edge and a soft depth */
+  opacity: var(--op);
+  pointer-events: var(--pe);
+  transform: translate(var(--x), -50%); /* every card is centred on the panel's middle */
+  will-change: transform;
+  transition:
+    transform var(--glide),
+    width var(--glide),
+    height var(--glide),
+    opacity 450ms ease;
+}
+
+.card:not([data-o="0"]) {
+  cursor: pointer;
+}
+
+.card[data-o="0"] {
+  --x: calc(var(--aw) / -2);
+  --w: var(--aw);
+  --h: 100cqh;
+  --op: 1;
+  --z: 1;
+  --pe: auto;
+}
+
+.card[data-o="-1"] {
+  --x: calc(var(--aw) / -2 - var(--gap) - var(--pw));
+  --op: 1;
+  --z: 2;
+  --pe: auto;
+}
+
+.card[data-o="1"] {
+  --x: calc(var(--aw) / 2 + var(--gap));
+  --op: 1;
+  --z: 2;
+  --pe: auto;
+}
+
+.card[data-o="-2"],
+.card[data-o="-3"] {
+  --x: calc(var(--aw) / -2 - 220px - var(--pw));
+  --h: var(--fh);
+}
+
+.card[data-o="2"],
+.card[data-o="3"] {
+  --x: calc(var(--aw) / 2 + 220px);
+  --h: var(--fh);
+}
+
+@media (min-width: 768px) {
+  .carousel {
+    --aw: 560px;
+    --ah-max: 440px;
+    --ah-min: 360px;
+    --gap: 18px;
+    --pw: 100px;
+    --ph: calc(100cqh * 340 / 440);
+  }
+
+  .card[data-o="-2"],
+  .card[data-o="-3"],
+  .card[data-o="2"],
+  .card[data-o="3"] {
+    --w: 74px;
+  }
+
+  .card[data-o="-2"],
+  .card[data-o="-3"] {
+    --x: -594px;
+  }
+
+  .card[data-o="2"],
+  .card[data-o="3"] {
+    --x: 520px;
+  }
+}
+
+@media (min-width: 1120px) {
+  .carousel {
+    --aw: 762px;
+    --ah-max: 513px;
+    --ah-min: 400px;
+    --gap: 20px;
+    --pw: 105px;
+    --ph: calc(100cqh * 344 / 513);
+    --fh: calc(100cqh * 205 / 513);
+  }
+
+  /* a second, smaller side card each side */
+  .card[data-o="-2"] {
+    --x: -596px;
+    --op: 1;
+    --z: 2;
+    --pe: auto;
+  }
+
+  .card[data-o="2"] {
+    --x: 522px;
+    --op: 1;
+    --z: 2;
+    --pe: auto;
+  }
+
+  .card[data-o="-3"] {
+    --x: -720px;
+  }
+
+  .card[data-o="3"] {
+    --x: 646px;
+  }
+}
+
+/* ---------- the notch between neighbours -------------------------------- */
+
+.connector {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 3;
+  display: none;
+  width: calc(var(--gap) + 2px);
+  height: 42px;
+  margin-block: auto;
+  color: var(--color-white);
+  pointer-events: none;
+}
+
+.connector svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: currentColor;
+}
+
+/* on the side facing the active card */
+.card[data-o="-1"] .connector,
+.card[data-o="-2"] .connector {
+  left: calc(100% - 1px);
+}
+
+.card[data-o="1"] .connector,
+.card[data-o="2"] .connector {
+  right: calc(100% - 1px);
+}
+
+.card[data-o="-1"] .connector,
+.card[data-o="1"] .connector {
+  display: block;
+}
+
+@media (min-width: 1120px) {
+  .card[data-o="-2"] .connector,
+  .card[data-o="2"] .connector {
+    display: block;
+    width: 18px;
+    height: 28px;
+  }
+}
+
+/* ---------- inside a card ------------------------------------------------ */
+
+.clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.fill {
+  width: 100%;
+  height: 100%;
+}
+
+/* a side card's portrait */
+.thumb {
+  position: absolute;
+  inset: 0;
+  padding: 6px;
+  transition: opacity 220ms ease-out;
+}
+
+.card[data-o="0"] .thumb {
+  opacity: 0;
+}
+
+/* the active card's contents, always at the active card's size */
+.stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--aw);
+  height: 100cqh;
+  transform: translate(-50%, -50%);
+}
+
+.body {
+  --shift: 822px;
+
+  display: flex;
+  gap: 36px;
+  width: 100%;
+  height: 100%;
+  padding: 40px 40px 40px 48px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(var(--shift));
+  transition:
+    opacity 450ms ease,
+    transform var(--glide);
+}
+
+.card[data-o^="-"] .body {
+  --shift: -822px;
+}
+
+.card[data-o="0"] .body {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+.info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 2.625rem;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.details {
+  margin-top: 10px;
+}
+
+/* the active card's photo, in the drawing's crop marks */
+.portrait {
+  position: relative;
+  flex: none;
+  width: clamp(180px, 42%, 320px);
+  height: 100%;
+}
+
+@media (max-width: 1119.98px) {
+  .body {
+    gap: 22px;
+    padding: 28px 28px 28px 34px;
+  }
+
+  .name {
+    font-size: 2.125rem;
+  }
+}
+
+/* a card shortened to fit a low screen (the panel's height) keeps its details inside it */
+@media (min-width: 768px) {
+  @container (max-height: 420px) {
+    .body {
+      padding-block: 20px;
+    }
+
+    .name {
+      font-size: 1.875rem;
+    }
+  }
+}
+
+/* the phone's photo face and its way back: phones only */
+.front,
+.flipBack {
+  display: none;
+}
+
+/* A phone: the active card shows the photo alone (.front, like a large side card), with a
+   "More details" label; tapping it turns the card over, like a card in the hand, to the details
+   (.info), which have a "Back to photo" button. Both faces turn about the vertical axis, each
+   hidden while it faces away, so only one is ever seen; the turn is a transform alone. */
+@media (max-width: 767.98px) {
+  .body {
+    position: relative;
+    padding: 0;
+  }
+
+  .portrait {
+    display: none;
+  }
+
+  .front,
+  .info {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    transition: transform 650ms cubic-bezier(0.45, 0, 0.2, 1);
+  }
+
+  .front {
+    display: block;
+    padding: 6px;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    transform: perspective(1200px) rotateY(0deg);
+  }
+
+  /* inside the card, which clips anything outside it */
+  .front:focus-visible {
+    outline-offset: -4px;
+  }
+
+  .frontLabel {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--color-white);
+    box-shadow: var(--shadow-sm);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-primary-strong);
+    translate: -50% 0;
+  }
+
+  .info {
+    flex: none;
+    justify-content: flex-start;
+    padding: 22px 20px 14px;
+    transform: perspective(1200px) rotateY(180deg);
+  }
+
+  .card[data-flipped] .front {
+    transform: perspective(1200px) rotateY(-180deg);
+  }
+
+  .card[data-flipped] .info {
+    transform: perspective(1200px) rotateY(0deg);
+  }
+
+  .name {
+    font-size: 1.625rem;
+  }
+
+  .details {
+    margin-top: 6px;
+  }
+
+  .flipBack {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: 10px;
+    min-height: 44px;
+    margin-top: auto;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-primary-strong);
+    cursor: pointer;
+  }
+
+  .flipBack svg {
+    width: 18px;
+    height: 10px;
+    fill: none;
+    stroke: var(--color-brass);
+    stroke-width: 1.3;
+    stroke-linecap: square;
+  }
+}
+
+/* ---------- dots --------------------------------------------------------- */
+
+.dots {
+  flex: none;
+  margin-top: 18px;
+  padding-inline: var(--gutter);
+}
+
+.track {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 4px;
+}
+
+/* a 24px target round a short bar */
+.dot {
+  position: relative;
+  width: 20px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transition: width 300ms ease-out;
+}
+
+.dot::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 1.5px);
+  right: 3px;
+  left: 3px;
+  height: 3px;
+  background: color-mix(in srgb, var(--color-muted) 45%, transparent);
+  transition: background-color 300ms;
+}
+
+.dot:hover::before {
+  background: var(--color-muted);
+}
+
+.dot[aria-selected="true"] {
+  width: 46px;
+}
+
+.dot[aria-selected="true"]::before {
+  background: var(--color-primary-strong);
+}
+
+/* A phone, and more people than fit one row: a window of 11 dots that slides to keep the
+   selected one in the middle (stopping at either end), rather than rows of wrapped dots.
+   --i and --n (the selected index and the count) are set by the component. */
+@media (max-width: 767.98px) {
+  .dots[data-many] {
+    --pitch: 16px;
+    --selected: 30px;
+    --view: calc(10 * var(--pitch) + var(--selected));
+
+    width: var(--view);
+    margin-inline: auto;
+    padding: 6px 0; /* room for a dot's focus ring */
+    overflow: hidden;
+  }
+
+  .dots[data-many] .track {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 0;
+    transform: translateX(
+      clamp(
+        calc(var(--view) - (var(--n) - 1) * var(--pitch) - var(--selected)),
+        calc(var(--view) / 2 - var(--i) * var(--pitch) - var(--selected) / 2),
+        0px
+      )
+    );
+    transition: transform 300ms ease-out;
+  }
+
+  .dots[data-many] .dot {
+    flex: none;
+    width: var(--pitch);
+  }
+
+  .dots[data-many] .dot[aria-selected="true"] {
+    width: var(--selected);
+  }
+}
+
+/* ---------- while resizing ---------------------------------------------- */
+
+.carousel[data-resizing] .card,
+.carousel[data-resizing] .body,
+.carousel[data-resizing] .thumb {
+  transition: none;
+}
