@@ -14,6 +14,26 @@
   position: relative;
 }
 
+/* no fixed shape: the frame takes what the caption leaves of the plate's height */
+.plate[data-fluid] {
+  display: flex;
+  flex-direction: column;
+}
+
+.plate[data-fluid] .frame {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.plate[data-fluid] .photo {
+  height: 100%;
+}
+
+.plate[data-fluid] .caption {
+  flex: none;
+  align-self: flex-start;
+}
+
 .photo {
   position: relative;
   overflow: hidden;

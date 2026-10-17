@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Academic programmes
+   Desktop (>= 1024px): the introduction is one screen below the (scrolled)
+   header and holds still (sticky) while the programme list beside it scrolls
+   past, until the list ends. Its contents are centred; the convocation plate
+   takes whatever height is left, from a wide crop on a short laptop up to
+   380px, never below 150px. On a short laptop the heading and the text come
+   down a size too.
+   Below 1024px the introduction is an ordinary block above the list, and the
+   plate is left out.
+   ========================================================================== */
+
+@media (max-width: 1023px) {
+  .intro > .plate[data-fluid] {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .intro {
+    position: sticky;
+    top: var(--header-bar-h);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100svh - var(--header-bar-h));
+    min-height: 520px;
+    padding-block: clamp(20px, 4svh, 48px);
+  }
+
+  .intro > * {
+    flex: none;
+  }
+
+  .intro > .plate {
+    flex: 0 1 380px;
+    min-height: 150px;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 820px) {
+  .title {
+    font-size: clamp(2rem, 6.4svh, 3rem);
+  }
+
+  .text {
+    margin-top: 12px;
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+  }
+
+  .intro > .plate {
+    margin-top: 28px;
+  }
+
+  .link {
+    margin-top: 8px;
+  }
+}

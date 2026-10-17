@@ -9,6 +9,8 @@ import { SheetLink } from "@/components/ui/SheetLink";
 import { SmartLink } from "@/components/ui/SmartLink";
 import { hero, programmesSection, type Programme } from "@/content/home";
 
+import s from "./Programmes.module.css";
+
 const { programmes } = hero;
 
 const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
@@ -40,7 +42,9 @@ function ProgrammeRow({ programme, number }: { programme: Programme; number: num
 
 /**
  * The programmes as an index, beside an introduction with the convocation photograph as
- * a plate (Fig. 04), and the college's key figures underneath. The list is the hero's, so the
+ * a plate (Fig. 04), with the college's key figures closing the list. On a desktop the
+ * introduction fits one screen and holds still while the list and figures scroll past, to the end
+ * of the section (see Programmes.module.css). The list is the hero's, so the
  * two always agree. From the homepage on main, set in the drafting style of the sections above.
  */
 export function Programmes() {
@@ -53,15 +57,19 @@ export function Programmes() {
       <div className="container-page">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-5">
-            <div>
-              <SectionHeading label={programmesSection.label} id="programmes-title">
+            <div className={s.intro}>
+              <SectionHeading
+                label={programmesSection.label}
+                id="programmes-title"
+                titleClassName={s.title}
+              >
                 <Emphasised text={programmesSection.heading} word={programmesSection.emphasis} />
               </SectionHeading>
               <p
                 data-reveal
                 suppressHydrationWarning
                 style={delay(160)}
-                className="mt-6 max-w-[34em] text-[1.03125rem] leading-[1.65] text-copy"
+                className={`mt-6 max-w-[34em] text-[1.03125rem] leading-[1.65] text-copy ${s.text}`}
               >
                 {programmesSection.text}
               </p>
@@ -69,11 +77,11 @@ export function Programmes() {
                 photo={programmesSection.photo}
                 fig={4}
                 caption={programmesSection.caption}
-                aspect="5 / 4"
+                aspect={null}
                 sizes="(min-width: 1024px) 30rem, 100vw"
-                className="mt-12 hidden lg:block"
+                className={`mt-12 ${s.plate}`}
               />
-              <SheetLink href={programmesSection.link.href} className="mt-6">
+              <SheetLink href={programmesSection.link.href} className={`mt-6 ${s.link}`}>
                 {programmesSection.link.label}
               </SheetLink>
             </div>
@@ -101,31 +109,33 @@ export function Programmes() {
                 </ul>
               </div>
             ))}
-          </div>
-        </div>
 
-        <div className="mt-20 border-t border-line pt-10 lg:mt-24">
-          <dl className="grid grid-cols-2 gap-y-10 lg:grid-cols-4">
-            {programmesSection.figures.map((figure, index) => (
-              <div
-                key={figure.label}
-                data-reveal
-                suppressHydrationWarning
-                style={delay(index * 90)}
-                className={`flex flex-col-reverse gap-2 ${index % 2 === 1 ? "pl-6 sm:pl-10" : ""} lg:border-l lg:border-line lg:pl-10 ${index === 0 ? "lg:border-l-0 lg:pl-0" : ""}`}
-              >
-                <dt className="font-mono text-[11px] tracking-[0.1em] text-muted uppercase">
-                  {figure.label}
-                </dt>
-                <dd className="font-serif text-[clamp(2.75rem,2rem+2.4vw,4rem)] leading-none font-bold tracking-tight text-ink lining-nums">
-                  {figure.value}
-                </dd>
-              </div>
-            ))}
-          </dl>
-          <PendingNote className="mt-8">
-            Figures are carried over from the previous website and should be confirmed as current.
-          </PendingNote>
+            {/* the key figures close the list, so the introduction stays in view to the end */}
+            <div className="border-t border-line pt-10">
+              <dl className="grid grid-cols-2 gap-y-10">
+                {programmesSection.figures.map((figure, index) => (
+                  <div
+                    key={figure.label}
+                    data-reveal
+                    suppressHydrationWarning
+                    style={delay(index * 90)}
+                    className={`flex flex-col-reverse gap-2 ${index % 2 === 1 ? "border-l border-line pl-6 sm:pl-10" : ""}`}
+                  >
+                    <dt className="font-mono text-[11px] tracking-[0.1em] text-muted uppercase">
+                      {figure.label}
+                    </dt>
+                    <dd className="font-serif text-[clamp(2.75rem,2rem+2.4vw,4rem)] leading-none font-bold tracking-tight text-ink lining-nums">
+                      {figure.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <PendingNote className="mt-8">
+                Figures are carried over from the previous website and should be confirmed as
+                current.
+              </PendingNote>
+            </div>
+          </div>
         </div>
       </div>
     </section>

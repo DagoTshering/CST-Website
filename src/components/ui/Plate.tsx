@@ -12,8 +12,11 @@ type PlateProps = {
   fig: number;
   caption: string;
   sizes: string;
-  /** The photograph's shape, e.g. "4 / 5" (the default is 4 / 3). */
-  aspect?: string;
+  /**
+   * The photograph's shape, e.g. "4 / 5" (the default is 4 / 3). null leaves the height to the
+   * layout: the plate becomes a column whose photograph fills what the caption leaves of it.
+   */
+  aspect?: string | null;
   tone?: "light" | "dark";
   className?: string;
 };
@@ -33,7 +36,11 @@ export function Plate({
   className,
 }: PlateProps) {
   return (
-    <figure className={cx(s.plate, className)} data-tone={tone}>
+    <figure
+      className={cx(s.plate, className)}
+      data-tone={tone}
+      data-fluid={aspect === null ? "" : undefined}
+    >
       <div className={s.frame}>
         <i className={`${s.tick} ${s.tl}`} aria-hidden="true" />
         <i className={`${s.tick} ${s.tr}`} aria-hidden="true" />
@@ -43,7 +50,7 @@ export function Plate({
           data-reveal="photo"
           suppressHydrationWarning
           className={s.photo}
-          style={{ aspectRatio: aspect } as CSSProperties}
+          style={aspect === null ? undefined : ({ aspectRatio: aspect } as CSSProperties)}
         >
           <Image
             src={photo.src}
