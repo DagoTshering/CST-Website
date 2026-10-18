@@ -74,7 +74,7 @@ export const site = {
   ] satisfies { network: SocialNetwork; label: string; href: string }[],
 } as const;
 
-/** The header's one button. TODO: the contact page is not built yet. */
+/** The header's one button. */
 export const headerAction = { label: "Contact us", href: "/contact" };
 
 /**
@@ -150,10 +150,9 @@ export const footer = {
       { days: "Sat–Sun", time: "Closed" },
     ],
     actions: [
-      // A short link (tinyurl.com): check where it lands, and link to the real address instead.
+      // A short link (tinyurl.com) to a Google Form whose responses go to the President.
       { label: "Feedback Portal", href: "https://tinyurl.com/4hvsat4m" },
-      // A Google Sheets *edit* link: anyone following it may be able to edit the sheet. Review
-      // whether it should be a form or a view-only link before launch.
+      // A Google Sheets *edit* link, kept public at the web team's request (18 Oct 2026).
       {
         label: "Online Substitution Form",
         href: "https://docs.google.com/spreadsheets/d/1vH0HqfIbmSP_P_EXR_eTwJLVPMeCJE3jqSa1srS-QDI/edit?gid=450603648#gid=450603648",
@@ -178,5 +177,7 @@ export const footer = {
       },
     ],
   },
+  /** Under the address: every office, the map and the message box. */
+  contactPage: { label: "All contacts and offices", href: "/contact" },
   bottomLine: "College of Science and Technology, RUB",
 };

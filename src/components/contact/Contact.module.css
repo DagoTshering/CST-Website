@@ -1,0 +1,610 @@
+/* ==========================================================================
+   Contact: a campus photograph fading into the page under the title, four
+   columns of ways to reach the college, the office directory, the message
+   box (brass corner brackets, a tipped envelope) and the map. White, hairlines, the site's buttons; small mono eyebrows only.
+   ========================================================================== */
+
+/* ---------- banner --------------------------------------------------------- */
+
+.banner {
+  --art-h: clamp(170px, 22vw, 300px);
+  overflow: hidden;
+}
+
+/* the photo, every edge fading into the white: across, then down, the two masks intersected */
+.art {
+  position: relative;
+  max-width: 1240px;
+  height: var(--art-h);
+  margin-inline: auto;
+  overflow: hidden;
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 14%, #000 52%, transparent 94%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0, #000 16%, #000 84%, transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 14%, #000 52%, transparent 94%);
+  mask-composite: intersect;
+}
+
+.photo {
+  object-fit: cover;
+  object-position: 50% 38%;
+  transform-origin: 50% 60%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .photo {
+    opacity: 0;
+    animation:
+      banner-in 1.6s ease 0.1s forwards,
+      banner-drift 28s ease-in-out 1.7s infinite alternate;
+  }
+}
+
+@keyframes banner-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes banner-drift {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 1.035;
+  }
+}
+
+/* the page title (the site's PageHeader) over the photo's faded foot */
+.heading {
+  position: relative;
+}
+
+.banner[data-photo] .heading {
+  margin-top: calc(var(--art-h) * -0.3);
+}
+
+/* ---------- shared bits ---------------------------------------------------- */
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.muted {
+  display: block;
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+}
+
+.link {
+  color: var(--color-primary-strong);
+  text-decoration: underline;
+  text-decoration-color: var(--color-line);
+  text-underline-offset: 4px;
+  overflow-wrap: anywhere;
+  transition: text-decoration-color 200ms;
+}
+
+.link:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ---------- the four columns ---------------------------------------------- */
+
+.info {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid var(--color-line);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 40px 26px 34px;
+  border-left: 1px solid var(--color-line);
+}
+
+.column:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.column:last-child {
+  padding-right: 0;
+}
+
+.columnTitle {
+  margin: 6px 0 16px;
+  font-family: var(--font-serif);
+  font-size: 1.625rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--color-ink);
+}
+
+/* the body takes the free height, so every column's action sits on one line */
+.columnBody {
+  flex: 1;
+  font-size: 0.96875rem;
+  line-height: 1.6;
+}
+
+.columnAction {
+  margin-top: 22px;
+}
+
+.address {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 6px;
+  font-style: normal;
+  color: var(--color-ink);
+}
+
+.spaced {
+  margin-top: 12px;
+}
+
+.hours {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 16px;
+  margin: 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-line);
+}
+
+.hours dt {
+  color: var(--color-muted);
+}
+
+.hours dd {
+  margin: 0;
+  text-align: right;
+  white-space: nowrap;
+  color: var(--color-ink);
+}
+
+.openNow {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.875rem;
+  color: var(--color-copy);
+}
+
+.openNow strong {
+  display: block;
+  margin-bottom: 2px;
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.social {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 44px;
+  padding: 8px 0;
+  border-top: 1px solid var(--color-line);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition:
+    padding 250ms var(--ease-out-soft),
+    color 250ms;
+}
+
+.social li:last-child a {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.social a:hover {
+  padding-left: 6px;
+  color: var(--color-primary-strong);
+}
+
+.socialIcon {
+  width: 16px;
+  height: 16px;
+  color: var(--color-brass-deep);
+}
+
+@media (max-width: 61.25rem) {
+  .info {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .column {
+    padding: 32px 24px 30px;
+  }
+
+  .column:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .column:nth-child(even) {
+    padding-right: 0;
+  }
+
+  .column:nth-child(n + 3) {
+    border-top: 1px solid var(--color-line);
+  }
+}
+
+@media (max-width: 35rem) {
+  .info {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .column,
+  .column:nth-child(odd),
+  .column:nth-child(even) {
+    padding: 28px 0;
+    border-left: 0;
+  }
+
+  .column + .column {
+    border-top: 1px solid var(--color-line);
+  }
+}
+
+/* ---------- directory ------------------------------------------------------ */
+
+.sectionIntro {
+  max-width: 36em;
+  margin-top: 18px;
+  color: var(--color-copy);
+}
+
+.offices {
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--color-ink);
+}
+
+.office {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1.3fr) minmax(0, 0.85fr) 90px;
+  gap: 8px 24px;
+  align-items: center;
+  padding: 16px 8px;
+  border-bottom: 1px solid var(--color-line);
+  font-size: 0.9375rem;
+  transition: background-color 200ms;
+}
+
+.office:hover {
+  background: var(--color-surface);
+}
+
+.officeName {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-ink);
+}
+
+.officeAction {
+  text-align: right;
+}
+
+.write {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+  cursor: pointer;
+}
+
+.write svg {
+  transition: translate 200ms var(--ease-out-soft);
+}
+
+.write:hover svg {
+  translate: 3px 0;
+}
+
+@media (max-width: 53.75rem) {
+  .office {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .officeName {
+    grid-column: 1 / -1;
+  }
+
+  .officeAction {
+    text-align: left;
+  }
+}
+
+/* a phone: one line each, so an address is never broken in the middle */
+@media (max-width: 35rem) {
+  .office {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}
+
+/* ---------- write to us ---------------------------------------------------- */
+
+.writeBlock {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 40px;
+  margin-top: clamp(4rem, 3rem + 3vw, 6rem);
+  padding: 36px 40px 28px;
+  border: 1px solid var(--color-line);
+  /* scrolled to (from "Write"), room above it for the envelope; the page already clears the header */
+  scroll-margin-top: 24px;
+}
+
+/* brass corner brackets, top left and bottom right */
+.writeBlock::before,
+.writeBlock::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 0 solid var(--color-brass);
+}
+
+.writeBlock::before {
+  top: -1px;
+  left: -1px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+.writeBlock::after {
+  right: -1px;
+  bottom: -1px;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+}
+
+.envelope {
+  position: absolute;
+  top: -30px;
+  right: 34px;
+  width: 92px;
+  color: var(--color-primary-deep);
+  rotate: 8deg;
+  transition:
+    rotate 400ms cubic-bezier(0.3, 1.4, 0.5, 1),
+    translate 400ms cubic-bezier(0.3, 1.4, 0.5, 1);
+}
+
+.writeBlock:hover .envelope {
+  rotate: 3deg;
+  translate: 0 -4px;
+}
+
+.blockTitle {
+  margin: 6px 0 12px;
+  font-family: var(--font-cormorant-italic), var(--font-serif);
+  font-size: clamp(2rem, 1.6rem + 1.4vw, 2.5rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--color-ink);
+}
+
+.lede {
+  color: var(--color-copy);
+}
+
+.chosen {
+  margin-top: 16px;
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+  overflow-wrap: anywhere;
+}
+
+.chosen strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* the form: underlined fields with small sans labels; a brass underline on focus */
+.field {
+  margin-bottom: 16px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 8px 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-line);
+  border-radius: 0;
+  background: transparent;
+  font: inherit;
+  color: var(--color-ink);
+  transition: border-color 200ms;
+}
+
+textarea.input {
+  height: 96px;
+  min-height: 60px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.input:focus,
+.input:focus-visible {
+  border-bottom-color: var(--color-brass);
+  box-shadow: 0 1px 0 var(--color-brass);
+  outline: none;
+}
+
+.input[aria-invalid] {
+  border-bottom-color: var(--color-danger);
+}
+
+.selectBox {
+  position: relative;
+}
+
+.selectBox .input {
+  padding-right: 28px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.selectIcon {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--color-muted);
+  translate: 0 -50%;
+  pointer-events: none;
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+}
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.formStatus {
+  min-height: 1.5em;
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  color: var(--color-copy);
+}
+
+.formStatus strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+@media (max-width: 53.75rem) {
+  .writeBlock {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    padding: 28px 18px 18px;
+  }
+
+  /* the fields stay in pairs, so the box still fits one phone screen */
+  .pair {
+    gap: 0 16px;
+  }
+
+  .lede {
+    font-size: 0.9375rem;
+  }
+
+  .chosen {
+    margin-top: 8px;
+  }
+
+  textarea.input {
+    height: 72px;
+  }
+
+  .envelope {
+    top: -22px;
+    right: 20px;
+    width: 70px;
+  }
+}
+
+/* ---------- map ------------------------------------------------------------ */
+
+.mapSection {
+  margin-top: clamp(4rem, 3rem + 3vw, 6rem);
+}
+
+.mapFrame {
+  position: relative;
+  height: 340px;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface);
+}
+
+.mapFrame::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  border-top: 2px solid var(--color-brass);
+  border-left: 2px solid var(--color-brass);
+  pointer-events: none;
+}
+
+.map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.mapFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-top: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .envelope,
+  .social a,
+  .write svg {
+    transition: none;
+  }
+
+  .writeBlock:hover .envelope {
+    rotate: 8deg;
+    translate: none;
+  }
+}

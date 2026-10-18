@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { ButtonLink } from "@/components/ui/Button";
 import {
+  ArrowRightIcon,
   ArrowUpIcon,
   ClockIcon,
   ExternalIcon,
@@ -122,6 +123,13 @@ export async function Footer() {
                 </p>
               ))}
             </address>
+            <SmartLink
+              href={footer.contactPage.href}
+              className="mt-4 inline-flex items-center gap-2 text-small font-semibold text-white underline-offset-4 transition-colors hover:text-accent hover:underline"
+            >
+              {footer.contactPage.label}
+              <ArrowRightIcon className="size-4" />
+            </SmartLink>
 
             {/* where to follow the college, with the other ways to reach it */}
             <div className="mt-6">

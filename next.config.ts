@@ -17,7 +17,8 @@ const PROGRAMME_PATHS = [
 /**
  * Security headers for every page. The Content-Security-Policy limits what may be framed and how
  * the site may be framed, without restricting scripts (that would need per-request nonces):
- * - frame-src: only our own pages and the AirGradient dashboard (/air-quality) may be embedded;
+ * - frame-src: only our own pages, the AirGradient dashboard (/air-quality) and Google Maps
+ *   (/contact) may be embedded;
  * - frame-ancestors: no other site may embed ours (clickjacking, e.g. of the admin panel);
  * - object-src, base-uri, form-action: no plugins, no <base> tricks, forms only post to us.
  * /media sets its own, stricter policy for uploaded files, so it is left out here.
@@ -26,7 +27,7 @@ const securityHeaders = [
   {
     key: "Content-Security-Policy",
     value: [
-      "frame-src 'self' https://app.airgradient.com",
+      "frame-src 'self' https://app.airgradient.com https://maps.google.com https://www.google.com",
       "frame-ancestors 'none'",
       "object-src 'none'",
       "base-uri 'self'",

@@ -11,7 +11,6 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 | About Us › About CST       | `/about`         |                                                       |
 | Announcements              | `/announcements` | Same page as the homepage's Announcements › View all. |
 | Others › Vacancies         | `/vacancies`     |                                                       |
-| Header button › Contact us | `/contact`       |                                                       |
 
 The Important Links (Research, Student Life, Hostel Booking, CST-25) go to other CST sites.
 Academics links to the Programmes page (`/programmes`). Academic Calendar, Examination and Library
@@ -31,11 +30,12 @@ still needs a home if it is kept.
 
 ## Footer
 
-The footer links go to external sites, apart from Downloads. Two of them need checking:
+The footer links go to external sites, apart from Downloads and the Contact page. Settled with the
+web team on 18 Oct 2026:
 
-- **Feedback Portal** is a tinyurl.com short link: confirm where it lands and link there directly.
-- **Online Substitution Form** is a Google Sheets edit link: decide whether it should be a form or
-  a view-only link.
+- **Feedback Portal** (a tinyurl.com short link) leads to a Google Form whose responses go to the
+  President.
+- **Online Substitution Form** (a Google Sheets edit link) stays public.
 
 ## Missing links
 
