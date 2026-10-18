@@ -2,7 +2,6 @@ import { GraduationCap, Microscope } from "lucide-react";
 import type { CSSProperties } from "react";
 
 import { Emphasised } from "@/components/ui/Emphasis";
-import { PendingNote } from "@/components/ui/PendingNote";
 import { Plate } from "@/components/ui/Plate";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SheetLink } from "@/components/ui/SheetLink";
@@ -164,10 +163,6 @@ export async function Programmes() {
                   </div>
                 ))}
               </dl>
-              <PendingNote className="mt-8">
-                Figures are carried over from the previous website and should be confirmed as
-                current.
-              </PendingNote>
             </div>
           </div>
         </div>
