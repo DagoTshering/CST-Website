@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "sourceUrl": "https://cst.edu.bt/contact/",
+    "extractedOn": "2026-10-18",
+    "notes": [
+      "The old page has no contact form. The 'Write to us' block opens the visitor's email app (mailto); it does not send anything itself.",
+      "LinkedIn link on the old page points to a school called 'Meera Mahila B.Ed. College', which looks like another institution. Not included. Confirm CST's real LinkedIn page.",
+      "Personal phone numbers of the President and Deans were published on the old page. Confirm they should stay public.",
+      "Feedback portal is a tinyurl short link. Confirm where it leads before publishing.",
+      "'Online Substitution Form' (Google Sheet) on the old page looks internal; not included."
+    ]
+  },
+  "college": "College of Science and Technology",
+  "university": "Royal University of Bhutan",
+  "address": [
+    "College of Science and Technology",
+    "Rinchending, Phuentsholing",
+    "Chukha, Bhutan"
+  ],
+  "postal": "Post-Box No. 450, Postal Code 21101",
+  "hours": {
+    "label": "Monday to Friday, 08:00 to 16:00. Closed Saturday and Sunday.",
+    "timezone": "Asia/Thimphu",
+    "days": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "open": "08:00",
+    "close": "16:00"
+  },
+  "map": {
+    "link": "https://maps.app.goo.gl/zYVmFQ1w8jUPpqmN7",
+    "embed": "https://maps.google.com/maps?q=college%20of%20science%20and%20technology%2C%20Phuentsholing&t=m&z=18&output=embed&iwloc=near"
+  },
+  "general": {
+    "phone": "+97517160538",
+    "phoneLabel": "(+975) 17160538",
+    "email": "info.cst@rub.edu.bt",
+    "whatsapp": "https://wa.me/97517160538"
+  },
+  "social": [
+    {
+      "label": "Facebook",
+      "url": "https://www.facebook.com/CST.University/"
+    },
+    {
+      "label": "YouTube",
+      "url": "https://www.youtube.com/@CSTMultimedia"
+    }
+  ],
+  "offices": [
+    {
+      "id": "admin",
+      "name": "Administration Office",
+      "email": "info.cst@rub.edu.bt",
+      "phone": "+97517160538",
+      "phoneLabel": "(+975) 17160538"
+    },
+    {
+      "id": "president",
+      "name": "President",
+      "email": "tshewanglhendup.cst@rub.edu.bt",
+      "phone": "+97517161635",
+      "phoneLabel": "(+975) 17161635"
+    },
+    {
+      "id": "dsa",
+      "name": "Dean of Student Affairs",
+      "email": "kelzangdorji.cst@rub.edu.bt",
+      "phone": "+97517666628",
+      "phoneLabel": "(+975) 17666628"
+    },
+    {
+      "id": "daa",
+      "name": "Dean of Academic Affairs",
+      "email": "tashi.cst@rub.edu.bt",
+      "phone": "+97517929365",
+      "phoneLabel": "(+975) 17929365"
+    },
+    {
+      "id": "dril",
+      "name": "Dean of Research and Industrial Linkages",
+      "email": "sangaypasang.cst@rub.edu.bt",
+      "phone": "+97577774567",
+      "phoneLabel": "(+975) 77774567"
+    },
+    {
+      "id": "accounts",
+      "name": "Accounts Section",
+      "email": null,
+      "phone": "+97516553402",
+      "phoneLabel": "(+975) 16553402"
+    },
+    {
+      "id": "web",
+      "name": "Web Manager (website issues)",
+      "email": "ictunit.cst@rub.edu.bt",
+      "phone": null,
+      "phoneLabel": null
+    }
+  ],
+  "feedback": {
+    "label": "Feedback portal",
+    "url": "https://tinyurl.com/4hvsat4m"
+  }
+}
