@@ -231,6 +231,37 @@ entry, overwrites an edit or brings back one an administrator deleted. Entries w
 are skipped with a message, so run `pnpm downloads:fetch` before seeding on a new machine (and
 before `docker compose build`, so the migrator image carries the PDFs).
 
+## Security headers
+
+Every page and endpoint (all paths except uploaded files under `/media`, which set their own
+policy) is sent these headers, from `headers()` in `next.config.ts`. A new page gets them
+automatically: nothing needs adding per page.
+
+| Header                    | Value                                          | Effect                                                       |
+| ------------------------- | ---------------------------------------------- | ------------------------------------------------------------ |
+| `Content-Security-Policy` | `frame-src 'self' https://app.airgradient.com` | only our pages and the AirGradient dashboard may be embedded |
+|                           | `frame-ancestors 'none'`                       | no other site may embed ours (clickjacking)                  |
+|                           | `object-src 'none'; base-uri 'self'`           | no plugins, no `<base>` tricks                               |
+|                           | `form-action 'self'`                           | forms only submit to this site                               |
+| `X-Frame-Options`         | `DENY`                                         | the same as `frame-ancestors`, for older browsers            |
+| `X-Content-Type-Options`  | `nosniff`                                      | browsers do not guess file types                             |
+| `Referrer-Policy`         | `strict-origin-when-cross-origin`              | other sites see only our domain, not full addresses          |
+
+**When building a new page:**
+
+- **Embedding another service** (a YouTube video, a Google Map, another dashboard): add its
+  address to `frame-src` in `next.config.ts` (e.g. `https://www.youtube-nocookie.com`), or browsers
+  will block it and show an empty frame.
+- **A form that submits to another website** is blocked by `form-action 'self'`. Forms using the
+  site's own Server Actions are fine.
+- **Being embedded elsewhere** (another site showing one of our pages in a frame) is blocked on
+  purpose; it would need a deliberate exception.
+- After a change, open the affected page with `pnpm build && pnpm start` and check the browser
+  console for "Content Security Policy" errors.
+
+Scripts are not restricted yet: that needs per-request nonces (see the Next.js guide in
+`node_modules/next/dist/docs/01-app/02-guides/content-security-policy.md`).
+
 ## Database migrations
 
 ```bash

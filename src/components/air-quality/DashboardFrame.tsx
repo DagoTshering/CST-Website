@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { SmartLink } from "@/components/ui/SmartLink";
 import { airQuality } from "@/content/air-quality";
@@ -11,57 +11,50 @@ import s from "./AirQuality.module.css";
 const SLOW_AFTER = 8000;
 
 /**
- * The live dashboard in a frame, with a thin progress line and "Loading live data…" until it
- * has loaded. If it takes more than eight seconds (counted from when the frame comes on screen,
- * since it loads lazily) the line gives way to a sentence and a link to open the dashboard in a
- * new tab; the dashboard still shows if it arrives later.
+ * The live dashboard in a frame, loaded only when the visitor asks for it: AirGradient's page
+ * also loads third-party scripts (a Pipedrive sales chat, Zendesk), which see the visitor's
+ * address and browser, so nothing of theirs loads until then.
  *
- * The iframe is added once the page is running, so its load event is never missed by arriving
- * before the page is interactive.
+ * After "Show live data", a thin progress line and "Loading live data…" show until the dashboard
+ * has loaded. If it takes more than eight seconds the line gives way to a sentence and a link to
+ * open the dashboard in a new tab; the dashboard still shows if it arrives later.
  */
 export function DashboardFrame() {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const [mounted, setMounted] = useState(false);
-  const [state, setState] = useState<"loading" | "slow" | "ready">("loading");
+  const [state, setState] = useState<"idle" | "loading" | "slow" | "ready">("idle");
 
   useEffect(() => {
-    const frame = frameRef.current;
-    if (!frame) return;
-    let timer = 0;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        observer.disconnect();
-        setMounted(true);
-        timer = window.setTimeout(
-          () => setState((current) => (current === "ready" ? current : "slow")),
-          SLOW_AFTER,
-        );
-      },
-      { rootMargin: "200px 0px" },
+    if (state !== "loading") return;
+    const timer = window.setTimeout(
+      () => setState((current) => (current === "loading" ? "slow" : current)),
+      SLOW_AFTER,
     );
-    observer.observe(frame);
-    return () => {
-      observer.disconnect();
-      window.clearTimeout(timer);
-    };
-  }, []);
+    return () => window.clearTimeout(timer);
+  }, [state]);
 
   return (
-    <div ref={frameRef} className={s.frame} data-state={state}>
-      {mounted && (
+    <div className={s.frame} data-state={state}>
+      {state !== "idle" && (
         <iframe
           className={s.iframe}
           src={airQuality.dashboardUrl}
           title={airQuality.frameTitle}
-          loading="lazy"
           referrerPolicy="no-referrer"
           sandbox="allow-scripts allow-same-origin allow-popups"
           onLoad={() => setState("ready")}
         />
       )}
       <div className={s.loading} role="status">
-        {state === "slow" ? (
+        {state === "idle" ? (
+          <>
+            <button type="button" className={s.show} onClick={() => setState("loading")}>
+              Show live data
+            </button>
+            <p className={s.note}>
+              This loads AirGradient’s dashboard. AirGradient, and the chat and support services its
+              page uses, will see your IP address and browser.
+            </p>
+          </>
+        ) : state === "slow" ? (
           <p className={s.help}>
             The dashboard is taking a while to load.{" "}
             {/* SmartLink opens other sites in a new tab, rel="noopener noreferrer" */}
