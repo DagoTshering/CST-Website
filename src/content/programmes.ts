@@ -89,8 +89,8 @@ const programmes = data.programmes as Programme[];
 /** The documents every bachelor's applicant needs (the central admission page). */
 export const requiredDocuments: string = data.requiredDocuments;
 
-/** The central admission page, for dates and how to apply. */
-export const ADMISSION_URL = "https://cst.edu.bt/admission-for-new-students/";
+/** The admission page (src/content/admission.ts), for dates and how to apply. */
+export const ADMISSION_URL = "/admissions";
 
 /** The departments as the programme sites name them. */
 export const departments = data.departments as Record<DepartmentKey, { n: string; u: string }>;

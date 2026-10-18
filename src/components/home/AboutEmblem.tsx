@@ -29,8 +29,14 @@ function Layer({ className, children }: { className?: string; children: ReactNod
  * The moving parts are separate layers: the gear turns slowly, the degree ring turns the other
  * way, and a brass arc sweeps the outer circle. Each layer turns as a whole (CSS, on the GPU), so
  * the paths are never redrawn while it moves; see AboutEmblem.module.css.
+ *
+ * `caption` is the figure label under the drawing, and `halo` the colour round its letters (the
+ * paper it sits on), for a page that numbers its figures differently from About.
  */
-export function AboutEmblem() {
+export function AboutEmblem({
+  caption = "Ø 976 · SCALE 1:1 · FIG. 02",
+  halo = "#E9E9E6",
+}: { caption?: string; halo?: string } = {}) {
   return (
     <div className={s.root}>
       <Layer className={`${s.layer} ${s.ticks}`}>
@@ -66,9 +72,9 @@ export function AboutEmblem() {
               x="494"
               y="1000"
               textAnchor="middle"
-              style={{ paintOrder: "stroke", stroke: "#E9E9E6", strokeWidth: "14px" }}
+              style={{ paintOrder: "stroke", stroke: halo, strokeWidth: "14px" }}
             >
-              Ø 976 · SCALE 1:1 · FIG. 02
+              {caption}
             </text>
             <text x="494" y="-31" textAnchor="middle">
               000°

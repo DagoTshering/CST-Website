@@ -29,6 +29,11 @@
   --color-on-dark: #c9d9de; /* body text on deep teal: 6.2:1 on primary-night */
   --color-on-dark-muted: #a9c0c8; /* 4.8:1 on primary-night */
 
+  /* Status: open / upcoming / closed (the admission page). All AA on white. */
+  --color-success: #067647;
+  --color-warning: #b54708;
+  --color-danger: #b42318;
+
   /* Hero drawing sheet ----------------------------------------------------- */
   --color-sheet-ink: #201f1d;
   --color-sheet-gold: #b68235;
@@ -143,6 +148,12 @@
 /* Vertical rhythm shared by every homepage section: 80px on phones, 128px on desktop. */
 @utility section-y {
   padding-block: clamp(5rem, 3.6rem + 4vw, 8rem);
+}
+
+/* The space above each section of an inner page whose sections share one white background
+   (section-y on each would double up between them): 64px on phones, 104px on desktop. */
+@utility section-top {
+  padding-top: clamp(4rem, 3rem + 3vw, 6.5rem);
 }
 
 /* A section heading set like About's: Cormorant italic, large and close-set. */

@@ -61,6 +61,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: "/admission-for-new-students",
+        destination: "/admissions",
+        permanent: true,
+      },
+      {
         source: "/Master%20of%20Science%20in%20Engineering",
         destination: "/programmes/msc-engineering",
         permanent: true,
