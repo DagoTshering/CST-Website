@@ -18,8 +18,8 @@ const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties
 
 /**
  * A notice board beside a campus photograph: a plate (Fig. 06) on a strip of graph paper that
- * runs off the right edge, as About's does. On a desktop it fits
- * one screen below the header (see Announcements.module.css). From the homepage on main, set in
+ * runs off the right edge, as About's does. It keeps the site's usual section spacing; on a short
+ * laptop it tightens to fit one screen (see Announcements.module.css). From the homepage on main, set in
  * the drafting style of the sections above. The notices are the latest published in the admin
  * panel; a notice with a PDF opens it.
  */
@@ -31,7 +31,7 @@ export async function Announcements() {
     <section
       id={announcementsSection.id}
       aria-labelledby="announcements-title"
-      className={`section-y overflow-hidden bg-white ${s.section}`}
+      className="section-y overflow-hidden bg-white"
     >
       <div className="container-page">
         <div className="grid gap-16 lg:grid-cols-12 lg:gap-16">
