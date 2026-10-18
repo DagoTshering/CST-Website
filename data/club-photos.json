@@ -1,0 +1,237 @@
+{
+  "acm": {
+    "count": 12,
+    "photos": [
+      "/clubs/acm/01.webp",
+      "/clubs/acm/02.webp",
+      "/clubs/acm/03.webp",
+      "/clubs/acm/04.webp",
+      "/clubs/acm/05.webp",
+      "/clubs/acm/06.webp",
+      "/clubs/acm/07.webp",
+      "/clubs/acm/08.webp",
+      "/clubs/acm/09.webp",
+      "/clubs/acm/10.webp",
+      "/clubs/acm/11.webp",
+      "/clubs/acm/12.webp"
+    ],
+    "thumbs": [
+      "/clubs/acm/thumb-01.webp",
+      "/clubs/acm/thumb-02.webp"
+    ]
+  },
+  "bkf": {
+    "count": 0,
+    "photos": [],
+    "thumbs": []
+  },
+  "brcs": {
+    "count": 12,
+    "photos": [
+      "/clubs/brcs/01.webp",
+      "/clubs/brcs/02.webp",
+      "/clubs/brcs/03.webp",
+      "/clubs/brcs/04.webp",
+      "/clubs/brcs/05.webp",
+      "/clubs/brcs/06.webp",
+      "/clubs/brcs/07.webp",
+      "/clubs/brcs/08.webp",
+      "/clubs/brcs/09.webp",
+      "/clubs/brcs/10.webp",
+      "/clubs/brcs/11.webp",
+      "/clubs/brcs/12.webp"
+    ],
+    "thumbs": [
+      "/clubs/brcs/thumb-01.webp",
+      "/clubs/brcs/thumb-02.webp"
+    ]
+  },
+  "bto": {
+    "count": 0,
+    "photos": [],
+    "thumbs": []
+  },
+  "culture": {
+    "count": 0,
+    "photos": [],
+    "thumbs": []
+  },
+  "eclub": {
+    "count": 0,
+    "photos": [],
+    "thumbs": []
+  },
+  "elmaint": {
+    "count": 12,
+    "photos": [
+      "/clubs/elmaint/01.webp",
+      "/clubs/elmaint/02.webp",
+      "/clubs/elmaint/03.webp",
+      "/clubs/elmaint/04.webp",
+      "/clubs/elmaint/05.webp",
+      "/clubs/elmaint/06.webp",
+      "/clubs/elmaint/07.webp",
+      "/clubs/elmaint/08.webp",
+      "/clubs/elmaint/09.webp",
+      "/clubs/elmaint/10.webp",
+      "/clubs/elmaint/11.webp",
+      "/clubs/elmaint/12.webp"
+    ],
+    "thumbs": [
+      "/clubs/elmaint/thumb-01.webp",
+      "/clubs/elmaint/thumb-02.webp"
+    ]
+  },
+  "env": {
+    "count": 0,
+    "photos": [],
+    "thumbs": []
+  },
+  "gnh": {
+    "count": 8,
+    "photos": [
+      "/clubs/gnh/01.webp",
+      "/clubs/gnh/02.webp",
+      "/clubs/gnh/03.webp",
+      "/clubs/gnh/04.webp",
+      "/clubs/gnh/05.webp",
+      "/clubs/gnh/06.webp",
+      "/clubs/gnh/07.webp",
+      "/clubs/gnh/08.webp"
+    ],
+    "thumbs": [
+      "/clubs/gnh/thumb-01.webp",
+      "/clubs/gnh/thumb-02.webp"
+    ]
+  },
+  "integrity": {
+    "count": 5,
+    "photos": [
+      "/clubs/integrity/01.webp",
+      "/clubs/integrity/02.webp",
+      "/clubs/integrity/03.webp",
+      "/clubs/integrity/04.webp",
+      "/clubs/integrity/05.webp"
+    ],
+    "thumbs": [
+      "/clubs/integrity/thumb-01.webp",
+      "/clubs/integrity/thumb-02.webp"
+    ]
+  },
+  "kuenphen": {
+    "count": 12,
+    "photos": [
+      "/clubs/kuenphen/01.webp",
+      "/clubs/kuenphen/02.webp",
+      "/clubs/kuenphen/03.webp",
+      "/clubs/kuenphen/04.webp",
+      "/clubs/kuenphen/05.webp",
+      "/clubs/kuenphen/06.webp",
+      "/clubs/kuenphen/07.webp",
+      "/clubs/kuenphen/08.webp",
+      "/clubs/kuenphen/09.webp",
+      "/clubs/kuenphen/10.webp",
+      "/clubs/kuenphen/11.webp",
+      "/clubs/kuenphen/12.webp"
+    ],
+    "thumbs": [
+      "/clubs/kuenphen/thumb-01.webp",
+      "/clubs/kuenphen/thumb-02.webp"
+    ]
+  },
+  "literary": {
+    "count": 8,
+    "photos": [
+      "/clubs/literary/01.webp",
+      "/clubs/literary/02.webp",
+      "/clubs/literary/03.webp",
+      "/clubs/literary/04.webp",
+      "/clubs/literary/05.webp",
+      "/clubs/literary/06.webp",
+      "/clubs/literary/07.webp",
+      "/clubs/literary/08.webp"
+    ],
+    "thumbs": [
+      "/clubs/literary/thumb-01.webp",
+      "/clubs/literary/thumb-02.webp"
+    ]
+  },
+  "multimedia": {
+    "count": 0,
+    "photos": [],
+    "thumbs": []
+  },
+  "nangpai": {
+    "count": 0,
+    "photos": [],
+    "thumbs": []
+  },
+  "ndld": {
+    "count": 12,
+    "photos": [
+      "/clubs/ndld/01.webp",
+      "/clubs/ndld/02.webp",
+      "/clubs/ndld/03.webp",
+      "/clubs/ndld/04.webp",
+      "/clubs/ndld/05.webp",
+      "/clubs/ndld/06.webp",
+      "/clubs/ndld/07.webp",
+      "/clubs/ndld/08.webp",
+      "/clubs/ndld/09.webp",
+      "/clubs/ndld/10.webp",
+      "/clubs/ndld/11.webp",
+      "/clubs/ndld/12.webp"
+    ],
+    "thumbs": [
+      "/clubs/ndld/thumb-01.webp",
+      "/clubs/ndld/thumb-02.webp"
+    ]
+  },
+  "rovers": {
+    "count": 12,
+    "photos": [
+      "/clubs/rovers/01.webp",
+      "/clubs/rovers/02.webp",
+      "/clubs/rovers/03.webp",
+      "/clubs/rovers/04.webp",
+      "/clubs/rovers/05.webp",
+      "/clubs/rovers/06.webp",
+      "/clubs/rovers/07.webp",
+      "/clubs/rovers/08.webp",
+      "/clubs/rovers/09.webp",
+      "/clubs/rovers/10.webp",
+      "/clubs/rovers/11.webp",
+      "/clubs/rovers/12.webp"
+    ],
+    "thumbs": [
+      "/clubs/rovers/thumb-01.webp",
+      "/clubs/rovers/thumb-02.webp"
+    ]
+  },
+  "vocational": {
+    "count": 0,
+    "photos": [],
+    "thumbs": []
+  },
+  "ypeer": {
+    "count": 12,
+    "photos": [
+      "/clubs/ypeer/01.webp",
+      "/clubs/ypeer/02.webp",
+      "/clubs/ypeer/03.webp",
+      "/clubs/ypeer/04.webp",
+      "/clubs/ypeer/05.webp",
+      "/clubs/ypeer/06.webp",
+      "/clubs/ypeer/07.webp",
+      "/clubs/ypeer/08.webp",
+      "/clubs/ypeer/09.webp",
+      "/clubs/ypeer/10.webp",
+      "/clubs/ypeer/11.webp",
+      "/clubs/ypeer/12.webp"
+    ],
+    "thumbs": [
+      "/clubs/ypeer/thumb-01.webp",
+      "/clubs/ypeer/thumb-02.webp"
+    ]
+  }
+}

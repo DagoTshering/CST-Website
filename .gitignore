@@ -40,3 +40,6 @@ prototype/
 
 # PDFs fetched from the old site by `pnpm downloads:fetch` (the manifest is committed)
 /data/legacy-downloads/files/
+
+#club images raw
+assets-source/

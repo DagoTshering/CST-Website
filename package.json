@@ -15,7 +15,8 @@
     "db:seed": "tsx scripts/seed.ts",
     "db:studio": "drizzle-kit studio",
     "downloads:fetch": "node scripts/fetch-legacy-downloads.mjs",
-    "uploads:organise": "tsx scripts/organise-uploads.ts"
+    "uploads:organise": "tsx scripts/organise-uploads.ts",
+    "photos": "node scripts/optimize-club-photos.mjs"
   },
   "dependencies": {
     "@node-rs/argon2": "2.0.2",
@@ -27,7 +28,6 @@
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "server-only": "0.0.1",
-    "sharp": "0.35.5",
     "zod": "4.6.5"
   },
   "devDependencies": {
@@ -41,6 +41,7 @@
     "eslint-config-next": "16.4.0",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.9.10",
+    "sharp": "0.35.5",
     "tailwindcss": "^4",
     "tsx": "4.20.6",
     "typescript": "^5"

@@ -1,0 +1,22 @@
+{
+  "clubs": [
+    { "slug": "acm", "folder": "ACM", "name": "RUB ACM Chapter", "fullName": "Association for Computing Machinery, CST chapter", "about": "The Association for Computing Machinery chapter at CST, focused on computer science and technology.", "activities": ["Programming contests", "Hackathons", "Technical programmes"], "contact": null },
+    { "slug": "bkf", "folder": "BKF", "name": "Bhutan Kidney Foundation Club", "fullName": null, "about": "Raises awareness of kidney disease and supports people affected by it.", "activities": ["Fundraising", "Advocacy programmes"], "contact": null },
+    { "slug": "brcs", "folder": "BRCS", "name": "Bhutan Red Cross Society", "fullName": null, "about": null, "activities": null, "contact": null },
+    { "slug": "bto", "folder": "BTO Club", "name": "BTO Club", "fullName": "Bhutan Toilet Organization", "about": null, "activities": null, "contact": null },
+    { "slug": "culture", "folder": "Culture", "name": "Cultural Club", "fullName": null, "about": "Promotes Bhutan's diverse cultures and gives students a platform to showcase their talents.", "activities": ["Cultural shows", "Performances that celebrate heritage"], "contact": null },
+    { "slug": "eclub", "folder": "E-Club", "name": "E-Club", "fullName": "Entrepreneurship Club", "about": null, "activities": null, "contact": null },
+    { "slug": "elmaint", "folder": "Electrical Maintenance", "name": "Electrical Maintenance", "fullName": null, "about": null, "activities": null, "contact": null },
+    { "slug": "env", "folder": "Environmental Club", "name": "Environmental Club", "fullName": null, "about": null, "activities": null, "contact": null },
+    { "slug": "gnh", "folder": "GNH Club", "name": "GNH Club", "fullName": null, "about": null, "activities": null, "contact": null },
+    { "slug": "integrity", "folder": "Integrity Club", "name": "Integrity Club", "fullName": null, "about": null, "activities": null, "contact": null },
+    { "slug": "kuenphen", "folder": "kuenphen Tshogpa", "name": "Kuenphen Tshogpa", "fullName": null, "about": null, "activities": null, "contact": null },
+    { "slug": "literary", "folder": "Literary Club", "name": "Literary Club", "fullName": null, "about": null, "activities": null, "contact": null },
+    { "slug": "multimedia", "folder": "Multi-Media", "name": "Multi-Media", "fullName": null, "about": null, "activities": null, "contact": null },
+    { "slug": "nangpai", "folder": "Nangpai zhenu Club", "name": "Nangpai Zhenu Club", "fullName": null, "about": null, "activities": null, "contact": null },
+    { "slug": "ndld", "folder": "NDLD Club", "name": "NDLD Club", "fullName": "Nyendrom Dang Lokzhey Deykhang", "about": "Runs the campus radio station and works to strengthen media on campus.", "activities": ["Entertainment programmes", "Concerts and shows", "Festivals"], "contact": null },
+    { "slug": "rovers", "folder": "Rovers", "name": "Rovers Club", "fullName": null, "about": "An adventure and service-oriented club focused on personal development.", "activities": ["Outdoor activities", "Community service", "Personal development"], "contact": null },
+    { "slug": "vocational", "folder": "Vocational Club", "name": "Vocational Club", "fullName": null, "about": null, "activities": null, "contact": null },
+    { "slug": "ypeer", "folder": "Y-PEER Club", "name": "Y-PEER Club", "fullName": null, "about": "A youth empowerment group that works on social issues through peer education.", "activities": ["Trainings", "Outreach", "Advocacy programmes"], "contact": null }
+  ]
+}

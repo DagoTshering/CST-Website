@@ -373,8 +373,10 @@
     color: var(--color-ink);
   }
 
+  /* An element marked data-motion="pause" pauses its own animation instead (a looping band
+     frozen mid-loop, as a still); cutting it short would leave it at its unanimated start. */
   @media (prefers-reduced-motion: reduce) {
-    *,
+    *:not([data-motion="pause"]),
     *::before,
     *::after {
       animation-duration: 0.01ms !important;

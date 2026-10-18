@@ -1,0 +1,427 @@
+/* ==========================================================================
+   Student Hub: the club index (columns of hairline rows that reveal two small
+   photo cards on hover), and a club (name, description, curved photo band,
+   activities and contact) in a pop-up over it or on a page of its own. White,
+   hairlines, mono labels, the brass rule and the Cormorant italic headings of
+   the other inner pages.
+   ========================================================================== */
+
+.page {
+  padding-bottom: clamp(5rem, 3.6rem + 4vw, 8rem); /* the site's section rhythm */
+}
+
+.count {
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* ---------- index -------------------------------------------------------- */
+
+/* Columns filled top to bottom: three on a laptop, two on a tablet, one on a phone. The row
+   counts come from the page (--rows-3, --rows-2), so they follow the number of clubs. */
+.index {
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(var(--rows-3), auto);
+  column-gap: 40px;
+  margin: 0;
+  padding: 0 0 34px;
+  border-bottom: 1px solid var(--color-line);
+  list-style: none;
+}
+
+@media (max-width: 51.25rem) {
+  .index {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(var(--rows-2), auto);
+  }
+}
+
+@media (max-width: 35rem) {
+  .index {
+    grid-auto-flow: row;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+  }
+}
+
+.row {
+  position: relative;
+  display: block;
+  padding: 11px 8px 11px 4px;
+  border-top: 1px solid var(--color-line);
+  font-family: var(--font-serif);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.row:hover,
+.row:focus-visible {
+  z-index: 2; /* the cards rise over the row above */
+}
+
+.rowName {
+  display: inline-block;
+  transition:
+    color 300ms,
+    translate 300ms;
+}
+
+.row:hover .rowName,
+.row:focus-visible .rowName {
+  color: var(--color-primary-strong);
+  translate: 5px 0;
+}
+
+@media (max-width: 51.25rem) {
+  .row {
+    font-size: 1.125rem;
+  }
+}
+
+/* The two preview cards, after 21st.dev's reveal-images: hidden at no size, they spring in,
+   tilt and fan apart at the row's right end, floating above its line. */
+.preview {
+  position: absolute;
+  top: -22px;
+  right: 14px;
+  width: 68px;
+  height: 46px;
+  pointer-events: none;
+}
+
+.card {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+  background: var(--color-white);
+  opacity: 0;
+  scale: 0;
+  transition:
+    scale 500ms cubic-bezier(0.3, 1.3, 0.5, 1) 80ms,
+    translate 500ms cubic-bezier(0.3, 1.3, 0.5, 1) 80ms,
+    rotate 500ms cubic-bezier(0.3, 1.3, 0.5, 1) 80ms,
+    opacity 400ms 80ms;
+}
+
+.card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* the first photo in front, a beat after the second */
+.card[data-card="0"] {
+  z-index: 1;
+  transition-delay: 160ms;
+}
+
+.row:hover .card,
+.row:focus-visible .card {
+  opacity: 1;
+  scale: 1.12;
+}
+
+.row:hover .card[data-card="0"],
+.row:focus-visible .card[data-card="0"] {
+  translate: 16px 12px;
+  rotate: 7deg;
+}
+
+.row:hover .card[data-card="1"],
+.row:focus-visible .card[data-card="1"] {
+  translate: -6px -10px;
+  rotate: -5deg;
+}
+
+/* touch screens: plain names */
+@media (hover: none) {
+  .preview {
+    display: none;
+  }
+}
+
+/* ---------- a club --------------------------------------------------------- */
+
+.detail {
+  padding-top: 40px;
+}
+
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px;
+  align-items: end;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.name {
+  margin-top: 6px;
+  font-family: var(--font-cormorant-italic), var(--font-serif);
+  font-size: clamp(2rem, 1.5rem + 1.6vw, 2.75rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+}
+
+.fullName {
+  margin-top: 4px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.about {
+  max-width: 520px;
+  color: var(--color-copy);
+}
+
+.pending {
+  max-width: 480px;
+  padding: 13px 16px;
+  border: 1px dashed var(--color-line);
+  font-size: 0.90625rem;
+  color: var(--color-muted);
+}
+
+/* The curved band, or a quiet panel in its place. The frame holds the band's height before it
+   mounts, so nothing below moves when it does. */
+.band {
+  position: relative;
+  height: 360px;
+  margin-top: 26px;
+}
+
+.noPhotos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1024px;
+  height: 200px;
+  margin: 26px auto 0;
+  border: 1px dashed var(--color-line);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 40px;
+  padding: 10px 0 56px;
+}
+
+.subhead {
+  margin: 22px 0 10px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-brass-deep);
+}
+
+.list {
+  max-width: 480px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-copy);
+}
+
+.list li {
+  position: relative;
+  padding: 9px 0 9px 22px;
+  border-top: 1px solid var(--color-line);
+}
+
+.list li:last-child {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  top: 21px;
+  left: 2px;
+  width: 8px;
+  height: 1px;
+  background: var(--color-brass);
+}
+
+.contact {
+  max-width: 480px;
+  color: var(--color-copy);
+}
+
+@media (max-width: 51.25rem) {
+  .head,
+  .details {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+
+  .details {
+    padding-bottom: 44px;
+  }
+
+  .band {
+    height: 280px;
+  }
+}
+
+/* ---------- a club's own page ------------------------------------------- */
+
+.clubPage {
+  padding-top: clamp(1.5rem, 1rem + 1.5vw, 2.5rem);
+  padding-bottom: clamp(3rem, 2rem + 3vw, 5rem);
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  text-decoration: none;
+  transition: color 200ms;
+}
+
+.backLink:hover {
+  color: var(--color-primary-strong);
+}
+
+/* ---------- the pop-up ----------------------------------------------------- */
+
+.modal {
+  width: min(1080px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--color-line);
+  background: var(--color-white);
+  color: var(--color-copy);
+  transition:
+    opacity 300ms var(--ease-out-soft),
+    translate 400ms var(--ease-out-soft);
+}
+
+.modal::backdrop {
+  background: rgb(22 35 43 / 0.5);
+  transition: background-color 300ms;
+}
+
+@starting-style {
+  .modal[open] {
+    opacity: 0;
+    translate: 0 16px;
+  }
+
+  .modal[open]::backdrop {
+    background: rgb(22 35 43 / 0);
+  }
+}
+
+.modalBar {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 12px 4px 32px;
+  border-bottom: 1px solid var(--color-line-soft);
+  background: rgb(255 255 255 / 0.96);
+}
+
+.close {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 0;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: color 200ms;
+}
+
+.close span {
+  font-size: 1.125rem;
+  letter-spacing: 0;
+}
+
+.close:hover {
+  color: var(--color-primary-strong);
+}
+
+.modalBody {
+  padding: 0 32px;
+}
+
+/* in the pop-up the band runs to its edges and fades into them */
+.modalBody .band {
+  margin-inline: -32px;
+}
+
+@media (max-width: 47.99rem) {
+  /* a phone: the club fills the screen */
+  .modal {
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    border: 0;
+  }
+
+  .modalBar {
+    padding-left: 20px;
+  }
+
+  .modalBody {
+    padding: 0 20px;
+  }
+
+  .modalBody .band {
+    margin-inline: -20px;
+  }
+
+  .detail {
+    padding-top: 24px;
+  }
+}
