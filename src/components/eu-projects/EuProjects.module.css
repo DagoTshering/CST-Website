@@ -1,0 +1,435 @@
+/* ==========================================================================
+   EU Projects: the status tabs, then the active and completed projects. The
+   list borrows from pages already on the site: group heads over an ink rule
+   (Downloads), rows that open like the Admissions questions (a sans title in
+   ink, a turning chevron), a "Website" box on link rows (Downloads' "Open"),
+   and bordered tables like the Admissions requirements. An open project is
+   plain to see: its title turns teal and its details sit on a tinted panel.
+   ========================================================================== */
+
+.page {
+  padding-top: clamp(4px, 0.25rem + 0.5vw, 12px);
+  padding-bottom: clamp(5rem, 3.6rem + 4vw, 8rem); /* the site's section rhythm */
+}
+
+.filter {
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+/* a tab shows its own group only; "All projects" shows both */
+.filter[data-status="active"] [data-group="completed"],
+.filter[data-status="completed"] [data-group="active"] {
+  display: none;
+}
+
+/* ---------- a group -------------------------------------------------------- */
+
+.group {
+  padding-top: 48px;
+}
+
+.groupHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-ink);
+}
+
+.groupTitle {
+  font-family: var(--font-cormorant-italic), var(--font-serif);
+  font-size: clamp(1.75rem, 1.4rem + 1vw, 2.125rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-ink);
+}
+
+.groupCount {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footNote {
+  margin-top: 36px;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+/* ---------- a row ---------------------------------------------------------- */
+
+.item {
+  display: block;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  min-height: 72px;
+  padding: 18px 4px;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* the details' summary: no browser marker, a pointer */
+summary.row {
+  cursor: pointer;
+  list-style: none;
+}
+
+summary.row::-webkit-details-marker {
+  display: none;
+}
+
+.text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-ink);
+  transition: color 200ms;
+}
+
+.summary {
+  max-width: 40em;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--color-copy);
+}
+
+a.row:hover .title,
+summary.row:hover .title,
+.item[open] > .row .title {
+  color: var(--color-primary-strong);
+}
+
+/* opens in place: "Details" and a chevron, turning to "Close" when open */
+.toggle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+}
+
+.toggleHide,
+.item[open] .toggleShow {
+  display: none;
+}
+
+.item[open] .toggleHide {
+  display: inline;
+}
+
+.chevron {
+  width: 20px;
+  height: 20px;
+  transition: rotate 300ms var(--ease-out-soft);
+}
+
+.item[open] .chevron {
+  rotate: 180deg;
+}
+
+/* a link to the project's website: a box like the Downloads page's "Open" */
+.visit {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  transition:
+    border-color 200ms,
+    color 200ms;
+}
+
+a.row:hover .visit {
+  border-color: var(--color-primary-strong);
+  color: var(--color-primary-strong);
+}
+
+/* nothing to open: a muted title and a plain note saying why */
+.row[data-plain] .title {
+  color: var(--color-copy);
+}
+
+.unavailable {
+  flex: none;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+/* ---------- an open project ------------------------------------------------ */
+
+.panel {
+  margin: 0 0 20px;
+  padding: 28px 32px 32px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.details {
+  max-width: 760px;
+}
+
+.fullTitle {
+  margin-bottom: 18px;
+  font-family: var(--font-cormorant-italic), var(--font-serif);
+  font-size: 1.375rem;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--color-ink);
+}
+
+/* the facts: a bordered strip of cells */
+.facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  margin: 0 0 22px;
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+}
+
+.facts div {
+  margin: 0 -1px -1px 0;
+  padding: 12px 16px;
+  border-right: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.facts dt {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+.facts dd {
+  margin: 2px 0 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-ink);
+}
+
+.about {
+  max-width: 40em;
+  color: var(--color-copy);
+}
+
+.funding {
+  max-width: 44em;
+  margin-top: 12px;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.block {
+  margin-top: 30px;
+}
+
+.blockTitle {
+  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-ink);
+}
+
+.list {
+  max-width: 40em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-copy);
+}
+
+.list li {
+  position: relative;
+  padding: 9px 0 9px 22px;
+  border-top: 1px solid var(--color-line);
+}
+
+.list li:last-child {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  top: 21px;
+  left: 2px;
+  width: 8px;
+  height: 1px;
+  background: var(--color-brass);
+}
+
+.coordinator {
+  margin-bottom: 12px;
+  font-size: 0.9375rem;
+  color: var(--color-copy);
+}
+
+.coordinator strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* tables like the Admissions requirements: an outer border, mono heads on a tint */
+.tableBox {
+  overflow-x: auto;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9375rem;
+}
+
+.table thead {
+  background: var(--color-accent-soft);
+}
+
+.table thead th {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-line);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-primary-deep);
+}
+
+.table thead th + th,
+.table td {
+  border-left: 1px solid var(--color-line-soft);
+}
+
+.table tbody tr + tr {
+  border-top: 1px solid var(--color-line-soft);
+}
+
+.table tbody th,
+.table td {
+  padding: 12px 16px;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.table tbody th {
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.table td {
+  color: var(--color-copy);
+}
+
+.cellList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cellList li + li {
+  margin-top: 4px;
+}
+
+.dates {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+  color: var(--color-brass-deep);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.pending {
+  max-width: 40em;
+  padding: 14px 18px;
+  border: 1px dashed var(--color-line);
+  background: var(--color-white);
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+}
+
+/* ---------- a phone -------------------------------------------------------- */
+
+@media (max-width: 40rem) {
+  /* the note or "Website" box goes under the title rather than beside it */
+  .row {
+    flex-wrap: wrap;
+    gap: 10px 16px;
+  }
+
+  .text {
+    flex-basis: 100%;
+  }
+
+  summary.row {
+    flex-wrap: nowrap;
+  }
+
+  summary.row .text {
+    flex-basis: auto;
+  }
+
+  .toggleShow,
+  .item[open] .toggleHide {
+    display: none;
+  }
+
+  .panel {
+    margin-inline: -4px;
+    padding: 20px 16px 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron,
+  .title {
+    transition: none;
+  }
+}

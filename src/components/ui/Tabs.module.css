@@ -1,0 +1,54 @@
+/* ==========================================================================
+   Tabs: plain words over a hairline; the chosen one in ink, semibold, on a
+   thick teal underline, so it is plain which view is showing. For a tab that
+   is a link to its own view (aria-current="page", the Programmes levels) or a
+   button that filters the page in place (aria-pressed="true", EU Projects).
+   ========================================================================== */
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 32px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  margin-bottom: -1px;
+  padding: 10px 2px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: none;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color 200ms,
+    border-color 200ms;
+}
+
+.tab:hover {
+  border-bottom-color: var(--color-line);
+  color: var(--color-ink);
+}
+
+.tab[aria-current="page"],
+.tab[aria-pressed="true"] {
+  border-bottom-color: var(--color-primary-strong);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* how many items the tab shows, after its label */
+.count {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-muted);
+}

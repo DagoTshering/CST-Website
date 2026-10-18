@@ -99,7 +99,7 @@ export const mainNav: NavItem[] = [
     items: [
       { label: "Vacancies", href: "/vacancies" },
       { label: "Student Hub", href: "/student-hub" },
-      { label: "EU Project Links", href: "/eu-projects" },
+      { label: "EU Projects", href: "/eu-projects" },
       { label: "Downloads", href: "/downloads" },
       { label: "Live Campus Air & Climate Data", href: "/air-quality" },
       {
