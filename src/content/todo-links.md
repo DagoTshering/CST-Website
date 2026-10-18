@@ -11,7 +11,6 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 | About Us › About CST       | `/about`         |                                                       |
 | Announcements              | `/announcements` | Same page as the homepage's Announcements › View all. |
 | Others › Vacancies         | `/vacancies`     |                                                       |
-| Others › Student Hub       | `/student-hub`   |                                                       |
 | Others › EU Project Links  | `/eu-projects`   |                                                       |
 | Header button › Contact us | `/contact`       |                                                       |
 
