@@ -1,0 +1,1641 @@
+{
+  "requiredDocuments": "Citizenship Identity Card (CID), Class XII mark sheet and pass certificate. Applicants without a CID are not eligible.",
+  "departments": {
+    "AD": {
+      "n": "Department of Architecture",
+      "u": "https://ad.cst.edu.bt"
+    },
+    "CEED": {
+      "n": "Civil and Environmental Engineering Department",
+      "u": "https://ceed.cst.edu.bt"
+    },
+    "EEED": {
+      "n": "Electrical and Electronics Engineering Department",
+      "u": "https://eeed.cst.edu.bt"
+    },
+    "MED": {
+      "n": "Mechanical Engineering Department",
+      "u": "https://med.cst.edu.bt"
+    },
+    "CTD": {
+      "n": "Computing Technologies Department",
+      "u": "https://ctd.cst.edu.bt"
+    }
+  },
+  "programmes": [
+    {
+      "slug": "architecture",
+      "name": "Architecture",
+      "level": "bachelor",
+      "degree": "Bachelor of Architecture",
+      "duration": "5 years",
+      "since": "July 2014",
+      "departmentKey": "AD",
+      "departmentName": "Department of Architecture",
+      "departmentUrl": "https://ad.cst.edu.bt/undergraduate-programmes/",
+      "documentUrl": null,
+      "summary": "A five-year professional programme combining design studio work, practical internship and critical thinking, with an emphasis on sustainable technologies.",
+      "outcomes": [
+        "Think critically, work in teams and present design work",
+        "Carry out planning and design work independently",
+        "Prepare for professional registration with the Bhutan Institute of Architects and the Construction Development Board"
+      ],
+      "structure": {
+        "kind": "modules",
+        "intro": "Ten semesters over five years. Design studio is the core of the programme, with progressively more complex projects and group design exercises. Students also complete study tours across Bhutan and a six-month internship.",
+        "modules": [
+          {
+            "name": "Architectural Design",
+            "description": "Studio-based, from small projects to complex design problems.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Theory of Design",
+            "description": "Principles and ideas that shape architectural design thinking.",
+            "descriptionSource": "draft",
+            "code": null
+          },
+          {
+            "name": "Architectural Graphics",
+            "description": "Drawing, drafting and visual communication of design ideas.",
+            "descriptionSource": "draft",
+            "code": null
+          },
+          {
+            "name": "Building Materials and Construction",
+            "description": "Properties of building materials and how buildings are put together.",
+            "descriptionSource": "draft",
+            "code": null
+          },
+          {
+            "name": "Building Science and Services",
+            "description": "Climate, light, sound and the services that keep buildings comfortable and safe.",
+            "descriptionSource": "draft",
+            "code": null
+          },
+          {
+            "name": "History of Architecture",
+            "description": "The development of architecture across periods and cultures.",
+            "descriptionSource": "draft",
+            "code": null
+          },
+          {
+            "name": "Computer Applications",
+            "description": "Software tools used for drafting, modelling and presentation.",
+            "descriptionSource": "draft",
+            "code": null
+          }
+        ],
+        "note": "The department describes thirteen curriculum areas. Seven are named above; the full semester-by-semester list is published only as images."
+      },
+      "requirements": [
+        "Class XII pass with at least 50% in each of Physics, Chemistry, Mathematics and English",
+        "A pass in Dzongkha",
+        "An aptitude test, with a minimum score of 50%",
+        "Subject ability ratings (Class XII): Mathematics 5, Physics 5, Chemistry 2, English 3, plus the aptitude test"
+      ],
+      "selectionNote": null,
+      "careers": [
+        "Registration as an architect with the Bhutan Institute of Architects (BIA)",
+        "Registration with the Construction Development Board",
+        "Practice in the local and global built environment"
+      ],
+      "facilities": [
+        {
+          "name": "Drawing studios",
+          "description": "Open around the clock for solo and group work"
+        },
+        {
+          "name": "Carpentry workshop",
+          "description": "Timber workshop for detailed models and prototypes"
+        },
+        {
+          "name": "FabLab",
+          "description": "Digital fabrication for turning models into physical objects"
+        }
+      ],
+      "images": []
+    },
+    {
+      "slug": "civil-engineering",
+      "name": "Civil Engineering",
+      "level": "bachelor",
+      "degree": "Bachelor of Engineering",
+      "duration": "4 years",
+      "since": "July 2001",
+      "departmentKey": "CEED",
+      "departmentName": "Civil and Environmental Engineering Department",
+      "departmentUrl": "https://ceed.cst.edu.bt/civil-engineering-programme-2/",
+      "documentUrl": "https://drive.google.com/file/d/1SeQJNGceFi7D9DZmIBEpmw4SKz2y3QDA/view?usp=sharing",
+      "summary": "Trains engineers for the public and private sectors, covering theory and practice with a focus on innovation, critical thinking and problem-solving.",
+      "outcomes": [
+        "Analyse, design, draft working drawings for and estimate civil structures",
+        "Prepare bid documents, evaluate tenders and administer contracts",
+        "Conduct field surveys and interpret field tests",
+        "Carry out projects with quality assurance and control",
+        "Prepare project proposals and plans",
+        "Assess the global, economic, environmental and societal impact of the profession"
+      ],
+      "structure": {
+        "kind": "modules",
+        "intro": "Selected core modules.",
+        "modules": [
+          {
+            "name": "Workshop Practice",
+            "description": "Safe working practice, welding, carpentry, electrical wiring, plumbing.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Building Materials and Construction",
+            "description": "Stone, brick, timber, metals, concrete production and testing, masonry, floors, roofs, stairs, scaffolding.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Design of Steel Structures",
+            "description": "Limit state design, tension, compression and flexural members, connections, design software.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Design of Reinforced Concrete Structures",
+            "description": "Beams, columns, slabs, footings, retaining walls, seismic loading, 3D building design, detailing.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Foundation Engineering",
+            "description": "Earth pressure, slope stability, bearing capacity, settlement, soil testing, ground improvement.",
+            "descriptionSource": "site",
+            "code": null
+          }
+        ],
+        "note": null
+      },
+      "requirements": [
+        "Class XII pass with at least 50% in each of Physics, Chemistry, Mathematics and English",
+        "A pass in Dzongkha",
+        "An entrance test, which every applicant sits",
+        "Subject ability ratings (Class XII): Mathematics 5, Physics 5, Chemistry 4, English 3, any one other subject 1"
+      ],
+      "selectionNote": null,
+      "careers": [
+        "Structural, water, environmental and geotechnical engineering",
+        "Construction, transportation and survey engineering",
+        "Project management in the public and private sectors",
+        "Further study in engineering, management, science or business"
+      ],
+      "facilities": [
+        {
+          "name": "Structure and Concrete Lab",
+          "description": "Materials testing, concrete mix design, structural behaviour"
+        },
+        {
+          "name": "Highway / Soil Mechanics Lab",
+          "description": "Soil properties, compaction, aggregates and asphalt"
+        },
+        {
+          "name": "Hydraulic Lab",
+          "description": "Flow channels, pumps, pressure and energy loss"
+        },
+        {
+          "name": "Survey Lab",
+          "description": "Total stations, GPS, mapping and levelling"
+        },
+        {
+          "name": "Geology Lab",
+          "description": "Minerals, rocks, fossils and geological structures"
+        },
+        {
+          "name": "Rock Mechanics Lab",
+          "description": "Rock strength, hardness and permeability"
+        },
+        {
+          "name": "Environmental Lab",
+          "description": "Water and soil testing"
+        }
+      ],
+      "images": []
+    },
+    {
+      "slug": "engineering-geology",
+      "name": "Engineering Geology",
+      "level": "bachelor",
+      "degree": "Bachelor of Engineering",
+      "duration": "4 years",
+      "since": "July 2019",
+      "departmentKey": "CEED",
+      "departmentName": "Civil and Environmental Engineering Department",
+      "departmentUrl": "https://ceed.cst.edu.bt/civil-engineering-programme/",
+      "documentUrl": "https://drive.google.com/file/d/1p23GZ3Fydp8zaXI6F3UJKjp_4ZTsxKZT/view?usp=sharing",
+      "summary": "Applies geology to engineering and construction: site investigation, geotechnical design, hazard analysis and the effect of geological conditions on engineering works.",
+      "outcomes": [
+        "Conduct detailed site and subsurface studies",
+        "Perform risk assessments and engineering seismology",
+        "Design safe underground and surface structures",
+        "Mitigate natural hazards and manage hazard risk",
+        "Write geotechnical and engineering geology reports"
+      ],
+      "structure": {
+        "kind": "modules",
+        "intro": "Selected core modules. Fieldwork and geotechnical investigations are part of the programme.",
+        "modules": [
+          {
+            "name": "Rock Mechanics",
+            "description": "Rock masses, failure criteria, discontinuities, rock slope stability.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Tunnelling and Underground Excavation",
+            "description": "Geological mapping, drilling and blasting, tunnel classification, support design.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Applied Geophysics",
+            "description": "Seismic, resistivity, GPR, gravity and magnetic methods, with hands-on instruments.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Structural Geology",
+            "description": "Folds, faults and thrusts, structural analysis, strain and deformation.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Geological Mapping and Field Excursion",
+            "description": "Map and cross-section construction, field reporting, GIS.",
+            "descriptionSource": "site",
+            "code": null
+          }
+        ],
+        "note": null
+      },
+      "requirements": [
+        "Class XII pass with at least 50% in each of Physics, Chemistry, Mathematics and English",
+        "A pass in Dzongkha",
+        "An entrance test, which every applicant sits",
+        "Subject ability ratings (Class XII): Mathematics 5, Physics 5, Chemistry 4, English 3, any one other subject 1"
+      ],
+      "selectionNote": null,
+      "careers": [
+        "Site investigation and geotechnical design",
+        "Geohazard and risk management",
+        "Geological assessment for construction and development projects"
+      ],
+      "facilities": [
+        {
+          "name": "Structure and Concrete Lab",
+          "description": "Materials testing, concrete mix design, structural behaviour"
+        },
+        {
+          "name": "Highway / Soil Mechanics Lab",
+          "description": "Soil properties, compaction, aggregates and asphalt"
+        },
+        {
+          "name": "Hydraulic Lab",
+          "description": "Flow channels, pumps, pressure and energy loss"
+        },
+        {
+          "name": "Survey Lab",
+          "description": "Total stations, GPS, mapping and levelling"
+        },
+        {
+          "name": "Geology Lab",
+          "description": "Minerals, rocks, fossils and geological structures"
+        },
+        {
+          "name": "Rock Mechanics Lab",
+          "description": "Rock strength, hardness and permeability"
+        },
+        {
+          "name": "Environmental Lab",
+          "description": "Water and soil testing"
+        }
+      ],
+      "images": []
+    },
+    {
+      "slug": "water-resource-engineering",
+      "name": "Water Resource Engineering",
+      "level": "bachelor",
+      "degree": "Bachelor of Engineering",
+      "duration": "4 years",
+      "since": "July 2023",
+      "departmentKey": "CEED",
+      "departmentName": "Civil and Environmental Engineering Department",
+      "departmentUrl": "https://ceed.cst.edu.bt/water-resources-engineering-programme/",
+      "documentUrl": "https://drive.google.com/file/d/13BKn9q1PYDliusBjCNwyDBKJgf4HijrV/view?usp=sharing",
+      "summary": "Focuses on managing water resources, designing supply systems, wastewater treatment and sustainable environmental practice.",
+      "outcomes": [
+        "Measure water quantity and quality and map surface and groundwater",
+        "Plan, design, operate and maintain hydraulic structures and systems",
+        "Apply watershed, wetland and river basin management",
+        "Build climate resilience into water and river management",
+        "Apply water system modelling"
+      ],
+      "structure": {
+        "kind": "modules",
+        "intro": "Selected core modules.",
+        "modules": [
+          {
+            "name": "Hydrogeology",
+            "description": "Groundwater processes, aquifer properties, quality and contamination.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Introduction to RS and GIS in Water Resources",
+            "description": "Remote sensing, image classification, GIS processing.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Water Resource Modelling",
+            "description": "Surface water and flood modelling, calibration and validation.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Irrigation Engineering",
+            "description": "System selection, water requirements, canal design.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Environmental Flow Assessment",
+            "description": "Environmental flow methods, survey work, fish habitats.",
+            "descriptionSource": "site",
+            "code": null
+          }
+        ],
+        "note": null
+      },
+      "requirements": [
+        "Class XII pass with at least 50% in each of Physics, Chemistry, Mathematics and English",
+        "A pass in Dzongkha",
+        "An entrance test, which every applicant sits",
+        "Subject ability ratings (Class XII): Mathematics 5, Physics 5, Chemistry 4, English 3, any one other subject 1"
+      ],
+      "selectionNote": null,
+      "careers": null,
+      "facilities": [
+        {
+          "name": "Structure and Concrete Lab",
+          "description": "Materials testing, concrete mix design, structural behaviour"
+        },
+        {
+          "name": "Highway / Soil Mechanics Lab",
+          "description": "Soil properties, compaction, aggregates and asphalt"
+        },
+        {
+          "name": "Hydraulic Lab",
+          "description": "Flow channels, pumps, pressure and energy loss"
+        },
+        {
+          "name": "Survey Lab",
+          "description": "Total stations, GPS, mapping and levelling"
+        },
+        {
+          "name": "Geology Lab",
+          "description": "Minerals, rocks, fossils and geological structures"
+        },
+        {
+          "name": "Rock Mechanics Lab",
+          "description": "Rock strength, hardness and permeability"
+        },
+        {
+          "name": "Environmental Lab",
+          "description": "Water and soil testing"
+        }
+      ],
+      "images": []
+    },
+    {
+      "slug": "electrical-engineering",
+      "name": "Electrical Engineering",
+      "level": "bachelor",
+      "degree": "Bachelor of Engineering",
+      "duration": "4 years",
+      "since": null,
+      "departmentKey": "EEED",
+      "departmentName": "Electrical and Electronics Engineering Department",
+      "departmentUrl": "https://eeed.cst.edu.bt",
+      "documentUrl": "https://drive.google.com/file/d/12Asd5ceKgpk84qFbyd518Eulqb6KYZx3/view?usp=sharing",
+      "summary": "Trains students to implement and manage power, control and communication systems to a professional standard, with site visits and hands-on experience.",
+      "outcomes": [
+        "Plan, design and implement power, control and communication systems",
+        "Develop technical competence, professionalism and project management skills"
+      ],
+      "structure": {
+        "kind": "none"
+      },
+      "requirements": [
+        "Class XII pass with at least 50% in each of Physics, Chemistry, Mathematics and English",
+        "A pass in Dzongkha",
+        "An entrance test, which every applicant sits",
+        "Subject ability ratings (Class XII): Mathematics 5, Physics 5, Chemistry 4, English 3, any one other subject 1"
+      ],
+      "selectionNote": null,
+      "careers": [
+        "Civil service, corporations and private industry",
+        "Further study or research in electrical engineering and related fields"
+      ],
+      "facilities": null,
+      "images": []
+    },
+    {
+      "slug": "electronics-and-communication",
+      "name": "Electronics and Communication Engineering",
+      "level": "bachelor",
+      "degree": "Bachelor of Engineering",
+      "duration": "4 years",
+      "since": null,
+      "departmentKey": "EEED",
+      "departmentName": "Electrical and Electronics Engineering Department",
+      "departmentUrl": "https://eeed.cst.edu.bt",
+      "documentUrl": "https://drive.google.com/file/d/1shGVd1Pp5vqIrG6a3KGoA2ITTCd_K2q/view?usp=sharing",
+      "summary": "Develops skills in electronics, communication and problem-solving, with industry-oriented on-the-job training.",
+      "outcomes": [
+        "Design, analyse and implement modern electronic and communication systems",
+        "Design and operate electronic equipment and provide technical support",
+        "Conduct research and solve complex engineering problems"
+      ],
+      "structure": {
+        "kind": "modules",
+        "intro": "Selected subject areas.",
+        "modules": [
+          {
+            "name": "Analog and Digital Communication",
+            "description": "How information is transmitted using analog and digital signals.",
+            "descriptionSource": "draft",
+            "code": null
+          },
+          {
+            "name": "Microprocessors",
+            "description": "Architecture and programming of microprocessors.",
+            "descriptionSource": "draft",
+            "code": null
+          },
+          {
+            "name": "Embedded Systems",
+            "description": "Designing computing systems built into devices.",
+            "descriptionSource": "draft",
+            "code": null
+          },
+          {
+            "name": "FPGA Programming",
+            "description": "Designing digital circuits on programmable hardware.",
+            "descriptionSource": "draft",
+            "code": null
+          },
+          {
+            "name": "Antenna Design",
+            "description": "Principles and design of antennas for wireless communication.",
+            "descriptionSource": "draft",
+            "code": null
+          }
+        ],
+        "note": "On-the-job training is arranged with telecom, power and automation organisations."
+      },
+      "requirements": [
+        "Class XII pass with at least 50% in each of Physics, Chemistry, Mathematics and English",
+        "A pass in Dzongkha",
+        "An entrance test, which every applicant sits",
+        "Subject ability ratings (Class XII): Mathematics 5, Physics 5, Chemistry 4, English 3, any one other subject 1"
+      ],
+      "selectionNote": null,
+      "careers": [
+        "Mobile and satellite communication",
+        "Digital electronics and signal processing",
+        "Embedded systems and control systems",
+        "IoT, robotics and system automation"
+      ],
+      "facilities": null,
+      "images": []
+    },
+    {
+      "slug": "instrumentation-and-control-engineering",
+      "name": "Instrumentation and Control Engineering",
+      "level": "bachelor",
+      "degree": "Bachelor of Engineering",
+      "duration": "4 years",
+      "since": "July 2019",
+      "departmentKey": "EEED",
+      "departmentName": "Electrical and Electronics Engineering Department",
+      "departmentUrl": "https://eeed.cst.edu.bt",
+      "documentUrl": "https://drive.google.com/file/d/1U_iONpy6gFu7UOkKLoI7XglcWOSukJFF/view?usp=sharing",
+      "summary": "Trains students to design, analyse and optimise automation and control systems for industrial and non-industrial settings.",
+      "outcomes": [
+        "Design control systems and optimise processes",
+        "Implement automation hands-on",
+        "Communicate well, work in teams and lead technical projects"
+      ],
+      "structure": {
+        "kind": "none"
+      },
+      "requirements": [
+        "Class XII pass with at least 50% in each of Physics, Chemistry, Mathematics and English",
+        "A pass in Dzongkha",
+        "An entrance test, which every applicant sits",
+        "Subject ability ratings (Class XII): Mathematics 5, Physics 5, Chemistry 4, English 3, any one other subject 1"
+      ],
+      "selectionNote": null,
+      "careers": [
+        "Instrumentation technologies",
+        "Process control",
+        "Industrial automation",
+        "Research and development"
+      ],
+      "facilities": null,
+      "images": []
+    },
+    {
+      "slug": "mechanical-engineering",
+      "name": "Mechanical Engineering",
+      "level": "bachelor",
+      "degree": "Bachelor of Engineering",
+      "duration": "4 years",
+      "since": "July 2023",
+      "departmentKey": "MED",
+      "departmentName": "Mechanical Engineering Department",
+      "departmentUrl": "https://med.cst.edu.bt/undergraduate/",
+      "documentUrl": "https://drive.google.com/file/d/15OUjA8s-tFD1x3UYbUXJG-aVz_TR1Ri9/view?usp=sharing",
+      "summary": "Designing, analysing and manufacturing mechanical systems, with emphasis on energy, machines, thermodynamics and sustainable technology. Strong hands-on workshop and laboratory training.",
+      "outcomes": [
+        "Apply mathematics, science and engineering principles to complex problems",
+        "Design and analyse systems with modern tools and run experiments",
+        "Account for sustainability, safety and ethics",
+        "Communicate technically and work in multidisciplinary teams"
+      ],
+      "structure": {
+        "kind": "modules",
+        "intro": "Selected core modules.",
+        "modules": [
+          {
+            "name": "Engineering Thermodynamics",
+            "description": "Energy, heat and work, and the laws that govern them.",
+            "descriptionSource": "draft",
+            "code": "MHE201"
+          },
+          {
+            "name": "Design of Machine Elements",
+            "description": "Designing machine components such as shafts, gears and bearings.",
+            "descriptionSource": "draft",
+            "code": "MDD202"
+          },
+          {
+            "name": "Heat and Mass Transfer",
+            "description": "Conduction, convection, radiation and heat exchangers.",
+            "descriptionSource": "draft",
+            "code": "MHE303"
+          },
+          {
+            "name": "Computer Integrated Manufacturing",
+            "description": "Using computers to design and control manufacturing.",
+            "descriptionSource": "draft",
+            "code": "MDD303"
+          },
+          {
+            "name": "Mechatronics",
+            "description": "Combining mechanical, electronic and control engineering.",
+            "descriptionSource": "draft",
+            "code": "CAS406"
+          },
+          {
+            "name": "Heating, Ventilation and Air Conditioning",
+            "description": "Heating, ventilation, air-conditioning and refrigeration systems.",
+            "descriptionSource": "draft",
+            "code": "MHE404"
+          }
+        ],
+        "note": null
+      },
+      "requirements": [
+        "Class XII pass with at least 50% in each of Physics, Chemistry, Mathematics and English",
+        "A pass in Dzongkha",
+        "An entrance test, which every applicant sits",
+        "Subject ability ratings (Class XII): Mathematics 5, Physics 5, Chemistry 4, English 3, any one other subject 1"
+      ],
+      "selectionNote": "Final merit ranking: 55% Class XII subject ratings, 35% aptitude test, 10% essay-type questions. Seats are offered under regular, self-financed and in-service categories; in-service candidates enter directly into the second year.",
+      "careers": [
+        "HVAC, building services and energy systems",
+        "Power plants, hydropower and industrial utilities",
+        "Product design, CAD/CAM and manufacturing",
+        "Industrial automation, mechatronics and operations",
+        "Automotive and transportation engineering",
+        "Quality management, inspection and testing",
+        "Project engineering and maintenance",
+        "Consultancy, entrepreneurship and research"
+      ],
+      "facilities": [
+        {
+          "name": "Mechanical Engineering Workshop",
+          "description": "Nine sections: carpentry, welding, machining, casting and more"
+        },
+        {
+          "name": "Materials Science and Testing Laboratory",
+          "description": "Tensile, compression, hardness, impact, torsion and microstructure tests"
+        },
+        {
+          "name": "Computer-Integrated Manufacturing and Design Lab",
+          "description": "CAD and simulation with SolidWorks, AutoCAD, ANSYS"
+        },
+        {
+          "name": "Metrology Laboratory",
+          "description": "Dimensional inspection and quality control"
+        },
+        {
+          "name": "Advanced Manufacturing Laboratory",
+          "description": "CNC laser welding and cutting, automated forming"
+        },
+        {
+          "name": "Engineering Thermodynamics Laboratory",
+          "description": "Engine test rigs, calorimeters, refrigeration trainers"
+        },
+        {
+          "name": "Kinematics and Dynamics of Machines Laboratory",
+          "description": "Cams, gear trains, balancing, gyroscopes, vibration"
+        },
+        {
+          "name": "Heat and Mass Transfer Laboratory",
+          "description": "Conduction, convection, radiation, heat exchangers"
+        },
+        {
+          "name": "Automotive Engineering Laboratory",
+          "description": "Vehicle systems, powertrains, EV components"
+        },
+        {
+          "name": "HVAC and Refrigeration Laboratory",
+          "description": "Psychrometrics, refrigeration cycles, air-conditioning tests"
+        }
+      ],
+      "images": [],
+      "fullCurriculum": [
+        {
+          "label": "Year 1",
+          "semesters": [
+            {
+              "title": "Semester I",
+              "modules": [
+                {
+                  "code": "MAT101",
+                  "name": "Calculus and Infinite Series"
+                },
+                {
+                  "code": "PHY101",
+                  "name": "Engineering Physics-I"
+                },
+                {
+                  "code": "CHE101",
+                  "name": "Engineering Chemistry"
+                },
+                {
+                  "code": "DZG101",
+                  "name": "Dzongkha for Communication"
+                },
+                {
+                  "code": "ACS101",
+                  "name": "Academic Skills"
+                },
+                {
+                  "code": "MDD101",
+                  "name": "Mechanical Drawing"
+                }
+              ]
+            },
+            {
+              "title": "Semester II",
+              "modules": [
+                {
+                  "code": "MAT102",
+                  "name": "Multivariate Calculus, Differential Equations and Matrices"
+                },
+                {
+                  "code": "MEC101",
+                  "name": "Material Science"
+                },
+                {
+                  "code": "CSF101",
+                  "name": "Programming Methodology"
+                },
+                {
+                  "code": "TSM101",
+                  "name": "Engineering Mechanics"
+                },
+                {
+                  "code": "MGT401",
+                  "name": "Project Management"
+                },
+                {
+                  "code": "MPT101",
+                  "name": "Mechanical Workshop"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Year 2",
+          "semesters": [
+            {
+              "title": "Semester III",
+              "modules": [
+                {
+                  "code": "CKT201",
+                  "name": "Circuit Theory-I"
+                },
+                {
+                  "code": "TSM102",
+                  "name": "Strength of Materials"
+                },
+                {
+                  "code": "FMH201",
+                  "name": "Fluid Mechanics"
+                },
+                {
+                  "code": "MPT202",
+                  "name": "Manufacturing Processes"
+                },
+                {
+                  "code": "ECD201",
+                  "name": "Electronic Circuits & Devices I"
+                }
+              ]
+            },
+            {
+              "title": "Semester IV",
+              "modules": [
+                {
+                  "code": "MAT204",
+                  "name": "Complex Analysis, Fourier Series & PDE"
+                },
+                {
+                  "code": "MEC202",
+                  "name": "Metrology"
+                },
+                {
+                  "code": "MHE201",
+                  "name": "Engineering Thermodynamics"
+                },
+                {
+                  "code": "MDD202",
+                  "name": "Design of Machine Elements"
+                },
+                {
+                  "code": "FMH202",
+                  "name": "Hydraulics"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Year 3",
+          "semesters": [
+            {
+              "title": "Semester V",
+              "modules": [
+                {
+                  "code": "EMC204",
+                  "name": "Introduction to Electrical Machines"
+                },
+                {
+                  "code": "MIM301",
+                  "name": "Industrial Engineering & Production Management"
+                },
+                {
+                  "code": "MPT303",
+                  "name": "Advanced Manufacturing Technology"
+                },
+                {
+                  "code": "MEC303",
+                  "name": "Kinematics & Dynamics of Machines"
+                },
+                {
+                  "code": "MHE302",
+                  "name": "Applied Thermodynamics"
+                }
+              ]
+            },
+            {
+              "title": "Semester VI",
+              "modules": [
+                {
+                  "code": "FMH305",
+                  "name": "Hydraulic and Pneumatic Controls"
+                },
+                {
+                  "code": "MAT412",
+                  "name": "Optimization Technique"
+                },
+                {
+                  "code": "MHE303",
+                  "name": "Heat & Mass Transfer"
+                },
+                {
+                  "code": "MDD303",
+                  "name": "Computer Integrated Manufacturing"
+                },
+                {
+                  "code": "PRW402",
+                  "name": "On-the-Job Training"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Year 4",
+          "semesters": [
+            {
+              "title": "Semester VII",
+              "modules": [
+                {
+                  "code": "CAS406",
+                  "name": "Mechatronics"
+                },
+                {
+                  "code": "MEC404",
+                  "name": "Automotive Engineering"
+                },
+                {
+                  "code": "PSS301",
+                  "name": "Power Generation"
+                },
+                {
+                  "code": null,
+                  "name": "Elective I"
+                },
+                {
+                  "code": "PRW403",
+                  "name": "Research Project"
+                }
+              ]
+            },
+            {
+              "title": "Semester VIII",
+              "modules": [
+                {
+                  "code": "MHE404",
+                  "name": "Heating, Ventilation & Air Conditioning"
+                },
+                {
+                  "code": "MIM402",
+                  "name": "Total Quality Management"
+                },
+                {
+                  "code": null,
+                  "name": "Elective II"
+                },
+                {
+                  "code": null,
+                  "name": "Elective III"
+                },
+                {
+                  "code": "PRW403",
+                  "name": "Research Project"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "information-technology",
+      "name": "Information Technology",
+      "level": "bachelor",
+      "degree": "Bachelor of Engineering",
+      "duration": "4 years",
+      "since": "July 2010",
+      "departmentKey": "CTD",
+      "departmentName": "Computing Technologies Department",
+      "departmentUrl": "https://ctd.cst.edu.bt/?page_id=3322",
+      "documentUrl": "https://drive.google.com/file/d/1UZn6VxGQN12w5lGPlw4_bvgyaSpPqzfU/view?usp=sharing",
+      "summary": "A four-year, full-time programme (480 credits) preparing IT professionals in programming, networking, security, AI and modern software systems.",
+      "outcomes": [
+        "Contribute to the development of computing technology in Bhutan",
+        "Apply research, innovation and creativity with ethical and professional responsibility"
+      ],
+      "structure": {
+        "kind": "modules",
+        "intro": "Selected core modules.",
+        "modules": [
+          {
+            "name": "Data Structures and Algorithms",
+            "description": "Organising and processing data efficiently, and analysing how algorithms perform.",
+            "descriptionSource": "draft",
+            "code": "CTE202"
+          },
+          {
+            "name": "Computer Communication Networks",
+            "description": "How computers and networks communicate.",
+            "descriptionSource": "draft",
+            "code": "NWC201"
+          },
+          {
+            "name": "Artificial Intelligence",
+            "description": "Foundations of intelligent systems: search, reasoning and learning.",
+            "descriptionSource": "draft",
+            "code": "CTE207"
+          },
+          {
+            "name": "Machine Learning",
+            "description": "Building models that learn patterns from data.",
+            "descriptionSource": "draft",
+            "code": "CTE309"
+          },
+          {
+            "name": "Information Security",
+            "description": "Protecting information systems and data from threats.",
+            "descriptionSource": "draft",
+            "code": "DIS405"
+          }
+        ],
+        "note": "Electives: Elective I (Year 3) offers Advanced Routing, NLP or Digital Image Processing. Elective II (Year 4) offers Network Security, Advanced System Administration or Blockchain."
+      },
+      "requirements": [
+        "Class XII pass with at least 50% in each of Physics, Chemistry, Mathematics and English",
+        "A pass in Dzongkha",
+        "An entrance test, which every applicant sits",
+        "Subject ability ratings (Class XII): Mathematics 5, Physics 5, Chemistry 4, English 3, any one other subject 1"
+      ],
+      "selectionNote": null,
+      "careers": [
+        "Software engineer, full-stack web and mobile app developer",
+        "Data analyst and machine learning engineer",
+        "Cybersecurity analyst and network engineer",
+        "System administrator, DevOps and cloud engineer",
+        "Solutions architect and technology start-up founder"
+      ],
+      "facilities": [
+        {
+          "name": "Programming Lab",
+          "description": "Coding, algorithms, full-stack software engineering"
+        },
+        {
+          "name": "Database Lab",
+          "description": "Relational and NoSQL design, query tuning"
+        },
+        {
+          "name": "NLP Lab",
+          "description": "Text mining, sentiment analysis, conversational AI"
+        },
+        {
+          "name": "IoT Lab",
+          "description": "Sensors, embedded systems, smart device prototyping"
+        },
+        {
+          "name": "Image Processing Lab",
+          "description": "Computer vision and pattern recognition"
+        },
+        {
+          "name": "BYOD Lab",
+          "description": "Bring-your-own-device workspace"
+        }
+      ],
+      "images": [],
+      "fullCurriculum": [
+        {
+          "label": "Year 1",
+          "semesters": [
+            {
+              "title": "Semester I",
+              "modules": [
+                {
+                  "code": "MAT101",
+                  "name": "Calculus and Infinite Series"
+                },
+                {
+                  "code": "PHY101",
+                  "name": "Engineering Physics-I"
+                },
+                {
+                  "code": "DZG101",
+                  "name": "Dzongkha"
+                },
+                {
+                  "code": "CPL101",
+                  "name": "Introduction to Programming"
+                },
+                {
+                  "code": "ACS101",
+                  "name": "Academic Skills"
+                }
+              ]
+            },
+            {
+              "title": "Semester II",
+              "modules": [
+                {
+                  "code": "CPL102",
+                  "name": "Object-Oriented Programming"
+                },
+                {
+                  "code": "CTE101",
+                  "name": "Computer Organization & Architecture"
+                },
+                {
+                  "code": "MAT110",
+                  "name": "Discrete Mathematics"
+                },
+                {
+                  "code": "DIS101",
+                  "name": "Database Systems"
+                },
+                {
+                  "code": "ECD202",
+                  "name": "Digital Electronics and Logic Design"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Year 2",
+          "semesters": [
+            {
+              "title": "Semester I",
+              "modules": [
+                {
+                  "code": "CTE205",
+                  "name": "Operating Systems"
+                },
+                {
+                  "code": "CTE202",
+                  "name": "Data Structures & Algorithms"
+                },
+                {
+                  "code": "MAT205",
+                  "name": "Statistics & Theory of Probability"
+                },
+                {
+                  "code": "NWC201",
+                  "name": "Computer Communication Networks"
+                },
+                {
+                  "code": "CTE203",
+                  "name": "Human-Computer Interaction"
+                }
+              ]
+            },
+            {
+              "title": "Semester II",
+              "modules": [
+                {
+                  "code": "CTE204",
+                  "name": "Web Application Development"
+                },
+                {
+                  "code": "MAT206",
+                  "name": "Computational Mathematics"
+                },
+                {
+                  "code": "CTE206",
+                  "name": "Software Engineering"
+                },
+                {
+                  "code": "CTE207",
+                  "name": "Artificial Intelligence"
+                },
+                {
+                  "code": "NWC202",
+                  "name": "Introduction to the IoT"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Year 3",
+          "semesters": [
+            {
+              "title": "Semester I",
+              "modules": [
+                {
+                  "code": "ITM301",
+                  "name": "Professionalism and Ethics in IT"
+                },
+                {
+                  "code": "CTE308",
+                  "name": "Mobile Application Development"
+                },
+                {
+                  "code": "CTE309",
+                  "name": "Machine Learning"
+                },
+                {
+                  "code": "EDP101",
+                  "name": "Entrepreneurship"
+                },
+                {
+                  "code": "ITM302",
+                  "name": "System Administration"
+                }
+              ]
+            },
+            {
+              "title": "Semester II",
+              "modules": [
+                {
+                  "code": "DIS302",
+                  "name": "Data Analytics"
+                },
+                {
+                  "code": "DIS303",
+                  "name": "Cryptology"
+                },
+                {
+                  "code": "PRW301",
+                  "name": "Introduction to Research"
+                },
+                {
+                  "code": "ITM304",
+                  "name": "IT Project Management"
+                },
+                {
+                  "code": null,
+                  "name": "Elective I"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Year 4",
+          "semesters": [
+            {
+              "title": "Semester I",
+              "modules": [
+                {
+                  "code": "DIS404",
+                  "name": "Advanced Database Systems"
+                },
+                {
+                  "code": "DIS405",
+                  "name": "Information Security"
+                },
+                {
+                  "code": "CTE412",
+                  "name": "Integrated Systems Technology"
+                },
+                {
+                  "code": null,
+                  "name": "Elective II"
+                },
+                {
+                  "code": "IRP401",
+                  "name": "Industry Research Project Proposal"
+                }
+              ]
+            },
+            {
+              "title": "Semester II",
+              "modules": [
+                {
+                  "code": "IRP402",
+                  "name": "Industry Research Project (48 credits)"
+                },
+                {
+                  "code": "ONL401",
+                  "name": "Online Courses (12 credits)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "software-engineering",
+      "name": "Software Engineering",
+      "level": "bachelor",
+      "degree": "Bachelor of Engineering",
+      "duration": "4 years",
+      "since": "July 2023",
+      "departmentKey": "CTD",
+      "departmentName": "Computing Technologies Department",
+      "departmentUrl": "https://ctd.cst.edu.bt/?page_id=3148",
+      "documentUrl": null,
+      "summary": "A four-year, full-time, on-campus programme preparing students to design, develop, test and maintain reliable software systems. Includes two internships and two capstone projects.",
+      "outcomes": [
+        "Design, develop, test and maintain efficient software systems",
+        "Specialise in Artificial Intelligence, DevSecOps or Software Security through elective tracks"
+      ],
+      "structure": {
+        "kind": "modules",
+        "intro": "Selected core modules.",
+        "modules": [
+          {
+            "name": "Software Testing and Quality Assurance",
+            "description": "Methods for testing software and assuring its quality.",
+            "descriptionSource": "draft",
+            "code": "SWE302"
+          },
+          {
+            "name": "System Design and Solution Architecture",
+            "description": "Designing the architecture of larger software systems.",
+            "descriptionSource": "draft",
+            "code": "SDA202"
+          },
+          {
+            "name": "Microservices and Serverless Applications",
+            "description": "Building applications from small independent services and serverless platforms.",
+            "descriptionSource": "draft",
+            "code": "WEB303"
+          },
+          {
+            "name": "Secure Coding Practices",
+            "description": "Writing software that avoids common security flaws.",
+            "descriptionSource": "draft",
+            "code": "WEB404"
+          },
+          {
+            "name": "Software Engineering Capstone Project",
+            "description": "A final project that delivers a complete software system.",
+            "descriptionSource": "draft",
+            "code": "IDE404"
+          }
+        ],
+        "note": "Elective tracks: Artificial Intelligence, DevSecOps and Software Security. Two internships of about 12 weeks each are part of the programme."
+      },
+      "requirements": [
+        "Class XII pass with at least 50% in each of Physics, Chemistry, Mathematics and English",
+        "A pass in Dzongkha",
+        "An entrance test, which every applicant sits",
+        "Subject ability ratings (Class XII): Mathematics 5, Physics 5, Chemistry 4, English 3, any one other subject 1"
+      ],
+      "selectionNote": null,
+      "careers": [
+        "Software engineer and full-stack developer",
+        "Software security and DevSecOps engineer",
+        "Machine learning and cloud computing engineer",
+        "Mobile app developer and software test engineer",
+        "Solution architect and technology start-up founder"
+      ],
+      "facilities": [
+        {
+          "name": "Programming Lab",
+          "description": "Coding, algorithms, full-stack software engineering"
+        },
+        {
+          "name": "Database Lab",
+          "description": "Relational and NoSQL design, query tuning"
+        },
+        {
+          "name": "NLP Lab",
+          "description": "Text mining, sentiment analysis, conversational AI"
+        },
+        {
+          "name": "IoT Lab",
+          "description": "Sensors, embedded systems, smart device prototyping"
+        },
+        {
+          "name": "Image Processing Lab",
+          "description": "Computer vision and pattern recognition"
+        },
+        {
+          "name": "BYOD Lab",
+          "description": "Bring-your-own-device workspace"
+        }
+      ],
+      "images": [],
+      "fullCurriculum": [
+        {
+          "label": "Year 1",
+          "semesters": [
+            {
+              "title": "Semester I",
+              "modules": [
+                {
+                  "code": "DZG101",
+                  "name": "Dzongkha Communication"
+                },
+                {
+                  "code": "CSF101",
+                  "name": "Programming Methodology"
+                },
+                {
+                  "code": "SDA101",
+                  "name": "User Interface Design and Implementation"
+                },
+                {
+                  "code": "MAT205",
+                  "name": "Statistics & Theory of Probability"
+                },
+                {
+                  "code": "NWC201",
+                  "name": "Computer Communication Networks"
+                }
+              ]
+            },
+            {
+              "title": "Semester II",
+              "modules": [
+                {
+                  "code": "MAT110",
+                  "name": "Discrete Mathematics"
+                },
+                {
+                  "code": "DBS101",
+                  "name": "Database Systems Fundamentals"
+                },
+                {
+                  "code": "WEB101",
+                  "name": "Web Application Fundamentals"
+                },
+                {
+                  "code": "WEB102",
+                  "name": "Server Application Fundamentals"
+                },
+                {
+                  "code": "ACS101",
+                  "name": "Academic Skills"
+                },
+                {
+                  "code": null,
+                  "name": "Elective I"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Year 2",
+          "semesters": [
+            {
+              "title": "Semester I",
+              "modules": [
+                {
+                  "code": "IDE201",
+                  "name": "Software Engineering Capstone Project I"
+                },
+                {
+                  "code": "IDE202",
+                  "name": "Software Engineering Internship I (about 12 weeks)"
+                }
+              ]
+            },
+            {
+              "title": "Semester II",
+              "modules": [
+                {
+                  "code": "CTE205",
+                  "name": "Operating Systems"
+                },
+                {
+                  "code": "DIS303",
+                  "name": "Cryptology"
+                },
+                {
+                  "code": "SWE201",
+                  "name": "Cross Platform Development"
+                },
+                {
+                  "code": "SDA202",
+                  "name": "System Design & Solution Architecture"
+                },
+                {
+                  "code": null,
+                  "name": "Elective II"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Year 3",
+          "semesters": [
+            {
+              "title": "Semester I",
+              "modules": [
+                {
+                  "code": "SWE302",
+                  "name": "Software Testing & Quality Assurance"
+                },
+                {
+                  "code": "SWE303",
+                  "name": "Software Project Management"
+                },
+                {
+                  "code": "CSF302",
+                  "name": "Algorithm Design & Analysis"
+                },
+                {
+                  "code": "WEB303",
+                  "name": "Microservices & Serverless Applications"
+                },
+                {
+                  "code": null,
+                  "name": "Elective III"
+                }
+              ]
+            },
+            {
+              "title": "Semester II",
+              "modules": [
+                {
+                  "code": "IDE303",
+                  "name": "Software Engineering Startup"
+                },
+                {
+                  "code": "CSF303",
+                  "name": "Competitive Programming"
+                },
+                {
+                  "code": "DBS302",
+                  "name": "NoSQL Database Management"
+                },
+                {
+                  "code": null,
+                  "name": "Elective IV"
+                },
+                {
+                  "code": null,
+                  "name": "Elective V"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "label": "Year 4",
+          "semesters": [
+            {
+              "title": "Semester I",
+              "modules": [
+                {
+                  "code": "SIS401",
+                  "name": "Smart Integrated Systems"
+                },
+                {
+                  "code": "WEB404",
+                  "name": "Secure Coding Practices"
+                },
+                {
+                  "code": null,
+                  "name": "Elective VI"
+                },
+                {
+                  "code": null,
+                  "name": "Elective VII"
+                },
+                {
+                  "code": null,
+                  "name": "Elective VIII"
+                }
+              ]
+            },
+            {
+              "title": "Semester II",
+              "modules": [
+                {
+                  "code": "IDE404",
+                  "name": "Software Engineering Capstone Project II"
+                },
+                {
+                  "code": "IDE405",
+                  "name": "Software Engineering Internship II (about 12 weeks)"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "renewable-energy",
+      "name": "Renewable Energy",
+      "level": "master",
+      "degree": "Master of Engineering in Renewable Energy",
+      "duration": "18 months",
+      "since": "July 2018",
+      "departmentKey": null,
+      "departmentName": null,
+      "departmentUrl": "https://cst.edu.bt/renewable-energy/",
+      "documentUrl": "https://drive.google.com/file/d/1NHuJYIb6DNyDKqi8EBQRDcqymbycvF5T/view",
+      "summary": "Builds the technical, analytical and entrepreneurial skills to design, evaluate and manage renewable energy systems and projects.",
+      "outcomes": [
+        "Plan, design, evaluate and optimise renewable energy infrastructure",
+        "Assess environmental, social and economic impacts",
+        "Use modelling, simulation and project advisory skills",
+        "Contribute to innovation, entrepreneurship and research"
+      ],
+      "structure": {
+        "kind": "none"
+      },
+      "requirements": null,
+      "selectionNote": null,
+      "careers": [
+        "Project engineer, energy manager and energy analyst",
+        "Policy advisor, system designer, researcher and consultant",
+        "Solar, wind, hydropower, biomass and biofuel sectors"
+      ],
+      "facilities": null,
+      "images": []
+    },
+    {
+      "slug": "construction-management",
+      "name": "Construction Management",
+      "level": "master",
+      "degree": "Master in Construction Management",
+      "duration": "18 months",
+      "since": "July 2021",
+      "departmentKey": "CEED",
+      "departmentName": "Civil and Environmental Engineering Department",
+      "departmentUrl": "https://ceed.cst.edu.bt/masters-in-construction-management/",
+      "documentUrl": "https://drive.google.com/file/d/1gEygq5251pVVmu89Xg7VDJ9LWa-m1cPJ/view",
+      "summary": "Advanced theory and practice for the social, technological, financial and environmental challenges of the construction industry, grounded in the Project Management Body of Knowledge. Designed for regular and in-service candidates.",
+      "outcomes": [
+        "Plan and control construction project activities and resources",
+        "Manage contracts from client and contractor perspectives",
+        "Estimate and control costs and assess investment viability",
+        "Use project management software for scheduling and monitoring"
+      ],
+      "structure": {
+        "kind": "modules",
+        "intro": "Modules (the department does not assign them to semesters):",
+        "modules": [
+          {
+            "name": "Construction Project Management",
+            "description": "Planning and controlling construction activities and resources, and leading project teams.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Construction Contract Management",
+            "description": "Contract management from client and contractor perspectives, including national and international regulations.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Investment Analysis for Infrastructure Projects",
+            "description": "Cost estimation and control, viability assessment and investment decisions.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Project Planning, Scheduling and Controlling",
+            "description": "Using project management software for scope definition, scheduling and monitoring.",
+            "descriptionSource": "site",
+            "code": null
+          },
+          {
+            "name": "Dissertation",
+            "description": "Independent research that develops critical thinking.",
+            "descriptionSource": "site",
+            "code": null
+          }
+        ],
+        "note": "Exit points: Postgraduate Certificate after the first semester and Postgraduate Diploma after the second."
+      },
+      "requirements": null,
+      "selectionNote": null,
+      "careers": [
+        "Construction management and project planning",
+        "Roles in engineering, architecture, real estate and construction"
+      ],
+      "facilities": null,
+      "images": []
+    },
+    {
+      "slug": "msc-engineering",
+      "name": "MSc in Engineering",
+      "level": "master",
+      "degree": "Master of Science in Engineering (by Research)",
+      "duration": "24 months",
+      "since": null,
+      "departmentKey": null,
+      "departmentName": null,
+      "departmentUrl": "https://cst.edu.bt/Master%20of%20Science%20in%20Engineering/",
+      "documentUrl": "https://drive.google.com/file/d/1ox7ljLem5MtPsTtVdL_WUnpEsBcUqhIr/view?usp=sharing",
+      "summary": "Advanced, research-focused education for complex engineering challenges and Bhutan's socio-economic development goals. Mixed mode: 6 months on campus and 18 months off campus.",
+      "outcomes": [
+        "Develop advanced technical expertise and problem-solving ability",
+        "Carry out independent engineering research"
+      ],
+      "structure": {
+        "kind": "none"
+      },
+      "requirements": [
+        "A bachelor's degree in engineering (minimum)",
+        "International applicants: IELTS overall 5.5 or an equivalent test; native English speakers are exempt",
+        "An overall aggregate of at least 50% across oral interview, statement of research intent and undergraduate marks",
+        "At least 50% in both the oral interview and the statement of research intent",
+        "Selection is administered by the Office of the Dean of Research and Industrial Linkages"
+      ],
+      "selectionNote": null,
+      "careers": [
+        "Research, policy and practical engineering roles in the public and private sectors",
+        "Careers in Bhutan and internationally"
+      ],
+      "facilities": null,
+      "images": []
+    }
+  ]
+}

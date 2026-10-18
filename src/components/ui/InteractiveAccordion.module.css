@@ -1,0 +1,206 @@
+/* ==========================================================================
+   Interactive accordion (after the 21st.dev "interactive accordion")
+   Hairline rows. Each button: a numbered circle (filling with ink when open),
+   the title in Cormorant, a plus that turns into a cross, and a brass
+   underline that grows. The panel opens by animating its grid row from 0fr
+   to 1fr. Reduced motion: no animation.
+   ========================================================================== */
+
+.accordion {
+  max-width: 760px;
+}
+
+.item {
+  position: relative;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.item:first-child {
+  border-top: 1px solid var(--color-line);
+}
+
+.heading {
+  margin: 0;
+  font: inherit;
+}
+
+.button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+  padding: 16px 4px;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.button:focus-visible {
+  outline-offset: 2px;
+}
+
+/* the number in a circle that fills with ink as the item opens */
+.number {
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-muted);
+  transition: color 200ms;
+}
+
+.number::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--color-ink);
+  opacity: 0;
+  transform: scale(0);
+  transition:
+    transform 350ms cubic-bezier(0.3, 1.4, 0.5, 1),
+    opacity 300ms;
+}
+
+.number span {
+  position: relative;
+}
+
+.button:hover .number::before {
+  opacity: 0.08;
+  transform: scale(0.85);
+}
+
+.item[data-open] .number {
+  color: var(--color-white);
+}
+
+.item[data-open] .number::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-copy);
+  transition:
+    color 200ms,
+    transform 300ms;
+}
+
+.button:hover .title,
+.item[data-open] .title {
+  color: var(--color-ink);
+  transform: translateX(4px);
+}
+
+/* a plus, turning into a cross */
+.plus {
+  position: relative;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin-left: auto;
+  transition: transform 300ms;
+}
+
+.plus::before,
+.plus::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  margin-top: -0.75px;
+  background: var(--color-ink);
+}
+
+.plus::after {
+  transform: rotate(90deg);
+}
+
+.item[data-open] .plus {
+  transform: rotate(45deg);
+}
+
+/* the brass underline: a third on hover, the whole width when open */
+.underline {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--color-brass);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 450ms var(--ease-out-soft);
+}
+
+.button:hover .underline {
+  transform: scaleX(0.3);
+}
+
+.item[data-open] .underline {
+  transform: scaleX(1);
+}
+
+/* the panel: its single row grows from nothing to its content's height */
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 350ms ease;
+}
+
+.item[data-open] .panel {
+  grid-template-rows: 1fr;
+}
+
+.panelInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.content {
+  max-width: 620px;
+  padding: 2px 4px 24px 66px;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--color-copy);
+}
+
+@media (max-width: 820px) {
+  .button {
+    gap: 14px;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .content {
+    padding-left: 58px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .number,
+  .number::before,
+  .title,
+  .plus,
+  .underline,
+  .panel {
+    transition: none;
+  }
+}

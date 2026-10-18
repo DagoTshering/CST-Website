@@ -1,0 +1,293 @@
+/* ==========================================================================
+   Live Campus Air & Climate Data: the dashboard on a drawing sheet
+   The same line work as the Executives page: a white sheet with corner marks
+   (the last in brass) and the blueprint grid (24px minor, 120px major lines)
+   fading out into the white; mono captions; square corners and hairlines.
+   The dashboard's frame is a 1px teal line with a small square marker at its
+   top-left and bottom-right corners.
+     phone <= 700  narrower padding; caption and title block stacked below
+   ========================================================================== */
+
+.sheet {
+  position: relative;
+  isolation: isolate;
+  /* below the frame: room for the title block, clear of the frame's corner marker */
+  padding: 52px 36px 92px;
+  background: var(--color-white);
+}
+
+/* the grid, fading out towards the sheet's edges so it has no visible frame */
+.sheet::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(var(--color-sheet-grid-major) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(90deg, var(--color-sheet-grid-major) 1px, transparent 1px) 0 0 / 120px 120px,
+    linear-gradient(var(--color-sheet-grid) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, var(--color-sheet-grid) 1px, transparent 1px) 0 0 / 24px 24px;
+  mask-image: radial-gradient(
+    ellipse 66% 62% at 50% 50%,
+    black 28%,
+    rgb(0 0 0 / 0.5) 62%,
+    transparent 100%
+  );
+}
+
+.reg {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 0 solid var(--color-ink);
+  opacity: 0.55;
+}
+
+.tl {
+  top: 10px;
+  left: 10px;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.tr {
+  top: 10px;
+  right: 10px;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+}
+
+.bl {
+  bottom: 10px;
+  left: 10px;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.br {
+  right: 10px;
+  bottom: 10px;
+  border-right-width: 1.5px;
+  border-bottom-width: 1.5px;
+  border-color: var(--color-brass);
+  opacity: 1;
+}
+
+/* ---------- the caption above the frame --------------------------------- */
+
+.caption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 10px;
+}
+
+.figure,
+.open {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.figure {
+  margin: 0;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.figure b {
+  font-weight: 500;
+  color: var(--color-primary-strong);
+}
+
+.open {
+  border-bottom: 1px solid transparent;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+  color: var(--color-primary-strong);
+  text-decoration: none;
+  transition: border-color 200ms;
+}
+
+.open:hover {
+  border-bottom-color: currentColor;
+}
+
+/* ---------- the dashboard's frame ---------------------------------------- */
+
+.frame {
+  position: relative;
+  height: clamp(540px, 76vh, 800px);
+  border: 1px solid var(--color-primary-strong);
+  background: var(--color-white);
+}
+
+/* square markers at the top-left and bottom-right corners */
+.frame::before,
+.frame::after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  width: 9px;
+  height: 9px;
+  border: 1px solid var(--color-primary-strong);
+  background: var(--color-white);
+}
+
+.frame::before {
+  top: -5px;
+  left: -5px;
+}
+
+.frame::after {
+  right: -5px;
+  bottom: -5px;
+}
+
+.iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  opacity: 0;
+  transition: opacity 500ms;
+}
+
+.frame[data-state="ready"] .iframe {
+  opacity: 1;
+}
+
+/* the loading line and its words, or the way out if the dashboard is slow */
+.loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+  color: var(--color-muted);
+  transition: opacity 300ms;
+}
+
+.frame[data-state="ready"] .loading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.track {
+  display: block;
+  width: 180px;
+  height: 2px;
+  overflow: hidden;
+  background: var(--color-line);
+}
+
+.track i {
+  display: block;
+  width: 40%;
+  height: 100%;
+  background: var(--color-primary-strong);
+  animation: run 1.4s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+}
+
+@keyframes run {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track i {
+    width: 100%;
+    opacity: 0.4;
+    animation: none;
+  }
+}
+
+.wait {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.help {
+  max-width: 340px;
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.link {
+  font-weight: 500;
+  color: var(--color-primary-strong);
+  text-decoration: underline;
+  text-decoration-color: var(--color-line);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 200ms;
+}
+
+.link:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ---------- the title block, and the line under the sheet --------------- */
+
+.titleBlock {
+  position: absolute;
+  right: 28px;
+  bottom: 22px;
+  margin: 0;
+  padding: 7px 14px;
+  border: 1px solid var(--color-line);
+  background: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1.7;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.titleBlock b {
+  display: block;
+  font-weight: 500;
+  color: var(--color-primary-strong);
+}
+
+.fallback {
+  margin: 20px 0 0;
+  font-size: 0.875rem;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+@media (max-width: 700px) {
+  .sheet {
+    padding: 44px 14px 28px;
+  }
+
+  .caption {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .titleBlock {
+    position: static;
+    width: max-content;
+    max-width: 100%;
+    margin: 22px 0 0;
+  }
+}

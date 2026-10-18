@@ -91,7 +91,7 @@ export const mainNav: NavItem[] = [
       { label: "Staff Directory", href: "/about/staff-directory" },
     ],
   },
-  { label: "Academics", href: "/academics" },
+  { label: "Academics", href: "/programmes" },
   { label: "Announcements", href: "/announcements" },
   { label: "Admissions", href: "/admissions" },
   {
@@ -101,7 +101,7 @@ export const mainNav: NavItem[] = [
       { label: "Student Hub", href: "/student-hub" },
       { label: "EU Project Links", href: "/eu-projects" },
       { label: "Downloads", href: "/downloads" },
-      { label: "Live Campus Air & Climate Data", href: "/campus-climate" },
+      { label: "Live Campus Air & Climate Data", href: "/air-quality" },
       {
         label: "Important Links",
         items: [
