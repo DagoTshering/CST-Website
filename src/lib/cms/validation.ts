@@ -66,6 +66,62 @@ export const optionalMediaId = str
   .pipe(z.union([z.literal(""), z.uuid("That file is not valid. Upload it again.")]))
   .transform((value) => value || null);
 
+/**
+ * A list typed one item per line (learning outcomes, entry requirements, …): blank lines are
+ * dropped. Stored as an array; shown in the form joined by new lines.
+ */
+export const lines = (label: string, maxItems = 30, maxLength = 500) =>
+  str
+    .transform((value) =>
+      value
+        .split("\n")
+        .map((line) => line.replace(/^[-•*]\s+/, "").trim())
+        .filter(Boolean),
+    )
+    .refine((items) => items.length <= maxItems, `${label}: at most ${maxItems} lines.`)
+    .refine(
+      (items) => items.every((item) => item.length <= maxLength),
+      `${label}: each line at most ${maxLength} characters.`,
+    );
+
+/** An optional web address (http or https). */
+export const optionalUrl = (label: string) =>
+  str
+    .pipe(
+      z
+        .string()
+        .max(500, `${label} must be at most 500 characters.`)
+        .refine((value) => {
+          if (value === "") return true;
+          try {
+            return ["http:", "https:"].includes(new URL(value).protocol);
+          } catch {
+            return false;
+          }
+        }, `${label}: enter a full web address starting with https://`),
+    )
+    .transform((value) => value || null);
+
+/**
+ * A required link: a page of this site ("/admissions") or a full web address. A path must start
+ * with a single slash ("//host" would leave the site) and use only path characters.
+ */
+export const requiredLink = (label: string) =>
+  str.pipe(
+    z
+      .string()
+      .min(1, `Enter the ${label.toLowerCase()}.`)
+      .max(500, `${label} must be at most 500 characters.`)
+      .refine((value) => {
+        if (/^\/(?!\/)[\w\-./~%?#=&]*$/.test(value)) return true;
+        try {
+          return ["http:", "https:"].includes(new URL(value).protocol);
+        } catch {
+          return false;
+        }
+      }, `${label}: enter a page of this site such as /admissions, or a full web address starting with https://`),
+  );
+
 /** A database id from a URL or a bound action argument, which the client could have changed. */
 export const recordId = z.coerce.number().int().positive().max(2_147_483_647);
 

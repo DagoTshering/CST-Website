@@ -1,0 +1,2 @@
+ALTER TABLE "programmes" ADD COLUMN "document_file_id" uuid;--> statement-breakpoint
+ALTER TABLE "programmes" ADD CONSTRAINT "programmes_document_file_id_media_id_fk" FOREIGN KEY ("document_file_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;

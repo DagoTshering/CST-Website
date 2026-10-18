@@ -64,6 +64,20 @@
       "when": 1792310153284,
       "tag": "0008_staff_designation_required",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1792315275733,
+      "tag": "0009_programme_pages",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1792320145772,
+      "tag": "0010_programme_document_file",
+      "breakpoints": true
     }
   ]
 }

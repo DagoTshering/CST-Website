@@ -28,7 +28,9 @@ export type OrderingKey =
   | "facilities"
   | "programmes"
   | "downloads"
-  | "downloadCategories";
+  | "downloadCategories"
+  | "programmeModules"
+  | "programmeFacilities";
 
 type Ordering = {
   table: string;
@@ -90,7 +92,8 @@ const orderings: Record<OrderingKey, Ordering> = {
   programmes: {
     table: "programmes",
     label: sql`${t}.name`,
-    group: sql`'all'`,
+    // undergraduate and postgraduate programmes are listed apart everywhere, so ordered apart
+    group: sql`${t}.level::text`,
     tags: ["cms:programmes", "cms:downloads", "cms:staff"],
     listPath: () => "/admin/programmes",
   },
@@ -111,6 +114,20 @@ const orderings: Record<OrderingKey, Ordering> = {
     tags: ["cms:downloads"],
     listPath: () => "/admin/downloads/categories",
   },
+  programmeModules: {
+    table: "programme_modules",
+    label: sql`${t}.name`,
+    group: sql`${t}.programme_id::text`,
+    tags: ["cms:programmes"],
+    listPath: (group) => `/admin/programmes/${group}#modules`,
+  },
+  programmeFacilities: {
+    table: "programme_facilities",
+    label: sql`${t}.name`,
+    group: sql`${t}.programme_id::text`,
+    tags: ["cms:programmes"],
+    listPath: (group) => `/admin/programmes/${group}#facilities`,
+  },
 };
 
 export type OrderedItem = {
@@ -121,7 +138,11 @@ export type OrderedItem = {
   photo: string | null;
 };
 
-const isGroupKey = (group: string) => group === "all" || /^\d{1,9}$/.test(group);
+const isGroupKey = (group: string) =>
+  group === "all" ||
+  /^\d{1,9}$/.test(group) ||
+  group === "undergraduate" ||
+  group === "postgraduate";
 
 /** The items of one group (or, without `group`, of every group), in their current order. */
 export async function orderedItems(
@@ -302,7 +323,10 @@ export async function saveArrangement(
   }
 
   for (const tag of o.tags) updateTag(tag);
-  redirect(`${o.listPath(group)}${o.listPath(group).includes("?") ? "&" : "?"}notice=reordered`);
+  const [path, fragment] = o.listPath(group).split("#");
+  redirect(
+    `${path}${path.includes("?") ? "&" : "?"}notice=reordered${fragment ? `#${fragment}` : ""}`,
+  );
 }
 
 /**

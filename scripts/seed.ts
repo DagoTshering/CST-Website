@@ -1,8 +1,9 @@
 /**
  * Creates the initial administrator from ADMIN_EMAIL and ADMIN_INITIAL_PASSWORD, then the
  * homepage's initial content (see seed-content.ts), the staff directory and executives (see
- * seed-people.ts) and the Downloads page's documents imported from the previous website (see
- * seed-downloads.ts).
+ * seed-people.ts), the programmes' pages with their modules, facilities and the admission details
+ * (see seed-programme-pages.ts) and the Downloads page's documents imported from the previous
+ * website (see seed-downloads.ts).
  *
  *   pnpm db:seed
  *
@@ -27,6 +28,7 @@ async function main() {
   const { seedContent } = await import("./seed-content");
   const { seedDownloads } = await import("./seed-downloads");
   const { seedPeople } = await import("./seed-people");
+  const { seedProgrammePages } = await import("./seed-programme-pages");
 
   const email = normaliseEmail(process.env.ADMIN_EMAIL ?? "");
   const password = process.env.ADMIN_INITIAL_PASSWORD ?? "";
@@ -59,6 +61,7 @@ async function main() {
 
     await seedContent(db, schema);
     await seedPeople(db, schema);
+    await seedProgrammePages(db, schema); // needs the programmes and the departments
     await seedDownloads(db, schema);
   } finally {
     await db.$client.end();

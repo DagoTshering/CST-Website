@@ -1,4 +1,4 @@
-import { GraduationCap, Plus, ListOrdered } from "lucide-react";
+import { ClipboardList, GraduationCap, ListOrdered, Plus } from "lucide-react";
 import type { Metadata } from "next";
 
 import { DataTable, ListNotice, TitleWithThumb } from "@/components/admin/DataTable";
@@ -29,9 +29,13 @@ export default async function Page({ searchParams }: PageProps<"/admin/programme
     <>
       <PageHeader
         title="Academic Programmes"
-        description="Programmes listed in the Academic section of the homepage, grouped by level. The hero clock is not affected."
+        description="The programmes listed in the Academic section of the homepage and at /programmes, each with its own page (open a programme to edit its page, modules and facilities). The hero clock is not affected."
         actions={
           <>
+            <LinkButton href="/admin/programmes/admission" variant="secondary">
+              <ClipboardList aria-hidden="true" />
+              Admission details
+            </LinkButton>
             {rows.length > 1 && (
               <LinkButton href="/admin/programmes/arrange" variant="secondary">
                 <ListOrdered aria-hidden="true" />
@@ -65,6 +69,12 @@ export default async function Page({ searchParams }: PageProps<"/admin/programme
             {
               header: "Level",
               cell: (row) => (row.level === "postgraduate" ? "Postgraduate" : "Undergraduate"),
+            },
+            {
+              header: "Page",
+              cell: (row) => (row.slug ? `/programmes/${row.slug}` : "—"),
+              wide: true,
+              className: "text-admin-muted",
             },
             { header: "Year", cell: (row) => row.startYear ?? "—", wide: true },
             { header: "Status", cell: (row) => <StatusBadge status={row.status} /> },

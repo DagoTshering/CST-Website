@@ -67,7 +67,7 @@ export function describe(id: string, error?: string, help?: string) {
   } as const;
 }
 
-type SimpleField = Exclude<FieldDef, { kind: "image" } | { kind: "document" }>;
+type SimpleField = Exclude<FieldDef, { kind: "image" } | { kind: "document" } | { kind: "heading" }>;
 
 /** Text, number, date, select and status fields. Uncontrolled: the form submits them as is. */
 export function SimpleControl({

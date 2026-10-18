@@ -452,7 +452,7 @@ export async function listProgrammeChoices() {
   return getDb()
     .select({ id: programmes.id, name: programmes.name })
     .from(programmes)
-    .orderBy(asc(programmes.sortOrder), asc(programmes.name));
+    .orderBy(asc(programmes.level), asc(programmes.sortOrder), asc(programmes.name));
 }
 
 /** Staff for the admin list, optionally in one department or matching a search. */
@@ -562,7 +562,7 @@ export async function getPublishedStaffDirectory(): Promise<{
     .select({ staffId: staffProgrammes.staffId, name: programmes.name })
     .from(staffProgrammes)
     .innerJoin(programmes, eq(programmes.id, staffProgrammes.programmeId))
-    .orderBy(asc(programmes.sortOrder), asc(programmes.name));
+    .orderBy(asc(programmes.level), asc(programmes.sortOrder), asc(programmes.name));
   const programmesOf = new Map<number, string[]>();
   for (const t of taught) {
     programmesOf.set(t.staffId, [

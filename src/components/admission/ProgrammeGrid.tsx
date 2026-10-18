@@ -2,11 +2,12 @@ import { ArrowRightIcon } from "@/components/ui/icons";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SmartLink } from "@/components/ui/SmartLink";
 import { admission } from "@/content/admission";
-import { getProgramme } from "@/content/programmes";
 
-/** The programme's page, or the listing if its slug is not in programmes.json. */
-const programmeHref = (slug: string) =>
-  getProgramme(slug) ? `/programmes/${slug}` : "/programmes";
+/**
+ * The programme's page. This page is cached whole and built without the database, so the slugs
+ * are not checked here; one that is not (or no longer) a published programme is a 404.
+ */
+const programmeHref = (slug: string) => `/programmes/${slug}`;
 
 /** The bachelor's programmes open to new students, each a hairline card linking to its page. */
 export function ProgrammeGrid() {

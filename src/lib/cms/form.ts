@@ -34,7 +34,9 @@ export type FieldDef =
   /** An uploaded image plus its description (alt text), stored in the field named altName. */
   | (BaseField & { kind: "image"; altName?: string })
   /** An uploaded PDF. */
-  | (BaseField & { kind: "document" });
+  | (BaseField & { kind: "document" })
+  /** Not a field: a heading that starts a section of the form. */
+  | (BaseField & { kind: "heading" });
 
 /** An uploaded file as the form shows it. */
 export type MediaPreview = {

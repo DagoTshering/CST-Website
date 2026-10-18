@@ -209,6 +209,27 @@ chart is the one featured in the homepage's Leadership section.
 none, and each person once (by their id in that data), so a rerun never duplicates or overwrites
 anyone, and someone an administrator deleted is not added again.
 
+## Programme pages
+
+The Programmes listing (`/programmes`) and each programme's page (`/programmes/<slug>`) read from
+the database. Administrators manage them under **Admin → Academic Programmes**: a programme's form
+holds its listing details and its page (address, degree, duration, start date, department,
+summary, learning outcomes, entry requirements, careers, structure notes, the department's web
+page, the programme document as a link and/or an uploaded PDF, and up to three photos), and below the form are its **modules** and **facilities**, each added, edited, deleted
+and arranged on their own. **Admission details** (the documents required and the admission page,
+shown on every bachelor's programme) are edited from the same list. Only published programmes
+with a page address appear on the website; the homepage's programme rows link to their pages.
+
+`pnpm db:seed` fills in each programme's page once from `data/programmes/programmes.json` (the
+content the static pages were built from), matching it to its programme by name, while that
+programme has no page address yet; it never overwrites a page an administrator has edited. Module
+descriptions written for the prototype are seeded as "to confirm" (shown in the admin list) so
+the department can check them.
+
+Each programme's page is generated on its first visit and then served from the cache, which the
+admin panel refreshes on every change. `src/proxy.ts` answers addresses that are not a published
+programme with a 404 before anything is generated, so made-up addresses cannot fill the cache.
+
 ## Downloads page
 
 `/downloads` lists forms, guidelines, regulations, reports and publications by category. A

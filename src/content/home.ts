@@ -206,10 +206,28 @@ export const programmesSection = {
   // TODO(copy): caption added for the restyle; confirm wording.
   caption: "Convocation at CST",
   link: { label: "View all programmes", href: "/programmes" },
-  /** The programmes themselves are the hero's list, grouped by level. */
-  groups: [
-    { postgraduate: false, title: "Undergraduate", note: "Bachelor’s degrees" },
-    { postgraduate: true, title: "Postgraduate", note: "Master’s degrees" },
+  /**
+   * The two cards beside the introduction, one per level, each opening that level on the
+   * Programmes page. The number of programmes on each comes from the admin panel.
+   */
+  // TODO(copy): card texts written for the redesign; confirm wording.
+  levels: [
+    {
+      postgraduate: false,
+      eyebrow: "Undergraduate",
+      title: "Bachelor’s degrees",
+      text: "Engineering, architecture and information technology, learned in studios, laboratories and on site.",
+      cta: "Explore undergraduate programmes",
+      href: "/programmes?level=bachelor",
+    },
+    {
+      postgraduate: true,
+      eyebrow: "Postgraduate",
+      title: "Master’s degrees",
+      text: "Advanced study and research in engineering and management, for graduates and working professionals.",
+      cta: "Explore postgraduate programmes",
+      href: "/programmes?level=master",
+    },
   ],
   // VERIFY: figures shown on the previous website; confirm they are current before launch.
   figures: [

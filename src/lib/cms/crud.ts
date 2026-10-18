@@ -57,6 +57,12 @@ export class ActionError extends Error {}
 
 export type Notice = "created" | "updated" | "deleted" | "missing";
 
+/** `path` with ?notice=… added (before any #fragment). */
+const withNotice = (path: string, notice: Notice) => {
+  const [base, fragment] = path.split("#");
+  return `${base}${base.includes("?") ? "&" : "?"}notice=${notice}${fragment ? `#${fragment}` : ""}`;
+};
+
 const failed = (
   message: string,
   values: Record<string, string>,
@@ -85,7 +91,7 @@ export async function saveResource<T>(
   def: ResourceDef<T>,
   rawId: number | null,
   formData: FormData,
-  options: { stay?: boolean } = {},
+  options: { stay?: boolean; returnTo?: string } = {},
 ): Promise<FormState> {
   await requireAdmin();
 
@@ -144,11 +150,15 @@ export async function saveResource<T>(
     refresh(); // re-render the admin page with what was saved
     return { status: "saved", message: "Changes saved.", fieldErrors: {}, values, at: Date.now() };
   }
-  redirect(`${def.basePath}?notice=${outcome}`);
+  redirect(withNotice(options.returnTo ?? def.basePath, outcome));
 }
 
 /** Deletes a record, then returns to the list page with a notice. */
-export async function deleteResource<T>(def: ResourceDef<T>, rawId: number): Promise<DeleteResult> {
+export async function deleteResource<T>(
+  def: ResourceDef<T>,
+  rawId: number,
+  options: { returnTo?: string } = {},
+): Promise<DeleteResult> {
   await requireAdmin();
 
   const id = recordId.safeParse(rawId);
@@ -164,5 +174,5 @@ export async function deleteResource<T>(def: ResourceDef<T>, rawId: number): Pro
   }
 
   if (removed) updateTag(def.tag);
-  redirect(`${def.basePath}?notice=${removed ? "deleted" : "missing"}`);
+  redirect(withNotice(options.returnTo ?? def.basePath, removed ? "deleted" : "missing"));
 }

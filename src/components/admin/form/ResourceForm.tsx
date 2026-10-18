@@ -32,11 +32,29 @@ export function ResourceForm({ action, fields, initial, submitLabel, cancelHref 
   const [watched, setWatched] = useState<Record<string, string>>({});
   const summary = useRef<HTMLDivElement>(null);
 
-  const values = state.status === "idle" ? initial.values : state.values;
+  // Next.js keeps a page's state when it is left and shows it again on return (Activity), while
+  // the server sends the record afresh. When the record has changed since the form was filled
+  // (saved here, or elsewhere), the form starts over from it: otherwise it would show, and save
+  // back, what it held before. Unchanged, an unsaved draft is kept.
+  const fingerprint = JSON.stringify([
+    initial.values,
+    Object.entries(initial.media).map(([name, preview]) => [name, preview?.id ?? null]),
+  ]);
+  const [shownRecord, setShownRecord] = useState(fingerprint);
+  const [recordVersion, setRecordVersion] = useState(0);
+  if (shownRecord !== fingerprint) {
+    setShownRecord(fingerprint);
+    setMedia(initial.media);
+    setWatched({});
+    setRecordVersion((v) => v + 1);
+  }
+
+  // What was typed while it has errors to correct; otherwise the record as saved.
+  const values = state.status === "error" ? state.values : initial.values;
   const errors = state.status === "error" ? state.fieldErrors : {};
   const error = (name: string) => errors[name]?.[0];
-  // After each submission the fields re-mount, so they show what was submitted.
-  const version = state.status === "idle" ? 0 : state.at;
+  // After each submission, and when the record changes, the fields re-mount to show it.
+  const version = `${state.status === "idle" ? 0 : state.at}:${recordVersion}`;
 
   const controllers = new Set(fields.flatMap((f) => (f.showWhen ? [f.showWhen.field] : [])));
   const isShown = ({ showWhen }: FieldDef) => {
@@ -88,6 +106,17 @@ export function ResourceForm({ action, fields, initial, submitLabel, cancelHref 
                 </div>
               );
 
+            if (field.kind === "heading") {
+              return wrap(
+                <div
+                  key={field.name}
+                  className="border-t border-admin-line pt-6 first:border-t-0 first:pt-0 sm:col-span-2"
+                >
+                  <h2 className="text-base font-semibold text-admin-navy">{field.label}</h2>
+                  {field.help && <p className="mt-1 text-sm text-admin-muted">{field.help}</p>}
+                </div>,
+              );
+            }
             if (field.kind === "image" || field.kind === "document") {
               return wrap(
                 <MediaField

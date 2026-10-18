@@ -13,7 +13,8 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
-import { contentStatus, programmes } from "./content";
+import { programmes } from "./content";
+import { contentStatus } from "./enums";
 import { media } from "./media";
 
 /*

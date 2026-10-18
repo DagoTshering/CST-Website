@@ -16,7 +16,7 @@ const Out = () => <span aria-hidden="true">↗</span>;
 /**
  * The photo collage: up to three overlapping framed photographs. With no images yet, three
  * placeholder frames; with one, two or three images, that many photographs. Adding a programme's
- * photos is a change to its `images` in programmes.json, nothing else.
+ * photos is done in its Photos (Admin › Academic Programmes).
  */
 function Collage({ images }: { images: string[] }) {
   const frames = images.length ? images.slice(0, 3) : PLACEHOLDERS.map(() => null);
@@ -95,16 +95,19 @@ export function ProgrammeHero({ programme: p }: { programme: Programme }) {
             <p className={s.lede}>{p.summary}</p>
 
             <div className={s.buttons}>
-              {p.documentUrl ? (
-                <ButtonLink href={p.documentUrl}>
+              {p.documentFile || p.documentUrl ? (
+                // the PDF when there is one, else the link; the structure section offers both
+                <ButtonLink href={(p.documentFile ?? p.documentUrl)!}>
                   Programme document <Out />
                 </ButtonLink>
               ) : (
                 <ButtonLink href="#entry-requirements">Entry requirements</ButtonLink>
               )}
-              <ButtonLink href={p.departmentUrl} variant="secondary">
-                {p.departmentKey ? "Departmental website" : "Programme page"} <Out />
-              </ButtonLink>
+              {p.departmentUrl && (
+                <ButtonLink href={p.departmentUrl} variant="secondary">
+                  Departmental website <Out />
+                </ButtonLink>
+              )}
             </div>
 
             <dl className={s.stats}>

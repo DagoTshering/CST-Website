@@ -3,6 +3,7 @@
 export * from "./admin";
 export * from "./content";
 export * from "./downloads";
+export * from "./enums";
 export * from "./media";
 export * from "./people";
 export * from "./users";

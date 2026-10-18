@@ -245,7 +245,7 @@ export async function listProgrammeOptions() {
   return getDb()
     .select({ id: programmes.id, name: programmes.name, status: programmes.status })
     .from(programmes)
-    .orderBy(asc(programmes.sortOrder), asc(programmes.name));
+    .orderBy(asc(programmes.level), asc(programmes.sortOrder), asc(programmes.name));
 }
 
 export async function listDownloads() {
@@ -269,7 +269,9 @@ export async function listDownloads() {
     .orderBy(
       asc(downloadCategories.sortOrder),
       asc(downloadCategories.name),
+      sql`${programmes.level} asc nulls first`,
       sql`${programmes.sortOrder} asc nulls first`,
+      asc(programmes.name),
       asc(downloads.sortOrder),
       asc(downloads.id),
     );
@@ -474,6 +476,7 @@ export async function getPublishedDownloads() {
       asc(downloadCategories.sortOrder),
       asc(downloadCategories.name),
       // within a category grouped by programme, the programmes in their display order
+      sql`${programmes.level} asc nulls first`,
       sql`${programmes.sortOrder} asc nulls first`,
       asc(programmes.name),
       asc(downloads.sortOrder),

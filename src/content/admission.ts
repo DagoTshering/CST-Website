@@ -27,7 +27,7 @@ export type AdmissionStep = {
 
 export type AdmissionProgramme = {
   name: string;
-  /** Its page is /programmes/[slug] (src/content/programmes.json). */
+  /** Its page is /programmes/[slug] (Admin › Academic Programmes). */
   slug: string;
   testType: "Aptitude test" | "Entrance test";
 };

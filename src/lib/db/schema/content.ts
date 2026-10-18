@@ -1,10 +1,10 @@
 import { sql } from "drizzle-orm";
 import {
+  boolean,
   check,
   date,
   index,
   integer,
-  pgEnum,
   pgTable,
   smallint,
   text,
@@ -13,15 +13,14 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 
+import { contentStatus, programmeLevel } from "./enums";
 import { media } from "./media";
+import { departments } from "./people";
 
 /*
  * Website content managed in the admin panel. Every table has a draft/published status; the
  * public site only ever reads published rows.
  */
-
-export const contentStatus = pgEnum("content_status", ["draft", "published"]);
-export const programmeLevel = pgEnum("programme_level", ["undergraduate", "postgraduate"]);
 
 const status = () => contentStatus("status").notNull().default("draft");
 const sortOrder = () => integer("sort_order").notNull().default(0);
@@ -73,18 +72,118 @@ export const programmes = pgTable(
   "programmes",
   {
     id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+    /** The full title, e.g. "Bachelor of Engineering in Civil Engineering". */
     name: varchar("name", { length: 200 }).notNull(),
     level: programmeLevel("level").notNull(),
+    /** The summary, at the top of the programme's page and in the listing. */
     shortDescription: text("short_description"),
     /** Year the programme was first offered. */
     startYear: smallint("start_year"),
+    /** Its month (1–12), when known: "Since July 2014". */
+    startMonth: smallint("start_month"),
+    /** The programme's page is /programmes/<slug>. Without one, it has no page. */
+    slug: varchar("slug", { length: 80 }).unique(),
+    /** The name on its page and in the listing, e.g. "Civil Engineering". */
+    shortName: varchar("short_name", { length: 120 }),
+    /** e.g. "Bachelor of Engineering". */
+    degree: varchar("degree", { length: 160 }),
+    /** e.g. "4 years", "18 months". */
+    duration: varchar("duration", { length: 40 }),
+    /** The department that runs it; none for a college-level programme. */
+    departmentId: integer("department_id").references(() => departments.id, {
+      onDelete: "set null",
+    }),
+    /** The department's web page about it (shown only while it has a department). */
+    websiteUrl: varchar("website_url", { length: 500 }),
+    /** The programme document: a link (e.g. Google Drive), an uploaded PDF, or both. */
+    documentUrl: varchar("document_url", { length: 500 }),
+    documentFileId: mediaRef("document_file_id"),
+    outcomes: text("outcomes")
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    requirements: text("requirements")
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    /** How applicants are selected, when the programme says. */
+    selectionNote: text("selection_note"),
+    careers: text("careers")
+      .array()
+      .notNull()
+      .default(sql`'{}'::text[]`),
+    /** Shown above and below the modules (see programme_modules). */
+    structureIntro: text("structure_intro"),
+    structureNote: text("structure_note"),
+    /** Up to three photos for the page's collage: imageId first. */
     imageId: mediaRef("image_id"),
     imageAlt: varchar("image_alt", { length: 300 }),
+    image2Id: mediaRef("image2_id"),
+    image3Id: mediaRef("image3_id"),
     sortOrder: sortOrder(),
     status: status(),
     ...timestamps(),
   },
-  (t) => [index("programmes_public_idx").on(t.status, t.sortOrder)],
+  (t) => [
+    index("programmes_public_idx").on(t.status, t.sortOrder),
+    check(
+      "programmes_start_month",
+      sql`${t.startMonth} is null or ${t.startMonth} between 1 and 12`,
+    ),
+  ],
+);
+
+/** A programme's selected modules, shown in order on its page. */
+export const programmeModules = pgTable(
+  "programme_modules",
+  {
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+    programmeId: integer("programme_id")
+      .notNull()
+      .references(() => programmes.id, { onDelete: "cascade" }),
+    name: varchar("name", { length: 200 }).notNull(),
+    description: text("description"),
+    /** e.g. "CTE101". */
+    code: varchar("code", { length: 40 }),
+    /**
+     * False for a description written for the prototype rather than published by the college:
+     * the department should check it. (Shown as such in the admin panel only.)
+     */
+    descriptionConfirmed: boolean("description_confirmed").notNull().default(true),
+    sortOrder: sortOrder(),
+    ...timestamps(),
+  },
+  (t) => [index("programme_modules_programme_idx").on(t.programmeId, t.sortOrder)],
+);
+
+/** The laboratories and facilities a programme's page lists. */
+export const programmeFacilities = pgTable(
+  "programme_facilities",
+  {
+    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+    programmeId: integer("programme_id")
+      .notNull()
+      .references(() => programmes.id, { onDelete: "cascade" }),
+    name: varchar("name", { length: 160 }).notNull(),
+    description: text("description"),
+    sortOrder: sortOrder(),
+    ...timestamps(),
+  },
+  (t) => [index("programme_facilities_programme_idx").on(t.programmeId, t.sortOrder)],
+);
+
+/** Admission details every bachelor's programme page shows: a single row (id 1). */
+export const admissionDetails = pgTable(
+  "admission_details",
+  {
+    id: integer("id").primaryKey().default(1),
+    /** The documents every bachelor's applicant needs. */
+    requiredDocuments: text("required_documents").notNull(),
+    /** The admission page, for dates and how to apply. */
+    admissionUrl: varchar("admission_url", { length: 500 }).notNull(),
+    ...timestamps(),
+  },
+  (t) => [check("admission_details_single_row", sql`${t.id} = 1`)],
 );
 
 export const events = pgTable(
@@ -122,6 +221,3 @@ export const announcements = pgTable(
   },
   (t) => [index("announcements_public_idx").on(t.status, t.publishedOn)],
 );
-
-export type ContentStatus = (typeof contentStatus.enumValues)[number];
-export type ProgrammeLevel = (typeof programmeLevel.enumValues)[number];
