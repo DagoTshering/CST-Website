@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import { ArrowRightIcon } from "./icons";
 import { SmartLink } from "./SmartLink";
@@ -31,6 +31,34 @@ type ButtonLinkProps = {
   tone?: Tone;
   className?: string;
 };
+
+/**
+ * A button in the same styles, for an action that is not a link, or one not yet available
+ * (`disabled`: greyed out, no hover movement).
+ */
+export function Button({
+  children,
+  variant = "primary",
+  tone = "light",
+  disabled,
+  className = "",
+  ...props
+}: Omit<ComponentPropsWithoutRef<"button">, "children"> & {
+  children: ReactNode;
+  variant?: Exclude<Variant, "text">;
+  tone?: Tone;
+}) {
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      className={`${base} ${styles[tone][variant]} disabled:pointer-events-none disabled:border-line disabled:bg-line-soft disabled:text-muted disabled:shadow-none ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
 
 /** The site's one link-styled-as-button: primary, secondary (outline) or text with an arrow. */
 export function ButtonLink({

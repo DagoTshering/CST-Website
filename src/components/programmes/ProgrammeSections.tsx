@@ -134,7 +134,7 @@ export function ProgrammeSections({ programme: p }: { programme: Programme }) {
                 <p className={s.note}>
                   Documents required: {requiredDocuments}{" "}
                   <SmartLink href={ADMISSION_URL} className={s.inlineLink}>
-                    Admission details and dates <Out />
+                    Admission details and dates
                   </SmartLink>
                 </p>
               )}
