@@ -1,34 +1,29 @@
 /* ==========================================================================
    Staff carousel (a connected carousel)
-   Every card is absolutely placed from the panel's centre. Its offset to the
-   active card (data-o, -3 to 3; 3 means "3 or more") picks its place, size and
-   visibility for the screen's tier:
-     phone   (< 768px)     active card --aw wide, one narrow peek card each side
-     tablet  (768-1119px)  active card 560 wide, one side card each side
-     desktop (>= 1120px)   active card 762 wide, two side cards each side
+   The component places every card (placeOf in StaffCarousel.tsx) and moves it
+   with framer-motion springs: its place, size and visibility, the side photo's
+   fade and the details sliding in. This stylesheet keeps what does not move:
+   the cards' look, their stacking and clickability by offset to the active
+   card (data-o, -3 to 3), and the tiers' measurements the card's inside needs:
+     phone   (< 768px)     active card --aw wide
+     tablet  (768-1119px)  active card 560 wide
+     desktop (>= 1120px)   active card 762 wide
    Heights fit the screen: a department (heading, carousel, dots) is never taller
    than the screen below the header, so the panel takes what the heading and
    dots leave it, from the tier's full height (490, 440, 513: the prototype's)
    down to a floor that still holds a card's details. The panel is a size
-   container and every height inside it is a share of its height (cqh).
-   Side cards show the portrait alone; the active card's body (details and
-   photo) is laid out at full size inside every card and clipped, so it slides
-   in as a card grows. A white notch joins each side card to its neighbour.
-   [data-resizing] is set by the component while the window is resized, so the
-   cards snap rather than glide. Reduced motion: globals.css shortens every
-   transition to nothing.
+   container: the active card's inside is laid out at its height (cqh), and the
+   component measures it to size the cards. A white notch joins each side card
+   to its neighbour.
    ========================================================================== */
 
 .carousel {
-  /* the tier's geometry: active card, gap, side card */
+  /* the tier's measurements: the active card's width, the panel's full and least height, and
+     the gap a notch spans (keep in step with placeOf in StaffCarousel.tsx) */
   --aw: min(340px, 100cqw - 68px);
   --ah-max: 490px;
   --ah-min: 400px;
   --gap: 12px;
-  --pw: 60px;
-  --ph: calc(100cqh - 80px); /* the side cards' height */
-  --fh: calc(100cqh * 0.4); /* the cards further out */
-  --glide: 600ms cubic-bezier(0.22, 1, 0.36, 1);
 
   position: relative;
   display: flex;
@@ -37,7 +32,7 @@
   min-height: 0;
   /* out into the page gutters, so the side cards run to the screen's edge */
   margin-inline: calc(-1 * var(--gutter));
-  padding: 22px 0 10px;
+  padding: 22px 0 6px;
   overflow: hidden;
   user-select: none;
   touch-action: pan-y; /* vertical drags scroll the page; horizontal ones swipe */
@@ -57,14 +52,15 @@
   container-type: size;
 }
 
+/* until the component has measured the panel, the cards would be in the wrong places */
+.panel[data-measuring] .card {
+  visibility: hidden;
+}
+
 /* ---------- cards -------------------------------------------------------- */
 
+/* placed at the panel's centre; the component sets the offset (transform), size and opacity */
 .card {
-  /* off stage unless a rule below says otherwise */
-  --x: 0px;
-  --w: var(--pw);
-  --h: var(--ph);
-  --op: 0;
   --z: 0;
   --pe: none;
 
@@ -72,20 +68,11 @@
   top: 50%;
   left: 50%;
   z-index: var(--z);
-  width: var(--w);
-  height: var(--h);
   border-radius: var(--radius-sm);
   background: var(--color-white);
   box-shadow: var(--shadow-sm), var(--shadow-lg); /* a crisp edge and a soft depth */
-  opacity: var(--op);
   pointer-events: var(--pe);
-  transform: translate(var(--x), -50%); /* every card is centred on the panel's middle */
   will-change: transform;
-  transition:
-    transform var(--glide),
-    width var(--glide),
-    height var(--glide),
-    opacity 450ms ease;
 }
 
 .card:not([data-o="0"]) {
@@ -93,38 +80,14 @@
 }
 
 .card[data-o="0"] {
-  --x: calc(var(--aw) / -2);
-  --w: var(--aw);
-  --h: 100cqh;
-  --op: 1;
   --z: 1;
   --pe: auto;
 }
 
-.card[data-o="-1"] {
-  --x: calc(var(--aw) / -2 - var(--gap) - var(--pw));
-  --op: 1;
-  --z: 2;
-  --pe: auto;
-}
-
+.card[data-o="-1"],
 .card[data-o="1"] {
-  --x: calc(var(--aw) / 2 + var(--gap));
-  --op: 1;
   --z: 2;
   --pe: auto;
-}
-
-.card[data-o="-2"],
-.card[data-o="-3"] {
-  --x: calc(var(--aw) / -2 - 220px - var(--pw));
-  --h: var(--fh);
-}
-
-.card[data-o="2"],
-.card[data-o="3"] {
-  --x: calc(var(--aw) / 2 + 220px);
-  --h: var(--fh);
 }
 
 @media (min-width: 768px) {
@@ -133,25 +96,6 @@
     --ah-max: 440px;
     --ah-min: 360px;
     --gap: 18px;
-    --pw: 100px;
-    --ph: calc(100cqh * 340 / 440);
-  }
-
-  .card[data-o="-2"],
-  .card[data-o="-3"],
-  .card[data-o="2"],
-  .card[data-o="3"] {
-    --w: 74px;
-  }
-
-  .card[data-o="-2"],
-  .card[data-o="-3"] {
-    --x: -594px;
-  }
-
-  .card[data-o="2"],
-  .card[data-o="3"] {
-    --x: 520px;
   }
 }
 
@@ -161,32 +105,13 @@
     --ah-max: 513px;
     --ah-min: 400px;
     --gap: 20px;
-    --pw: 105px;
-    --ph: calc(100cqh * 344 / 513);
-    --fh: calc(100cqh * 205 / 513);
   }
 
   /* a second, smaller side card each side */
-  .card[data-o="-2"] {
-    --x: -596px;
-    --op: 1;
-    --z: 2;
-    --pe: auto;
-  }
-
+  .card[data-o="-2"],
   .card[data-o="2"] {
-    --x: 522px;
-    --op: 1;
     --z: 2;
     --pe: auto;
-  }
-
-  .card[data-o="-3"] {
-    --x: -720px;
-  }
-
-  .card[data-o="3"] {
-    --x: 646px;
   }
 }
 
@@ -252,16 +177,11 @@
   height: 100%;
 }
 
-/* a side card's portrait */
+/* a side card's portrait (it fades out as the card becomes the active one) */
 .thumb {
   position: absolute;
   inset: 0;
   padding: 6px;
-  transition: opacity 220ms ease-out;
-}
-
-.card[data-o="0"] .thumb {
-  opacity: 0;
 }
 
 /* the active card's contents, always at the active card's size */
@@ -274,30 +194,18 @@
   transform: translate(-50%, -50%);
 }
 
+/* the details and photo (they slide in from the side as the card becomes the active one) */
 .body {
-  --shift: 822px;
-
   display: flex;
   gap: 36px;
   width: 100%;
   height: 100%;
   padding: 40px 40px 40px 48px;
-  opacity: 0;
   pointer-events: none;
-  transform: translateX(var(--shift));
-  transition:
-    opacity 450ms ease,
-    transform var(--glide);
-}
-
-.card[data-o^="-"] .body {
-  --shift: -822px;
 }
 
 .card[data-o="0"] .body {
-  opacity: 1;
   pointer-events: auto;
-  transform: none;
 }
 
 .info {
@@ -468,10 +376,58 @@
 
 /* ---------- dots --------------------------------------------------------- */
 
-.dots {
+/* the arrows either side of the dots */
+.nav {
+  display: flex;
   flex: none;
-  margin-top: 18px;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 12px;
   padding-inline: var(--gutter);
+}
+
+.dots {
+  min-width: 0;
+}
+
+/* minimal: a thin drawn arrow in a hairline circle, teal on hover, faint when there is nowhere
+   to go */
+.arrow {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: var(--color-white);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition:
+    color 200ms,
+    border-color 200ms;
+}
+
+.arrow svg {
+  width: 16px;
+  height: 10px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: square;
+}
+
+.arrow:hover:not(:disabled) {
+  border-color: var(--color-primary-strong);
+  color: var(--color-primary-strong);
+}
+
+.arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 
 .track {
@@ -526,7 +482,6 @@
     --view: calc(10 * var(--pitch) + var(--selected));
 
     width: var(--view);
-    margin-inline: auto;
     padding: 6px 0; /* room for a dot's focus ring */
     overflow: hidden;
   }
@@ -553,12 +508,4 @@
   .dots[data-many] .dot[aria-selected="true"] {
     width: var(--selected);
   }
-}
-
-/* ---------- while resizing ---------------------------------------------- */
-
-.carousel[data-resizing] .card,
-.carousel[data-resizing] .body,
-.carousel[data-resizing] .thumb {
-  transition: none;
 }
