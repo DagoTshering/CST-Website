@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-import { ArrowRightIcon, DocumentIcon, ExternalIcon } from "@/components/ui/icons";
+import { DocumentIcon, ExternalIcon } from "@/components/ui/icons";
 import { Plate } from "@/components/ui/Plate";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SheetLink } from "@/components/ui/SheetLink";
@@ -17,8 +17,8 @@ const { opportunities } = announcementsSection;
 const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
 
 /**
- * A notice board beside the opportunities: a plate (Fig. 06) on a strip of graph paper that
- * runs off the right edge, as About's does, with the two links under it. On a desktop it fits
+ * A notice board beside a campus photograph: a plate (Fig. 06) on a strip of graph paper that
+ * runs off the right edge, as About's does. On a desktop it fits
  * one screen below the header (see Announcements.module.css). From the homepage on main, set in
  * the drafting style of the sections above. The notices are the latest published in the admin
  * panel; a notice with a PDF opens it.
@@ -89,7 +89,7 @@ export async function Announcements() {
             )}
           </div>
 
-          <aside aria-label={opportunities.label} className="relative lg:col-span-4 lg:col-start-9">
+          <div className="relative lg:col-span-4 lg:col-start-9">
             {/* the graph-paper strip, from a quarter of the way under the plate to the screen's edge */}
             <div
               aria-hidden="true"
@@ -103,27 +103,8 @@ export async function Announcements() {
                 aspect="16 / 10"
                 sizes="(min-width: 1024px) 24rem, 100vw"
               />
-              <ul className={`mt-6 border-t border-ink ${s.links}`}>
-                {opportunities.items.map((item, i) => (
-                  <li
-                    key={item.title}
-                    data-reveal
-                    suppressHydrationWarning
-                    style={delay(120 + i * 100)}
-                    className="border-b border-line"
-                  >
-                    <SmartLink href={item.href} className={`group block py-5 ${s.link}`}>
-                      <span className="flex items-center justify-between gap-4 font-serif text-[1.375rem] leading-snug font-semibold text-ink transition-colors group-hover:text-primary-strong">
-                        {item.title}
-                        <ArrowRightIcon className="size-5 text-brass transition-transform group-hover:translate-x-1" />
-                      </span>
-                      <span className="mt-1 block text-small text-copy">{item.text}</span>
-                    </SmartLink>
-                  </li>
-                ))}
-              </ul>
             </div>
-          </aside>
+          </div>
         </div>
       </div>
     </section>

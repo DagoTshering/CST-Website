@@ -266,8 +266,9 @@ export const announcementsSection = {
   label: "Notices",
   heading: "Announcements",
   link: { label: "View all announcements", href: "/announcements" },
+  // The photo beside the notices. (Its Exchange programmes and Career opportunities links were
+  // removed at the web team's request, 18 Oct 2026.)
   opportunities: {
-    label: "Opportunities",
     // TODO(copy): caption added for the restyle; confirm wording.
     caption: "Students on the campus road",
     photo: {
@@ -277,17 +278,5 @@ export const announcementsSection = {
       alt: "Students in gho walking together along a campus road",
       focus: "50% 55%",
     } satisfies Photo,
-    items: [
-      {
-        title: "Exchange programmes",
-        text: "Learn globally, grow personally.",
-        href: "/exchange-programmes",
-      },
-      {
-        title: "Career opportunities",
-        text: "Unlock pathways to rewarding careers after graduation.",
-        href: "/careers",
-      },
-    ],
   },
 };

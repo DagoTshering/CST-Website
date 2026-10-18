@@ -25,8 +25,6 @@ still needs a home if it is kept.
 | Events › View all events (and each event)  | `/events`              | Each event should get its own page later.  |
 | Leadership › Leadership & governance       | `/about/governance`    |                                            |
 | Announcements › View all (and each notice) | `/announcements`       | Each notice should get its own page later. |
-| Opportunities › Exchange programmes        | `/exchange-programmes` |                                            |
-| Opportunities › Career opportunities       | `/careers`             |                                            |
 
 ## Footer
 

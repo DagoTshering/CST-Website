@@ -3,7 +3,7 @@
    Desktop (>= 1024px): the section is exactly one screen below the (scrolled)
    header, with its contents centred. On a short laptop the notices sit closer
    and their titles come down a size, so the three of them and the
-   opportunities beside them fit.
+   photo beside them fit.
    Below 1024px the section keeps its natural height.
    ========================================================================== */
 
@@ -31,13 +31,5 @@
   .title {
     margin-top: 4px;
     font-size: 1.1875rem;
-  }
-
-  .links {
-    margin-top: 16px;
-  }
-
-  .link {
-    padding-block: 12px;
   }
 }
