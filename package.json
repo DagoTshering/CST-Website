@@ -16,7 +16,8 @@
     "db:studio": "drizzle-kit studio",
     "downloads:fetch": "node scripts/fetch-legacy-downloads.mjs",
     "uploads:organise": "tsx scripts/organise-uploads.ts",
-    "photos": "node scripts/optimize-club-photos.mjs"
+    "photos": "node scripts/optimize-club-photos.mjs",
+    "check-links": "node scripts/check-eu-links.mjs"
   },
   "dependencies": {
     "@node-rs/argon2": "2.0.2",

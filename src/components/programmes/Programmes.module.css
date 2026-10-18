@@ -17,41 +17,6 @@
   margin-inline: auto;
 }
 
-.tabs {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0 28px;
-  border-bottom: 1px solid var(--color-line-soft);
-}
-
-.tab {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  padding: 10px 0 8px;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-  text-decoration: none;
-  transition:
-    color 200ms,
-    border-color 200ms;
-}
-
-.tab:hover {
-  color: var(--color-ink);
-}
-
-.tab[aria-current="page"] {
-  border-bottom-color: var(--color-primary-strong);
-  color: var(--color-primary-strong);
-}
-
 .group {
   padding-top: 40px;
 }

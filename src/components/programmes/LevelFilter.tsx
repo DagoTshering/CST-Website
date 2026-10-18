@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import t from "@/components/ui/Tabs.module.css";
+
 import s from "./Programmes.module.css";
 
 export type Level = "all" | "bachelor" | "master";
@@ -22,14 +24,14 @@ export const levelOf = (value: string | null): Level =>
 export function LevelFilter({ level, children }: { level: Level; children: ReactNode }) {
   return (
     <div className={s.filter} data-level={level}>
-      <nav className={s.tabs} aria-label="Programme level">
+      <nav className={t.tabs} aria-label="Programme level">
         {TABS.map((tab) => (
           <Link
             key={tab.level}
             href={tab.href}
             scroll={false}
             prefetch={false}
-            className={s.tab}
+            className={t.tab}
             aria-current={tab.level === level ? "page" : undefined}
           >
             {tab.label}

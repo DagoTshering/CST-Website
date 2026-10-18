@@ -65,6 +65,12 @@ const nextConfig: NextConfig = {
         destination: "/admissions",
         permanent: true,
       },
+      // The old EU project list and its project pages: the projects now open in place on one page.
+      ...["/eu-project-links-2", "/square", "/ssapi", "/erasmus-ka-171"].map((source) => ({
+        source,
+        destination: "/eu-projects",
+        permanent: true,
+      })),
       {
         source: "/Master%20of%20Science%20in%20Engineering",
         destination: "/programmes/msc-engineering",
