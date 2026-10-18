@@ -9,7 +9,6 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 | Label                      | Path             | Notes                                                 |
 | -------------------------- | ---------------- | ----------------------------------------------------- |
 | About Us › About CST       | `/about`         |                                                       |
-| Academics                  | `/academics`     |                                                       |
 | Announcements              | `/announcements` | Same page as the homepage's Announcements › View all. |
 | Admissions                 | `/admissions`    | Admission for new students.                           |
 | Others › Vacancies         | `/vacancies`     |                                                       |
@@ -18,21 +17,20 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 | Header button › Contact us | `/contact`       |                                                       |
 
 The Important Links (Research, Student Life, Hostel Booking, CST-25) go to other CST sites.
-Programmes, Academic Calendar, Examination and Library are no longer in the menu: link them from
-the Academics page. The October 2026 menu also dropped the old Department submenu
+Academics links to the Programmes page (`/programmes`). Academic Calendar, Examination and Library
+are no longer in the menu and still need a home. The October 2026 menu also dropped the old Department submenu
 (`/departments/...`) and About Us › FAQ (`/faq`). The old site's FAQ page (WordPress page 636)
 still needs a home if it is kept.
 
 ## Homepage sections
 
-| Label                                      | Path                    | Notes                                      |
-| ------------------------------------------ | ----------------------- | ------------------------------------------ |
-| Academic › View all programmes (and rows)  | `/academics/programmes` | Same page as Academics › Programmes.       |
-| Events › View all events (and each event)  | `/events`               | Each event should get its own page later.  |
-| Leadership › Leadership & governance       | `/about/governance`     |                                            |
-| Announcements › View all (and each notice) | `/announcements`        | Each notice should get its own page later. |
-| Opportunities › Exchange programmes        | `/exchange-programmes`  |                                            |
-| Opportunities › Career opportunities       | `/careers`              |                                            |
+| Label                                      | Path                   | Notes                                      |
+| ------------------------------------------ | ---------------------- | ------------------------------------------ |
+| Events › View all events (and each event)  | `/events`              | Each event should get its own page later.  |
+| Leadership › Leadership & governance       | `/about/governance`    |                                            |
+| Announcements › View all (and each notice) | `/announcements`       | Each notice should get its own page later. |
+| Opportunities › Exchange programmes        | `/exchange-programmes` |                                            |
+| Opportunities › Career opportunities       | `/careers`             |                                            |
 
 ## Footer
 

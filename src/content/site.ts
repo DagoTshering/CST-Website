@@ -91,7 +91,7 @@ export const mainNav: NavItem[] = [
       { label: "Staff Directory", href: "/about/staff-directory" },
     ],
   },
-  { label: "Academics", href: "/academics" },
+  { label: "Academics", href: "/programmes" },
   { label: "Announcements", href: "/announcements" },
   { label: "Admissions", href: "/admissions" },
   {
