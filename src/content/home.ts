@@ -205,7 +205,7 @@ export const programmesSection = {
   } satisfies Photo,
   // TODO(copy): caption added for the restyle; confirm wording.
   caption: "Convocation at CST",
-  link: { label: "View all programmes", href: "/academics/programmes" },
+  link: { label: "View all programmes", href: "/programmes" },
   /** The programmes themselves are the hero's list, grouped by level. */
   groups: [
     { postgraduate: false, title: "Undergraduate", note: "Bachelor’s degrees" },
