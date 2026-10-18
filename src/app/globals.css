@@ -37,6 +37,7 @@
   --color-sheet-hair: rgb(152 214 230 / 0.9); /* sheet border */
   --color-sheet-tick: rgb(20 107 132 / 0.3); /* ticks, crosshair */
   --color-sheet-grid: rgb(20 107 132 / 0.075);
+  --color-sheet-grid-major: rgb(20 107 132 / 0.13); /* every fifth line of a blueprint grid */
   /* the sections' drafting details (About's values): graph paper, brass rules and captions */
   --color-paper: #eeeeeb;
   --color-paper-soft: #f5f5f2;

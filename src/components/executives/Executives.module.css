@@ -1,0 +1,610 @@
+/* ==========================================================================
+   Executives: an organisation chart on a blueprint sheet
+   The sheet is white, with a faint grid on a canvas behind it (BlueprintGrid)
+   that a radial mask fades into the white, so it has no visible edge. The
+   President sits at the top, the Deans in a row below, joined by a dash-dot
+   connector (the About emblem's centreline style, in the hero's survey-web
+   teal): a stem, a bus with a junction square above each Dean, and a drop with
+   an arrowhead onto each portrait. Hovering or focusing a person darkens
+   their branch, which flows gently.
+   Portraits are dials in the emblem's line work: ink ticks at its 1.2px weight
+   (every sixth longer), a 0.8px ring, a thick inner ring (brass for the
+   President, teal for the Deans) and a brass pointer.
+     desktop          dials 268 / 216, level labels at the left (from 1181px)
+     tablet  <= 980   dials 228 / 170
+     phone   <= 760   a column with a rail down the left; dials 116 / 100
+   ========================================================================== */
+
+.chart {
+  padding-bottom: clamp(4rem, 3rem + 3vw, 6rem);
+}
+
+.sheet {
+  /* the sheet's side padding, and the connector and grid colours */
+  --pad-x: 40px;
+  --lc: color-mix(in srgb, var(--color-sheet-net) 55%, transparent);
+  --lc-hot: var(--color-primary-deep);
+  --grid-minor: var(--color-sheet-grid);
+  --grid-major: var(--color-sheet-grid-major);
+  /* the dials, and how far the connector drops onto each Dean */
+  --d-pres: 268px;
+  --d-dean: 216px;
+  --drop: 60px;
+
+  position: relative;
+  overflow: hidden;
+  padding: 64px var(--pad-x) 72px;
+  background: var(--color-white);
+}
+
+/* behind everything, fading out towards the edges into the white */
+.grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mask-image: radial-gradient(
+    ellipse 70% 62% at 50% 47%,
+    black 22%,
+    rgb(0 0 0 / 0.6) 55%,
+    transparent 100%
+  );
+}
+
+/* the sheet's registration marks, the last in brass (as round the homepage's photographs) */
+.reg {
+  position: absolute;
+  z-index: 2;
+  width: 14px;
+  height: 14px;
+  border: 0 solid var(--color-ink);
+  opacity: 0.55;
+}
+
+.tl {
+  top: 10px;
+  left: 10px;
+  border-top-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.tr {
+  top: 10px;
+  right: 10px;
+  border-top-width: 1.5px;
+  border-right-width: 1.5px;
+}
+
+.bl {
+  bottom: 10px;
+  left: 10px;
+  border-bottom-width: 1.5px;
+  border-left-width: 1.5px;
+}
+
+.br {
+  right: 10px;
+  bottom: 10px;
+  border-right-width: 1.5px;
+  border-bottom-width: 1.5px;
+  border-color: var(--color-brass);
+  opacity: 1;
+}
+
+/* "01 President", "02 Deans", 24px in from the sheet's left edge */
+.level {
+  position: absolute;
+  left: calc(24px - var(--pad-x));
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-muted);
+}
+
+.level::before {
+  content: "";
+  width: 10px;
+  height: 1px;
+  background: var(--color-sheet-net);
+  opacity: 0.6;
+}
+
+.level b {
+  font-weight: 500;
+  color: var(--color-primary-strong);
+}
+
+/* at the President's portrait, and at the connector's bus */
+.presRow .level {
+  top: calc(var(--d-pres) / 2 - 8px);
+}
+
+.levelDeans {
+  top: -8px;
+}
+
+@media (max-width: 1180px) {
+  .level {
+    display: none;
+  }
+}
+
+/* ---------- the chart ---------------------------------------------------- */
+
+.tree {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.presRow,
+.deansRow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.deans {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  width: 100%;
+  max-width: 1020px;
+}
+
+.dean {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-top: var(--drop);
+}
+
+/* ---------- connectors --------------------------------------------------- */
+
+/* the stem down from the President */
+.stem {
+  position: relative;
+  width: 2px;
+  height: var(--drop);
+  margin-top: 18px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--lc) 0 9px,
+    transparent 9px 13px,
+    var(--lc) 13px 15px,
+    transparent 15px 19px
+  );
+}
+
+/* each Dean's share of the bus (::before) and the drop onto their portrait (::after) */
+.dean::before,
+.dean::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+}
+
+.dean::before {
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--lc) 0 9px,
+    transparent 9px 13px,
+    var(--lc) 13px 15px,
+    transparent 15px 19px
+  );
+}
+
+.dean:first-child::before {
+  left: 50%;
+}
+
+.dean:last-child::before {
+  right: 50%;
+}
+
+.dean::after {
+  left: calc(50% - 1px);
+  width: 2px;
+  height: var(--drop);
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--lc) 0 9px,
+    transparent 9px 13px,
+    var(--lc) 13px 15px,
+    transparent 15px 19px
+  );
+}
+
+.arrow {
+  position: absolute;
+  top: calc(var(--drop) - 6px);
+  left: 50%;
+  border: 5px solid transparent;
+  border-top: 8px solid var(--lc);
+  border-bottom: 0;
+  transform: translateX(-50%);
+}
+
+/* the junction square on the bus */
+.node {
+  position: absolute;
+  top: 1px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  background: var(--lc);
+  transform: translate(-50%, -50%);
+}
+
+/* a person's branch darkens and flows while they are hovered or focused */
+.presRow:has(.person:is(:hover, :focus-visible)) + .stem {
+  --lc: var(--lc-hot);
+
+  animation: flow-y 0.9s linear infinite;
+}
+
+.dean:has(.person:is(:hover, :focus-visible)) {
+  --lc: var(--lc-hot);
+}
+
+.dean:has(.person:is(:hover, :focus-visible))::before {
+  animation: flow-x 0.9s linear infinite;
+}
+
+.dean:has(.person:is(:hover, :focus-visible))::after {
+  animation: flow-y 0.9s linear infinite;
+}
+
+@keyframes flow-y {
+  to {
+    background-position: 0 19px;
+  }
+}
+
+@keyframes flow-x {
+  to {
+    background-position: 19px 0;
+  }
+}
+
+/* ---------- a person ----------------------------------------------------- */
+
+.person {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  text-align: center;
+}
+
+.dial {
+  --d: var(--d-dean);
+
+  position: relative;
+  flex: none;
+  width: var(--d);
+  height: var(--d);
+}
+
+.dial[data-kind="president"] {
+  --d: var(--d-pres);
+}
+
+.dial svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* the line work keeps its weight at any dial size, as the emblem's does */
+.dial svg * {
+  vector-effect: non-scaling-stroke;
+}
+
+.tick {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 1;
+  opacity: 0.45;
+  transition: opacity 0.3s;
+}
+
+.tickMajor {
+  stroke-width: 1.2;
+  opacity: 0.8;
+}
+
+.person:is(:hover, :focus-visible) .tick {
+  opacity: 0.9;
+}
+
+.ring {
+  fill: none;
+  stroke: var(--color-ink);
+  stroke-width: 0.8;
+  opacity: 0.5;
+}
+
+.innerRing {
+  fill: none;
+  stroke: var(--color-primary);
+  stroke-width: 2.2;
+}
+
+.dial[data-kind="president"] .innerRing {
+  stroke: var(--color-brass);
+}
+
+.pointer {
+  fill: var(--color-brass);
+}
+
+/* the photograph fills the middle of the dial (r 77 of 100), cropped from the top */
+.photo {
+  position: absolute;
+  inset: 11.5%;
+  overflow: hidden;
+  border-radius: 50%;
+  container-type: size;
+  background: var(--color-line-soft);
+}
+
+.image {
+  object-fit: cover;
+  object-position: center top;
+}
+
+.initials {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 26cqmin;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+.role {
+  margin: 20px 0 0;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-primary-strong);
+}
+
+.name {
+  margin: 4px 0 0;
+  font-family: var(--font-serif);
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--color-ink);
+}
+
+.presRow .name {
+  font-size: 2.125rem;
+}
+
+.scope {
+  max-width: 250px;
+  margin: 6px auto 0;
+  font-family: var(--font-cormorant-italic), var(--font-serif);
+  font-size: 1.125rem;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--color-muted);
+}
+
+.rule {
+  display: block;
+  width: 30px;
+  height: 2px;
+  margin: 14px auto 0;
+  background: var(--color-brass);
+}
+
+/* ---------- entrance: the people fade up, the Deans a little after ------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--delay, 0s);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .presRow:has(.person:is(:hover, :focus-visible)) + .stem,
+  .dean:has(.person:is(:hover, :focus-visible))::before,
+  .dean:has(.person:is(:hover, :focus-visible))::after {
+    animation: none;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+/* ---------- tablet ------------------------------------------------------- */
+
+@media (max-width: 980px) {
+  .sheet {
+    --pad-x: 20px;
+    --d-pres: 228px;
+    --d-dean: 170px;
+
+    padding: 56px var(--pad-x) 64px;
+  }
+
+  .name {
+    font-size: 1.5rem;
+  }
+
+  .presRow .name {
+    font-size: 1.875rem;
+  }
+
+  .scope {
+    font-size: 1rem;
+  }
+}
+
+/* ---------- phone: a column, with a rail down the left ------------------- */
+
+@media (max-width: 760px) {
+  .sheet {
+    --pad-x: 18px;
+    --d-pres: 116px;
+    --d-dean: 100px;
+
+    /* out to the screen's edges: the sheet is borderless, and the text needs the room */
+    margin-inline: calc(-1 * var(--gutter));
+    padding: 44px var(--pad-x) 40px;
+  }
+
+  .tree {
+    align-items: stretch;
+  }
+
+  .presRow {
+    justify-content: flex-start;
+  }
+
+  /* the portrait to the left of the text, both from the top, so the rail meets the dial's
+     centre whatever the text's length */
+  .person {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 0;
+    text-align: left;
+  }
+
+  .role {
+    margin-top: 2px;
+    font-size: 11px;
+  }
+
+  .name,
+  .presRow .name {
+    font-size: 1.375rem;
+  }
+
+  .scope {
+    max-width: none;
+    margin: 4px 0 0;
+    font-size: 0.9375rem;
+  }
+
+  .rule {
+    margin: 10px 0 0;
+  }
+
+  /* down from the President's portrait, at its centre (116 / 2) */
+  .stem {
+    height: 36px;
+    margin: 0 0 0 57px;
+  }
+
+  .deans {
+    display: block;
+    max-width: none;
+  }
+
+  /* each Dean to the right of the rail; the rail is drawn in pieces, each Dean's piece running
+     from its own branch (or, for the first, from the stem) down to the next Dean's branch */
+  .dean {
+    display: block;
+    margin-top: 28px;
+    padding: 0 0 0 94px;
+  }
+
+  .dean::before {
+    top: 50px;
+    right: auto;
+    bottom: -78px; /* the next Dean's branch: its 28px margin, then 50px down */
+    left: 57px;
+    width: 2px;
+    height: auto;
+    background: repeating-linear-gradient(
+      to bottom,
+      var(--lc) 0 9px,
+      transparent 9px 13px,
+      var(--lc) 13px 15px,
+      transparent 15px 19px
+    );
+  }
+
+  .dean:first-child::before {
+    top: -28px;
+    left: 57px;
+  }
+
+  .dean:last-child::before {
+    display: none;
+  }
+
+  /* the branch: across from the rail to the portrait, at the dial's centre (100 / 2) */
+  .dean::after {
+    top: 49px;
+    left: 57px;
+    width: 28px;
+    height: 2px;
+    background: repeating-linear-gradient(
+      to right,
+      var(--lc) 0 9px,
+      transparent 9px 13px,
+      var(--lc) 13px 15px,
+      transparent 15px 19px
+    );
+  }
+
+  .arrow {
+    top: 50px;
+    left: 78px;
+    border: 5px solid transparent;
+    border-right: 0;
+    border-left: 8px solid var(--lc);
+    transform: translateY(-50%);
+  }
+
+  .node {
+    top: 50px;
+    left: 58px;
+  }
+
+  .dean:has(.person:is(:hover, :focus-visible))::before {
+    animation: flow-y 0.9s linear infinite;
+  }
+
+  .dean:has(.person:is(:hover, :focus-visible))::after {
+    animation: flow-x 0.9s linear infinite;
+  }
+}
