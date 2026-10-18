@@ -1,4 +1,4 @@
-import { Building2, Plus } from "lucide-react";
+import { Building2, Plus, ListOrdered } from "lucide-react";
 import type { Metadata } from "next";
 
 import { DataTable, ListNotice, TitleWithThumb } from "@/components/admin/DataTable";
@@ -30,7 +30,17 @@ export default async function Page({ searchParams }: PageProps<"/admin/facilitie
       <PageHeader
         title="Facilities"
         description="Campus facilities shown in the carousel on the homepage, in display order."
-        actions={rows.length > 0 && addButton}
+        actions={
+          <>
+            {rows.length > 1 && (
+              <LinkButton href="/admin/facilities/arrange" variant="secondary">
+                <ListOrdered aria-hidden="true" />
+                Arrange order
+              </LinkButton>
+            )}
+            {rows.length > 0 && addButton}
+          </>
+        }
       />
       <ListNotice notice={notice} kind="facility" />
       {rows.length === 0 ? (
@@ -52,7 +62,6 @@ export default async function Page({ searchParams }: PageProps<"/admin/facilitie
               header: "Name",
               cell: (row) => <TitleWithThumb title={row.name} image={row.image} />,
             },
-            { header: "Order", cell: (row) => row.sortOrder, wide: true },
             { header: "Status", cell: (row) => <StatusBadge status={row.status} /> },
             {
               header: "Last updated",

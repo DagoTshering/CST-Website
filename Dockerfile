@@ -38,10 +38,13 @@ COPY src/lib/auth/password.ts ./src/lib/auth/password.ts
 COPY src/lib/media/paths.ts src/lib/media/url.ts ./src/lib/media/
 COPY src/content/home.ts ./src/content/home.ts
 COPY public/images ./public/images
-COPY scripts/seed.ts scripts/seed-content.ts scripts/seed-downloads.ts scripts/organise-uploads.ts ./scripts/
+COPY scripts/seed.ts scripts/seed-content.ts scripts/seed-downloads.ts scripts/seed-people.ts \
+     scripts/seed-images.ts scripts/organise-uploads.ts ./scripts/
 # The Downloads page's documents: the manifest (committed) and the PDFs fetched by
 # `pnpm downloads:fetch` before the image is built.
 COPY data/legacy-downloads ./data/legacy-downloads
+# The staff directory and executives, seeded with their photos from public/images.
+COPY data/people ./data/people
 RUN mkdir -p storage/uploads && chown node:node storage/uploads
 USER node
 CMD ["./node_modules/.bin/drizzle-kit", "migrate"]

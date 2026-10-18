@@ -5,6 +5,7 @@ import {
   GraduationCap,
   Landmark,
   Megaphone,
+  Network,
   Users,
   type LucideIcon,
 } from "lucide-react";
@@ -44,12 +45,19 @@ export const categories: Record<
     description: "Notices, with optional PDF documents.",
     unit: "announcements",
   },
-  leadership: {
-    label: "Leadership & Governance",
-    href: "/admin/leadership",
+  executives: {
+    label: "Executives",
+    href: "/admin/executives",
+    icon: Network,
+    description: "The President and the Deans; the President is also on the homepage.",
+    unit: "executives",
+  },
+  staff: {
+    label: "Staff Directory",
+    href: "/admin/staff",
     icon: Users,
-    description: "Leadership profiles; the first is featured on the homepage.",
-    unit: "profiles",
+    description: "Academic and support staff, by department.",
+    unit: "staff",
   },
   downloads: {
     label: "Downloads",

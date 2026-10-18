@@ -1,6 +1,6 @@
 import type { CSSProperties } from "react";
 
-import { deans, president, roleTitle, type Executive } from "@/content/executives";
+import { roleTitle, type Executive } from "@/content/executives";
 
 import { BlueprintGrid } from "./BlueprintGrid";
 import { Dial } from "./Dial";
@@ -34,9 +34,16 @@ function Person({ person, kind }: { person: Executive; kind: "president" | "dean
  * their branch of the connector. Read in order, it is the President, then the Deans.
  *
  * Everything but the grid behind it is rendered on the server; the connectors, labels and
- * layout are CSS (Executives.module.css).
+ * layout are CSS (Executives.module.css). The people come from the database (Admin ›
+ * Executives): the head of the chart (level 1) and the row below it, left to right.
  */
-export function ExecutivesChart() {
+export function ExecutivesChart({
+  president,
+  deans,
+}: {
+  president: Executive | null;
+  deans: Executive[];
+}) {
   return (
     <section className={s.chart} aria-labelledby="executives-chart-title">
       <h2 id="executives-chart-title" className="sr-only">
@@ -50,27 +57,37 @@ export function ExecutivesChart() {
         <i className={`${s.reg} ${s.br}`} aria-hidden="true" />
 
         <div className={s.tree}>
-          <div className={`${s.presRow} ${s.rise}`}>
-            <p className={s.level} aria-hidden="true">
-              <b>01</b> President
-            </p>
-            <Person person={president} kind="president" />
-          </div>
-          <div className={s.stem} aria-hidden="true" />
-          <div className={s.deansRow}>
-            <p className={`${s.level} ${s.levelDeans}`} aria-hidden="true">
-              <b>02</b> Deans
-            </p>
-            <div className={s.deans}>
-              {deans.map((dean, i) => (
-                <div key={dean.id} className={`${s.dean} ${s.rise}`} style={delay(0.25 + i * 0.12)}>
-                  <span className={s.node} aria-hidden="true" />
-                  <span className={s.arrow} aria-hidden="true" />
-                  <Person person={dean} kind="dean" />
-                </div>
-              ))}
+          {president && (
+            <>
+              <div className={`${s.presRow} ${s.rise}`}>
+                <p className={s.level} aria-hidden="true">
+                  <b>01</b> {president.role}
+                </p>
+                <Person person={president} kind="president" />
+              </div>
+              {deans.length > 0 && <div className={s.stem} aria-hidden="true" />}
+            </>
+          )}
+          {deans.length > 0 && (
+            <div className={s.deansRow}>
+              <p className={`${s.level} ${s.levelDeans}`} aria-hidden="true">
+                <b>02</b> Deans
+              </p>
+              <div className={s.deans}>
+                {deans.map((dean, i) => (
+                  <div
+                    key={dean.id}
+                    className={`${s.dean} ${s.rise}`}
+                    style={delay(0.25 + i * 0.12)}
+                  >
+                    <span className={s.node} aria-hidden="true" />
+                    <span className={s.arrow} aria-hidden="true" />
+                    <Person person={dean} kind="dean" />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

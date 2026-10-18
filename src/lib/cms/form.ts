@@ -24,9 +24,15 @@ export type FieldDef =
   | (BaseField & { kind: "number"; min: number; max: number })
   | (BaseField & { kind: "date" })
   | (BaseField & { kind: "select"; options: { value: string; label: string }[] })
+  /** Several of the options can be ticked; the value is the ticked ones, joined by commas. */
+  | (BaseField & {
+      kind: "checkboxes";
+      options: { value: string; label: string }[];
+      columns?: 1 | 2 | 3;
+    })
   | (BaseField & { kind: "status" })
   /** An uploaded image plus its description (alt text), stored in the field named altName. */
-  | (BaseField & { kind: "image"; altName: string })
+  | (BaseField & { kind: "image"; altName?: string })
   /** An uploaded PDF. */
   | (BaseField & { kind: "document" });
 

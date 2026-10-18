@@ -9,17 +9,10 @@ import { getDb, schema } from "@/lib/db";
 
 import { ActionError, type ResourceDef } from "../crud";
 import type { FieldDef, FormInitial } from "../form";
-import {
-  optionalMediaId,
-  optionalText,
-  optionalYear,
-  requiredText,
-  sortOrder,
-  status,
-} from "../validation";
+import { optionalMediaId, optionalText, optionalYear, requiredText, status } from "../validation";
 import { asField, loadPreview, mediaColumns, toPreview } from "./shared";
 
-const { downloads, programmes, media } = schema;
+const { downloads, programmes, media, staffProgrammes } = schema;
 
 export const PROGRAMMES_TAG = "cms:programmes";
 
@@ -36,7 +29,6 @@ const programmeSchema = z
     startYear: optionalYear("Year first offered"),
     imageId: optionalMediaId,
     imageAlt: optionalText("Image description", 300),
-    sortOrder,
     status,
   })
   .refine((data) => !data.imageId || data.imageAlt, {
@@ -81,15 +73,6 @@ export const programmeFields: FieldDef[] = [
     rows: 3,
   },
   { kind: "image", name: "imageId", altName: "imageAlt", label: "Featured image" },
-  {
-    kind: "number",
-    name: "sortOrder",
-    label: "Display order",
-    min: 0,
-    max: 9999,
-    width: "half",
-    help: "Lower numbers appear first.",
-  },
   { kind: "status", name: "status", label: "Status", width: "half" },
 ];
 
@@ -99,9 +82,9 @@ export const programmeResource: ResourceDef<ProgrammeInput> = {
   tag: PROGRAMMES_TAG,
   schema: programmeSchema,
   media: (data) => [{ field: "imageId", id: data.imageId, kind: "image" }],
-  create: async (tx, data) => {
-    await tx.insert(programmes).values(data);
-  },
+  ordering: { key: "programmes", group: () => "all" },
+  create: async (tx, data) =>
+    (await tx.insert(programmes).values(data).returning({ id: programmes.id }))[0].id,
   update: async (tx, id, data) =>
     (
       await tx
@@ -119,6 +102,15 @@ export const programmeResource: ResourceDef<ProgrammeInput> = {
     if (n > 0) {
       throw new ActionError(
         `${n} download${n === 1 ? " is" : "s are"} filed under this programme (Downloads › Students Project Reports). Move or delete ${n === 1 ? "it" : "them"} first.`,
+      );
+    }
+    const [{ n: teaching }] = await tx
+      .select({ n: count() })
+      .from(staffProgrammes)
+      .where(eq(staffProgrammes.programmeId, id));
+    if (teaching > 0) {
+      throw new ActionError(
+        `${teaching} staff member${teaching === 1 ? " is" : "s are"} listed as teaching on this programme (Staff Directory). Remove it from ${teaching === 1 ? "their record" : "their records"} first.`,
       );
     }
     return (
@@ -159,7 +151,6 @@ export async function getProgrammeForm(id: number): Promise<FormInitial | null> 
       startYear: asField(row.startYear),
       imageId: asField(row.imageId),
       imageAlt: asField(row.imageAlt),
-      sortOrder: asField(row.sortOrder),
       status: row.status,
     },
     media: { imageId: await loadPreview(row.imageId) },

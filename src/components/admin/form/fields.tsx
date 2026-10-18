@@ -83,6 +83,38 @@ export function SimpleControl({
   const aria = describe(id, error, field.help);
   const common = { id, name: field.name, required: field.required, ...aria };
 
+  if (field.kind === "checkboxes") {
+    const ticked = new Set(value.split(",").filter(Boolean));
+    return (
+      <div
+        className={cx(
+          "grid gap-x-6 gap-y-2.5 rounded-md border border-admin-line px-4 py-3",
+          field.columns === 2 && "sm:grid-cols-2",
+          field.columns === 3 && "sm:grid-cols-2 lg:grid-cols-3",
+        )}
+      >
+        {field.options.length === 0 && (
+          <p className="text-sm text-admin-muted">None to choose from.</p>
+        )}
+        {field.options.map((option) => (
+          <label
+            key={option.value}
+            className="flex cursor-pointer items-start gap-2.5 text-sm text-admin-navy"
+          >
+            <input
+              type="checkbox"
+              name={field.name}
+              value={option.value}
+              defaultChecked={ticked.has(option.value)}
+              className="mt-0.5 size-4 shrink-0 accent-admin-accent-strong"
+            />
+            {option.label}
+          </label>
+        ))}
+      </div>
+    );
+  }
+
   if (field.kind === "status") {
     const current = value === "published" ? "published" : "draft";
     return (
@@ -147,7 +179,7 @@ export function SimpleControl({
     case "select":
       return (
         <select {...common} defaultValue={value} className={cx(controlClass, "pr-9")}>
-          {!value && (
+          {!value && !field.options.some((option) => option.value === "") && (
             <option value="" disabled>
               Choose…
             </option>

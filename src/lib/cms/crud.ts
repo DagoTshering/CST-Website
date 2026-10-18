@@ -9,6 +9,7 @@ import { requireAdmin } from "@/lib/auth/dal";
 import { getDb, schema } from "@/lib/db";
 
 import type { DeleteResult, FormState } from "./form";
+import { parsePosition, placeItem, positionField, type OrderingKey } from "./ordering";
 import { formValues, recordId } from "./validation";
 
 /*
@@ -33,11 +34,20 @@ export type ResourceDef<T> = {
   schema: z.ZodType<T>;
   /** The uploaded files the data points at, checked to exist and be of the right kind. */
   media?: (data: T) => MediaRef[];
-  /** Further checks against the database (inside the save's transaction); field errors or null. */
-  validate?: (tx: Tx, data: T) => Promise<Record<string, string[]> | null>;
-  create: (tx: Tx, data: T) => Promise<void>;
+  /**
+   * Further checks against the database (inside the save's transaction): field errors or null.
+   * `id` is the record being edited, or null for a new one.
+   */
+  validate?: (tx: Tx, data: T, id: number | null) => Promise<Record<string, string[]> | null>;
+  /** Returns the new record's id (needed when the records are ordered). */
+  create: (tx: Tx, data: T) => Promise<number | void>;
   /** Returns false when the record no longer exists. */
   update: (tx: Tx, id: number, data: T) => Promise<boolean>;
+  /**
+   * For records the administrator puts in order (see ordering.ts): which list, and the group a
+   * record belongs to. The form's Position field for that group places it.
+   */
+  ordering?: { key: OrderingKey; group: (data: T) => string };
   /** Returns false when the record no longer exists; throws ActionError when it may not go. */
   remove: (tx: Tx, id: number) => Promise<boolean>;
 };
@@ -97,14 +107,22 @@ export async function saveResource<T>(
     const result = await getDb().transaction(async (tx) => {
       const mediaErrors =
         (await checkMedia(tx, def.media?.(parsed.data) ?? [])) ??
-        (await def.validate?.(tx, parsed.data)) ??
+        (await def.validate?.(tx, parsed.data, id === null ? null : id.data)) ??
         null;
       if (mediaErrors) return { mediaErrors };
+      const place = async (recordId: number, isNew: boolean) => {
+        if (!def.ordering) return;
+        const group = def.ordering.group(parsed.data);
+        const position = parsePosition(values[positionField(group)]);
+        await placeItem(tx, def.ordering.key, group, recordId, position, isNew);
+      };
       if (id === null) {
-        await def.create(tx, parsed.data);
+        const newId = await def.create(tx, parsed.data);
+        if (typeof newId === "number") await place(newId, true);
         return { notice: "created" as const };
       }
       const found = await def.update(tx, id.data, parsed.data);
+      if (found) await place(id.data, false);
       return { notice: found ? ("updated" as const) : ("missing" as const) };
     });
     if ("mediaErrors" in result) {

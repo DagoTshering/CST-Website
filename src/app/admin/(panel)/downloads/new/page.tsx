@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { ResourceForm } from "@/components/admin/form/ResourceForm";
 import { PageHeader } from "@/components/admin/ui";
+import { positionForm, withPosition } from "@/lib/cms/ordering";
 import {
   downloadFields,
   listCategoryOptions,
@@ -20,6 +21,12 @@ export default async function Page({ searchParams }: PageProps<"/admin/downloads
   ]);
   const preselected = categories.some((c) => String(c.id) === category) ? String(category) : "";
 
+  const position = await positionForm("downloads", {
+    label: "Position in category",
+    help: "Where it appears within its category (a project report: within its programme).",
+    groups: categories.map((c) => String(c.id)),
+    groupField: "categoryId",
+  });
   return (
     <>
       <PageHeader
@@ -28,9 +35,9 @@ export default async function Page({ searchParams }: PageProps<"/admin/downloads
       />
       <ResourceForm
         action={saveDownload.bind(null, null)}
-        fields={downloadFields(categories, programmes)}
+        fields={withPosition(downloadFields(categories, programmes), position.fields)}
         initial={{
-          values: { status: "draft", kind: "file", sortOrder: "0", categoryId: preselected },
+          values: { ...position.values, status: "draft", kind: "file", categoryId: preselected },
           media: {},
         }}
         submitLabel="Create download"

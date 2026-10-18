@@ -6,3 +6,6 @@ pnpm-lock.yaml
 drizzle/migrations/meta
 next-env.d.ts
 AGENTS.md
+
+# Original exports, kept exactly as received
+docs/reference/

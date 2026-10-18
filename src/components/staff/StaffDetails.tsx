@@ -1,4 +1,4 @@
-import { departmentLabel, type StaffMember } from "@/content/staff";
+import type { StaffMember } from "@/content/staff";
 import { cx } from "@/lib/cx";
 
 import s from "./StaffDetails.module.css";
@@ -49,7 +49,7 @@ export function StaffDetails({ person, layout = "row", className }: StaffDetails
         )}
         <div className={s.fact}>
           <dt>Department</dt>
-          <dd>{departmentLabel(person.department)}</dd>
+          <dd>{person.departmentLabel}</dd>
         </div>
         {person.email && (
           <div className={s.fact}>

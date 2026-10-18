@@ -178,7 +178,7 @@ export function MediaField({
         </div>
       </FieldShell>
 
-      {field.kind === "image" && (
+      {field.kind === "image" && field.altName && (
         <FieldShell
           id={`field-${field.altName}`}
           label="Image description"

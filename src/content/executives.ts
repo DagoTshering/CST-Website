@@ -1,15 +1,11 @@
 /**
- * The executives page (/about/executives): the President and the three Deans, as on the old
- * site's Executives page (no biographies or contact details: it has none).
+ * The executives page (/about/executives): the type its components share, and helpers.
  *
- * The data lives in executives.json, in one place so a future admin panel can edit it. Photos are
- * downloaded into public/images/executives/ by scripts/download-executive-photos.mjs; a person
- * with no photo shows their initials.
- *
- * Chimi is listed with one name only, as on the old site.
+ * The executives are managed in the admin panel (Admin › Executives) and read from the database
+ * (src/lib/cms/resources/executives.ts); they were seeded from data/people/executives.json. The
+ * head of the chart (level 1) is also featured on the homepage. Chimi is listed with one name
+ * only, as on the old site.
  */
-import data from "./executives.json";
-
 export type Executive = {
   id: string;
   name: string;
@@ -21,20 +17,10 @@ export type Executive = {
   level: 1 | 2;
   /** Left to right within the level. */
   order: number;
-  /** A path under /images/executives, or null to show the person's initials. */
+  /** The photo's URL, or null to show the person's initials. */
   photo: string | null;
   alt: string;
 };
-
-const executives = data.executives as Executive[];
-
-const byOrder = (a: Executive, b: Executive) => a.order - b.order;
-
-/** The head of the chart: the President. */
-export const president = executives.filter((e) => e.level === 1).sort(byOrder)[0];
-
-/** The Deans, left to right. */
-export const deans = executives.filter((e) => e.level === 2).sort(byOrder);
 
 /** "Dean of Academic Affairs", "President": the role as one phrase, for labels. */
 export const roleTitle = (e: Executive) => (e.scope ? `${e.role} of ${e.scope}` : e.role);

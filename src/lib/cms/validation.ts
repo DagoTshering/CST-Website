@@ -69,11 +69,31 @@ export const optionalMediaId = str
 /** A database id from a URL or a bound action argument, which the client could have changed. */
 export const recordId = z.coerce.number().int().positive().max(2_147_483_647);
 
-/** The submitted text fields; files and React's internal $ACTION_ fields are left out. */
+/**
+ * The submitted text fields; files and React's internal $ACTION_ fields are left out. A field
+ * sent more than once (a group of checkboxes) becomes its values joined by commas.
+ */
 export function formValues(formData: FormData): Record<string, string> {
   const values: Record<string, string> = {};
   for (const [key, value] of formData) {
-    if (typeof value === "string" && !key.startsWith("$ACTION")) values[key] = value;
+    if (typeof value !== "string" || key.startsWith("$ACTION")) continue;
+    values[key] = key in values ? `${values[key]},${value}` : value;
   }
   return values;
 }
+
+/** Ticked checkboxes (the joined values) as a list of the allowed values, without repeats. */
+export const checkedValues = <T extends string>(allowed: readonly T[]) =>
+  str.transform((value) => [
+    ...new Set(value.split(",").filter((v): v is T => (allowed as readonly string[]).includes(v))),
+  ]);
+
+/** Ticked checkboxes holding database ids, as numbers. */
+export const checkedIds = str.transform((value) => [
+  ...new Set(
+    value
+      .split(",")
+      .filter((v) => /^\d{1,9}$/.test(v))
+      .map(Number),
+  ),
+]);

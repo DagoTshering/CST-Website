@@ -32,7 +32,7 @@ const SUMMARY: CategoryKey[] = [
   "facilities",
   "events",
   "announcements",
-  "leadership",
+  "staff",
   "downloads",
 ];
 

@@ -6,7 +6,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SheetLink } from "@/components/ui/SheetLink";
 import { leadership } from "@/content/home";
 import { loadPublished } from "@/lib/cms/public";
-import { getFeaturedLeader } from "@/lib/cms/resources/leaders";
+import { getFeaturedExecutive } from "@/lib/cms/resources/executives";
 
 import s from "./Leadership.module.css";
 
@@ -16,11 +16,11 @@ const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties
  * The college president, on the drawing sheet in blueprint: deep teal with a faint light grid
  * and a hairline sheet border, the portrait as a plate (Fig. 05). On a desktop it fits one
  * screen below the header (see Leadership.module.css). From the homepage on main, set in the
- * drafting style of the sections above. The profile is the first published one in the admin
- * panel's Leadership & Governance; with none published, the section is left out.
+ * drafting style of the sections above. The person is the head of the executives' chart (Admin ›
+ * Executives, level 1); without one published, with a photo, the section is left out.
  */
 export async function Leadership() {
-  const result = await loadPublished("leadership", getFeaturedLeader);
+  const result = await loadPublished("leadership", getFeaturedExecutive);
   if (!result.ok || !result.data) return null;
   const leader = result.data;
 

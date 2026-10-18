@@ -107,22 +107,6 @@ export const events = pgTable(
   ],
 );
 
-export const leaders = pgTable(
-  "leaders",
-  {
-    id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
-    name: varchar("name", { length: 160 }).notNull(),
-    designation: varchar("designation", { length: 200 }).notNull(),
-    biography: text("biography"),
-    portraitId: mediaRef("portrait_id"),
-    portraitAlt: varchar("portrait_alt", { length: 300 }),
-    sortOrder: sortOrder(),
-    status: status(),
-    ...timestamps(),
-  },
-  (t) => [index("leaders_public_idx").on(t.status, t.sortOrder)],
-);
-
 export const announcements = pgTable(
   "announcements",
   {

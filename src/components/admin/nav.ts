@@ -6,6 +6,7 @@ import {
   Landmark,
   LayoutDashboard,
   LayoutGrid,
+  Network,
   Megaphone,
   Settings,
   Users,
@@ -35,7 +36,8 @@ export const adminNav: AdminNavGroup[] = [
       { href: "/admin/facilities", label: "Facilities", icon: Building2 },
       { href: "/admin/programmes", label: "Academic Programmes", icon: GraduationCap },
       { href: "/admin/events", label: "Events", icon: CalendarDays },
-      { href: "/admin/leadership", label: "Leadership & Governance", icon: Users },
+      { href: "/admin/executives", label: "Executives", icon: Network },
+      { href: "/admin/staff", label: "Staff Directory", icon: Users },
       { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
       { href: "/admin/downloads", label: "Downloads", icon: FileDown },
     ],
@@ -49,6 +51,8 @@ export const adminNav: AdminNavGroup[] = [
 const labels = new Map([
   ...adminNav.flatMap((group) => group.items).map((i) => [i.href, i.label] as const),
   ["/admin/downloads/categories", "Categories"] as const,
+  ["/admin/staff/departments", "Departments"] as const,
+  ["/admin/staff/designations", "Designations"] as const,
 ]);
 
 /** Breadcrumb trail for an admin path: /admin/events/12 -> Dashboard › Events › Edit. */

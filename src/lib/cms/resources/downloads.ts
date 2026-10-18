@@ -10,14 +10,7 @@ import { mediaUrl } from "@/lib/media/url";
 
 import { ActionError, type ResourceDef, type Tx } from "../crud";
 import type { FieldDef, FormInitial } from "../form";
-import {
-  optionalDate,
-  optionalMediaId,
-  optionalText,
-  requiredText,
-  sortOrder,
-  status,
-} from "../validation";
+import { optionalDate, optionalMediaId, optionalText, requiredText, status } from "../validation";
 import { PROGRAMMES_TAG } from "./programmes";
 import { asField, loadPreview } from "./shared";
 
@@ -48,7 +41,6 @@ const downloadSchema = z
     fileId: optionalMediaId,
     externalUrl: optionalText("Link", 2000),
     publishedOn: optionalDate("Date"),
-    sortOrder,
     status,
   })
   .superRefine((data, ctx) => {
@@ -161,15 +153,6 @@ export function downloadFields(
       showWhen: { field: "kind", oneOf: ["link"] },
     },
     { kind: "textarea", name: "description", label: "Description", maxLength: 1000, rows: 3 },
-    {
-      kind: "number",
-      name: "sortOrder",
-      label: "Display order",
-      min: 0,
-      max: 9999,
-      width: "half",
-      help: "Lower numbers appear first within the category.",
-    },
     { kind: "status", name: "status", label: "Status", width: "half" },
   ];
 }
@@ -211,9 +194,14 @@ export const downloadResource: ResourceDef<DownloadInput> = {
       .limit(1);
     return programme ? null : { programmeId: ["That programme no longer exists. Choose another."] };
   },
-  create: async (tx, data) => {
-    await tx.insert(downloads).values(await normalise(tx, data));
-  },
+  ordering: { key: "downloads", group: (data) => String(data.categoryId) },
+  create: async (tx, data) =>
+    (
+      await tx
+        .insert(downloads)
+        .values(await normalise(tx, data))
+        .returning({ id: downloads.id })
+    )[0].id,
   update: async (tx, id, data) =>
     (
       await tx
@@ -302,7 +290,6 @@ export async function getDownloadForm(id: number): Promise<FormInitial | null> {
       fileId: asField(row.fileId),
       externalUrl: asField(row.externalUrl),
       publishedOn: asField(row.publishedOn),
-      sortOrder: asField(row.sortOrder),
       status: row.status,
     },
     media: { fileId: await loadPreview(row.fileId) },
@@ -317,7 +304,6 @@ const categorySchema = z.object({
   grouping: z
     .enum(["heading", "programme"], { error: "Choose how downloads are grouped." })
     .transform((value) => value === "programme"),
-  sortOrder,
 });
 
 type CategoryInput = z.output<typeof categorySchema>;
@@ -349,15 +335,6 @@ export const categoryFields: FieldDef[] = [
     ],
     help: "With Programme, every download in the category must be filed under a programme, and the Downloads page lists them by programme.",
   },
-  {
-    kind: "number",
-    name: "sortOrder",
-    label: "Display order",
-    min: 0,
-    max: 9999,
-    width: "half",
-    help: "Lower numbers appear first.",
-  },
 ];
 
 async function nameTaken(tx: Tx, name: string, exceptId?: number) {
@@ -374,9 +351,14 @@ export const categoryResource: ResourceDef<CategoryInput> = {
   basePath: "/admin/downloads/categories",
   tag: DOWNLOADS_TAG,
   schema: categorySchema,
+  ordering: { key: "downloadCategories", group: () => "all" },
   create: async (tx, data) => {
     if (await nameTaken(tx, data.name)) throw new ActionError("A category with that name exists.");
-    await tx.insert(downloadCategories).values(categoryRow(data));
+    const [row] = await tx
+      .insert(downloadCategories)
+      .values(categoryRow(data))
+      .returning({ id: downloadCategories.id });
+    return row.id;
   },
   update: async (tx, id, data) => {
     if (await nameTaken(tx, data.name, id)) {
@@ -443,7 +425,6 @@ export async function getCategoryForm(id: number): Promise<FormInitial | null> {
       name: row.name,
       description: asField(row.description),
       grouping: row.groupByProgramme ? "programme" : "heading",
-      sortOrder: asField(row.sortOrder),
     },
     media: {},
   };

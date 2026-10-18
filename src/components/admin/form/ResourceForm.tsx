@@ -98,9 +98,13 @@ export function ResourceForm({ action, fields, initial, submitLabel, cancelHref 
                     setMedia((current) => ({ ...current, [field.name]: preview }))
                   }
                   onUploading={(busy) => setUploads((n) => n + (busy ? 1 : -1))}
-                  altValue={field.kind === "image" ? (values[field.altName] ?? "") : ""}
+                  altValue={
+                    field.kind === "image" && field.altName ? (values[field.altName] ?? "") : ""
+                  }
                   error={error(field.name)}
-                  altError={field.kind === "image" ? error(field.altName) : undefined}
+                  altError={
+                    field.kind === "image" && field.altName ? error(field.altName) : undefined
+                  }
                 />,
               );
             }
@@ -112,7 +116,7 @@ export function ResourceForm({ action, fields, initial, submitLabel, cancelHref 
                 required={field.required || field.kind === "status"}
                 help={field.help}
                 error={error(field.name)}
-                as={field.kind === "status" ? "fieldset" : "div"}
+                as={field.kind === "status" || field.kind === "checkboxes" ? "fieldset" : "div"}
                 className={cx(field.width !== "half" && "sm:col-span-2")}
               >
                 <SimpleControl

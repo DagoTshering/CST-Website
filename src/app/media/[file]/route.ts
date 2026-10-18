@@ -21,7 +21,12 @@ async function isUsedByPublishedContent(mediaId: string) {
       exists (select 1 from facilities where image_id = ${mediaId} and status = 'published')
       or exists (select 1 from programmes where image_id = ${mediaId} and status = 'published')
       or exists (select 1 from events where image_id = ${mediaId} and status = 'published')
-      or exists (select 1 from leaders where portrait_id = ${mediaId} and status = 'published')
+      or exists (select 1 from staff where photo_id = ${mediaId} and status = 'published')
+      or exists (select 1 from executives where photo_id = ${mediaId} and status = 'published')
+      or exists (
+        select 1 from executives e join staff s on s.id = e.staff_id
+        where s.photo_id = ${mediaId} and e.photo_id is null and e.status = 'published'
+      )
       or exists (select 1 from announcements where attachment_id = ${mediaId} and status = 'published')
       or exists (select 1 from about_section where image_id = ${mediaId} and status = 'published')
       or exists (select 1 from downloads where file_id = ${mediaId} and status = 'published')

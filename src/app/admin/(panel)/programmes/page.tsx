@@ -1,4 +1,4 @@
-import { GraduationCap, Plus } from "lucide-react";
+import { GraduationCap, Plus, ListOrdered } from "lucide-react";
 import type { Metadata } from "next";
 
 import { DataTable, ListNotice, TitleWithThumb } from "@/components/admin/DataTable";
@@ -30,7 +30,17 @@ export default async function Page({ searchParams }: PageProps<"/admin/programme
       <PageHeader
         title="Academic Programmes"
         description="Programmes listed in the Academic section of the homepage, grouped by level. The hero clock is not affected."
-        actions={rows.length > 0 && addButton}
+        actions={
+          <>
+            {rows.length > 1 && (
+              <LinkButton href="/admin/programmes/arrange" variant="secondary">
+                <ListOrdered aria-hidden="true" />
+                Arrange order
+              </LinkButton>
+            )}
+            {rows.length > 0 && addButton}
+          </>
+        }
       />
       <ListNotice notice={notice} kind="programme" />
       {rows.length === 0 ? (
@@ -57,7 +67,6 @@ export default async function Page({ searchParams }: PageProps<"/admin/programme
               cell: (row) => (row.level === "postgraduate" ? "Postgraduate" : "Undergraduate"),
             },
             { header: "Year", cell: (row) => row.startYear ?? "—", wide: true },
-            { header: "Order", cell: (row) => row.sortOrder, wide: true },
             { header: "Status", cell: (row) => <StatusBadge status={row.status} /> },
             {
               header: "Last updated",

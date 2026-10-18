@@ -1,26 +1,20 @@
 /**
- * The homepage's initial content: About CST, Facilities, Academic Programmes and the featured
- * leadership profile, as on the site before the admin panel. Events and announcements change
- * often and are left for administrators to add.
+ * The homepage's initial content: About CST, Facilities and Academic Programmes, as on the site
+ * before the admin panel. Events and announcements change often and are left for administrators
+ * to add. (The President on the homepage is the head of the executives: see seed-people.ts.)
  *
  * Each category is seeded only while its table is empty, so rerunning the seed never overwrites
  * or duplicates content edited in the admin panel. Photographs are copied from public/images into
  * the upload store (UPLOAD_DIR) and recorded in `media`, as if they had been uploaded.
  */
-import { randomUUID } from "node:crypto";
-import { mkdir, readFile, unlink, writeFile } from "node:fs/promises";
-import path from "node:path";
-
 import { count } from "drizzle-orm";
 import type { PgTable } from "drizzle-orm/pg-core";
-import sharp from "sharp";
 
 import { hero } from "../src/content/home";
 import type { getDb, schema as Schema } from "../src/lib/db";
-import { uploadPath } from "../src/lib/media/paths";
+import { imageCopier, type Tx } from "./seed-images";
 
 type Db = ReturnType<typeof getDb>;
-type Tx = Parameters<Parameters<Db["transaction"]>[0]>[0];
 
 const about = {
   heading: "Bhutan’s premier institute for engineering education",
@@ -84,50 +78,10 @@ const facilities = [
   },
 ];
 
-const president = {
-  name: "Dr. Tshewang Lhendup",
-  designation: "President, College of Science and Technology",
-  // A low-resolution crop from the old site; replace it in the admin panel.
-  image: "/images/temp/president-portrait.jpg",
-  imageAlt: "Portrait of Dr. Tshewang Lhendup, President of CST",
-};
-
-const FORMATS = {
-  jpeg: { extension: "jpg", mimeType: "image/jpeg" },
-  png: { extension: "png", mimeType: "image/png" },
-  webp: { extension: "webp", mimeType: "image/webp" },
-} as const;
-
 export async function seedContent(db: Db, schema: typeof Schema) {
-  /** Files copied for the category being seeded, removed again if its transaction fails. */
-  let written: string[] = [];
-
-  /** Copies an image from public/ into the upload store and records it; returns its id. */
-  async function addImage(tx: Tx, publicPath: string) {
-    const data = await readFile(path.join(process.cwd(), "public", publicPath));
-    const meta = await sharp(data).metadata();
-    const format = FORMATS[meta.format as keyof typeof FORMATS];
-    if (!format) throw new Error(`${publicPath} is not a JPEG, PNG or WebP image`);
-
-    const storageKey = `${randomUUID()}.${format.extension}`;
-    await mkdir(path.dirname(uploadPath(storageKey)), { recursive: true });
-    await writeFile(uploadPath(storageKey), data, { flag: "wx", mode: 0o640 });
-    written.push(storageKey);
-
-    const [row] = await tx
-      .insert(schema.media)
-      .values({
-        kind: "image",
-        storageKey,
-        originalName: path.basename(publicPath),
-        mimeType: format.mimeType,
-        byteSize: data.length,
-        width: meta.width ?? null,
-        height: meta.height ?? null,
-      })
-      .returning({ id: schema.media.id });
-    return row.id;
-  }
+  /** Copies photographs into the upload store; removed again if their transaction fails. */
+  const images = imageCopier(schema);
+  const addImage = images.copy;
 
   /** Runs `seed` in a transaction if `table` is empty; reports what happened. */
   async function seedIfEmpty(label: string, table: PgTable, seed: (tx: Tx) => Promise<number>) {
@@ -136,13 +90,13 @@ export async function seedContent(db: Db, schema: typeof Schema) {
       console.log(`${label}: already has content; left unchanged.`);
       return;
     }
-    written = [];
+    images.written.length = 0;
     try {
       const created = await db.transaction(seed);
       console.log(`${label}: seeded ${created}.`);
     } catch (error) {
       // The transaction rolled back; remove the files it had copied.
-      await Promise.all(written.map((key) => unlink(uploadPath(key)).catch(() => {})));
+      await images.discard();
       throw error;
     }
   }
@@ -179,17 +133,5 @@ export async function seedContent(db: Db, schema: typeof Schema) {
       })),
     );
     return hero.programmes.length;
-  });
-
-  await seedIfEmpty("Leadership & Governance", schema.leaders, async (tx) => {
-    const { image, imageAlt, ...person } = president;
-    await tx.insert(schema.leaders).values({
-      ...person,
-      portraitId: await addImage(tx, image),
-      portraitAlt: imageAlt,
-      sortOrder: 10,
-      status: "published",
-    });
-    return 1;
   });
 }

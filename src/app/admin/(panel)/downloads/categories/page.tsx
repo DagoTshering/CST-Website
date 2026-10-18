@@ -1,4 +1,4 @@
-import { FolderCog, Plus } from "lucide-react";
+import { FolderCog, Plus, ListOrdered } from "lucide-react";
 import type { Metadata } from "next";
 
 import { DataTable, ListNotice } from "@/components/admin/DataTable";
@@ -23,7 +23,17 @@ export default async function Page({ searchParams }: PageProps<"/admin/downloads
       <PageHeader
         title="Download categories"
         description="The sections of the Downloads page, in display order. A category can be deleted once it has no downloads."
-        actions={rows.length > 0 && addButton}
+        actions={
+          <>
+            {rows.length > 1 && (
+              <LinkButton href="/admin/downloads/categories/arrange" variant="secondary">
+                <ListOrdered aria-hidden="true" />
+                Arrange order
+              </LinkButton>
+            )}
+            {rows.length > 0 && addButton}
+          </>
+        }
       />
       <ListNotice notice={notice} kind="category" />
       {rows.length === 0 ? (
@@ -48,7 +58,6 @@ export default async function Page({ searchParams }: PageProps<"/admin/downloads
               wide: true,
             },
             { header: "Downloads", cell: (row) => row.downloads },
-            { header: "Order", cell: (row) => row.sortOrder, wide: true },
             {
               header: "Last updated",
               cell: (row) => formatDateTime(row.updatedAt),

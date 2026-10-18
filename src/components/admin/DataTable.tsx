@@ -137,6 +137,7 @@ const notices = {
   created: { tone: "success", text: (kind: string) => `The ${kind} was created.` },
   updated: { tone: "success", text: (kind: string) => `Your changes to the ${kind} were saved.` },
   deleted: { tone: "success", text: (kind: string) => `The ${kind} was deleted.` },
+  reordered: { tone: "success", text: () => "The new order was saved." },
   missing: {
     tone: "warning",
     text: (kind: string) => `That ${kind} no longer exists. It may have been deleted.`,

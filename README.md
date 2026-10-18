@@ -139,7 +139,9 @@ What the Compose setup does:
 ## Admin panel
 
 An administration panel at `/admin` lets authorised administrators manage the homepage content:
-About CST, Facilities, Academic Programmes, Events, Leadership & Governance and Announcements.
+About CST, Facilities, Academic Programmes, Events and Announcements, the Staff Directory
+(`/about/staff-directory`, with its departments) and the Executives (`/about/executives`; the head
+of the chart is also featured on the homepage).
 Each has a draft/published status; the public site shows only published content, and saving in the
 admin panel updates the homepage immediately.
 
@@ -176,6 +178,13 @@ item of a category is deleted, the next seed run adds the initial items back.
   is safe to rerun.) `GET /media/<file>` serves a file publicly only while
   published content uses it; otherwise only to a signed-in administrator.
 
+**Ordering.** Lists the administrator puts in order (staff within a department, the executives'
+chart rows, downloads within a category, departments, facilities, programmes, download
+categories) have no order number in their forms. The form has a **Position** choice (First /
+After … / Last), and each list page has an **Arrange order** screen where items are dragged (or
+moved with ▲/▼) and saved together. The stored `sort_order` is renumbered 10, 20, 30, … on each
+change (`src/lib/cms/ordering.ts`).
+
 **Adding a content category:** add a table to `src/lib/db/schema/content.ts` and generate a
 migration; add `src/lib/cms/resources/<name>.ts` (schema, form fields, writes, queries) following
 an existing one; add the pages and `actions.ts` under `src/app/admin/(panel)/<name>/`; add it to
@@ -184,6 +193,21 @@ an existing one; add the pages and `actions.ts` under `src/app/admin/(panel)/<na
 **In production**, also: serve the site over HTTPS only; run it behind a reverse proxy that sets
 `X-Forwarded-For` (the login throttle uses it, and a client could otherwise set it); and back up the
 `uploads` volume together with the database.
+
+## Staff directory and executives
+
+The Staff Directory and Executives pages read from the database. Administrators manage them under
+**Admin → Staff Directory** (people, with their departments, designations, duties, programmes
+and photos; the departments and the list of designations are managed there too) and
+**Admin → Executives** (the President and Deans on the chart). Executives are a separate table from
+staff: an executive who is also in the directory can be linked to their staff record, and then
+their directory photo is used unless one is uploaded for them. The executive at the head of the
+chart is the one featured in the homepage's Leadership section.
+
+`pnpm db:seed` adds the initial data from `data/people/staff.json` and `data/people/executives.json`
+(photos from `public/images/staff` and `public/images/executives`): departments while there are
+none, and each person once (by their id in that data), so a rerun never duplicates or overwrites
+anyone, and someone an administrator deleted is not added again.
 
 ## Downloads page
 

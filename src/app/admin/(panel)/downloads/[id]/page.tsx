@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import { ResourceForm } from "@/components/admin/form/ResourceForm";
 import { PageHeader } from "@/components/admin/ui";
+import { positionForm, withPosition } from "@/lib/cms/ordering";
 import {
   downloadFields,
   getDownloadForm,
@@ -25,6 +26,13 @@ export default async function Page({ params }: PageProps<"/admin/downloads/[id]"
     listProgrammeOptions(),
   ]);
   if (!initial) notFound();
+  const position = await positionForm("downloads", {
+    label: "Position in category",
+    help: "Where it appears within its category (a project report: within its programme).",
+    groups: categories.map((c) => String(c.id)),
+    groupField: "categoryId",
+    current: { id: id.data, group: initial.values.categoryId },
+  });
   const name = initial.values.title;
 
   return (
@@ -42,8 +50,8 @@ export default async function Page({ params }: PageProps<"/admin/downloads/[id]"
       />
       <ResourceForm
         action={saveDownload.bind(null, id.data)}
-        fields={downloadFields(categories, programmes)}
-        initial={initial}
+        fields={withPosition(downloadFields(categories, programmes), position.fields)}
+        initial={{ ...initial, values: { ...initial.values, ...position.values } }}
         submitLabel="Save changes"
         cancelHref="/admin/downloads"
       />

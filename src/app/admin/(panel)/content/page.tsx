@@ -13,8 +13,9 @@ const ORDER: CategoryKey[] = [
   "facilities",
   "programmes",
   "events",
-  "leadership",
   "announcements",
+  "executives",
+  "staff",
   "downloads",
 ];
 

@@ -9,7 +9,7 @@ import { getDb, schema } from "@/lib/db";
 
 import type { ResourceDef } from "../crud";
 import type { FieldDef, FormInitial } from "../form";
-import { requiredMediaId, requiredText, sortOrder, status } from "../validation";
+import { requiredMediaId, requiredText, status } from "../validation";
 import { asField, loadPreview, mediaColumns, toPhoto, toPreview } from "./shared";
 
 const { facilities, media } = schema;
@@ -21,7 +21,6 @@ const facilitySchema = z.object({
   description: requiredText("Description", 600),
   imageId: requiredMediaId("Upload an image."),
   imageAlt: requiredText("Image description", 300),
-  sortOrder,
   status,
 });
 
@@ -39,15 +38,6 @@ export const facilityFields: FieldDef[] = [
     help: "One or two sentences, shown under the photograph.",
   },
   { kind: "image", name: "imageId", altName: "imageAlt", label: "Image", required: true },
-  {
-    kind: "number",
-    name: "sortOrder",
-    label: "Display order",
-    min: 0,
-    max: 9999,
-    width: "half",
-    help: "Lower numbers appear first.",
-  },
   { kind: "status", name: "status", label: "Status", width: "half" },
 ];
 
@@ -57,9 +47,9 @@ export const facilityResource: ResourceDef<FacilityInput> = {
   tag: FACILITIES_TAG,
   schema: facilitySchema,
   media: (data) => [{ field: "imageId", id: data.imageId, kind: "image" }],
-  create: async (tx, data) => {
-    await tx.insert(facilities).values(data);
-  },
+  ordering: { key: "facilities", group: () => "all" },
+  create: async (tx, data) =>
+    (await tx.insert(facilities).values(data).returning({ id: facilities.id }))[0].id,
   update: async (tx, id, data) =>
     (
       await tx
@@ -100,7 +90,6 @@ export async function getFacilityForm(id: number): Promise<FormInitial | null> {
       description: row.description,
       imageId: asField(row.imageId),
       imageAlt: asField(row.imageAlt),
-      sortOrder: asField(row.sortOrder),
       status: row.status,
     },
     media: { imageId: await loadPreview(row.imageId) },

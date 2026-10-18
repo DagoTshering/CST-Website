@@ -1,4 +1,4 @@
-import { FileDown, FolderCog, Link2, Plus } from "lucide-react";
+import { FileDown, FolderCog, Link2, Plus, ListOrdered } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -43,6 +43,15 @@ export default async function Page({ searchParams }: PageProps<"/admin/downloads
         description="Forms, guidelines and publications on the Downloads page, by category. A download is a PDF file or a link, such as a Google Drive folder."
         actions={
           <>
+            {rows.length > 1 && (
+              <LinkButton
+                href={`/admin/downloads/arrange${selected ? `?category=${selected.id}` : ""}`}
+                variant="secondary"
+              >
+                <ListOrdered aria-hidden="true" />
+                Arrange order
+              </LinkButton>
+            )}
             <LinkButton href="/admin/downloads/categories" variant="secondary">
               <FolderCog aria-hidden="true" />
               Categories

@@ -5,10 +5,26 @@ import { count, desc, eq, sql } from "drizzle-orm";
 import { requireAdmin } from "@/lib/auth/dal";
 import { getDb, schema } from "@/lib/db";
 
-const { aboutSection, announcements, downloads, events, facilities, leaders, programmes } = schema;
+const {
+  aboutSection,
+  announcements,
+  downloads,
+  events,
+  executives,
+  facilities,
+  programmes,
+  staff,
+} = schema;
 
 export type CategoryKey =
-  "programmes" | "facilities" | "events" | "announcements" | "leadership" | "downloads" | "about";
+  | "programmes"
+  | "facilities"
+  | "events"
+  | "announcements"
+  | "executives"
+  | "staff"
+  | "downloads"
+  | "about";
 
 /** Total and published counts per content category, straight from the database. */
 export async function getContentCounts() {
@@ -18,7 +34,8 @@ export async function getContentCounts() {
     | typeof facilities
     | typeof programmes
     | typeof events
-    | typeof leaders
+    | typeof executives
+    | typeof staff
     | typeof announcements
     | typeof downloads
     | typeof aboutSection;
@@ -33,12 +50,13 @@ export async function getContentCounts() {
       .from(table)
       .then(([row]) => row);
 
-  const [prog, fac, ev, ann, lead, down, about] = await Promise.all([
+  const [prog, fac, ev, ann, exec, people, down, about] = await Promise.all([
     tally(programmes),
     tally(facilities),
     tally(events),
     tally(announcements),
-    tally(leaders),
+    tally(executives),
+    tally(staff),
     tally(downloads),
     tally(aboutSection),
   ]);
@@ -47,7 +65,8 @@ export async function getContentCounts() {
     facilities: fac,
     events: ev,
     announcements: ann,
-    leadership: lead,
+    executives: exec,
+    staff: people,
     downloads: down,
     about,
   } satisfies Record<CategoryKey, { total: number; published: number }>;
@@ -124,16 +143,29 @@ export async function getRecentlyUpdated(limit = 8): Promise<RecentItem[]> {
         .limit(limit),
     ),
     latest(
-      "leadership",
+      "executives",
       db
         .select({
-          id: leaders.id,
-          title: leaders.name,
-          status: leaders.status,
-          updatedAt: leaders.updatedAt,
+          id: executives.id,
+          title: executives.name,
+          status: executives.status,
+          updatedAt: executives.updatedAt,
         })
-        .from(leaders)
-        .orderBy(desc(leaders.updatedAt))
+        .from(executives)
+        .orderBy(desc(executives.updatedAt))
+        .limit(limit),
+    ),
+    latest(
+      "staff",
+      db
+        .select({
+          id: staff.id,
+          title: staff.name,
+          status: staff.status,
+          updatedAt: staff.updatedAt,
+        })
+        .from(staff)
+        .orderBy(desc(staff.updatedAt))
         .limit(limit),
     ),
     latest(
