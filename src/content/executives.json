@@ -1,0 +1,43 @@
+{
+  "executives": [
+    {
+      "id": "tshewang-lhendup",
+      "name": "Dr. Tshewang Lhendup",
+      "role": "President",
+      "level": 1,
+      "order": 1,
+      "photo": "/images/executives/tshewang-lhendup.jpg",
+      "alt": "Portrait of Dr. Tshewang Lhendup, President"
+    },
+    {
+      "id": "chimi",
+      "name": "Chimi",
+      "role": "Dean",
+      "scope": "Academic Affairs",
+      "level": 2,
+      "order": 1,
+      "photo": "/images/executives/chimi.jpg",
+      "alt": "Portrait of Chimi, Dean of Academic Affairs"
+    },
+    {
+      "id": "sangey-pasang",
+      "name": "Dr. Sangey Pasang",
+      "role": "Dean",
+      "scope": "Research & Industrial Linkages",
+      "level": 2,
+      "order": 2,
+      "photo": "/images/executives/sangey-pasang.jpg",
+      "alt": "Portrait of Dr. Sangey Pasang, Dean of Research & Industrial Linkages"
+    },
+    {
+      "id": "kelzang-dorji",
+      "name": "Kelzang Dorji",
+      "role": "Dean",
+      "scope": "Student Affairs",
+      "level": 2,
+      "order": 3,
+      "photo": "/images/executives/kelzang-dorji.jpg",
+      "alt": "Portrait of Kelzang Dorji, Dean of Student Affairs"
+    }
+  ]
+}

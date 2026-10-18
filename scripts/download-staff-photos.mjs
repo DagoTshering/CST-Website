@@ -31,6 +31,16 @@ const MAX = { width: 640, height: 800 };
 const CONCURRENCY = 6;
 const force = process.argv.includes("--force");
 
+/**
+ * Photos the old site (and so docs/reference/staff.json) gives to the wrong person. The two Nima
+ * Yoezers in Computing Technologies are shown with each other's photo; corrected by the college,
+ * October 2026.
+ */
+const PHOTO_FIXES = {
+  "nimayoezer.cst": "https://cst.edu.bt/wp-content/uploads/2026/09/651A0963-241x300.jpg",
+  "nimayoezer1.cst": "https://cst.edu.bt/wp-content/uploads/2026/09/651A1030-227x300.jpg",
+};
+
 const isUrl = (value) => typeof value === "string" && /^https?:\/\//.test(value);
 
 /** The original upload behind a WordPress thumbnail URL, or null if it is not a thumbnail. */
@@ -105,7 +115,8 @@ async function main() {
       counts.exists++;
       return;
     }
-    const source = isUrl(person.image) ? person.image : sources.get(person.id);
+    const source =
+      PHOTO_FIXES[person.id] ?? (isUrl(person.image) ? person.image : sources.get(person.id));
     if (!isUrl(source)) {
       failures.push({ person, reason: "no source URL" });
       person.image = null;

@@ -268,9 +268,9 @@
   display: none;
 }
 
-/* A phone: the active card shows the photo alone (.front, like a large side card), with a
-   "More details" label; tapping it turns the card over, like a card in the hand, to the details
-   (.info), which have a "Back to photo" button. Both faces turn about the vertical axis, each
+/* A phone: the active card shows the photo with the person's name under it and a "More
+   details" label (.front); tapping it turns the card over, like a card in the hand, to the
+   details (.info), which have a "Back to photo" button. Both faces turn about the vertical axis, each
    hidden while it faces away, so only one is ever seen; the turn is a transform alone. */
 @media (max-width: 767.98px) {
   .body {
@@ -291,7 +291,8 @@
   }
 
   .front {
-    display: block;
+    display: flex;
+    flex-direction: column;
     padding: 6px;
     border: 0;
     background: none;
@@ -304,22 +305,43 @@
     outline-offset: -4px;
   }
 
+  /* the photo takes what the name and the label leave */
+  .frontPhoto {
+    position: relative;
+    display: block;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .frontCaption {
+    display: flex;
+    flex: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 10px 10px;
+  }
+
+  .frontName {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.1;
+    text-align: center;
+    color: var(--color-ink);
+  }
+
   .frontLabel {
-    position: absolute;
-    bottom: 22px;
-    left: 50%;
-    padding: 9px 16px;
+    padding: 7px 14px;
+    border: 1px solid var(--color-line);
     border-radius: var(--radius-sm);
-    background: var(--color-white);
-    box-shadow: var(--shadow-sm);
     font-family: var(--font-display);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     white-space: nowrap;
     color: var(--color-primary-strong);
-    translate: -50% 0;
   }
 
   .info {

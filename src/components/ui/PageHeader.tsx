@@ -1,9 +1,10 @@
 /**
  * The title band of an inner page, on the homepage's graph paper fading into white above and
  * below (the page under it is white): the page's h1 in the sections' Cormorant italic over the
- * two-tone drafting rule (ink, then gold). Kept short, so the page's content starts close under it.
+ * two-tone drafting rule (ink, then gold), and an optional line of introduction. Kept short, so
+ * the page's content starts close under it.
  */
-export function PageHeader({ title }: { title: string }) {
+export function PageHeader({ title, intro }: { title: string; intro?: string }) {
   return (
     <header className="relative isolate bg-white">
       {/* the graph paper, fading into the white above and below it */}
@@ -17,6 +18,7 @@ export function PageHeader({ title }: { title: string }) {
           aria-hidden="true"
           className="mx-auto mt-5 block h-0.5 w-12 bg-linear-to-r from-sheet-tick from-60% to-sheet-gold to-60%"
         />
+        {intro && <p className="mx-auto mt-4 max-w-3xl text-copy">{intro}</p>}
       </div>
     </header>
   );

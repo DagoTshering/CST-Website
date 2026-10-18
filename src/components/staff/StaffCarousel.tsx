@@ -158,7 +158,7 @@ const CardInside = memo(function CardInside({
       <div className={`crop-marks ${s.portrait}`}>
         <Photo person={person} sizes={PHOTO_SIZES} className={s.fill} />
       </div>
-      {/* on a phone, the card's face: the photo alone, which turns it over */}
+      {/* on a phone, the card's face: the photo and the name, which turns it over */}
       <button
         type="button"
         className={s.front}
@@ -169,9 +169,12 @@ const CardInside = memo(function CardInside({
         aria-label={`More details about ${person.name}`}
         onClick={() => onTurn(true)}
       >
-        <Photo person={person} alt="" sizes={PHOTO_SIZES} className={s.fill} />
-        <span className={s.frontLabel} aria-hidden="true">
-          More details
+        <span className={s.frontPhoto}>
+          <Photo person={person} alt="" sizes={PHOTO_SIZES} className={s.fill} />
+        </span>
+        <span className={s.frontCaption} aria-hidden="true">
+          <span className={s.frontName}>{person.name}</span>
+          <span className={s.frontLabel}>More details</span>
         </span>
       </button>
     </>
