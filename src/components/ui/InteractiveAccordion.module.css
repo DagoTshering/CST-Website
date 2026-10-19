@@ -105,6 +105,48 @@
   transform: translateX(4px);
 }
 
+/* a title with a muted line under it: the pair moves together */
+.text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  transition: transform 300ms;
+}
+
+.button:hover .text,
+.item[data-open] .text {
+  transform: translateX(4px);
+}
+
+.button:hover .text .title,
+.item[data-open] .text .title {
+  transform: none;
+}
+
+.subtitle {
+  margin-top: 2px;
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+}
+
+/* a small label at the end of the row, then the plus */
+.label {
+  flex: none;
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-muted);
+}
+
+.label + .plus {
+  margin-left: 0;
+}
+
 /* a plus, turning into a cross */
 .plus {
   position: relative;
@@ -180,6 +222,15 @@
   color: var(--color-copy);
 }
 
+/* `wide`: the panel spans the row, for content with columns of its own */
+.wide {
+  max-width: none;
+}
+
+.wide .content {
+  max-width: none;
+}
+
 @media (max-width: 820px) {
   .button {
     gap: 14px;
@@ -194,9 +245,25 @@
   }
 }
 
+@media (max-width: 520px) {
+  /* the group heading above already says what kind of item it is */
+  .label {
+    display: none;
+  }
+
+  .label + .plus {
+    margin-left: auto;
+  }
+
+  .wide .content {
+    padding-left: 4px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .number,
   .number::before,
+  .text,
   .title,
   .plus,
   .underline,

@@ -61,6 +61,7 @@ const nextConfig: NextConfig = {
         destination: "/programmes/water-resource-engineering",
         permanent: true,
       },
+      { source: "/about-us", destination: "/about", permanent: true },
       {
         source: "/admission-for-new-students",
         destination: "/admissions",

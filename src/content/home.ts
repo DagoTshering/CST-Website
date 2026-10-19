@@ -134,7 +134,6 @@ export type Photo = {
 export const about = {
   id: "about",
   label: "About CST",
-  // TODO: the About page is not built yet.
   link: { label: "More about CST", href: "/about" },
 };
 

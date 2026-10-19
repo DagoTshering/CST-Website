@@ -1,0 +1,55 @@
+{
+  "meta": {
+    "source": "Text supplied by the user on 2026-10-19 (author not stated). Used as given; not independently verified.",
+    "notes": [
+      "The text says RBIT in 2002; the JNEC history page and CST's own prospectus say the institute was named RBIT and began degree programmes in 2001. Confirm 2001 vs 2002.",
+      "The text says renamed CST in 2006. No online source found for the date of the name change; 2006 matches the year diploma programmes returned to Dewathang. Confirm.",
+      "Full names are not given for CDRR&CDS, FabLab CST, CST-Tech Incubation Centre and STAR-C. CRSED is expanded from CST's SCIENTEC page and the SSAPI page. Do not guess the others.",
+      "The text says 10 undergraduate and 3 postgraduate programmes; this matches the programme listing built earlier (10 Bachelor's, 3 Master's).",
+      "PhD in Engineering is described as planned only."
+    ]
+  },
+  "title": "About the college",
+  "paragraphs": [
+    "The College of Science and Technology (CST) is one of the constituent colleges of the Royal University of Bhutan, located at Rinchending, Phuentsholing. Established as the Royal Bhutan Polytechnic in 1974, it was upgraded to the Royal Bhutan Institute of Technology in 2002 and renamed CST in 2006.",
+    "CST aspires to be a Centre of Excellence in Science and Technology enriched with GNH Values, offering internationally recognized programmes, generating knowledge, and serving the community.",
+    "Currently, CST offers 10 undergraduate and 3 postgraduate programmes in engineering, technology, architecture, and related fields, with plans to introduce a PhD in Engineering. The College also provides professional training, consultancy, and research services.",
+    "CST supports research and innovation through CDRR&CDS and CRSED, focusing on disaster risk reduction, community development, renewable energy, and sustainable technologies. Innovation and entrepreneurship are further promoted through FabLab CST, CST-Tech Incubation Centre, and STAR-C, Bhutan’s national hub for solar energy training, testing, innovation, and capacity building."
+  ],
+  "names": [
+    { "year": "1974", "name": "Royal Bhutan Polytechnic", "note": "Established" },
+    { "year": "2002", "name": "Royal Bhutan Institute of Technology", "note": "Upgraded" },
+    { "year": "2006", "name": "College of Science and Technology", "note": "Renamed CST" }
+  ],
+  "vision": "A Centre of Excellence in Science and Technology enriched with GNH Values",
+  "pillars": [
+    "Offering internationally recognized programmes",
+    "Generating knowledge",
+    "Serving the community"
+  ],
+  "numbers": { "undergraduate": 10, "postgraduate": 3, "planned": "PhD in Engineering" },
+  "services": ["Professional training", "Consultancy", "Research services"],
+  "focus": "Disaster risk reduction, community development, renewable energy and sustainable technologies",
+  "centres": [
+    { "group": "research", "acronym": "CDRR&CDS", "fullName": null, "text": null },
+    {
+      "group": "research",
+      "acronym": "CRSED",
+      "fullName": "Centre for Renewable and Sustainable Energy Development",
+      "text": null
+    },
+    { "group": "innovation", "acronym": "FabLab CST", "fullName": null, "text": null },
+    {
+      "group": "innovation",
+      "acronym": "CST-Tech Incubation Centre",
+      "fullName": null,
+      "text": null
+    },
+    {
+      "group": "innovation",
+      "acronym": "STAR-C",
+      "fullName": null,
+      "text": "Bhutan’s national hub for solar energy training, testing, innovation, and capacity building."
+    }
+  ]
+}
