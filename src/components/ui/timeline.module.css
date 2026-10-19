@@ -1,0 +1,138 @@
+/* ==========================================================================
+   Timeline (after the 21st.dev "Timeline"): a hairline down the left with a
+   brass-to-teal line filling it as the page scrolls; per entry a ring marker
+   (filling brass once reached), the title (a year) in large Cormorant, faint
+   until reached, in a sticky column beside the content.
+   ========================================================================== */
+
+.timeline {
+  position: relative;
+}
+
+.list {
+  margin: 0;
+  padding: 0 0 40px;
+  list-style: none;
+}
+
+.entry {
+  display: flex;
+  gap: 56px;
+  padding-bottom: 110px;
+}
+
+.entry:last-child {
+  padding-bottom: 30px;
+}
+
+/* the marker and the title, held under the header while the entry scrolls by */
+.marker {
+  position: sticky;
+  top: 110px;
+  z-index: 2;
+  display: flex;
+  flex: none;
+  align-self: flex-start;
+  align-items: center;
+  width: 340px;
+}
+
+.dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 15px;
+  height: 15px;
+  margin-top: -7.5px;
+  border: 1px solid var(--color-brass);
+  border-radius: 50%;
+  background: var(--color-white);
+}
+
+.dot::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--color-brass);
+  scale: 0;
+  transition: scale 400ms var(--ease-out-soft);
+}
+
+.title {
+  display: block;
+  margin-left: 46px;
+  font-family: var(--font-serif);
+  font-size: 4rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
+  opacity: 0.28;
+  transition: opacity 500ms ease;
+}
+
+.entry[data-reached] .dot::after {
+  scale: 1;
+}
+
+.entry[data-reached] .title {
+  opacity: 1;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  padding-top: 6px;
+}
+
+/* the hairline, fading out at both ends, and the line that fills it */
+.track {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 7px;
+  width: 1px;
+  overflow: hidden;
+  background: var(--color-line);
+  mask-image: linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+
+.fill {
+  position: absolute;
+  top: 0;
+  left: -0.5px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--color-brass), var(--color-primary-deep));
+}
+
+@media (max-width: 900px) {
+  .entry {
+    flex-direction: column;
+    gap: 0;
+    padding: 0 0 64px 36px;
+  }
+
+  .marker {
+    position: relative;
+    top: auto;
+    width: auto;
+    margin-bottom: 14px;
+  }
+
+  .dot {
+    left: -36px;
+  }
+
+  .title {
+    margin: 0;
+    font-size: 2.875rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot::after,
+  .title {
+    transition: none;
+  }
+}

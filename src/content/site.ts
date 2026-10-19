@@ -123,6 +123,7 @@ export const footer = {
   quickLinks: {
     title: "Quick Links",
     links: [
+      { label: "About CST", href: "/about" },
       { label: "Office of the Vice Chancellor", href: "https://www.rub.edu.bt/" },
       { label: "Ministry of Education", href: "https://education.gov.bt/" },
       {

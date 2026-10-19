@@ -6,11 +6,10 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 
 ## Main menu (header)
 
-| Label                      | Path             | Notes                                                 |
-| -------------------------- | ---------------- | ----------------------------------------------------- |
-| About Us › About CST       | `/about`         |                                                       |
-| Announcements              | `/announcements` | Same page as the homepage's Announcements › View all. |
-| Others › Vacancies         | `/vacancies`     |                                                       |
+| Label              | Path             | Notes                                                 |
+| ------------------ | ---------------- | ----------------------------------------------------- |
+| Announcements      | `/announcements` | Same page as the homepage's Announcements › View all. |
+| Others › Vacancies | `/vacancies`     |                                                       |
 
 The Important Links (Research, Student Life, Hostel Booking, CST-25) go to other CST sites.
 Academics links to the Programmes page (`/programmes`). Academic Calendar, Examination and Library
@@ -20,11 +19,11 @@ still needs a home if it is kept.
 
 ## Homepage sections
 
-| Label                                      | Path                   | Notes                                      |
-| ------------------------------------------ | ---------------------- | ------------------------------------------ |
-| Events › View all events (and each event)  | `/events`              | Each event should get its own page later.  |
-| Leadership › Leadership & governance       | `/about/governance`    |                                            |
-| Announcements › View all (and each notice) | `/announcements`       | Each notice should get its own page later. |
+| Label                                      | Path                | Notes                                      |
+| ------------------------------------------ | ------------------- | ------------------------------------------ |
+| Events › View all events (and each event)  | `/events`           | Each event should get its own page later.  |
+| Leadership › Leadership & governance       | `/about/governance` |                                            |
+| Announcements › View all (and each notice) | `/announcements`    | Each notice should get its own page later. |
 
 ## Footer
 

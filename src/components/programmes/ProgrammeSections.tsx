@@ -1,7 +1,9 @@
 import type { ReactNode } from "react";
 
 import { ButtonLink } from "@/components/ui/Button";
+import { ClosingBlock } from "@/components/ui/ClosingBlock";
 import { InteractiveAccordion } from "@/components/ui/InteractiveAccordion";
+import { PendingNotice } from "@/components/ui/PendingNotice";
 import { SmartLink } from "@/components/ui/SmartLink";
 import { site } from "@/content/site";
 import type { Programme } from "@/content/programmes";
@@ -28,9 +30,6 @@ const List = ({ items }: { items: string[] }) => (
     ))}
   </ul>
 );
-
-/** Said plainly where the data is not there yet, rather than filled with plausible text. */
-const Pending = ({ children }: { children: ReactNode }) => <p className={s.pending}>{children}</p>;
 
 function Section({
   id,
@@ -59,10 +58,10 @@ function Structure({ programme: p }: { programme: Programme }) {
   return (
     <>
       {st.kind === "none" ? (
-        <Pending>
+        <PendingNotice>
           The module list for this programme is published only in the programme document
           {p.documentUrl || p.documentFile ? " below" : ""}.
-        </Pending>
+        </PendingNotice>
       ) : (
         <>
           <p className={s.paragraph}>{st.intro ?? "Selected core modules."}</p>
@@ -162,13 +161,13 @@ export function ProgrammeSections({
               )}
             </>
           ) : (
-            <Pending>
+            <PendingNotice>
               Entry requirements for this programme are not yet published. Contact the college at{" "}
               <a href={contact.href} className={s.inlineLink}>
                 {contact.label}
               </a>
               .
-            </Pending>
+            </PendingNotice>
           )}
         </Section>
 
@@ -176,7 +175,7 @@ export function ProgrammeSections({
           {p.careers ? (
             <List items={p.careers} />
           ) : (
-            <Pending>Career information for this programme will be added.</Pending>
+            <PendingNotice>Career information for this programme will be added.</PendingNotice>
           )}
         </Section>
 
@@ -198,23 +197,21 @@ export function ProgrammeSections({
               )}
             </>
           ) : (
-            <Pending>Laboratory details for this programme will be added.</Pending>
+            <PendingNotice>Laboratory details for this programme will be added.</PendingNotice>
           )}
         </Section>
 
         {p.departmentUrl && (
-          <div id="learn-more" className={s.learnMore}>
-            <div>
-              <p className={s.smallCaps}>Learn more</p>
-              <h2 className={s.learnTitle}>To learn more, visit the departmental website</h2>
-              <p className={s.learnText}>
-                {p.departmentName}: faculty, news, research and further programme details.
-              </p>
-            </div>
+          <ClosingBlock
+            id="learn-more"
+            eyebrow="Learn more"
+            title="To learn more, visit the departmental website"
+            text={<>{p.departmentName}: faculty, news, research and further programme details.</>}
+          >
             <ButtonLink href={p.departmentUrl}>
               Departmental website <Out />
             </ButtonLink>
-          </div>
+          </ClosingBlock>
         )}
       </div>
     </div>
