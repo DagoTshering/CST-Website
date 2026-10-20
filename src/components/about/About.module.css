@@ -242,6 +242,24 @@
   max-width: 520px;
 }
 
+.centreLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 12px;
+  font-size: 0.9375rem;
+}
+
+.centreLinks a {
+  color: var(--color-primary-strong);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.centreLinks a:hover {
+  color: var(--color-primary-deep);
+}
+
 .centrePending {
   max-width: 520px;
   margin-top: 14px;

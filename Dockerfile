@@ -39,7 +39,8 @@ COPY src/lib/media/paths.ts src/lib/media/url.ts ./src/lib/media/
 COPY src/content/home.ts ./src/content/home.ts
 COPY public/images ./public/images
 COPY scripts/seed.ts scripts/seed-content.ts scripts/seed-downloads.ts scripts/seed-people.ts \
-     scripts/seed-programme-pages.ts scripts/seed-images.ts scripts/organise-uploads.ts ./scripts/
+     scripts/seed-programme-pages.ts scripts/seed-about-page.ts scripts/seed-images.ts \
+     scripts/organise-uploads.ts ./scripts/
 # The Downloads page's documents: the manifest (committed) and the PDFs fetched by
 # `pnpm downloads:fetch` before the image is built.
 COPY data/legacy-downloads ./data/legacy-downloads
@@ -47,6 +48,8 @@ COPY data/legacy-downloads ./data/legacy-downloads
 COPY data/people ./data/people
 # The programmes' pages (details, modules, facilities) and the admission details.
 COPY data/programmes ./data/programmes
+# The About page's text, names and centres.
+COPY data/about.json ./data/about.json
 RUN mkdir -p storage/uploads && chown node:node storage/uploads
 USER node
 CMD ["./node_modules/.bin/drizzle-kit", "migrate"]

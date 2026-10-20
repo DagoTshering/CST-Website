@@ -67,10 +67,10 @@ export const categories: Record<
     unit: "downloads",
   },
   about: {
-    label: "About CST",
+    label: "Homepage About",
     href: "/admin/about",
     icon: Landmark,
-    description: "The About CST section: title, introduction and photograph.",
+    description: "The About section on the homepage: title, introduction and photograph.",
     unit: "section",
   },
 };

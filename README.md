@@ -230,6 +230,21 @@ Each programme's page is generated on its first visit and then served from the c
 admin panel refreshes on every change. `src/proxy.ts` answers addresses that are not a published
 programme with a 404 before anything is generated, so made-up addresses cannot fill the cache.
 
+## About page
+
+The About page (`/about`) reads from the database. Administrators manage it under
+**Admin → About Page**: one form for the page's text (each section's heading, the introduction and
+campus photo, the vision and what it is pursued through, what the college offers and its
+services), and below it the college's **names** on the timeline (always in order of year) and the
+**research and innovation centres** (each with an optional full name, description, website, email
+and photo; drafts are not shown; each group arranged on its own). The homepage's About CST section
+is separate (**Admin → About CST**). The page's programme counts are not typed in: they count the
+published programmes in Academic Programmes.
+
+`pnpm db:seed` fills the page in once from `data/about.json` (the text the college supplied; its
+`meta.notes` list what is still to be confirmed): the text while there is none, and the names and
+centres while there are none. It never replaces anything an administrator has written.
+
 ## Downloads page
 
 `/downloads` lists forms, guidelines, regulations, reports and publications by category. A

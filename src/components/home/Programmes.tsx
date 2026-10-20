@@ -24,15 +24,7 @@ type Level = (typeof programmesSection.levels)[number];
 /** A degree for undergraduates; research and advanced study for postgraduates. */
 const ICONS = { bachelor: GraduationCap, master: Microscope };
 
-function LevelCard({
-  level,
-  number,
-  count,
-}: {
-  level: Level;
-  number: number;
-  count: number | null;
-}) {
+function LevelCard({ level, count }: { level: Level; count: number | null }) {
   const Icon = ICONS[level.postgraduate ? "master" : "bachelor"];
   return (
     <SmartLink
@@ -138,7 +130,7 @@ export async function Programmes() {
                   style={delay(index * 140)}
                   className="flex"
                 >
-                  <LevelCard level={level} number={index + 1} count={countOf(level.postgraduate)} />
+                  <LevelCard level={level} count={countOf(level.postgraduate)} />
                 </div>
               ))}
             </div>

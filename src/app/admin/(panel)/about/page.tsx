@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 import { ListNotice } from "@/components/admin/DataTable";
 import { DeleteButton } from "@/components/admin/DeleteButton";
@@ -8,7 +9,7 @@ import { aboutFields, getAboutForm } from "@/lib/cms/resources/about";
 
 import { deleteAbout, saveAbout } from "./actions";
 
-export const metadata: Metadata = { title: "About CST" };
+export const metadata: Metadata = { title: "Homepage About" };
 
 export default async function Page({ searchParams }: PageProps<"/admin/about">) {
   const [{ notice }, current] = await Promise.all([searchParams, getAboutForm()]);
@@ -16,8 +17,20 @@ export default async function Page({ searchParams }: PageProps<"/admin/about">) 
   return (
     <>
       <PageHeader
-        title="About CST"
-        description="The About CST section of the homepage: title, introduction and photograph. It appears on the website only while it is published."
+        title="Homepage About"
+        description={
+          <>
+            The About CST section on the homepage: title, introduction and photograph. It appears on
+            the website only while it is published. The full About page (/about) is edited under{" "}
+            <Link
+              href="/admin/about-page"
+              className="font-medium text-admin-accent-strong underline underline-offset-2"
+            >
+              About Page
+            </Link>
+            .
+          </>
+        }
         actions={
           current && (
             <DeleteButton action={deleteAbout} itemName={current.values.heading} kind="section" />

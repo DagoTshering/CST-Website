@@ -3,6 +3,7 @@ import {
   CalendarDays,
   FileDown,
   GraduationCap,
+  Info,
   Landmark,
   LayoutDashboard,
   LayoutGrid,
@@ -32,7 +33,8 @@ export const adminNav: AdminNavGroup[] = [
   {
     label: "Content",
     items: [
-      { href: "/admin/about", label: "About CST", icon: Landmark },
+      { href: "/admin/about", label: "Homepage About", icon: Landmark },
+      { href: "/admin/about-page", label: "About Page", icon: Info },
       { href: "/admin/facilities", label: "Facilities", icon: Building2 },
       { href: "/admin/programmes", label: "Academic Programmes", icon: GraduationCap },
       { href: "/admin/events", label: "Events", icon: CalendarDays },
@@ -53,7 +55,17 @@ const labels = new Map([
   ["/admin/downloads/categories", "Categories"] as const,
   ["/admin/staff/departments", "Departments"] as const,
   ["/admin/staff/designations", "Designations"] as const,
+  ["/admin/about-page/names", "Names"] as const,
+  ["/admin/about-page/centres", "Centres"] as const,
 ]);
+
+/** Path segments shared by several sections, as the breadcrumbs name them. */
+const PATH_WORDS: Record<string, string> = {
+  new: "New",
+  arrange: "Arrange",
+  modules: "Modules",
+  facilities: "Facilities",
+};
 
 /** Breadcrumb trail for an admin path: /admin/events/12 -> Dashboard › Events › Edit. */
 export function breadcrumbsFor(pathname: string) {
@@ -62,7 +74,7 @@ export function breadcrumbsFor(pathname: string) {
   let href = "/admin";
   for (const part of parts) {
     href += `/${part}`;
-    const label = labels.get(href) ?? (part === "new" ? "New" : /^\d+$/.test(part) ? "Edit" : part);
+    const label = labels.get(href) ?? (/^\d+$/.test(part) ? "Edit" : (PATH_WORDS[part] ?? part));
     trail.push({ href, label });
   }
   return trail;

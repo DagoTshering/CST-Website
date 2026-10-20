@@ -41,7 +41,7 @@ const quickActions = [
   { href: "/admin/events/new", label: "Create an event", icon: CalendarPlus },
   { href: "/admin/announcements/new", label: "Publish an announcement", icon: Megaphone },
   { href: "/admin/facilities", label: "Manage facilities", icon: Building2 },
-  { href: "/admin/about", label: "Edit About CST", icon: Landmark },
+  { href: "/admin/about", label: "Edit the homepage About section", icon: Landmark },
   { href: "/admin/downloads/new", label: "Add a download", icon: FileDown },
 ];
 

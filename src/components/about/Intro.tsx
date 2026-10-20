@@ -1,15 +1,15 @@
-import { Emphasis } from "@/components/ui/Emphasis";
+import { Emphasised } from "@/components/ui/Emphasis";
 import { PhotoFrame } from "@/components/ui/PhotoFrame";
-import { about } from "@/lib/about";
+import type { AboutPageContent } from "@/lib/cms/resources/about-page";
 
 import s from "./About.module.css";
 import { SectionHead } from "./SectionHead";
 
 /**
  * The first section, close under the page's title band: the college in one paragraph, beside a
- * campus panorama.
+ * campus panorama (a placeholder frame until a photo is added).
  */
-export function Intro() {
+export function Intro({ content }: { content: AboutPageContent["intro"] }) {
   return (
     <section
       id="our-story"
@@ -19,15 +19,16 @@ export function Intro() {
       <SectionHead
         id="college-title"
         eyebrow="The college"
-        title={
-          <>
-            A college of the Royal University of <Emphasis>Bhutan</Emphasis>
-          </>
-        }
+        title={<Emphasised text={content.heading} word={content.emphasis ?? ""} />}
       />
       <div className={s.columns} data-reveal suppressHydrationWarning>
-        <p className={s.statement}>{about.paragraphs[0]}</p>
-        <PhotoFrame label="campus panorama" className={s.panorama} />
+        <p className={s.statement}>{content.text}</p>
+        <PhotoFrame
+          src={content.photo?.src}
+          alt={content.photo?.alt}
+          label="campus panorama"
+          className={s.panorama}
+        />
       </div>
     </section>
   );
