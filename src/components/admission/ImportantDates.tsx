@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { admission, type StepState } from "@/content/admission";
+import { dateRangeLabel, type AdmissionStep, type StepState } from "@/lib/admission";
 
 import s from "./Admission.module.css";
 
@@ -12,23 +12,29 @@ const STATE_TEXT: Record<StepState, string> = {
   pending: "Upcoming",
 };
 
-/** The intake's five steps on one track, across on wide screens and down on phones. */
-export function ImportantDates({ states }: { states: StepState[] }) {
+/** The intake's steps on one track, across on wide screens and down on phones. */
+export function ImportantDates({
+  intake,
+  steps,
+  states,
+}: {
+  intake: string;
+  steps: AdmissionStep[];
+  states: StepState[];
+}) {
+  if (steps.length === 0) return null;
   return (
     <section id="dates" aria-labelledby="dates-title" className="container-page section-top">
-      <SectionHeading id="dates-title" label={`${admission.intake} intake`}>
+      <SectionHeading id="dates-title" label={`${intake} intake`}>
         Important dates
       </SectionHeading>
 
-      <ol
-        className={`mt-12 ${s.timeline}`}
-        style={{ "--steps": admission.steps.length } as CSSProperties}
-      >
-        {admission.steps.map((step, i) => {
+      <ol className={`mt-12 ${s.timeline}`} style={{ "--steps": steps.length } as CSSProperties}>
+        {steps.map((step, i) => {
           const state = states[i];
           return (
             <li
-              key={step.title}
+              key={`${step.start}-${step.title}`}
               className={s.step}
               data-state={state}
               // two steps can share a day; only the first is announced as the current one
@@ -36,7 +42,7 @@ export function ImportantDates({ states }: { states: StepState[] }) {
             >
               <span className={s.marker} aria-hidden="true" />
               <time dateTime={step.start} className={s.date}>
-                {step.dateLabel}
+                {dateRangeLabel(step.start, step.end)}
               </time>
               <span className={s.title}>{step.title}</span>
               {state === "current" ? (

@@ -11,19 +11,19 @@ import { mediaUrl } from "@/lib/media/url";
 
 import type { ResourceDef } from "../crud";
 import type { FieldDef, FormInitial } from "../form";
-import { optionalText, requiredLink, requiredText } from "../validation";
+import { optionalText, requiredText } from "../validation";
 import { MONTH_NAMES, PROGRAMMES_TAG } from "./programmes";
 import { asField } from "./shared";
 import { STAFF_TAG } from "./staff";
 
 /*
  * The programmes' pages (/programmes and /programmes/<slug>): each programme's modules and
- * facilities, the admission details every bachelor's page shows, and the published pages.
+ * facilities, and the published pages. (The documents each bachelor's page lists come from
+ * Admin › Admissions: admission.ts.)
  * The programme's own page fields are on its record (see programmes.ts).
  */
 
-const { admissionDetails, departments, media, programmeFacilities, programmeModules, programmes } =
-  schema;
+const { departments, media, programmeFacilities, programmeModules, programmes } = schema;
 
 // ---------------------------------------------------------------------------- modules
 
@@ -222,67 +222,7 @@ export async function listProgrammeParts(programmeId: number) {
   return { modules, facilities };
 }
 
-// ---------------------------------------------------------------------------- admission details
-
-const admissionSchema = z.object({
-  requiredDocuments: requiredText("Documents required", 1000),
-  admissionUrl: requiredLink("Admission page"),
-});
-
-type AdmissionInput = z.output<typeof admissionSchema>;
-
-export const admissionFields: FieldDef[] = [
-  {
-    kind: "textarea",
-    name: "requiredDocuments",
-    label: "Documents required",
-    required: true,
-    maxLength: 1000,
-    rows: 3,
-    help: "Shown under the entry requirements of every bachelor's programme.",
-  },
-  {
-    kind: "text",
-    name: "admissionUrl",
-    label: "Admission page",
-    required: true,
-    maxLength: 500,
-    placeholder: "/admissions",
-    help: "Linked beside the documents, for dates and how to apply: this site's Admissions page (/admissions) or another web address.",
-  },
-];
-
-/** The admission details: one record, created the first time it is saved. */
-export const admissionResource: ResourceDef<AdmissionInput> = {
-  singular: "admission details",
-  basePath: "/admin/programmes/admission",
-  tag: PROGRAMMES_TAG,
-  schema: admissionSchema,
-  create: async (tx, data) => {
-    await tx
-      .insert(admissionDetails)
-      .values({ id: 1, ...data })
-      .onConflictDoUpdate({ target: admissionDetails.id, set: data });
-  },
-  update: async () => false, // never used: saving always goes through create (an upsert)
-  remove: async () => false,
-};
-
-export async function getAdmissionForm(): Promise<FormInitial> {
-  await requireAdmin();
-  const [row] = await getDb().select().from(admissionDetails).limit(1);
-  return {
-    values: {
-      requiredDocuments: row?.requiredDocuments ?? "",
-      admissionUrl: row?.admissionUrl ?? "",
-    },
-    media: {},
-  };
-}
-
 // ---------------------------------------------------------------------------- public
-
-export type Admission = { requiredDocuments: string; admissionUrl: string } | null;
 
 const pageColumns = {
   id: programmes.id,
@@ -432,14 +372,4 @@ export async function getPublishedProgramme(slug: string): Promise<Programme | n
         : null,
     images: imageIds.flatMap((id) => (fileUrl.has(id) ? [fileUrl.get(id)!] : [])),
   };
-}
-
-/** The admission details for the bachelor's pages, or null before they are set. */
-export async function getAdmission(): Promise<Admission> {
-  "use cache";
-  cacheTag(PROGRAMMES_TAG);
-  cacheLife("hours");
-
-  const [row] = await getDb().select().from(admissionDetails).limit(1);
-  return row ? { requiredDocuments: row.requiredDocuments, admissionUrl: row.admissionUrl } : null;
 }

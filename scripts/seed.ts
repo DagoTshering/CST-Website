@@ -1,9 +1,10 @@
 /**
  * Creates the initial administrator from ADMIN_EMAIL and ADMIN_INITIAL_PASSWORD, then the
  * homepage's initial content (see seed-content.ts), the staff directory and executives (see
- * seed-people.ts), the programmes' pages with their modules, facilities and the admission details
- * (see seed-programme-pages.ts), the About page (see seed-about-page.ts) and the Downloads page's
- * documents imported from the previous website (see seed-downloads.ts).
+ * seed-people.ts), the programmes' pages with their modules and facilities (see
+ * seed-programme-pages.ts), the About page (see seed-about-page.ts), the Admissions page (see
+ * seed-admission.ts) and the Downloads page's documents imported from the previous website (see
+ * seed-downloads.ts).
  *
  *   pnpm db:seed
  *
@@ -26,6 +27,7 @@ async function main() {
   const { hashPassword, normaliseEmail, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH } =
     await import("../src/lib/auth/password");
   const { seedAboutPage } = await import("./seed-about-page");
+  const { seedAdmission } = await import("./seed-admission");
   const { seedContent } = await import("./seed-content");
   const { seedDownloads } = await import("./seed-downloads");
   const { seedPeople } = await import("./seed-people");
@@ -64,6 +66,7 @@ async function main() {
     await seedPeople(db, schema);
     await seedProgrammePages(db, schema); // needs the programmes and the departments
     await seedAboutPage(db, schema);
+    await seedAdmission(db, schema); // needs the programmes' pages
     await seedDownloads(db, schema);
   } finally {
     await db.$client.end();

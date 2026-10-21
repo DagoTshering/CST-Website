@@ -1,0 +1,262 @@
+{
+  "meta": {
+    "source": "The static Admissions page (src/content/admission.ts, from cst.edu.bt/admission-for-new-students, retyped). Seeded once by scripts/seed-admission.ts; managed in Admin › Admissions after that."
+  },
+  "intake": "2026",
+  "nextIntakeNote": "Expected March 2027, to be confirmed",
+  "applyUrl": "https://forms.gle/96thtAbzopkmi9bP9",
+  "intro": "The college admits Class XII graduates to its bachelor's programmes in architecture, engineering and information technology. Below are the dates, entry requirements and documents for each intake.",
+  "steps": [
+    {
+      "title": "Applications open",
+      "start": "2026-03-01",
+      "end": "2026-03-01",
+      "mark": "opens"
+    },
+    {
+      "title": "Applications close",
+      "start": "2026-03-15",
+      "end": "2026-03-15",
+      "mark": "closes"
+    },
+    {
+      "title": "Online entrance test",
+      "start": "2026-04-18",
+      "end": "2026-04-19",
+      "mark": null
+    },
+    {
+      "title": "Selection and confirmation",
+      "start": "2026-04-26",
+      "end": "2026-04-27",
+      "mark": null
+    },
+    {
+      "title": "Result declaration",
+      "start": "2026-04-27",
+      "end": "2026-04-27",
+      "mark": null
+    }
+  ],
+  "tracks": [
+    {
+      "title": "Architecture",
+      "testType": "Aptitude test",
+      "programmes": ["architecture"],
+      "groups": [
+        {
+          "title": "Minimum marks in Class XII",
+          "rows": [
+            {
+              "label": "Physics",
+              "value": "50%"
+            },
+            {
+              "label": "Chemistry",
+              "value": "50%"
+            },
+            {
+              "label": "Mathematics",
+              "value": "50%"
+            },
+            {
+              "label": "English",
+              "value": "50%"
+            },
+            {
+              "label": "Dzongkha",
+              "value": "Pass"
+            }
+          ]
+        },
+        {
+          "title": "Selection",
+          "rows": [
+            {
+              "label": "Selection test",
+              "value": "Aptitude test, minimum 50%"
+            }
+          ]
+        },
+        {
+          "title": "Ability ratings",
+          "rows": [
+            {
+              "label": "Mathematics",
+              "value": "5"
+            },
+            {
+              "label": "Physics",
+              "value": "5"
+            },
+            {
+              "label": "Chemistry",
+              "value": "2"
+            },
+            {
+              "label": "English",
+              "value": "3"
+            },
+            {
+              "label": "One other subject",
+              "value": "Not required"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Engineering",
+      "testType": "Entrance test",
+      "programmes": [
+        "civil-engineering",
+        "electrical-engineering",
+        "electronics-and-communication",
+        "instrumentation-and-control-engineering",
+        "engineering-geology",
+        "mechanical-engineering",
+        "information-technology",
+        "water-resource-engineering",
+        "software-engineering"
+      ],
+      "groups": [
+        {
+          "title": "Minimum marks in Class XII",
+          "rows": [
+            {
+              "label": "Physics",
+              "value": "50%"
+            },
+            {
+              "label": "Chemistry",
+              "value": "50%"
+            },
+            {
+              "label": "Mathematics",
+              "value": "50%"
+            },
+            {
+              "label": "English",
+              "value": "50%"
+            },
+            {
+              "label": "Dzongkha",
+              "value": "Pass"
+            }
+          ]
+        },
+        {
+          "title": "Selection",
+          "rows": [
+            {
+              "label": "Selection test",
+              "value": "Entrance test"
+            }
+          ]
+        },
+        {
+          "title": "Ability ratings",
+          "rows": [
+            {
+              "label": "Mathematics",
+              "value": "5"
+            },
+            {
+              "label": "Physics",
+              "value": "5"
+            },
+            {
+              "label": "Chemistry",
+              "value": "4"
+            },
+            {
+              "label": "English",
+              "value": "3"
+            },
+            {
+              "label": "One other subject",
+              "value": "1"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "eligibilityChecklist": [
+    "A Class XII pass, with at least 50% in each of Physics, Chemistry, Mathematics and English",
+    "A pass in Dzongkha",
+    "The selection test: an aptitude test for Architecture, an entrance test for every other programme",
+    "A Citizenship Identity Card (CID)"
+  ],
+  "documents": {
+    "intro": "Every eligible applicant presents these documents for admission to RUB programmes.",
+    "checklist": [
+      "Citizenship Identity Card (CID)",
+      "Class XII mark sheet",
+      "Class XII pass certificate"
+    ],
+    "criteria": {
+      "label": "RUB admission criteria and tuition fees",
+      "url": "https://www.rub.edu.bt/index.php/admission-criteria-and-tuition-fee-for-the-academic-year-2024/"
+    }
+  },
+  "faq": [
+    {
+      "question": "Is there a test for admission?",
+      "answer": "Yes. Every applicant sits a selection test: an aptitude test for Architecture, where the minimum score is 50%, and an entrance test for every engineering and information technology programme.",
+      "link": {
+        "label": "See the important dates",
+        "href": "#dates"
+      }
+    },
+    {
+      "question": "When can I apply?",
+      "answer": "{applyWindow}",
+      "link": null
+    },
+    {
+      "question": "Can I apply without a CID?",
+      "answer": "No. Applicants without a Citizenship Identity Card (CID) are not eligible for admission.",
+      "link": null
+    },
+    {
+      "question": "Where do I find programme details?",
+      "answer": "Each programme has its own page, with its structure, entry requirements, career paths and facilities.",
+      "link": {
+        "label": "View all programmes",
+        "href": "/programmes"
+      }
+    },
+    {
+      "question": "Who do I contact?",
+      "answer": "Email the admissions office at {email} or call {phone}. The office is open {hours}.",
+      "link": {
+        "label": "Contact details",
+        "href": "#contact"
+      }
+    }
+  ],
+  "contact": {
+    "email": "admission.cst@rub.edu.bt",
+    "phone": "(+975) 17160538",
+    "hours": "Mon–Fri, 8:00 AM–4:00 PM",
+    "address": "Rinchending, Phuentsholing, Chukha, Bhutan"
+  },
+  "photos": {
+    "hero": {
+      "image": "/images/admission/hero.jpg",
+      "alt": "Students walking across the CST campus in Rinchending",
+      "caption": null
+    },
+    "lab": {
+      "image": "/images/admission/lab.jpg",
+      "alt": "Students at work in a CST laboratory",
+      "caption": "A laboratory class at CST"
+    },
+    "office": {
+      "image": "/images/admission/office.jpg",
+      "alt": "The CST admissions office",
+      "caption": "The admissions office"
+    }
+  }
+}

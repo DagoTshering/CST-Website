@@ -2,6 +2,7 @@
 // drizzle-kit reads this file to generate migrations.
 export * from "./about-page";
 export * from "./admin";
+export * from "./admission";
 export * from "./content";
 export * from "./downloads";
 export * from "./enums";

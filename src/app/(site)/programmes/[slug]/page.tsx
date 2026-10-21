@@ -5,7 +5,8 @@ import { Suspense } from "react";
 import { ProgrammeFallback, ProgrammeHero } from "@/components/programmes/ProgrammeHero";
 import { ProgrammeSections } from "@/components/programmes/ProgrammeSections";
 import { site } from "@/content/site";
-import { getAdmission, getPublishedProgramme } from "@/lib/cms/resources/programme-pages";
+import { getAdmissionDocuments } from "@/lib/cms/resources/admission";
+import { getPublishedProgramme } from "@/lib/cms/resources/programme-pages";
 
 type Props = PageProps<"/programmes/[slug]">;
 
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 async function Programme({ params }: Pick<Props, "params">) {
   const programme = await load(params);
   if (!programme) notFound();
-  const admission = programme.level === "bachelor" ? await getAdmission() : null;
+  const admission = programme.level === "bachelor" ? await getAdmissionDocuments() : null;
 
   return (
     <>

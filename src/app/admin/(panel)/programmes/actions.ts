@@ -2,11 +2,7 @@
 
 import { deleteResource, saveResource } from "@/lib/cms/crud";
 import type { FormState } from "@/lib/cms/form";
-import {
-  admissionResource,
-  moduleResource,
-  programmeFacilityResource,
-} from "@/lib/cms/resources/programme-pages";
+import { moduleResource, programmeFacilityResource } from "@/lib/cms/resources/programme-pages";
 import { programmeResource } from "@/lib/cms/resources/programmes";
 import { recordId } from "@/lib/cms/validation";
 
@@ -62,8 +58,4 @@ export async function deleteProgrammeFacility(programmeId: number, id: number) {
   return deleteResource(programmeFacilityResource(programme), id, {
     returnTo: facilitiesOf(programme),
   });
-}
-
-export async function saveAdmission(_state: FormState, formData: FormData) {
-  return saveResource(admissionResource, null, formData, { stay: true });
 }

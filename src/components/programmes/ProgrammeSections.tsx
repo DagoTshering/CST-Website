@@ -7,7 +7,7 @@ import { PendingNotice } from "@/components/ui/PendingNotice";
 import { SmartLink } from "@/components/ui/SmartLink";
 import { site } from "@/content/site";
 import type { Programme } from "@/content/programmes";
-import type { Admission } from "@/lib/cms/resources/programme-pages";
+import type { AdmissionDocuments } from "@/lib/cms/resources/admission";
 
 import s from "./Programmes.module.css";
 
@@ -115,7 +115,7 @@ export function ProgrammeSections({
 }: {
   programme: Programme;
   /** The documents required and the admission page, shown on bachelor's programmes. */
-  admission: Admission;
+  admission: AdmissionDocuments;
 }) {
   const contact = site.contact.email;
   return (

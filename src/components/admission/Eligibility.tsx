@@ -1,12 +1,13 @@
 import { AboutEmblem } from "@/components/home/AboutEmblem";
 import { Plate } from "@/components/ui/Plate";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { admission, type EligibilityTrack } from "@/content/admission";
+import type { AdmissionPage } from "@/lib/cms/resources/admission";
 
 import s from "./Admission.module.css";
 import { Checklist } from "./Checklist";
 
-type Group = EligibilityTrack["groups"][number];
+type Track = AdmissionPage["eligibility"]["tracks"][number];
+type Group = Track["groups"][number];
 
 /**
  * A bordered table of requirement groups, set in the drawing sheet's lettering: mono column
@@ -66,11 +67,8 @@ function RequirementsTable({ caption, groups }: { caption: string; groups: Group
  * by side on a desktop, so the whole of it fits one screen: the first group (the minimum marks)
  * on the left, the rest (selection and ability ratings) on the right.
  */
-function Requirements({ track }: { track: EligibilityTrack }) {
-  const id = `requirements-${track.title.toLowerCase()}`;
-  const covers = admission.programmes
-    .filter((p) => p.testType === track.testType)
-    .map((p) => p.name);
+function Requirements({ track }: { track: Track }) {
+  const id = `requirements-${track.id}`;
   const [first, ...rest] = track.groups;
 
   return (
@@ -78,29 +76,34 @@ function Requirements({ track }: { track: EligibilityTrack }) {
       <h3 id={id} className="serif-italic text-[2rem] leading-tight text-ink">
         {track.title}
       </h3>
-      <p className="mt-2 max-w-[48em] text-small leading-relaxed text-muted">
-        Applies to {new Intl.ListFormat("en-GB").format(covers)}.
-      </p>
+      {track.programmes.length > 0 && (
+        <p className="mt-2 max-w-[48em] text-small leading-relaxed text-muted">
+          Applies to {new Intl.ListFormat("en-GB").format(track.programmes)}.
+        </p>
+      )}
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2 lg:items-start lg:gap-8">
         <RequirementsTable caption={`${track.title}: ${first.title}`} groups={[first]} />
-        <RequirementsTable
-          caption={`${track.title}: ${rest.map((g) => g.title.toLowerCase()).join(" and ")}`}
-          groups={rest}
-        />
+        {rest.length > 0 && (
+          <RequirementsTable
+            caption={`${track.title}: ${rest.map((g) => g.title.toLowerCase()).join(" and ")}`}
+            groups={rest}
+          />
+        )}
       </div>
     </section>
   );
 }
 
 /**
- * Who can apply: a photograph beside the short checklist, then the full requirements,
- * Architecture and then Engineering, in the left two thirds on a desktop. The right third holds
+ * Who can apply: a photograph beside the short checklist, then the full requirements of each
+ * kind of programme (e.g. Architecture, then Engineering), in the left two thirds on a desktop. The right third holds
  * the CST emblem drawing from About, its gear slowly turning, on graph paper fading into the
  * white all round; it stays in view while the tables scroll past.
  */
-export function Eligibility() {
-  const { checklist, tracks } = admission.eligibility;
+export function Eligibility({ eligibility }: { eligibility: AdmissionPage["eligibility"] }) {
+  const { checklist, tracks, photo, caption } = eligibility;
+  if (checklist.length === 0 && tracks.length === 0) return null;
 
   return (
     <section id="eligibility" aria-labelledby="eligibility-title" className="section-top">
@@ -109,37 +112,46 @@ export function Eligibility() {
           <SectionHeading id="eligibility-title" label="Who can apply">
             Eligibility
           </SectionHeading>
-          <p className="mt-6 max-w-[34em] text-copy">
-            To apply for any of the programmes above, you need:
-          </p>
-          <Checklist items={checklist} className="mt-6" />
+          {checklist.length > 0 && (
+            <>
+              <p className="mt-6 max-w-[34em] text-copy">
+                To apply for any of the programmes above, you need:
+              </p>
+              <Checklist items={checklist} className="mt-6" />
+            </>
+          )}
         </div>
-        <Plate
-          photo={admission.photos.lab}
-          fig={1}
-          caption={admission.photos.lab.caption}
-          sizes="(min-width: 1440px) 560px, (min-width: 1024px) 45vw, 100vw"
-          className="lg:col-span-6"
-        />
+        {photo && (
+          <Plate
+            photo={photo}
+            fig={1}
+            caption={caption ?? ""}
+            sizes="(min-width: 1440px) 560px, (min-width: 1024px) 45vw, 100vw"
+            className="lg:col-span-6"
+          />
+        )}
       </div>
 
-      <div className={`mt-4 py-16 lg:py-24 ${s.band}`}>
-        <div className="container-page grid gap-20 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:gap-x-10">
-          <div className="relative z-10 grid gap-20 lg:gap-24">
-            {tracks.map((track) => (
-              <Requirements key={track.title} track={track} />
-            ))}
-          </div>
-          <div aria-hidden="true" className="hidden lg:block">
-            <div className={s.drawing}>
-              <div className={`graph-paper bg-paper-soft ${s.paper}`} />
-              <div data-reveal suppressHydrationWarning className={s.emblem}>
-                <AboutEmblem caption="Ø 976 · SCALE 1:1 · FIG. 02" halo="#ffffff" />
+      {tracks.length > 0 && (
+        <div className={`mt-4 py-16 lg:py-24 ${s.band}`}>
+          <div className="container-page grid gap-20 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:gap-x-10">
+            <div className="relative z-10 grid gap-20 lg:gap-24">
+              {tracks.map((track) => (
+                <Requirements key={track.id} track={track} />
+              ))}
+            </div>
+            <div aria-hidden="true" className="hidden lg:block">
+              <div className={s.drawing}>
+                <div className={`graph-paper bg-paper-soft ${s.paper}`} />
+                <div data-reveal suppressHydrationWarning className={s.emblem}>
+                  {/* not numbered: it is only shown on wide screens, and the photos are */}
+                  <AboutEmblem caption="Ø 976 · SCALE 1:1" halo="#ffffff" />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

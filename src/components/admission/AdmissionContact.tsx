@@ -1,34 +1,40 @@
 import type { ReactNode } from "react";
 
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { admission } from "@/content/admission";
+import { telHref } from "@/lib/admission";
+import type { AdmissionPage } from "@/lib/cms/resources/admission";
 import { cx } from "@/lib/cx";
 
 const link = "transition-colors hover:text-primary-strong";
 
-/** The admissions office in one row of four hairline-separated cells (two by two, then stacked). */
-export function AdmissionContact() {
-  const { email, phone, hours, address } = admission.contact;
-  const cells: { label: string; value: ReactNode }[] = [
-    {
+/**
+ * The admissions office in one row of up to four hairline-separated cells (two by two, then
+ * stacked); details not given are left out.
+ */
+export function AdmissionContact({ contact }: { contact: AdmissionPage["contact"] }) {
+  const { email, phone, hours, address } = contact;
+  const cells: { label: string; value: ReactNode }[] = [];
+  if (email)
+    cells.push({
       label: "Email",
       value: (
         <a href={`mailto:${email}`} className={`break-all ${link}`}>
           {email}
         </a>
       ),
-    },
-    {
+    });
+  if (phone)
+    cells.push({
       label: "Phone",
       value: (
-        <a href={phone.href} className={link}>
-          {phone.label}
+        <a href={telHref(phone)} className={link}>
+          {phone}
         </a>
       ),
-    },
-    { label: "Office hours", value: hours },
-    { label: "Address", value: address },
-  ];
+    });
+  if (hours) cells.push({ label: "Office hours", value: hours });
+  if (address) cells.push({ label: "Address", value: address });
+  if (cells.length === 0) return null;
 
   return (
     <section

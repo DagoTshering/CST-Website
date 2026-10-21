@@ -2,7 +2,8 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 
 import { Button, ButtonLink } from "@/components/ui/Button";
-import { admission, closesLabel, opensLabel, type AdmissionStatus } from "@/content/admission";
+import { applicationWindow, dateRangeLabel, type AdmissionStatus } from "@/lib/admission";
+import type { AdmissionPage } from "@/lib/cms/resources/admission";
 
 import s from "./Admission.module.css";
 
@@ -15,31 +16,39 @@ type Copy = {
 };
 
 /** The hero's wording and colour for each state. */
-const COPY: Record<AdmissionStatus, Copy> = {
-  closed: {
-    label: `Admission closed for ${admission.intake}`,
-    blockLabel: "Next intake",
-    blockValue: admission.nextIntakeNote,
-    tone: { text: "text-danger", rule: "bg-danger", edge: "border-l-danger" },
-  },
-  open: {
-    label: "Applications open",
-    blockLabel: "Applications close",
-    blockValue: closesLabel(),
-    tone: { text: "text-success", rule: "bg-success", edge: "border-l-success" },
-  },
-  upcoming: {
+function copyFor(status: AdmissionStatus, page: AdmissionPage): Copy {
+  const window = applicationWindow(page.steps);
+  const label = (step: { start: string; end: string } | undefined) =>
+    step ? dateRangeLabel(step.start, step.end) : "To be announced";
+  if (status === "closed")
+    return {
+      label: `Admission closed for ${page.intake}`,
+      blockLabel: "Next intake",
+      blockValue: page.nextIntakeNote ?? "To be announced",
+      tone: { text: "text-danger", rule: "bg-danger", edge: "border-l-danger" },
+    };
+  if (status === "open")
+    return {
+      label: "Applications open",
+      blockLabel: "Applications close",
+      blockValue: label(window?.closing),
+      tone: { text: "text-success", rule: "bg-success", edge: "border-l-success" },
+    };
+  return {
     label: "Opening soon",
     blockLabel: "Applications open",
-    blockValue: opensLabel(),
+    blockValue: label(window?.opening),
     tone: { text: "text-warning", rule: "bg-warning", edge: "border-l-warning" },
-  },
-};
+  };
+}
 
-/** The one action: contact (closed), apply (open), or apply greyed out until the opening date. */
-function Action({ status }: { status: AdmissionStatus }) {
+/**
+ * The one action: contact (closed), apply (open), or apply greyed out until the opening date.
+ * While open without an application form set, contact.
+ */
+function Action({ status, applyUrl }: { status: AdmissionStatus; applyUrl: string | null }) {
   const fit = "shrink-0 whitespace-nowrap";
-  if (status === "closed")
+  if (status === "closed" || (status === "open" && !applyUrl))
     return (
       <ButtonLink href="#contact" className={fit}>
         Contact admissions
@@ -47,7 +56,7 @@ function Action({ status }: { status: AdmissionStatus }) {
     );
   if (status === "open")
     return (
-      <ButtonLink href={admission.applyUrl} className={fit}>
+      <ButtonLink href={applyUrl!} className={fit}>
         Apply online
       </ButtonLink>
     );
@@ -61,11 +70,12 @@ function Action({ status }: { status: AdmissionStatus }) {
 /**
  * The top of the page: the state of admission as a plain label after a short drafting rule,
  * the h1, a two-line introduction and a hairline block with the next date and one action; on
- * the right, a photograph filling the column, its bottom edge cut at an angle, over a dot grid.
+ * the right, a photograph filling the column (when there is one), its bottom edge cut at an angle,
+ * over a dot grid.
  */
-export function AdmissionHero({ status }: { status: AdmissionStatus }) {
-  const copy = COPY[status];
-  const { hero } = admission.photos;
+export function AdmissionHero({ status, page }: { status: AdmissionStatus; page: AdmissionPage }) {
+  const copy = copyFor(status, page);
+  const hero = page.heroPhoto;
 
   return (
     <header className="container-page pt-[clamp(2rem,1.25rem+2vw,3.25rem)]">
@@ -98,7 +108,7 @@ export function AdmissionHero({ status }: { status: AdmissionStatus }) {
             style={{ "--reveal-delay": "160ms" } as CSSProperties}
             className="mt-6 max-w-[34em] text-lead text-copy"
           >
-            {admission.intro}
+            {page.intro}
           </p>
 
           <div
@@ -118,25 +128,27 @@ export function AdmissionHero({ status }: { status: AdmissionStatus }) {
                 </p>
               )}
             </div>
-            <Action status={status} />
+            <Action status={status} applyUrl={page.applyUrl} />
           </div>
         </div>
 
-        <div className="lg:col-span-6">
-          <div className={s.figure}>
-            <span className={s.dots} aria-hidden="true" />
-            <div data-reveal="photo" suppressHydrationWarning className={s.photo}>
-              <Image
-                src={hero.src}
-                alt={hero.alt}
-                fill
-                preload
-                sizes="(min-width: 1440px) 560px, (min-width: 1024px) 45vw, 100vw"
-                className="object-cover"
-              />
+        {hero && (
+          <div className="lg:col-span-6">
+            <div className={s.figure}>
+              <span className={s.dots} aria-hidden="true" />
+              <div data-reveal="photo" suppressHydrationWarning className={s.photo}>
+                <Image
+                  src={hero.src}
+                  alt={hero.alt}
+                  fill
+                  preload
+                  sizes="(min-width: 1440px) 560px, (min-width: 1024px) 45vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </header>
   );

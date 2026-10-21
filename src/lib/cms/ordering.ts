@@ -31,7 +31,10 @@ export type OrderingKey =
   | "downloadCategories"
   | "programmeModules"
   | "programmeFacilities"
-  | "centres";
+  | "centres"
+  | "admissionTracks"
+  | "admissionFaqs"
+  | "admissionStepTypes";
 
 type Ordering = {
   table: string;
@@ -138,6 +141,27 @@ const orderings: Record<OrderingKey, Ordering> = {
     photo: sql`m.storage_key`,
     tags: ["cms:about-page"],
     listPath: () => "/admin/about-page#centres",
+  },
+  admissionTracks: {
+    table: "admission_tracks",
+    label: sql`${t}.title`,
+    group: sql`'all'`,
+    tags: ["cms:admission"],
+    listPath: () => "/admin/admissions#requirements",
+  },
+  admissionFaqs: {
+    table: "admission_faqs",
+    label: sql`${t}.question`,
+    group: sql`'all'`,
+    tags: ["cms:admission"],
+    listPath: () => "/admin/admissions#faq",
+  },
+  admissionStepTypes: {
+    table: "admission_step_types",
+    label: sql`${t}.name`,
+    group: sql`'all'`,
+    tags: ["cms:admission"],
+    listPath: () => "/admin/admissions/steps",
   },
 };
 

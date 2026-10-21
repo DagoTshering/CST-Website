@@ -103,24 +103,26 @@ export const optionalUrl = (label: string) =>
     .transform((value) => value || null);
 
 /**
- * A required link: a page of this site ("/admissions") or a full web address. A path must start
- * with a single slash ("//host" would leave the site) and use only path characters.
+ * An optional link: a page of this site ("/programmes"), a section of the page ("#dates") or a
+ * full web address. A path must start with a single slash ("//host" would leave the site) and
+ * use only path characters.
  */
-export const requiredLink = (label: string) =>
-  str.pipe(
-    z
-      .string()
-      .min(1, `Enter the ${label.toLowerCase()}.`)
-      .max(500, `${label} must be at most 500 characters.`)
-      .refine((value) => {
-        if (/^\/(?!\/)[\w\-./~%?#=&]*$/.test(value)) return true;
-        try {
-          return ["http:", "https:"].includes(new URL(value).protocol);
-        } catch {
-          return false;
-        }
-      }, `${label}: enter a page of this site such as /admissions, or a full web address starting with https://`),
-  );
+export const optionalLink = (label: string) =>
+  str
+    .pipe(
+      z
+        .string()
+        .max(500, `${label} must be at most 500 characters.`)
+        .refine((value) => {
+          if (value === "" || /^(\/(?!\/)|#)[\w\-./~%?#=&]*$/.test(value)) return true;
+          try {
+            return ["http:", "https:"].includes(new URL(value).protocol);
+          } catch {
+            return false;
+          }
+        }, `${label}: enter a page of this site such as /programmes, a section such as #dates, or a full web address starting with https://`),
+    )
+    .transform((value) => value || null);
 
 /** A database id from a URL or a bound action argument, which the client could have changed. */
 export const recordId = z.coerce.number().int().positive().max(2_147_483_647);

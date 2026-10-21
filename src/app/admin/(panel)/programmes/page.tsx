@@ -1,4 +1,4 @@
-import { ClipboardList, GraduationCap, ListOrdered, Plus } from "lucide-react";
+import { GraduationCap, ListOrdered, Plus } from "lucide-react";
 import type { Metadata } from "next";
 
 import { DataTable, ListNotice, TitleWithThumb } from "@/components/admin/DataTable";
@@ -32,10 +32,6 @@ export default async function Page({ searchParams }: PageProps<"/admin/programme
         description="The programmes listed in the Academic section of the homepage and at /programmes, each with its own page (open a programme to edit its page, modules and facilities). The hero clock is not affected."
         actions={
           <>
-            <LinkButton href="/admin/programmes/admission" variant="secondary">
-              <ClipboardList aria-hidden="true" />
-              Admission details
-            </LinkButton>
             {rows.length > 1 && (
               <LinkButton href="/admin/programmes/arrange" variant="secondary">
                 <ListOrdered aria-hidden="true" />

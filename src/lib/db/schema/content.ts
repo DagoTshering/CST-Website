@@ -172,20 +172,6 @@ export const programmeFacilities = pgTable(
   (t) => [index("programme_facilities_programme_idx").on(t.programmeId, t.sortOrder)],
 );
 
-/** Admission details every bachelor's programme page shows: a single row (id 1). */
-export const admissionDetails = pgTable(
-  "admission_details",
-  {
-    id: integer("id").primaryKey().default(1),
-    /** The documents every bachelor's applicant needs. */
-    requiredDocuments: text("required_documents").notNull(),
-    /** The admission page, for dates and how to apply. */
-    admissionUrl: varchar("admission_url", { length: 500 }).notNull(),
-    ...timestamps(),
-  },
-  (t) => [check("admission_details_single_row", sql`${t.id} = 1`)],
-);
-
 export const events = pgTable(
   "events",
   {

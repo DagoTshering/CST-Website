@@ -85,6 +85,41 @@
       "when": 1792492175758,
       "tag": "0011_about_page",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1792577294492,
+      "tag": "0012_admissions",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1792577295680,
+      "tag": "0013_drop_admission_details",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1792581729334,
+      "tag": "0014_admission_step_types",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1792581739491,
+      "tag": "0015_admission_steps_backfill",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1792581746821,
+      "tag": "0016_admission_steps_by_type",
+      "breakpoints": true
     }
   ]
 }

@@ -36,6 +36,10 @@ async function isUsedByPublishedContent(mediaId: string) {
       or exists (select 1 from about_page where intro_image_id = ${mediaId})
       or exists (select 1 from college_names where image_id = ${mediaId})
       or exists (
+        select 1 from admission_settings
+        where ${mediaId} in (hero_image_id, lab_image_id, office_image_id)
+      )
+      or exists (
         select 1 from research_centres where image_id = ${mediaId} and status = 'published'
       )
       or exists (select 1 from downloads where file_id = ${mediaId} and status = 'published')

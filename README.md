@@ -216,8 +216,8 @@ the database. Administrators manage them under **Admin → Academic Programmes**
 holds its listing details and its page (address, degree, duration, start date, department,
 summary, learning outcomes, entry requirements, careers, structure notes, the department's web
 page, the programme document as a link and/or an uploaded PDF, and up to three photos), and below the form are its **modules** and **facilities**, each added, edited, deleted
-and arranged on their own. **Admission details** (the documents required and the admission page,
-shown on every bachelor's programme) are edited from the same list. Only published programmes
+and arranged on their own. The documents every bachelor's programme page lists come from
+**Admin → Admissions**. Only published programmes
 with a page address appear on the website; the homepage's programme rows link to their pages.
 
 `pnpm db:seed` fills in each programme's page once from `data/programmes/programmes.json` (the
@@ -244,6 +244,24 @@ published programmes in Academic Programmes.
 `pnpm db:seed` fills the page in once from `data/about.json` (the text the college supplied; its
 `meta.notes` list what is still to be confirmed): the text while there is none, and the names and
 centres while there are none. It never replaces anything an administrator has written.
+
+## Admissions page
+
+The Admission for new students page (`/admissions`) reads from the database. Administrators
+manage it under **Admin → Admissions**: one form for what the page says once (the intake, the
+introduction and photos, who can apply, the documents, the admissions office), and below it the
+**important dates**, the **entry requirements** (a set of tables per kind of programme, with the
+undergraduate programmes each applies to; those are the programmes the page lists) and the
+**questions and answers** (with placeholders such as `{email}` and `{applyWindow}`).
+
+The page is *upcoming* before the date marked as opening applications, *open* until the end of the
+date marked as closing them, and *closed* after; the Admissions screen says which it is today. A
+State setting pins it instead (e.g. to close early). The state is worked out for each request, so
+the page changes on the day, without a rebuild. The documents are also listed on every bachelor's
+programme page.
+
+`pnpm db:seed` fills the page in once from `data/admission.json` (with the photos in
+`public/images/admission`), never replacing anything an administrator has written.
 
 ## Downloads page
 

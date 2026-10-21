@@ -6,7 +6,6 @@
  *   (the names differ slightly, e.g. "Water Resource" / "Water Resources").
  * - A programme's page details are filled in once, while it has no page yet (no slug), with its
  *   modules and facilities. One an administrator has already given a page is left alone.
- * - The admission details (documents required, admission page) are added while there are none.
  *
  * Not imported: the full semester-by-semester curriculum three programmes have in the JSON. The
  * pages never showed it; it stays in the JSON.
@@ -14,7 +13,7 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 
-import { count, eq } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 import type { getDb, schema as Schema } from "../src/lib/db";
 
@@ -102,22 +101,10 @@ function parseSince(since: string | null) {
 }
 
 export async function seedProgrammePages(db: Db, schema: typeof Schema) {
-  const { admissionDetails, departments, programmeFacilities, programmeModules, programmes } =
-    schema;
+  const { departments, programmeFacilities, programmeModules, programmes } = schema;
   const data = JSON.parse(
     await readFile(path.join(process.cwd(), "data/programmes/programmes.json"), "utf8"),
-  ) as { requiredDocuments: string; programmes: SeedProgramme[] };
-
-  // ---------------------------------------------------------------- admission details
-  const [{ n: admissions }] = await db.select({ n: count() }).from(admissionDetails);
-  if (admissions === 0) {
-    await db.insert(admissionDetails).values({
-      requiredDocuments: data.requiredDocuments,
-      // this site's Admission for new students page
-      admissionUrl: "/admissions",
-    });
-    console.log("Admission details: seeded.");
-  }
+  ) as { programmes: SeedProgramme[] };
 
   const departmentIds = new Map(
     (await db.select({ id: departments.id, code: departments.code }).from(departments)).map((d) => [

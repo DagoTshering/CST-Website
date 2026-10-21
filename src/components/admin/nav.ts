@@ -1,6 +1,7 @@
 import {
   Building2,
   CalendarDays,
+  ClipboardList,
   FileDown,
   GraduationCap,
   Info,
@@ -37,6 +38,7 @@ export const adminNav: AdminNavGroup[] = [
       { href: "/admin/about-page", label: "About Page", icon: Info },
       { href: "/admin/facilities", label: "Facilities", icon: Building2 },
       { href: "/admin/programmes", label: "Academic Programmes", icon: GraduationCap },
+      { href: "/admin/admissions", label: "Admissions", icon: ClipboardList },
       { href: "/admin/events", label: "Events", icon: CalendarDays },
       { href: "/admin/executives", label: "Executives", icon: Network },
       { href: "/admin/staff", label: "Staff Directory", icon: Users },
@@ -57,6 +59,10 @@ const labels = new Map([
   ["/admin/staff/designations", "Designations"] as const,
   ["/admin/about-page/names", "Names"] as const,
   ["/admin/about-page/centres", "Centres"] as const,
+  ["/admin/admissions/dates", "Dates"] as const,
+  ["/admin/admissions/steps", "Steps"] as const,
+  ["/admin/admissions/requirements", "Requirements"] as const,
+  ["/admin/admissions/faq", "Questions"] as const,
 ]);
 
 /** Path segments shared by several sections, as the breadcrumbs name them. */

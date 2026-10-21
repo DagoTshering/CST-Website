@@ -1,11 +1,11 @@
 import { ExternalLink, ListOrdered, Plus } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import type { ReactNode } from "react";
 
 import { DataTable, ListNotice, TitleWithThumb } from "@/components/admin/DataTable";
+import { FormPart } from "@/components/admin/FormPart";
 import { ResourceForm } from "@/components/admin/form/ResourceForm";
-import { Card, LinkButton, Notice, PageHeader, StatusBadge } from "@/components/admin/ui";
+import { LinkButton, Notice, PageHeader, StatusBadge } from "@/components/admin/ui";
 import {
   CENTRE_GROUPS,
   getPageForm,
@@ -16,44 +16,6 @@ import {
 import { deleteCentre, deleteCollegeName, saveAboutPage } from "./actions";
 
 export const metadata: Metadata = { title: "About Page" };
-
-/** A list below the form (the names, the centres), with its own buttons. */
-function Part({
-  id,
-  title,
-  description,
-  actions,
-  empty,
-  children,
-}: {
-  id: string;
-  title: string;
-  description: string;
-  actions: ReactNode;
-  empty: boolean;
-  children: ReactNode;
-}) {
-  return (
-    <section id={id} aria-labelledby={`${id}-title`} className="mt-10 scroll-mt-6">
-      <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
-        <div>
-          <h2 id={`${id}-title`} className="text-lg font-semibold text-admin-ink">
-            {title}
-          </h2>
-          <p className="mt-1 max-w-2xl text-sm text-admin-muted">{description}</p>
-        </div>
-        <div className="flex flex-wrap gap-2">{actions}</div>
-      </div>
-      {empty ? (
-        <Card>
-          <p className="p-5 text-sm text-admin-muted">None yet.</p>
-        </Card>
-      ) : (
-        children
-      )}
-    </section>
-  );
-}
 
 const groupLabel = (group: string) => CENTRE_GROUPS.find((g) => g.value === group)?.label ?? group;
 
@@ -106,7 +68,7 @@ export default async function Page({ searchParams }: PageProps<"/admin/about-pag
         submitLabel={initial ? "Save changes" : "Create page"}
       />
 
-      <Part
+      <FormPart
         id="names"
         title="Names through the years"
         description="The college’s names on the page’s timeline, always in order of year."
@@ -135,9 +97,9 @@ export default async function Page({ searchParams }: PageProps<"/admin/about-pag
             { header: "Note", cell: (row) => row.note ?? "—", wide: true },
           ]}
         />
-      </Part>
+      </FormPart>
 
-      <Part
+      <FormPart
         id="centres"
         title="Research and innovation centres"
         description="Listed in two groups on the page, research centres first. Drafts are not shown."
@@ -179,7 +141,7 @@ export default async function Page({ searchParams }: PageProps<"/admin/about-pag
             { header: "Status", cell: (row) => <StatusBadge status={row.status} /> },
           ]}
         />
-      </Part>
+      </FormPart>
     </>
   );
 }
