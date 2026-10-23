@@ -120,6 +120,20 @@
       "when": 1792581746821,
       "tag": "0016_admission_steps_by_type",
       "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1792739772352,
+      "tag": "0017_vacancies",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1792743262006,
+      "tag": "0018_vacancy_slug_redirects",
+      "breakpoints": true
     }
   ]
 }

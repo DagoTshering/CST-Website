@@ -1,5 +1,6 @@
 import {
   ArrowRight,
+  BriefcaseBusiness,
   Building2,
   CalendarPlus,
   FileDown,
@@ -34,6 +35,7 @@ const SUMMARY: CategoryKey[] = [
   "announcements",
   "staff",
   "downloads",
+  "vacancies",
 ];
 
 const quickActions = [
@@ -43,6 +45,7 @@ const quickActions = [
   { href: "/admin/facilities", label: "Manage facilities", icon: Building2 },
   { href: "/admin/about", label: "Edit the homepage About section", icon: Landmark },
   { href: "/admin/downloads/new", label: "Add a download", icon: FileDown },
+  { href: "/admin/vacancies/new", label: "Post a vacancy", icon: BriefcaseBusiness },
 ];
 
 /** The welcome shows at once; the counts and activity stream in behind it. */
@@ -70,8 +73,8 @@ function DashboardSkeleton() {
   return (
     <div aria-busy="true">
       <span className="sr-only">Loading…</span>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6">
-        {Array.from({ length: 6 }, (_, i) => (
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-7">
+        {Array.from({ length: 7 }, (_, i) => (
           <div
             key={i}
             className="h-36 animate-pulse rounded-lg border border-admin-line bg-white"
@@ -106,7 +109,7 @@ async function DashboardContent() {
         <h2 id="summary-title" className="sr-only">
           Content summary
         </h2>
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-7">
           {SUMMARY.map((key) => {
             const { label, href, icon: Icon } = categories[key];
             const { total, published } = counts[key];

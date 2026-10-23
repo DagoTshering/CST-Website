@@ -14,6 +14,7 @@ const {
   facilities,
   programmes,
   staff,
+  vacancies,
 } = schema;
 
 export type CategoryKey =
@@ -24,6 +25,7 @@ export type CategoryKey =
   | "executives"
   | "staff"
   | "downloads"
+  | "vacancies"
   | "about";
 
 /** Total and published counts per content category, straight from the database. */
@@ -38,6 +40,7 @@ export async function getContentCounts() {
     | typeof staff
     | typeof announcements
     | typeof downloads
+    | typeof vacancies
     | typeof aboutSection;
   const tally = (table: ContentTable) =>
     db
@@ -50,7 +53,7 @@ export async function getContentCounts() {
       .from(table)
       .then(([row]) => row);
 
-  const [prog, fac, ev, ann, exec, people, down, about] = await Promise.all([
+  const [prog, fac, ev, ann, exec, people, down, vac, about] = await Promise.all([
     tally(programmes),
     tally(facilities),
     tally(events),
@@ -58,6 +61,7 @@ export async function getContentCounts() {
     tally(executives),
     tally(staff),
     tally(downloads),
+    tally(vacancies),
     tally(aboutSection),
   ]);
   return {
@@ -68,6 +72,7 @@ export async function getContentCounts() {
     executives: exec,
     staff: people,
     downloads: down,
+    vacancies: vac,
     about,
   } satisfies Record<CategoryKey, { total: number; published: number }>;
 }
@@ -179,6 +184,19 @@ export async function getRecentlyUpdated(limit = 8): Promise<RecentItem[]> {
         })
         .from(downloads)
         .orderBy(desc(downloads.updatedAt))
+        .limit(limit),
+    ),
+    latest(
+      "vacancies",
+      db
+        .select({
+          id: vacancies.id,
+          title: vacancies.title,
+          status: vacancies.status,
+          updatedAt: vacancies.updatedAt,
+        })
+        .from(vacancies)
+        .orderBy(desc(vacancies.updatedAt))
         .limit(limit),
     ),
     latest(

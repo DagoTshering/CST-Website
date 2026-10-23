@@ -9,3 +9,4 @@ export * from "./enums";
 export * from "./media";
 export * from "./people";
 export * from "./users";
+export * from "./vacancies";

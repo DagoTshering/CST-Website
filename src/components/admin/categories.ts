@@ -1,4 +1,5 @@
 import {
+  BriefcaseBusiness,
   Building2,
   CalendarDays,
   FileDown,
@@ -65,6 +66,13 @@ export const categories: Record<
     icon: FileDown,
     description: "Forms, guidelines and publications on the Downloads page.",
     unit: "downloads",
+  },
+  vacancies: {
+    label: "Vacancies",
+    href: "/admin/vacancies",
+    icon: BriefcaseBusiness,
+    description: "Job vacancies and recruitment notices on the Vacancies page.",
+    unit: "posts",
   },
   about: {
     label: "Homepage About",
