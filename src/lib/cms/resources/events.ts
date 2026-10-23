@@ -148,3 +148,33 @@ export async function getPublishedEvents() {
     photo: toPhoto(image, imageAlt),
   }));
 }
+
+/** Every published event for the Events page, with its description, newest first. */
+export async function getAllPublishedEvents() {
+  "use cache";
+  cacheTag(EVENTS_TAG);
+  cacheLife("hours");
+
+  const rows = await getDb()
+    .select({
+      id: events.id,
+      title: events.title,
+      description: events.description,
+      startDate: events.startDate,
+      endDate: events.endDate,
+      location: events.location,
+      imageAlt: events.imageAlt,
+      image: mediaColumns,
+    })
+    .from(events)
+    .innerJoin(media, eq(media.id, events.imageId))
+    .where(eq(events.status, "published"))
+    .orderBy(desc(events.startDate), desc(events.id));
+
+  return rows.map(({ image, imageAlt, ...event }) => ({
+    ...event,
+    photo: toPhoto(image, imageAlt),
+  }));
+}
+
+export type PublicEvent = Awaited<ReturnType<typeof getAllPublishedEvents>>[number];
