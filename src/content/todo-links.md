@@ -21,9 +21,11 @@ still needs a home if it is kept.
 
 | Label                                      | Path                | Notes                                      |
 | ------------------------------------------ | ------------------- | ------------------------------------------ |
-| Events › View all events (and each event)  | `/events`           | Each event should get its own page later.  |
 | Leadership › Leadership & governance       | `/about/governance` |                                            |
 | Announcements › View all (and each notice) | `/announcements`    | Each notice should get its own page later. |
+
+The Events page (`/events`) is built and shows each event in full. Each event should get its own
+page later (`/events/[id]`), with the homepage cards linking to it.
 
 ## Footer
 

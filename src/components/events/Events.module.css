@@ -1,0 +1,70 @@
+/* ==========================================================================
+   Events: the When tabs, then the upcoming events and the past ones by year.
+   Group heads over an ink rule, as on EU Projects; each event a row with its
+   photograph beside the date and title, in the homepage cards' style.
+   ========================================================================== */
+
+.page {
+  padding-top: clamp(4px, 0.25rem + 0.5vw, 12px);
+  padding-bottom: clamp(5rem, 3.6rem + 4vw, 8rem); /* the site's section rhythm */
+}
+
+.filter {
+  max-width: 1040px;
+  margin-inline: auto;
+}
+
+/* a tab shows its own group only; "All events" shows both */
+.filter[data-when="upcoming"] [data-group="past"],
+.filter[data-when="past"] [data-group="upcoming"] {
+  display: none;
+}
+
+/* ---------- a group -------------------------------------------------------- */
+
+.group {
+  padding-top: 48px;
+}
+
+.groupHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-ink);
+}
+
+.groupTitle {
+  font-family: var(--font-cormorant-italic), var(--font-serif);
+  font-size: clamp(1.75rem, 1.4rem + 1vw, 2.125rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.15;
+  color: var(--color-ink);
+}
+
+.groupCount {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+/* a year of past events, under the Past head */
+.year {
+  padding-top: 28px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--color-brass-deep);
+}
+
+.rows {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.empty {
+  margin-top: 20px;
+}
