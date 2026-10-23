@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { AnnouncementForm } from "@/components/admin/AnnouncementForm";
 import { DeleteButton } from "@/components/admin/DeleteButton";
-import { ResourceForm } from "@/components/admin/form/ResourceForm";
 import { PageHeader } from "@/components/admin/ui";
-import { announcementFields, getAnnouncementForm } from "@/lib/cms/resources/announcements";
+import { getAnnouncementForm } from "@/lib/cms/resources/announcements";
 import { recordId } from "@/lib/cms/validation";
 
-import { deleteAnnouncement, saveAnnouncement } from "../actions";
+import { deleteAnnouncement, updateAnnouncement } from "../actions";
 
 export const metadata: Metadata = { title: "Edit announcement" };
 
@@ -31,11 +31,18 @@ export default async function Page({ params }: PageProps<"/admin/announcements/[
           />
         }
       />
-      <ResourceForm
-        action={saveAnnouncement.bind(null, id.data)}
-        fields={announcementFields}
-        initial={initial}
-        submitLabel="Save changes"
+      <AnnouncementForm
+        action={updateAnnouncement.bind(null, id.data)}
+        initial={{
+          id: id.data,
+          oldSlugs: [],
+          values: initial.values,
+          attachment: initial.media.attachmentId ?? null,
+          content: initial.content,
+          status: initial.status,
+          publishedAt: null,
+          slug: initial.slug,
+        }}
         cancelHref="/admin/announcements"
       />
     </>

@@ -263,6 +263,17 @@ programme page.
 `pnpm db:seed` fills the page in once from `data/admission.json` (with the photos in
 `public/images/admission`), never replacing anything an administrator has written.
 
+## Announcements
+
+General college notices: the latest four on the homepage, and all of them on the Announcements
+page (`/announcements`, a notice board with a page per notice at `/announcements/<slug>`).
+Administrators manage them under **Admin → Announcements** with the same rich-text editor, PDF
+attachment, Save draft / Publish / Update / Unpublish buttons and preview as Vacancies (the shared
+form is `src/components/admin/RichPostForm.tsx`); each notice keeps its own publication date and
+an optional free-text category. Job recruitment notices are a separate feature (Vacancies) and are
+never stored with announcements. Migrations 0019–0021 converted the earlier plain-text summaries
+into the editor's format, and gave each notice its web address.
+
 ## Vacancies page
 
 The Vacancies page (`/vacancies`, with a page per post at `/vacancies/<slug>`) lists job

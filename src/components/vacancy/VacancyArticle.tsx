@@ -82,9 +82,10 @@ export function VacancyArticle({
 
       {post.attachment && (
         <div className="mt-12 flex flex-col gap-4 rounded-sm border border-line border-l-[3px] border-l-[#34acc8] p-5 sm:flex-row sm:items-center sm:justify-between">
-          <div>
+          {/* a long file name (no spaces) wraps instead of running out of the box */}
+          <div className="min-w-0">
             <p className="eyebrow text-muted">Official notice</p>
-            <p className="mt-1 font-display font-semibold text-ink">
+            <p className="mt-1 font-display font-semibold text-ink [overflow-wrap:anywhere]">
               {post.attachment.name}{" "}
               <span className="font-normal text-muted">
                 (PDF, {megabytes(post.attachment.size)})
@@ -93,7 +94,7 @@ export function VacancyArticle({
           </div>
           <a
             href={`${post.attachment.url}?download=1`}
-            className="inline-flex min-h-11 items-center justify-center gap-2 rounded-sm bg-primary-strong px-5 font-display text-[0.9375rem] font-semibold text-white transition-colors hover:bg-primary-deep"
+            className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-sm bg-primary-strong px-5 font-display text-[0.9375rem] font-semibold text-white transition-colors hover:bg-primary-deep"
           >
             <Download className="size-4" aria-hidden="true" />
             Download PDF

@@ -1,0 +1,741 @@
+/* ==========================================================================
+   Announcements: the campus notice board.
+   - The broadcast band: a dark drafting sheet with a lattice mast sending out
+     signal rings (its aviation light blinking), and under it a campus LED
+     ticker running the latest notices.
+   - The board: graph paper with notices pinned to it, each slightly askew,
+     dated with a rubber stamp; they drop onto the board as they come into
+     view and straighten when pointed at.
+   - The notice sheet: one notice as an official, letter-headed sheet.
+   All motion is CSS, and stops for visitors who ask for reduced motion.
+   ========================================================================== */
+
+.page {
+  /* pinned notices are a little askew: their corners must never make the page scroll sideways */
+  overflow-x: clip;
+
+  --accent: #34acc8; /* decoration only: too light for text on white */
+  --stamp: #8a2c20; /* the date stamp's red ink */
+  --pin: var(--color-brass);
+}
+
+/* --- the broadcast band ------------------------------------------------- */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  color: var(--color-on-dark);
+  background:
+    radial-gradient(120% 90% at 85% 10%, rgb(52 172 200 / 0.22), transparent 55%),
+    linear-gradient(160deg, var(--color-primary-deep) 0%, var(--color-primary-night) 70%);
+}
+
+/* a faint blueprint grid over the band */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
+    linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px) 0 0 / 32px 32px;
+  mask-image: linear-gradient(to bottom, black 40%, transparent);
+}
+
+.heroGrid {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+  padding-block: clamp(2.5rem, 1.75rem + 3vw, 4.5rem) clamp(2rem, 1.5rem + 2vw, 3rem);
+}
+
+@media (min-width: 900px) {
+  .heroGrid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  }
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* the "on air" dot */
+.live {
+  position: relative;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.live::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.title {
+  margin-top: 1rem;
+  color: var(--color-white);
+}
+
+.intro {
+  margin-top: 1.25rem;
+  max-width: 34em;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.75rem 2.5rem;
+  margin-top: 2rem;
+}
+
+.stat dt {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-on-dark-muted);
+}
+
+.stat dd {
+  margin-top: 0.25rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+/* the mast */
+.mast {
+  justify-self: center;
+  width: min(100%, 20rem);
+  aspect-ratio: 1;
+  color: rgb(255 255 255 / 0.75);
+}
+
+.mast svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* on a phone or tablet the mast is a faint decoration in the corner, behind the text, so the
+   notices start soon after the introduction */
+@media (max-width: 899px) {
+  .mast {
+    position: absolute;
+    top: 1.5rem;
+    right: -1.5rem;
+    z-index: -1;
+    width: 10rem;
+    opacity: 0.35;
+  }
+}
+
+.ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+
+.beacon {
+  fill: #ff6b5b;
+}
+
+/* the LED ticker */
+.ticker {
+  position: relative;
+  overflow: hidden;
+  border-block: 1px solid rgb(255 255 255 / 0.12);
+  background:
+    radial-gradient(circle, rgb(255 190 80 / 0.07) 1px, transparent 1.5px) 0 0 / 5px 5px,
+    #071f27;
+}
+
+.ticker::before,
+.ticker::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 4rem;
+  pointer-events: none;
+}
+
+.ticker::before {
+  left: 0;
+  background: linear-gradient(90deg, #071f27, transparent);
+}
+
+.ticker::after {
+  right: 0;
+  background: linear-gradient(-90deg, #071f27, transparent);
+}
+
+.tickerLabel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  background: var(--color-gold);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #1b1405;
+}
+
+.tickerTrack {
+  display: flex;
+  width: max-content;
+}
+
+.tickerItems {
+  display: flex;
+  flex: none;
+  gap: 3rem;
+  padding: 0.85rem 3rem 0.85rem 3rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  color: #ffc35a;
+  text-shadow:
+    0 0 6px rgb(255 170 50 / 0.65),
+    0 0 1px rgb(255 220 150 / 0.9);
+}
+
+.tickerItems span::before {
+  content: "◆";
+  margin-right: 1rem;
+  color: var(--accent);
+  text-shadow: none;
+}
+
+/* --- the board ----------------------------------------------------------- */
+
+.board {
+  position: relative;
+  padding-block: clamp(2.5rem, 2rem + 2vw, 4rem) clamp(4rem, 3rem + 3vw, 6.5rem);
+}
+
+.notes {
+  display: grid;
+  gap: 2.25rem 1.75rem;
+  margin-top: 2.5rem;
+  list-style: none;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .notes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .notes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* a pinned notice: a little askew, as pinned paper is */
+.note {
+  --tilt: -0.9deg;
+
+  position: relative;
+  height: 100%;
+  rotate: calc(var(--tilt) * var(--tilt-scale, 1));
+}
+
+/* on a phone the notices are full width: nearly straight */
+@media (max-width: 639px) {
+  .note {
+    --tilt-scale: 0.5;
+  }
+}
+
+.notes > li:nth-child(6n + 2) .note {
+  --tilt: 0.8deg;
+}
+
+.notes > li:nth-child(6n + 3) .note {
+  --tilt: -0.4deg;
+}
+
+.notes > li:nth-child(6n + 4) .note {
+  --tilt: 1.1deg;
+}
+
+.notes > li:nth-child(6n + 5) .note {
+  --tilt: -1.2deg;
+}
+
+.notes > li:nth-child(6n + 6) .note {
+  --tilt: 0.5deg;
+}
+
+.paper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 2rem 1.5rem 1.25rem;
+  border: 1px solid rgb(22 35 43 / 0.08);
+  border-top: 3px solid var(--accent);
+  border-radius: 2px;
+  background:
+    linear-gradient(transparent 31px, rgb(52 172 200 / 0.08) 32px) 0 1.6rem / 100% 32px,
+    #fffefb;
+  box-shadow:
+    0 1px 1px rgb(22 35 43 / 0.06),
+    0 10px 24px -14px rgb(22 35 43 / 0.45);
+  color: var(--color-copy);
+}
+
+/* the brass pin */
+.paper::before {
+  content: "";
+  position: absolute;
+  top: -0.55rem;
+  left: 50%;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-left: -0.55rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #f3d58f, var(--pin) 45%, #6b4e14 100%);
+  box-shadow: 0 3px 4px rgb(0 0 0 / 0.3);
+}
+
+.stamp {
+  align-self: flex-start;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.25rem 0.6rem;
+  border: 2px double var(--stamp);
+  border-radius: 3px;
+  rotate: -5deg;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: var(--stamp);
+  opacity: 0.88;
+  mix-blend-mode: multiply;
+}
+
+.stampDay {
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+}
+
+.noteTitle {
+  margin-top: 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-ink);
+}
+
+.noteTitle a::after {
+  /* the whole notice is the link */
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.noteTitle a:focus-visible {
+  outline: none;
+}
+
+.note:focus-within .paper {
+  outline: 2px solid var(--color-primary-strong);
+  outline-offset: 4px;
+}
+
+.summary {
+  margin-top: 0.75rem;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+}
+
+.noteFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-primary-strong);
+}
+
+.pdf {
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  color: var(--color-muted);
+}
+
+/* the newest notice, large */
+.featured {
+  --tilt: -0.4deg;
+
+  margin-top: 2.5rem;
+}
+
+.featured .paper {
+  padding: 2.5rem clamp(1.5rem, 1rem + 2vw, 3rem) 1.75rem;
+}
+
+.featured .noteTitle {
+  font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem);
+}
+
+.featured .summary {
+  -webkit-line-clamp: 4;
+  max-width: 48em;
+  font-size: 1.0625rem;
+}
+
+@media (min-width: 900px) {
+  .featured .paper {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 2.5rem;
+  }
+
+  .featured .stamp {
+    grid-row: span 4;
+    margin-top: 0.25rem;
+  }
+}
+
+.newStamp {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  padding: 0.2rem 0.65rem;
+  border: 2px solid var(--color-primary-deep);
+  border-radius: 3px;
+  rotate: 8deg;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--color-primary-deep);
+}
+
+.empty {
+  margin-top: 2.5rem;
+  max-width: 36rem;
+  padding: 2rem;
+  border: 1px dashed var(--color-line);
+  background: rgb(255 255 255 / 0.85);
+  color: var(--color-copy);
+}
+
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 3rem;
+}
+
+.pageLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: 2px;
+  background: var(--color-white);
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-ink);
+}
+
+.pageLink:hover {
+  border-color: var(--color-primary-strong);
+}
+
+.pageLink[aria-current="page"] {
+  border-color: var(--color-primary-strong);
+  background: var(--color-primary-strong);
+  color: var(--color-white);
+}
+
+/* --- one notice: the official sheet --------------------------------------- */
+
+.sheetWrap {
+  padding-block: clamp(2rem, 1.25rem + 2vw, 3.25rem) clamp(4rem, 3rem + 3vw, 6.5rem);
+}
+
+.sheet {
+  position: relative;
+  max-width: 54rem;
+  margin: 2rem auto 0;
+  border: 1px solid rgb(22 35 43 / 0.08);
+  background: #fffefb;
+  box-shadow:
+    0 2px 4px rgb(22 35 43 / 0.05),
+    0 30px 60px -30px rgb(22 35 43 / 0.45);
+}
+
+.letterhead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding: 1.25rem clamp(1.25rem, 1rem + 2vw, 3rem);
+  border-bottom: 3px double var(--color-primary-deep);
+  background: linear-gradient(90deg, rgb(52 172 200 / 0.1), transparent 60%);
+}
+
+.letterheadName {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-primary-deep);
+}
+
+.letterheadSub {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.sheetBody {
+  position: relative;
+  padding: clamp(1.75rem, 1.25rem + 2vw, 3rem) clamp(1.25rem, 1rem + 2vw, 3rem);
+  /* room under the notice for the seal, so it never sits under the text or a table */
+  padding-bottom: calc(clamp(5rem, 4rem + 4vw, 8rem) + clamp(1.5rem, 1rem + 2vw, 3rem));
+}
+
+.sheetMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.sheetTitle {
+  margin-top: 1.5rem;
+  color: var(--color-ink);
+}
+
+.sheetBody .stamp {
+  rotate: -7deg;
+}
+
+/* a faint college seal in the corner of the sheet, turning very slowly */
+.seal {
+  position: absolute;
+  right: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+  bottom: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+  width: clamp(5rem, 4rem + 4vw, 8rem);
+  color: rgb(33 85 99 / 0.09);
+  pointer-events: none;
+}
+
+/* --- motion ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: no-preference) {
+  .live::after {
+    animation: ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .ring {
+    animation: broadcast 3.6s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
+  }
+
+  .ring:nth-of-type(2) {
+    animation-delay: 1.2s;
+  }
+
+  .ring:nth-of-type(3) {
+    animation-delay: 2.4s;
+  }
+
+  .beacon {
+    animation: blink 1.6s steps(1) infinite;
+  }
+
+  .tickerTrack {
+    animation: ticker var(--ticker-duration, 40s) linear infinite;
+  }
+
+  .ticker:hover .tickerTrack {
+    animation-play-state: paused;
+  }
+
+  .seal svg {
+    animation: turn 120s linear infinite;
+  }
+
+  .note {
+    transition:
+      rotate 450ms var(--ease-out-soft),
+      translate 900ms var(--ease-out-soft),
+      opacity 700ms var(--ease-out-soft);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .paper {
+    transition: box-shadow 350ms var(--ease-out-soft);
+  }
+
+  .paper::before {
+    transition: translate 350ms var(--ease-out-soft);
+  }
+
+  /* dropping onto the board as it comes into view (RevealObserver sets data-revealed) */
+  :global(:root[data-reveal-ready]) .note[data-reveal]:not([data-revealed]) {
+    opacity: 0;
+    translate: 0 -2.5rem;
+    rotate: calc(var(--tilt) - 7deg);
+  }
+
+  /* straightened, lifted and the pin pressed home when pointed at */
+  .note:hover,
+  .note:focus-within {
+    rotate: 0deg;
+    translate: 0 -4px;
+    transition-delay: 0ms;
+  }
+
+  .note:hover .paper,
+  .note:focus-within .paper {
+    box-shadow:
+      0 2px 3px rgb(22 35 43 / 0.08),
+      0 22px 40px -18px rgb(22 35 43 / 0.55);
+  }
+
+  .note:hover .paper::before {
+    translate: 0 2px;
+  }
+
+  .newStamp {
+    animation: stamp 600ms 400ms both cubic-bezier(0.3, 1.6, 0.6, 1);
+  }
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    scale: 2.6;
+    opacity: 0;
+  }
+}
+
+@keyframes broadcast {
+  0% {
+    scale: 0.3;
+    opacity: 0.9;
+  }
+
+  100% {
+    scale: 1.6;
+    opacity: 0;
+  }
+}
+
+@keyframes blink {
+  0%,
+  60% {
+    opacity: 1;
+  }
+
+  61%,
+  100% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes ticker {
+  to {
+    translate: -50% 0;
+  }
+}
+
+@keyframes turn {
+  to {
+    rotate: 360deg;
+  }
+}
+
+@keyframes stamp {
+  0% {
+    scale: 2.2;
+    opacity: 0;
+  }
+
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+/* with reduced motion: the board is still, and the ticker becomes a plain line */
+@media (prefers-reduced-motion: reduce) {
+  .ring {
+    opacity: 0.35;
+  }
+
+  .ring:nth-of-type(2) {
+    scale: 1.3;
+    opacity: 0.2;
+  }
+
+  .ring:nth-of-type(3) {
+    display: none;
+  }
+
+  .tickerTrack > :last-child {
+    display: none;
+  }
+}

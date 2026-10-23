@@ -6,9 +6,7 @@ The paths are defined in `src/content/site.ts` and `src/content/home.ts`.
 
 ## Main menu (header)
 
-| Label         | Path             | Notes                                                 |
-| ------------- | ---------------- | ----------------------------------------------------- |
-| Announcements | `/announcements` | Same page as the homepage's Announcements › View all. |
+Every main-menu link now leads to a page (Announcements and Vacancies were the last).
 
 The Important Links (Research, Student Life, Hostel Booking, CST-25) go to other CST sites.
 Academics links to the Programmes page (`/programmes`). Academic Calendar, Examination and Library
@@ -18,10 +16,9 @@ still needs a home if it is kept.
 
 ## Homepage sections
 
-| Label                                      | Path                | Notes                                      |
-| ------------------------------------------ | ------------------- | ------------------------------------------ |
-| Leadership › Leadership & governance       | `/about/governance` |                                            |
-| Announcements › View all (and each notice) | `/announcements`    | Each notice should get its own page later. |
+| Label                                | Path                | Notes |
+| ------------------------------------ | ------------------- | ----- |
+| Leadership › Leadership & governance | `/about/governance` |       |
 
 The Events page (`/events`) is built and shows each event in full. Each event should get its own
 page later (`/events/[id]`), with the homepage cards linking to it.

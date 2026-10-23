@@ -30,14 +30,21 @@ export default async function Page({ searchParams }: PageProps<"/admin/announcem
     <>
       <PageHeader
         title="Announcements"
-        description="Notices listed on the homepage, newest publication date first."
-        actions={rows.length > 0 && addButton}
+        description="General college notices: the latest four on the homepage, all of them on the Announcements page (/announcements), newest publication date first. Job recruitment notices are under Vacancies."
+        actions={
+          <>
+            <LinkButton href="/announcements" variant="secondary">
+              View page
+            </LinkButton>
+            {rows.length > 0 && addButton}
+          </>
+        }
       />
       <ListNotice notice={notice} kind="announcement" />
       {rows.length === 0 ? (
         <Card>
           <EmptyState icon={Megaphone} title="No announcements yet" action={addButton}>
-            Publish an announcement to list it on the homepage.
+            Publish an announcement to show it on the homepage and the Announcements page.
           </EmptyState>
         </Card>
       ) : (
@@ -58,7 +65,6 @@ export default async function Page({ searchParams }: PageProps<"/admin/announcem
                 </span>
               ),
             },
-            { header: "Category", cell: (row) => row.category ?? "—", wide: true },
             {
               header: "Published on",
               cell: (row) => formatDate(row.publishedOn),
