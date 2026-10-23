@@ -263,6 +263,26 @@ programme page.
 `pnpm db:seed` fills the page in once from `data/admission.json` (with the photos in
 `public/images/admission`), never replacing anything an administrator has written.
 
+## Vacancies page
+
+The Vacancies page (`/vacancies`, with a page per post at `/vacancies/<slug>`) lists job
+recruitment notices only: vacancies, recruitment notices, shortlists, interview schedules,
+recruitment examination results and final selections. It is separate from the homepage's
+Announcements (general college notices), with its own table (`vacancies`), admin screens
+(**Admin → Vacancies**) and categories.
+
+Each post is written in a rich-text editor (Tiptap, MIT-licensed open-source extensions only):
+headings, bold to strikethrough, alignment, lists, links and tables (insert, header row, rows and
+columns, merged cells); text pasted from Word or a PDF keeps what the editor supports. A post can
+be saved as a draft, previewed, published, updated and unpublished, and may carry the official
+notice as a PDF. The editor's document is stored as JSON and sanitised on the server
+(`src/lib/rich-text.ts`: only the editor's node types, marks and attributes, and only http(s),
+mailto, tel and site links), and the pages draw it as React elements, never as raw HTML.
+Unpublished posts are not public (their address is a 404). Each post has a preview page
+(`/admin/vacancies/<id>/preview`) showing the saved version exactly as the public page would, for
+any signed-in administrator. When a post's address is changed, the old address keeps working: it
+redirects permanently to the new one (`vacancy_slug_redirects`).
+
 ## Downloads page
 
 `/downloads` lists forms, guidelines, regulations, reports and publications by category. A

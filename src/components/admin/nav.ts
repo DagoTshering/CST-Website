@@ -1,4 +1,5 @@
 import {
+  BriefcaseBusiness,
   Building2,
   CalendarDays,
   ClipboardList,
@@ -43,6 +44,7 @@ export const adminNav: AdminNavGroup[] = [
       { href: "/admin/executives", label: "Executives", icon: Network },
       { href: "/admin/staff", label: "Staff Directory", icon: Users },
       { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
+      { href: "/admin/vacancies", label: "Vacancies", icon: BriefcaseBusiness },
       { href: "/admin/downloads", label: "Downloads", icon: FileDown },
     ],
   },
