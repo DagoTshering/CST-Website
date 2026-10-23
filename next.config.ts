@@ -85,6 +85,10 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
+  experimental: {
+    // Upgrade reminders only for Next.js releases that fix a security advisory.
+    agentUpgrade: "security",
+  },
   images: {
     // Only optimise our own files: public/images, and uploads served from /media.
     localPatterns: [
