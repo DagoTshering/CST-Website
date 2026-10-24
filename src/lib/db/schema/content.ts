@@ -5,6 +5,7 @@ import {
   date,
   index,
   integer,
+  jsonb,
   pgTable,
   smallint,
   text,
@@ -197,13 +198,20 @@ export const announcements = pgTable(
   {
     id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
     title: varchar("title", { length: 300 }).notNull(),
+    /** Its page is /announcements/<slug>. */
+    slug: varchar("slug", { length: 160 }).notNull().unique(),
+    /** The editor's document (Tiptap JSON), sanitised on saving (src/lib/rich-text.ts). */
+    content: jsonb("content").notNull(),
+    /** The opening of its text, kept in step with `content`, for listings. */
     summary: text("summary"),
     publishedOn: date("published_on").notNull(),
-    category: varchar("category", { length: 60 }),
     /** An optional PDF, linked from the notice. */
     attachmentId: mediaRef("attachment_id"),
     status: status(),
     ...timestamps(),
   },
-  (t) => [index("announcements_public_idx").on(t.status, t.publishedOn)],
+  (t) => [
+    index("announcements_public_idx").on(t.status, t.publishedOn),
+    check("announcements_slug_format", sql`${t.slug} ~ '^[a-z0-9]+(-[a-z0-9]+)*$'`),
+  ],
 );

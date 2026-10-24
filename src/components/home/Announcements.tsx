@@ -21,7 +21,7 @@ const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties
  * runs off the right edge, as About's does. It keeps the site's usual section spacing; on a short
  * laptop it tightens to fit one screen (see Announcements.module.css). From the homepage on main, set in
  * the drafting style of the sections above. The notices are the latest published in the admin
- * panel; a notice with a PDF opens it.
+ * panel; each opens its own page (where its PDF, if any, can be downloaded).
  */
 export async function Announcements() {
   const result = await loadPublished("announcements", getPublishedAnnouncements);
@@ -54,21 +54,16 @@ export async function Announcements() {
                 {items.map((item, i) => (
                   <li key={item.id} data-reveal suppressHydrationWarning style={delay(i * 100)}>
                     <SmartLink
-                      href={item.documentUrl ?? announcementsSection.link.href}
+                      href={`/announcements/${item.slug}`}
                       className={`group grid gap-x-8 gap-y-2 border-b border-line py-6 transition-colors hover:border-primary sm:grid-cols-[8.5rem_1fr_auto] sm:items-start ${s.row}`}
                     >
                       <span className="font-mono text-xs tracking-[0.06em] text-muted sm:pt-1.5">
                         <time dateTime={item.publishedOn}>{formatDate(item.publishedOn)}</time>
                       </span>
                       <span>
-                        {(item.category || item.documentUrl) && (
-                          <span className="eyebrow text-primary-strong">
-                            {item.category}
-                            {item.documentUrl && (
-                              <span className={item.category ? "ml-2 text-muted" : "text-muted"}>
-                                {item.category ? "· " : ""}PDF
-                              </span>
-                            )}
+                        {item.documentUrl && (
+                          <span className="eyebrow text-muted">
+                            <span className="sr-only">With a </span>PDF
                           </span>
                         )}
                         <span

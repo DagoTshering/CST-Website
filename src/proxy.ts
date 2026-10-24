@@ -17,14 +17,15 @@ function admin(request: NextRequest) {
 }
 
 /**
- * Programme and vacancy pages are generated on their first request and then kept (see the
- * pages), so an address that is not a published programme or post is answered here with the 404
+ * Programme, vacancy and announcement pages are generated on their first request and then kept
+ * (see the pages), so an address that is not a published programme or post is answered here with the 404
  * page made at build time, rather than having a page generated and stored for every address
  * anyone tries. A vacancy post's earlier address redirects to its page.
  */
 const PAGES = {
   programmes: { table: sql`programmes`, maxLength: 80 },
   vacancies: { table: sql`vacancies`, maxLength: 160 },
+  announcements: { table: sql`announcements`, maxLength: 160 },
 } as const;
 
 async function published(request: NextRequest, section: keyof typeof PAGES, slug: string) {
@@ -61,7 +62,8 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (pathname === "/admin" || pathname.startsWith("/admin/")) return admin(request);
 
-  const [, section, slug] = /^\/(programmes|vacancies)\/([^/]+)$/.exec(pathname) ?? [];
+  const [, section, slug] =
+    /^\/(programmes|vacancies|announcements)\/([^/]+)$/.exec(pathname) ?? [];
   if (slug !== undefined && slug !== "_") {
     return published(request, section as keyof typeof PAGES, slug);
   }
@@ -69,5 +71,11 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*", "/programmes/:slug", "/vacancies/:slug"],
+  matcher: [
+    "/admin",
+    "/admin/:path*",
+    "/programmes/:slug",
+    "/vacancies/:slug",
+    "/announcements/:slug",
+  ],
 };

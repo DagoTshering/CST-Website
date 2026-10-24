@@ -134,6 +134,34 @@
       "when": 1792743262006,
       "tag": "0018_vacancy_slug_redirects",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1792748086892,
+      "tag": "0019_announcement_content",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1792748099226,
+      "tag": "0020_announcement_content_backfill",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1792748100016,
+      "tag": "0021_announcement_content_required",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1792750123724,
+      "tag": "0022_drop_announcement_category",
+      "breakpoints": true
     }
   ]
 }

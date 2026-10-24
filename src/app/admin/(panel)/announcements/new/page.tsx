@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { connection } from "next/server";
 
-import { ResourceForm } from "@/components/admin/form/ResourceForm";
+import { AnnouncementForm } from "@/components/admin/AnnouncementForm";
 import { PageHeader } from "@/components/admin/ui";
 import { requireAdmin } from "@/lib/auth/dal";
-import { announcementFields } from "@/lib/cms/resources/announcements";
+import { EMPTY_DOCUMENT } from "@/lib/rich-text";
 
-import { saveAnnouncement } from "../actions";
+import { createAnnouncement } from "../actions";
 
 export const metadata: Metadata = { title: "New announcement" };
 
@@ -21,13 +21,20 @@ export default async function Page() {
     <>
       <PageHeader
         title="New announcement"
-        description="Save as a draft to keep it off the public website until it is ready."
+        description="A general college notice, for the homepage and the Announcements page. Job recruitment notices go under Vacancies."
       />
-      <ResourceForm
-        action={saveAnnouncement.bind(null, null)}
-        fields={announcementFields}
-        initial={{ values: { status: "draft", publishedOn: todayInBhutan() }, media: {} }}
-        submitLabel="Create announcement"
+      <AnnouncementForm
+        action={createAnnouncement}
+        initial={{
+          id: null,
+          oldSlugs: [],
+          values: { title: "", publishedOn: todayInBhutan(), slug: "" },
+          attachment: null,
+          content: EMPTY_DOCUMENT,
+          status: "draft",
+          publishedAt: null,
+          slug: null,
+        }}
         cancelHref="/admin/announcements"
       />
     </>
