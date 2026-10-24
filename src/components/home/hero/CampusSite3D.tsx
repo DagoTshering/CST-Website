@@ -687,6 +687,13 @@ function bakeableMap(m: THREE.Material) {
   return textures.length === 1 ? map : null;
 }
 
+/** A geometry's attributes, as names and shapes: geometries merge only when these match. */
+const attributesKey = (g: THREE.BufferGeometry) =>
+  Object.entries(g.attributes)
+    .map(([n, a]) => `${n}:${a.itemSize}:${a.normalized}:${a.array.constructor.name}`)
+    .sort()
+    .join(",");
+
 /** Vertices [start, start + count) of a non-indexed geometry. */
 function slice(g: THREE.BufferGeometry, start: number, count: number) {
   const out = new THREE.BufferGeometry();
@@ -805,11 +812,7 @@ function batch(
         }
         opts.shared.set(look, shared);
       }
-      const attrs = Object.entries(geo.attributes)
-        .map(([n, a]) => `${n}:${a.itemSize}:${a.normalized}:${a.array.constructor.name}`)
-        .sort()
-        .join(",");
-      const key = `${line}|${o.castShadow}|${o.receiveShadow}|${attrs}|${look}`;
+      const key = `${line}|${o.castShadow}|${o.receiveShadow}|${attributesKey(geo)}|${look}`;
       let b = buckets.get(key);
       if (!b)
         buckets.set(
@@ -838,6 +841,78 @@ function batch(
       group.add(o);
     }
   }
+}
+
+/** The build-up is over at build = SETTLED: every building is up and its wireframe has gone. */
+const SETTLED = 4.5;
+
+/**
+ * The buildings drawn together once they stand still. After batch() each building is one mesh
+ * per look (about 290 for the campus, each drawn again for the shadows); this merges those of all
+ * the buildings into one mesh per look for the whole campus (about 75), in the site's space. The
+ * buildings stay as they are for the build-up, which moves them one by one: show(true) swaps the
+ * merged copy in and the buildings' parts out, show(false) swaps them back. Parts under `keep`
+ * (they turn) and anything batch() left apart (see mergeable) stay with their building.
+ */
+function settle(
+  risers: { obj: THREE.Object3D }[],
+  keep: Set<THREE.Object3D>,
+  site: THREE.Object3D,
+  track: (g: THREE.BufferGeometry) => void,
+) {
+  site.updateMatrixWorld(true);
+  const toSite = site.matrixWorld.clone().invert();
+  const rel = new THREE.Matrix4();
+  const parts: THREE.Mesh[] = [];
+  const buckets = new Map<
+    string,
+    { material: THREE.Material; cast: boolean; receive: boolean; geos: THREE.BufferGeometry[] }
+  >();
+  const visit = (o: THREE.Object3D) => {
+    if (keep.has(o)) return;
+    o.children.forEach(visit);
+    const m = o as THREE.Mesh;
+    if (!m.isMesh || (m as THREE.InstancedMesh).isInstancedMesh || Array.isArray(m.material))
+      return;
+    if (!m.visible || m.material.transparent || m.geometry.index || m.renderOrder) return;
+    rel.multiplyMatrices(toSite, m.matrixWorld);
+    if (m.layers.mask !== 1 || rel.determinant() <= 0) return;
+    const geo = m.geometry.clone().applyMatrix4(rel);
+    const key = `${m.castShadow}|${m.receiveShadow}|${attributesKey(geo)}|${m.material.uuid}`;
+    let b = buckets.get(key);
+    if (!b)
+      buckets.set(
+        key,
+        (b = { material: m.material, cast: m.castShadow, receive: m.receiveShadow, geos: [] }),
+      );
+    b.geos.push(geo);
+    parts.push(m);
+  };
+  for (const r of risers) visit(r.obj);
+
+  const group = new THREE.Group();
+  group.visible = false;
+  for (const b of buckets.values()) {
+    const one = b.geos.length > 1 ? mergeGeometries(b.geos) : b.geos[0];
+    for (const g of one ? [one] : b.geos) {
+      track(g);
+      const o = new THREE.Mesh(g, b.material);
+      o.castShadow = b.cast;
+      o.receiveShadow = b.receive;
+      group.add(o);
+    }
+  }
+  site.add(group);
+
+  let shown = false;
+  return {
+    show(on: boolean) {
+      if (on === shown) return;
+      shown = on;
+      group.visible = on;
+      for (const p of parts) p.visible = !on;
+    },
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -1892,6 +1967,10 @@ async function initSite(
       opacity: 0.35,
       side: THREE.DoubleSide,
       depthWrite: false,
+      // see-through and two-sided, three draws it in two passes, back then front, changing the
+      // material twice a frame (it is then set up again from scratch). A flat panel is only ever
+      // seen from one side, so one pass draws the same pixels.
+      forceSinglePass: true,
     });
     for (const [x, z, w, d] of [
       [0, -hd, hw * 2, 0],
@@ -2166,6 +2245,7 @@ async function initSite(
     for (const r of risers)
       batch(r.obj, { keep: keepApart, pinned: new Set([edgeMat]), shared, track: keep });
   }
+  const settled = settle(risers, new Set(spinners), site, keep);
 
   await pause();
   // ---- trees: cypress lines, broadleaf, forest at the rim ------------------
@@ -2322,6 +2402,9 @@ async function initSite(
         opacity: 0.09,
         side: THREE.DoubleSide,
         depthWrite: false,
+        // one pass (see the pitch fence): two layers of one flat colour at one opacity blend
+        // the same whichever is drawn first, so the cone's back and front need no order
+        forceSinglePass: true,
       }),
     );
     cone.position.y = -1.1;
@@ -2355,6 +2438,7 @@ async function initSite(
       side: THREE.DoubleSide,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
+      forceSinglePass: true, // flat and additive: one pass draws the same (see the pitch fence)
     }),
   );
   scan.rotation.x = -Math.PI / 2;
@@ -2553,6 +2637,7 @@ async function initSite(
     }
     edgeMat.opacity = 1 - clamp01((build - 3.2) / 1.3);
     edgeMat.visible = edgeMat.opacity > 0; // faded out: stop drawing the wireframe at all
+    settled.show(build >= SETTLED); // every building up and the wireframe gone: draw them together
     if (build < 6) {
       updateTrees(build);
       treesDone = false;
