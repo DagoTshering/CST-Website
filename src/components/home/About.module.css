@@ -1,18 +1,16 @@
 /* ==========================================================================
    About CST
    Desktop (>= 901px): a 12-column grid. The heading (columns 1-9) overlaps the
-   photo (columns 7-11); behind the photo a graph-paper strip runs from 62% to
-   the section's right edge, with the emblem drawing bleeding off it. The
-   section fills one screen below the header.
-   Below 901px: heading, photo, copy in one column; the strip sits behind the
+   photo (columns 7-11); behind the photo, from 62% to the section's right
+   edge, the emblem drawing turns on the white and bleeds off it. The section
+   fills one screen below the header.
+   Below 901px: heading, photo, copy in one column; the emblem sits behind the
    photo.
    Motion uses the site's [data-reveal] system (globals.css, RevealObserver).
    ========================================================================== */
 
 .section {
   /* prototype values with no site token */
-  --panel: #eeeeeb;
-  --grid-line: rgb(22 35 43 / 0.055);
   --gold: #b8923a;
   --gold-deep: #8a6a1f;
   --text-lead: #2c3b44;
@@ -181,21 +179,16 @@
   border-radius: 0;
 }
 
-/* ---------- the graph-paper strip and the emblem -------------------------- */
+/* ---------- the emblem ----------------------------------------------------- */
 
-/* On a desktop the figure is not positioned, so the strip is placed against the section. */
+/* The area the emblem turns in, on plain white (no graph paper: it read as a second grid under
+   the hero's). On a desktop the figure is not positioned, so it is placed against the section. */
 .panel {
   position: absolute;
   inset-block: 0;
   left: 62%;
   right: 0;
   pointer-events: none;
-  background-color: var(--panel);
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 28px 28px;
-  mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 93%, transparent 100%);
 }
 
 .emblem {
@@ -283,8 +276,8 @@
   border-color: var(--gold);
 }
 
-/* the caption runs out over the graph paper and the emblem's dimension line, so it carries a
-   white backing to keep its contrast */
+/* the caption runs out over the emblem's dimension line, so it carries a white backing to keep
+   its contrast */
 .caption {
   position: relative;
   z-index: 1;

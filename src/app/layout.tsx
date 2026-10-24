@@ -23,7 +23,7 @@ const cormorantItalic = Cormorant_Garamond({
   display: "swap",
   preload: false,
 });
-// Only the hero's year labels and drawing captions use the mono face, so it is not preloaded.
+// Only small captions and table heads below the fold use the mono face, so it is not preloaded.
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
