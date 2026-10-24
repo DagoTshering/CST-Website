@@ -3,8 +3,8 @@
  * homepage's initial content (see seed-content.ts), the staff directory and executives (see
  * seed-people.ts), the programmes' pages with their modules and facilities (see
  * seed-programme-pages.ts), the About page (see seed-about-page.ts), the Admissions page (see
- * seed-admission.ts) and the Downloads page's documents imported from the previous website (see
- * seed-downloads.ts).
+ * seed-admission.ts), the Downloads page's documents imported from the previous website (see
+ * seed-downloads.ts) and the Partners page (see seed-partners.ts).
  *
  *   pnpm db:seed
  *
@@ -30,6 +30,7 @@ async function main() {
   const { seedAdmission } = await import("./seed-admission");
   const { seedContent } = await import("./seed-content");
   const { seedDownloads } = await import("./seed-downloads");
+  const { seedPartners } = await import("./seed-partners");
   const { seedPeople } = await import("./seed-people");
   const { seedProgrammePages } = await import("./seed-programme-pages");
 
@@ -68,6 +69,7 @@ async function main() {
     await seedAboutPage(db, schema);
     await seedAdmission(db, schema); // needs the programmes' pages
     await seedDownloads(db, schema);
+    await seedPartners(db, schema);
   } finally {
     await db.$client.end();
   }

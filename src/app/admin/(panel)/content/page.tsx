@@ -17,6 +17,7 @@ const ORDER: CategoryKey[] = [
   "vacancies",
   "executives",
   "staff",
+  "partners",
   "downloads",
 ];
 
@@ -27,7 +28,7 @@ export default async function ContentPage() {
     <>
       <PageHeader
         title="Website Content"
-        description="Everything on the website that can be edited here: the homepage sections and the pages managed in the admin panel (Programmes, About, Admissions, Staff Directory, Downloads and Vacancies)."
+        description="Everything on the website that can be edited here: the homepage sections and the pages managed in the admin panel (Programmes, About, Admissions, Staff Directory, Partners, Downloads and Vacancies)."
       />
       <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {ORDER.map((key) => {

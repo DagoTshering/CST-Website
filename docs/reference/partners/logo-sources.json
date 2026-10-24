@@ -1,0 +1,401 @@
+[
+  {
+    "name": "University of Naples Federico II",
+    "logo": "/images/partners/university-of-naples-federico-ii.png",
+    "source": "Provided by CST",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "Università degli Studi del Sannio",
+    "logo": "/images/partners/universita-degli-studi-del-sannio.png",
+    "source": "https://en.wikipedia.org/wiki/File:Unisannio.png",
+    "article": "https://en.wikipedia.org/wiki/University_of_Sannio",
+    "license": "Fair use"
+  },
+  {
+    "name": "GEM Foundation",
+    "logo": "/images/partners/gem-foundation.png",
+    "source": "Provided by CST",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "Lund University",
+    "logo": "/images/partners/lund-university.png",
+    "source": "https://en.wikipedia.org/wiki/File:Lunds_universitet.svg",
+    "article": "https://en.wikipedia.org/wiki/Lund_University",
+    "license": "Fair use"
+  },
+  {
+    "name": "Uppsala University",
+    "logo": "/images/partners/uppsala-university.png",
+    "source": "https://en.wikipedia.org/wiki/File:Uppsala_University_logo.svg",
+    "article": "https://en.wikipedia.org/wiki/Uppsala_University",
+    "license": "Fair use"
+  },
+  {
+    "name": "Erasmus+ Programme",
+    "logo": "/images/partners/erasmus-programme.png",
+    "source": "https://commons.wikimedia.org/wiki/File:Erasmus%2B_Logo.svg",
+    "article": "https://en.wikipedia.org/wiki/Erasmus_Programme",
+    "license": "Public domain"
+  },
+  {
+    "name": "DAAD",
+    "logo": "/images/partners/daad.png",
+    "source": "https://commons.wikimedia.org/wiki/File:Deutscher_Akademischer_Austauschdienst_logo.svg",
+    "article": "https://en.wikipedia.org/wiki/German_Academic_Exchange_Service",
+    "license": "Public domain"
+  },
+  {
+    "name": "University of Bremen",
+    "logo": "/images/partners/university-of-bremen.png",
+    "source": "https://commons.wikimedia.org/wiki/File:UHB_Logo_Web_RGB.png",
+    "article": "https://en.wikipedia.org/wiki/University_of_Bremen",
+    "license": "Public domain"
+  },
+  {
+    "name": "University of Rostock",
+    "logo": "/images/partners/university-of-rostock.png",
+    "source": "https://en.wikipedia.org/wiki/File:Rostock_University_Logo_2009.png",
+    "article": "https://en.wikipedia.org/wiki/University_of_Rostock",
+    "license": "Public domain"
+  },
+  {
+    "name": "Institute for Applied Material Flow Management (IfaS)",
+    "logo": "/images/partners/institute-for-applied-material-flow-management-ifas.png",
+    "source": "https://www.stoffstrom.org/wp-content/uploads/revslider/o/1/9c9683dfdd6e1b88cab67c31051cf462.webp",
+    "website": "https://www.stoffstrom.org/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Dassault Systèmes",
+    "logo": "/images/partners/dassault-systemes.png",
+    "source": "https://en.wikipedia.org/wiki/File:Dassault_Syst%C3%A8mes_logo.svg",
+    "article": "https://en.wikipedia.org/wiki/Dassault_Syst%C3%A8mes",
+    "license": "PD"
+  },
+  {
+    "name": "Heriot-Watt University",
+    "logo": "/images/partners/heriot-watt-university.png",
+    "source": "https://commons.wikimedia.org/wiki/File:Heriot-Watt_University_logo.svg",
+    "article": "https://en.wikipedia.org/wiki/Heriot-Watt_University",
+    "license": "Public domain"
+  },
+  {
+    "name": "Loughborough University",
+    "logo": "/images/partners/loughborough-university.png",
+    "source": "https://en.wikipedia.org/wiki/File:Loughborough_Uni_logo.png",
+    "article": "https://en.wikipedia.org/wiki/Loughborough_University",
+    "license": "CC BY-SA 4.0"
+  },
+  {
+    "name": "University of Évora",
+    "logo": "/images/partners/university-of-evora.png",
+    "source": "https://en.wikipedia.org/wiki/File:Universidade_de_%C3%89vora_logo_horizontal.svg",
+    "article": "https://en.wikipedia.org/wiki/University_of_%C3%89vora",
+    "license": "Fair use"
+  },
+  {
+    "name": "Universitat Politècnica de València",
+    "logo": "/images/partners/universitat-politecnica-de-valencia.png",
+    "source": "https://en.wikipedia.org/wiki/File:Universitat_Polit%C3%A8cnica_de_Val%C3%A8ncia_Logo.svg",
+    "article": "https://en.wikipedia.org/wiki/Technical_University_of_Valencia",
+    "license": "Fair use"
+  },
+  {
+    "name": "University of Calgary",
+    "logo": "/images/partners/university-of-calgary.png",
+    "source": "https://en.wikipedia.org/wiki/File:University_of_Calgary_Logo.svg",
+    "article": "https://en.wikipedia.org/wiki/University_of_Calgary",
+    "license": "Fair use"
+  },
+  {
+    "name": "Kyoto University",
+    "logo": "/images/partners/kyoto-university.png",
+    "source": "https://commons.wikimedia.org/wiki/File:Kyoto_University_logo,_5.svg",
+    "article": "https://en.wikipedia.org/wiki/Kyoto_University",
+    "license": "Public domain"
+  },
+  {
+    "name": "Musashino University",
+    "logo": "/images/partners/musashino-university.png",
+    "source": "https://www.musashino-u.ac.jp/assets/img/common/apple-touch-icon_180x180.png",
+    "website": "https://www.musashino-u.ac.jp/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Japan International Cooperation Agency (JICA)",
+    "logo": "/images/partners/japan-international-cooperation-agency-jica.png",
+    "source": "https://commons.wikimedia.org/wiki/File:Japan_International_Cooperation_Agency_logo.svg",
+    "article": "https://en.wikipedia.org/wiki/Japan_International_Cooperation_Agency",
+    "license": "Public domain"
+  },
+  {
+    "name": "Cadence Design Systems",
+    "logo": "/images/partners/cadence-design-systems.png",
+    "source": "https://commons.wikimedia.org/wiki/File:Cadence-Logo.svg",
+    "article": "https://en.wikipedia.org/wiki/Cadence_Design_Systems",
+    "license": "Public domain"
+  },
+  {
+    "name": "International Solar Alliance (ISA)",
+    "logo": "/images/partners/international-solar-alliance-isa.png",
+    "source": "https://en.wikipedia.org/wiki/File:ISA_Logo_2021.png",
+    "article": "https://en.wikipedia.org/wiki/International_Solar_Alliance",
+    "license": "Fair use"
+  },
+  {
+    "name": "The Energy and Resources Institute (TERI)",
+    "logo": "/images/partners/the-energy-and-resources-institute-teri.png",
+    "source": "https://commons.wikimedia.org/wiki/File:The_Energy_and_Resources_Institute_logo.png",
+    "article": "https://en.wikipedia.org/wiki/The_Energy_and_Resources_Institute",
+    "license": "CC BY-SA 4.0"
+  },
+  {
+    "name": "Indian Institute of Technology Roorkee",
+    "logo": "/images/partners/indian-institute-of-technology-roorkee.png",
+    "source": "https://en.wikipedia.org/wiki/File:IIT_Roorkee_Wordmark_Logo.svg",
+    "article": "https://en.wikipedia.org/wiki/IIT_Roorkee",
+    "license": "Fair use"
+  },
+  {
+    "name": "Indian Institute of Technology Bombay",
+    "logo": "/images/partners/indian-institute-of-technology-bombay.png",
+    "source": "https://en.wikipedia.org/wiki/File:IIT_Bombay_Wordmark_Logo.svg",
+    "article": "https://en.wikipedia.org/wiki/IIT_Bombay",
+    "license": "Fair use"
+  },
+  {
+    "name": "International Institute of Information Technology Hyderabad",
+    "logo": "/images/partners/international-institute-of-information-technology-hyderabad.png",
+    "source": "https://www.iiit.ac.in/wp-content/uploads/2022/07/cropped-IIIT-Favicon-180x180.png",
+    "website": "https://www.iiit.ac.in/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Tribhuvan University",
+    "logo": "/images/partners/tribhuvan-university.png",
+    "source": "https://en.wikipedia.org/wiki/File:Tribhuvan_University_logo.svg",
+    "article": "https://en.wikipedia.org/wiki/Tribhuvan_University",
+    "license": "Fair use"
+  },
+  {
+    "name": "Kathmandu University",
+    "logo": "/images/partners/kathmandu-university.png",
+    "source": "https://en.wikipedia.org/wiki/File:Kathmandu_University_Logo.svg",
+    "article": "https://en.wikipedia.org/wiki/Kathmandu_University",
+    "license": "Fair use"
+  },
+  {
+    "name": "Kantipur Engineering College",
+    "logo": "/images/partners/kantipur-engineering-college.png",
+    "source": "https://kec.edu.np/wp-content/uploads/2024/06/KEC-College-logo-2-1.png",
+    "website": "https://kec.edu.np/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Daffodil International University",
+    "logo": "/images/partners/daffodil-international-university.png",
+    "source": "https://en.wikipedia.org/wiki/File:Monogram_of_Daffodil_International_University.svg",
+    "article": "https://en.wikipedia.org/wiki/Daffodil_International_University",
+    "license": "Fair use"
+  },
+  {
+    "name": "United International University",
+    "logo": "/images/partners/united-international-university.png",
+    "source": "https://en.wikipedia.org/wiki/File:United_International_University_Logo.svg",
+    "article": "https://en.wikipedia.org/wiki/United_International_University",
+    "license": "Fair use"
+  },
+  {
+    "name": "University of Peradeniya",
+    "logo": "/images/partners/university-of-peradeniya.png",
+    "source": "https://en.wikipedia.org/wiki/File:University_of_Peradeniya_logo.jpg",
+    "article": "https://en.wikipedia.org/wiki/University_of_Peradeniya",
+    "license": "Fair use"
+  },
+  {
+    "name": "Asian Institute of Technology",
+    "logo": "/images/partners/asian-institute-of-technology.png",
+    "source": "https://en.wikipedia.org/wiki/File:Asian_Institute_of_Technology-Logo.png",
+    "article": "https://en.wikipedia.org/wiki/Asian_Institute_of_Technology",
+    "license": "Fair use"
+  },
+  {
+    "name": "Chiang Mai University",
+    "logo": "/images/partners/chiang-mai-university.png",
+    "source": "https://commons.wikimedia.org/wiki/File:CMU_SUB-LOGO-08.png",
+    "article": "https://en.wikipedia.org/wiki/Chiang_Mai_University",
+    "license": "Fair use"
+  },
+  {
+    "name": "Naresuan University",
+    "logo": "/images/partners/naresuan-university.png",
+    "source": "https://www.nu.ac.th/wp-content/uploads/2024/01/cropped-fa-NULOGO-180x180.png",
+    "website": "https://www.nu.ac.th/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Universiti Malaya",
+    "logo": "/images/partners/universiti-malaya.png",
+    "source": "https://www.um.edu.my/images/img-logo-UM.png",
+    "website": "https://www.um.edu.my/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Ho Chi Minh City University of Technology",
+    "logo": "/images/partners/ho-chi-minh-city-university-of-technology.png",
+    "source": "https://commons.wikimedia.org/wiki/File:HCMCUT.svg",
+    "article": "https://en.wikipedia.org/wiki/Ho_Chi_Minh_City_University_of_Technology",
+    "license": "Public domain"
+  },
+  {
+    "name": "University of Technology Sydney",
+    "logo": "/images/partners/university-of-technology-sydney.png",
+    "source": "https://en.wikipedia.org/wiki/File:Logo_of_the_University_of_Technology_Sydney.svg",
+    "article": "https://en.wikipedia.org/wiki/University_of_Technology_Sydney",
+    "license": "Fair use"
+  },
+  {
+    "name": "Ministry of Energy and Natural Resources",
+    "logo": "/images/partners/ministry-of-energy-and-natural-resources.png",
+    "source": "Provided by CST (the national emblem of Bhutan, used by government bodies)",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "Department of Energy",
+    "logo": "/images/partners/department-of-energy.png",
+    "source": "Provided by CST (the national emblem of Bhutan, used by government bodies)",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "Department of Geology and Mines",
+    "logo": "/images/partners/department-of-geology-and-mines.png",
+    "source": "Provided by CST (the national emblem of Bhutan, used by government bodies)",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "National Centre for Hydrology and Meteorology",
+    "logo": "/images/partners/national-centre-for-hydrology-and-meteorology.png",
+    "source": "Provided by CST",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "Ministry of Industry, Commerce and Employment",
+    "logo": "/images/partners/ministry-of-industry-commerce-and-employment.png",
+    "source": "Provided by CST (the national emblem of Bhutan, used by government bodies)",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "Ministry of Agriculture and Forests",
+    "logo": "/images/partners/ministry-of-agriculture-and-forests.png",
+    "source": "Provided by CST (the national emblem of Bhutan, used by government bodies)",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "Department of Culture and Dzongkha Development",
+    "logo": "/images/partners/department-of-culture-and-dzongkha-development.png",
+    "source": "Provided by CST (the national emblem of Bhutan, used by government bodies)",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "Dzongkha Development Commission",
+    "logo": "/images/partners/dzongkha-development-commission.png",
+    "source": "Provided by CST",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "Agriculture Machinery and Technology Centre",
+    "logo": "/images/partners/agriculture-machinery-and-technology-centre.png",
+    "source": "Provided by CST",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "Bhutan Power Corporation Limited",
+    "logo": "/images/partners/bhutan-power-corporation-limited.png",
+    "source": "https://www.bpc.bt/wp-content/themes/bpc/assets/img/logo.png",
+    "website": "https://www.bpc.bt/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Druk Green Power Corporation",
+    "logo": "/images/partners/druk-green-power-corporation.png",
+    "source": "https://www.drukgreen.bt/wp-content/uploads/2026/03/BHSL-Logoo.webp",
+    "website": "https://www.drukgreen.bt/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Druk Holding and Investments (DHI)",
+    "logo": "/images/partners/druk-holding-and-investments-dhi.png",
+    "source": "https://www.dhi.bt/_next/image?url=%2Fimages%2Flogo%2Flogo.webp&w=3840&q=75",
+    "website": "https://www.dhi.bt/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Tashi InfoComm Limited",
+    "logo": "/images/partners/tashi-infocomm-limited.png",
+    "source": "https://www.tashicell.com/themes/tashicell/assets/images/logo.png",
+    "website": "https://www.tashicell.com/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "DrukSmart Private Limited",
+    "logo": "/images/partners/druksmart-private-limited.png",
+    "source": "Provided by CST",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "JB Solar Solutions",
+    "logo": "/images/partners/jb-solar-solutions.png",
+    "source": "Provided by CST",
+    "license": "Provided by CST"
+  },
+  {
+    "name": "Bhutan National Bank",
+    "logo": "/images/partners/bhutan-national-bank.png",
+    "source": "https://bnb.bt/wp-content/uploads/2024/04/BNB-Primary-Logo-no-border-space.svg",
+    "website": "https://bnb.bt/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Bank of Bhutan",
+    "logo": "/images/partners/bank-of-bhutan.png",
+    "source": "https://commons.wikimedia.org/wiki/File:Bank_of_Bhutan_logo.svg",
+    "article": "https://en.wikipedia.org/wiki/Bank_of_Bhutan",
+    "license": "CC BY-SA 3.0"
+  },
+  {
+    "name": "Bhutan Trust Fund for Environmental Conservation",
+    "logo": "/images/partners/bhutan-trust-fund-for-environmental-conservation.png",
+    "source": "https://bhutantrustfund.bt/wp-content/uploads/2026/04/BTF_LogoBold-01-5.png",
+    "website": "https://bhutantrustfund.bt/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Bhutan Foundation",
+    "logo": "/images/partners/bhutan-foundation.png",
+    "source": "https://bhutanfound.org/wp-content/uploads/2026/06/BF__icon-07.svg",
+    "website": "https://bhutanfound.org/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Tarayana Foundation",
+    "logo": "/images/partners/tarayana-foundation.png",
+    "source": "https://www.tarayanafoundation.org/wp-content/uploads/2024/08/cropped-tarayana-site-logo-180x180.png",
+    "website": "https://www.tarayanafoundation.org/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "Loden Foundation",
+    "logo": "/images/partners/loden-foundation.png",
+    "source": "https://www.loden.org/wp-content/uploads/2024/01/cropped-Loden-Foundation-Logo.png",
+    "website": "https://www.loden.org/",
+    "license": "From the organisation’s own website"
+  },
+  {
+    "name": "EduYoung Bhutan",
+    "logo": "/images/partners/eduyoung-bhutan.png",
+    "source": "Provided by CST",
+    "license": "Provided by CST"
+  }
+]

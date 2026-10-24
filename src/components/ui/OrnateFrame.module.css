@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Ornate frame: four Bhutanese corners, each var(--orn) square, in the
+   corners of the content, which is padded clear of them.
+   ========================================================================== */
+
+.frame {
+  position: relative;
+}
+
+.corner {
+  display: block;
+  width: var(--orn);
+  height: var(--orn);
+}
+
+.placed {
+  position: absolute;
+  pointer-events: none;
+}
+
+.tl {
+  top: 0;
+  left: 0;
+}
+
+.tr {
+  top: 0;
+  right: 0;
+}
+
+.bl {
+  bottom: 0;
+  left: 0;
+}
+
+.br {
+  right: 0;
+  bottom: 0;
+}
+
+.content {
+  padding: calc(var(--orn) * 0.42) calc(var(--orn) * 0.55);
+}

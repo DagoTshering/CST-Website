@@ -7,6 +7,7 @@ export * from "./content";
 export * from "./downloads";
 export * from "./enums";
 export * from "./media";
+export * from "./partners";
 export * from "./people";
 export * from "./users";
 export * from "./vacancies";

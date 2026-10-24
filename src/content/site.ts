@@ -89,6 +89,7 @@ export const mainNav: NavItem[] = [
       { label: "About CST", href: "/about" },
       { label: "Executives", href: "/about/executives" },
       { label: "Staff Directory", href: "/about/staff-directory" },
+      { label: "Partners", href: "/about/partners" },
     ],
   },
   { label: "Academics", href: "/programmes" },

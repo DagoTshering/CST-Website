@@ -12,6 +12,7 @@ const {
   events,
   executives,
   facilities,
+  partners,
   programmes,
   staff,
   vacancies,
@@ -24,6 +25,7 @@ export type CategoryKey =
   | "announcements"
   | "executives"
   | "staff"
+  | "partners"
   | "downloads"
   | "vacancies"
   | "about";
@@ -38,6 +40,7 @@ export async function getContentCounts() {
     | typeof events
     | typeof executives
     | typeof staff
+    | typeof partners
     | typeof announcements
     | typeof downloads
     | typeof vacancies
@@ -53,13 +56,14 @@ export async function getContentCounts() {
       .from(table)
       .then(([row]) => row);
 
-  const [prog, fac, ev, ann, exec, people, down, vac, about] = await Promise.all([
+  const [prog, fac, ev, ann, exec, people, partnerCount, down, vac, about] = await Promise.all([
     tally(programmes),
     tally(facilities),
     tally(events),
     tally(announcements),
     tally(executives),
     tally(staff),
+    tally(partners),
     tally(downloads),
     tally(vacancies),
     tally(aboutSection),
@@ -71,6 +75,7 @@ export async function getContentCounts() {
     announcements: ann,
     executives: exec,
     staff: people,
+    partners: partnerCount,
     downloads: down,
     vacancies: vac,
     about,
@@ -171,6 +176,19 @@ export async function getRecentlyUpdated(limit = 8): Promise<RecentItem[]> {
         })
         .from(staff)
         .orderBy(desc(staff.updatedAt))
+        .limit(limit),
+    ),
+    latest(
+      "partners",
+      db
+        .select({
+          id: partners.id,
+          title: partners.name,
+          status: partners.status,
+          updatedAt: partners.updatedAt,
+        })
+        .from(partners)
+        .orderBy(desc(partners.updatedAt))
         .limit(limit),
     ),
     latest(

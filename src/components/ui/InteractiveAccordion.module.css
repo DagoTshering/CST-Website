@@ -147,6 +147,24 @@
   margin-left: 0;
 }
 
+/* something small at the end of the row (a row of logos), there while the item is closed */
+.aside {
+  display: flex;
+  flex: none;
+  align-items: center;
+  margin-left: auto;
+  transition: opacity 200ms;
+}
+
+.aside + .label,
+.aside + .plus {
+  margin-left: 0;
+}
+
+.item[data-open] .aside {
+  opacity: 0;
+}
+
 /* a plus, turning into a cross */
 .plus {
   position: relative;
@@ -255,6 +273,14 @@
     margin-left: auto;
   }
 
+  .aside {
+    display: none;
+  }
+
+  .aside + .plus {
+    margin-left: auto;
+  }
+
   .wide .content {
     padding-left: 4px;
   }
@@ -263,6 +289,7 @@
 @media (prefers-reduced-motion: reduce) {
   .number,
   .number::before,
+  .aside,
   .text,
   .title,
   .plus,

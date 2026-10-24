@@ -44,6 +44,7 @@ async function isUsedByPublishedContent(mediaId: string) {
         select 1 from research_centres where image_id = ${mediaId} and status = 'published'
       )
       or exists (select 1 from downloads where file_id = ${mediaId} and status = 'published')
+      or exists (select 1 from partners where logo_id = ${mediaId} and status = 'published')
     ) as used
   `);
   return Boolean(row?.used);

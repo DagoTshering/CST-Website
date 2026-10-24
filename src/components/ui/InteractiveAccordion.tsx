@@ -13,6 +13,11 @@ export type AccordionItem = {
   subtitle?: string;
   /** A small label at the end of the row, before the plus (About's centres: "Research"). */
   label?: string;
+  /**
+   * Something small at the end of the row, before the label, shown while the item is closed
+   * (the Partners page's row of logos). Decorative: hidden from screen readers.
+   */
+  aside?: ReactNode;
   content: ReactNode;
 };
 
@@ -23,6 +28,9 @@ export type AccordionItem = {
  * first starts open unless `defaultOpen` names another, or is null for none. Each item is a real
  * button (aria-expanded, aria-controls) in a heading; a closed panel is inert. Reduced motion: no
  * animation.
+ *
+ * Controlled, with `open` and `onToggle`: the caller keeps which items are open, any number at
+ * once (the Partners page's search and "Expand all").
  */
 export function InteractiveAccordion({
   items,
@@ -30,6 +38,8 @@ export function InteractiveAccordion({
   start = 1,
   wide = false,
   headingLevel = 3,
+  open: openIds,
+  onToggle,
 }: {
   items: AccordionItem[];
   /** The item open on load: the first if left out, none if null. */
@@ -40,17 +50,26 @@ export function InteractiveAccordion({
   wide?: boolean;
   /** 4 when the accordion sits under an h3 of its own. */
   headingLevel?: 3 | 4;
+  /** Controlled: the ids of the open items. `defaultOpen` is then ignored. */
+  open?: string[];
+  /** Controlled: called with an item's id when its button is pressed. */
+  onToggle?: (id: string) => void;
 }) {
   const [open, setOpen] = useState<string | null>(
     defaultOpen === undefined ? (items[0]?.id ?? null) : defaultOpen,
   );
+  const isOpenItem = (id: string) => (openIds ? openIds.includes(id) : open === id);
+  const toggle = (id: string) => {
+    if (onToggle) onToggle(id);
+    else setOpen(open === id ? null : id);
+  };
   const base = useId();
   const Heading = `h${headingLevel}` as const;
 
   return (
     <div className={cx(s.accordion, wide && s.wide)}>
       {items.map((item, i) => {
-        const isOpen = open === item.id;
+        const isOpen = isOpenItem(item.id);
         const buttonId = `${base}-${item.id}`;
         const panelId = `${buttonId}-panel`;
         return (
@@ -62,7 +81,7 @@ export function InteractiveAccordion({
                 className={s.button}
                 aria-expanded={isOpen}
                 aria-controls={panelId}
-                onClick={() => setOpen(isOpen ? null : item.id)}
+                onClick={() => toggle(item.id)}
               >
                 <span className={s.number} aria-hidden="true">
                   <span>{String(start + i).padStart(2, "0")}</span>
@@ -74,6 +93,11 @@ export function InteractiveAccordion({
                   </span>
                 ) : (
                   <span className={s.title}>{item.title}</span>
+                )}
+                {item.aside && (
+                  <span className={s.aside} aria-hidden="true">
+                    {item.aside}
+                  </span>
                 )}
                 {item.label && <span className={s.label}>{item.label}</span>}
                 <span className={s.plus} aria-hidden="true" />

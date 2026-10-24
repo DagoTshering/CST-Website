@@ -4,6 +4,7 @@ import {
   CalendarDays,
   FileDown,
   GraduationCap,
+  Handshake,
   Landmark,
   Megaphone,
   Network,
@@ -59,6 +60,13 @@ export const categories: Record<
     icon: Users,
     description: "Academic and support staff, by department.",
     unit: "staff",
+  },
+  partners: {
+    label: "Partners",
+    href: "/admin/partners",
+    icon: Handshake,
+    description: "International and national partners on the Partners page.",
+    unit: "partners",
   },
   downloads: {
     label: "Downloads",

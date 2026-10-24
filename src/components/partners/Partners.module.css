@@ -1,0 +1,412 @@
+/* ==========================================================================
+   Partners page: the figures (as on the About page), then the tabs, search
+   and "Expand all" over a hairline, then the groups as the site's accordion,
+   each opening onto a grid of cards framed by the Bhutanese corners (gold,
+   teal on hover and focus). A partner without a logo shows their initials on
+   a tile tinted by their type.
+   ========================================================================== */
+
+/* ---------- figures ------------------------------------------------------ */
+
+.figures {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: clamp(1.5rem, 1rem + 1.5vw, 2.25rem) 0 0;
+  padding: 0;
+  list-style: none;
+  border-block: 1px solid var(--color-line);
+}
+
+.figure {
+  padding: 26px 22px 26px 0;
+}
+
+.figure + .figure {
+  padding-left: 26px;
+  border-left: 1px solid var(--color-line);
+}
+
+.figureValue {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 2rem + 3vw, 4.5rem);
+  font-weight: 500;
+  font-variant-numeric: lining-nums tabular-nums;
+  line-height: 1;
+  color: var(--color-ink);
+}
+
+.figureLabel {
+  display: block;
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* ---------- tabs, search and "Expand all" --------------------------------- */
+
+.directory {
+  margin-top: clamp(2.5rem, 1.75rem + 2vw, 3.5rem);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+}
+
+/* the shared tabs, set left, on their own hairline (centred once the toolbar wraps) */
+.toolbar .tabs {
+  justify-content: flex-start;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.tools {
+  display: flex;
+  flex: 1 1 320px;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 20px;
+  max-width: 480px;
+  padding-bottom: 10px;
+}
+
+.search {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 18px;
+  height: 18px;
+  color: var(--color-muted);
+  translate: 0 -50%;
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 14px 10px 42px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-white);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 0.9375rem;
+  transition: border-color 150ms;
+}
+
+.input::placeholder {
+  color: var(--color-muted);
+  opacity: 1;
+}
+
+.input:hover {
+  border-color: color-mix(in srgb, var(--color-muted) 50%, var(--color-line));
+}
+
+.input:focus {
+  border-color: var(--color-hero-teal);
+}
+
+.expand,
+.switch {
+  flex: none;
+  min-height: 44px;
+  padding: 0 2px;
+  border: 0;
+  background: none;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--color-hero-teal);
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+.expand:hover,
+.switch:hover {
+  text-decoration: underline;
+}
+
+.switch {
+  min-height: 0;
+}
+
+.summary {
+  margin: 18px 0 0;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+/* the accordion, a little below the toolbar */
+.groups {
+  margin-top: 28px;
+}
+
+/* ---------- logos -------------------------------------------------------- */
+
+/* the tint of a lettered tile, by the partner's type */
+.logo {
+  --tint: var(--color-hero-teal);
+  position: relative;
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--tint) 25%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--tint) 5%, var(--color-white));
+  color: var(--tint);
+}
+
+.logo[data-type="research"] {
+  --tint: #3b6fb0;
+}
+
+.logo[data-type="government"] {
+  --tint: #9b3d3d;
+}
+
+.logo[data-type="industry"] {
+  --tint: #a8691f;
+}
+
+.logo[data-type="foundation"] {
+  --tint: #4f7d33;
+}
+
+.logo[data-type="programme"] {
+  --tint: #6b56a3;
+}
+
+.logo[data-type="finance"] {
+  --tint: #4a5a6a;
+}
+
+/* a real logo: a plain white tile */
+.logo[data-loaded] {
+  border-color: var(--color-line);
+  background: var(--color-white);
+}
+
+.initials {
+  font-family: var(--font-mono);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.logo[data-long] .initials {
+  font-size: 0.9375rem;
+}
+
+.logo[data-loaded] .initials {
+  visibility: hidden;
+}
+
+.logoImage {
+  padding: 8px;
+  object-fit: contain;
+}
+
+/* the closed group's row of up to four, overlapping */
+.preview {
+  display: flex;
+  align-items: center;
+  margin-right: 14px;
+}
+
+.logoSmall {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  box-shadow: 0 0 0 2px var(--color-white);
+}
+
+.logoSmall + .logoSmall {
+  margin-left: -6px;
+}
+
+.logoSmall .initials,
+.logoSmall[data-long] .initials {
+  font-size: 0.5625rem;
+  letter-spacing: 0;
+}
+
+.logoSmall .logoImage {
+  padding: 3px;
+}
+
+/* ---------- cards -------------------------------------------------------- */
+
+/* gaps wide enough that neighbouring cards' corners never touch */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px 24px;
+  margin: 0;
+  padding: 8px 0 4px;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.grid > li {
+  display: flex;
+}
+
+/* the corners take the card's colour: gold, teal on hover and keyboard focus */
+.card {
+  display: block;
+  flex: 1;
+  border-radius: 2px;
+  background: var(--color-white);
+  color: var(--color-hero-gold);
+  text-decoration: none;
+  transition: color 200ms;
+}
+
+.card:hover,
+.card:focus-visible {
+  color: var(--color-hero-teal);
+}
+
+.card:focus-visible {
+  outline: 2px solid var(--color-hero-teal);
+  outline-offset: 2px;
+}
+
+.frame {
+  height: 100%;
+}
+
+/* kept clear of the right-hand corners (the frame pads less than a corner's width) */
+.cardBody {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 64px;
+  padding-right: calc(var(--orn) * 0.4);
+}
+
+.cardText {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.cardName {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+.cardPlace {
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--color-muted);
+}
+
+.cardExternal {
+  flex: none;
+  align-self: flex-start;
+  width: 14px;
+  height: 14px;
+  color: var(--color-muted);
+  transition: color 200ms;
+}
+
+.card:hover .cardExternal,
+.card:focus-visible .cardExternal {
+  color: var(--color-hero-teal);
+}
+
+.card:hover .cardName,
+.card:focus-visible .cardName {
+  color: var(--color-hero-teal);
+}
+
+/* ---------- small screens ------------------------------------------------ */
+
+@media (max-width: 820px) {
+  .figures {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .figure:nth-child(3) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .figure:nth-child(n + 3) {
+    border-top: 1px solid var(--color-line);
+  }
+
+  .toolbar .tabs {
+    flex-basis: 100%;
+    justify-content: center;
+  }
+
+  .tools {
+    flex-basis: 100%;
+    max-width: none;
+    padding-bottom: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .figure {
+    padding: 20px 14px 20px 0;
+  }
+
+  .figure + .figure {
+    padding-left: 16px;
+  }
+
+  .figure:nth-child(3) {
+    padding-left: 0;
+  }
+
+  .toolbar .tabs {
+    gap: 0 24px;
+  }
+
+  .tabWord {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .cardExternal,
+  .input {
+    transition: none;
+  }
+}

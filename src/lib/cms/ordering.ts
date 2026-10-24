@@ -34,7 +34,8 @@ export type OrderingKey =
   | "centres"
   | "admissionTracks"
   | "admissionFaqs"
-  | "admissionStepTypes";
+  | "admissionStepTypes"
+  | "partners";
 
 type Ordering = {
   table: string;
@@ -163,6 +164,16 @@ const orderings: Record<OrderingKey, Ordering> = {
     tags: ["cms:admission"],
     listPath: () => "/admin/admissions/steps",
   },
+  // international and national partners are listed apart, so ordered apart
+  partners: {
+    table: "partners",
+    label: sql`${t}.name`,
+    group: sql`${t}.category::text`,
+    from: sql`left join media m on m.id = ${t}.logo_id`,
+    photo: sql`m.storage_key`,
+    tags: ["cms:partners"],
+    listPath: (group) => `/admin/partners?category=${group}`,
+  },
 };
 
 export type OrderedItem = {
@@ -179,7 +190,9 @@ const isGroupKey = (group: string) =>
   group === "undergraduate" ||
   group === "postgraduate" ||
   group === "research" ||
-  group === "innovation";
+  group === "innovation" ||
+  group === "international" ||
+  group === "national";
 
 /** The items of one group (or, without `group`, of every group), in their current order. */
 export async function orderedItems(
