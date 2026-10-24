@@ -60,15 +60,25 @@ export function BlueprintGrid({ className }: { className?: string }) {
       return [x + ux * out - uy * side, y + uy * out + ux * side];
     };
 
+    // Beyond REACH of the bend (and while there is no bend) warp leaves a point where it is, so
+    // a line is straight there and only its ends are drawn; it is followed point by point only
+    // where it passes near the pointer.
     const line = (vertical: boolean, p: number, t: number) => {
       const length = vertical ? height : width;
-      ctx.beginPath();
-      for (let s = 0; s <= length + STEP; s += STEP) {
+      const at = (s: number) => {
         const along = Math.min(s, length);
-        const [x, y] = vertical ? warp(p, along, t) : warp(along, p, t);
-        if (s) ctx.lineTo(x, y);
-        else ctx.moveTo(x, y);
+        return vertical ? warp(p, along, t) : warp(along, p, t);
+      };
+      ctx.beginPath();
+      ctx.moveTo(...at(0));
+      let reached = 0;
+      if (amp >= 0.001 && Math.abs(p - (vertical ? mx : my)) <= REACH) {
+        const centre = vertical ? my : mx;
+        const from = Math.max(STEP, Math.floor((centre - REACH) / STEP) * STEP);
+        const to = Math.min(length, Math.ceil((centre + REACH) / STEP) * STEP);
+        for (let s = from; s <= to; s += STEP) ctx.lineTo(...at((reached = s)));
       }
+      if (reached < length) ctx.lineTo(...at(length));
       ctx.stroke();
     };
 

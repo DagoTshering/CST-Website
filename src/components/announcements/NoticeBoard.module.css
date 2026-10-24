@@ -121,13 +121,17 @@
 
 /* the mast */
 .mast {
+  position: relative;
   justify-self: center;
   width: min(100%, 20rem);
   aspect-ratio: 1;
   color: rgb(255 255 255 / 0.75);
 }
 
+/* the drawing and its moving layers (rings, light), stacked */
 .mast svg {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   overflow: visible;
@@ -146,16 +150,21 @@
   }
 }
 
+/* Each ring is a whole svg layer (see BroadcastHero's Mast), scaled about the ring's centre,
+   (100, 40) in the 200 x 210 viewBox: fitted into the square box, that is 50% across and
+   40/210 = 19.0476% down. */
 .ring {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 1.5;
-  transform-box: fill-box;
-  transform-origin: center;
+  transform-origin: 50% 19.0476%;
   opacity: 0;
 }
 
-.beacon {
+.ring circle {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.beacon circle {
   fill: #ff6b5b;
 }
 

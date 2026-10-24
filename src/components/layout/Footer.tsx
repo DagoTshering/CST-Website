@@ -46,7 +46,9 @@ function LinkColumn({ title, links }: { title: string; links: NavLink[] }) {
           <li key={link.href}>
             <SmartLink
               href={link.href}
-              className="group inline-block text-small leading-snug text-on-dark transition-[color,translate] duration-200 ease-out-soft hover:translate-x-1 hover:text-white"
+              // the ::before stays where the link started, so a resting pointer cannot see it
+              // slide away and back (see Button's lift)
+              className="group relative inline-block translate-x-0 text-small leading-snug text-on-dark transition-[color,translate] duration-200 ease-out-soft before:absolute before:inset-0 hover:translate-x-1 hover:text-white hover:before:-translate-x-1"
             >
               {link.label}
               {/* inline, so it follows the last word when a label wraps */}
@@ -142,7 +144,7 @@ export async function Footer() {
                       <SmartLink
                         href={href}
                         aria-label={label}
-                        className="grid size-11 place-items-center rounded-full border border-white/20 text-accent transition duration-200 ease-out-soft hover:-translate-y-0.5 hover:border-accent hover:bg-white/10 hover:text-white"
+                        className="relative grid size-11 translate-y-0 place-items-center rounded-full border border-white/20 text-accent transition duration-200 ease-out-soft before:absolute before:inset-0 before:rounded-full hover:-translate-y-0.5 hover:border-accent hover:bg-white/10 hover:text-white hover:before:translate-y-0.5"
                       >
                         <Icon className="size-[1.125rem]" />
                       </SmartLink>

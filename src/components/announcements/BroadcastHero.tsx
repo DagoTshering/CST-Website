@@ -4,6 +4,9 @@ import { formatDate } from "@/lib/dates";
 
 import s from "./NoticeBoard.module.css";
 
+/** The mast drawing's viewBox, shared by all its layers so they line up. */
+const VIEW_BOX = "0 0 200 210";
+
 /** A lattice mast with its aviation light, sending out signal rings (decoration). */
 function Mast() {
   // the mast's two legs, from the top (100, 52) to the ground
@@ -24,12 +27,17 @@ function Mast() {
     const hb = ((b - 52) / 144) * 36;
     return i % 2 ? `M${100 + ha} ${a} L${100 - hb} ${b}` : `M${100 - ha} ${a} L${100 + hb} ${b}`;
   });
+  // Each ring and the light is an svg of its own, stacked over the mast with the same viewBox:
+  // the browser can scale and fade a whole layer on the GPU, while a shape animated inside an
+  // svg has the whole drawing laid out and repainted on every frame.
   return (
     <div className={s.mast} aria-hidden="true">
-      <svg viewBox="0 0 200 210" focusable="false">
-        <circle className={s.ring} cx="100" cy="40" r="60" />
-        <circle className={s.ring} cx="100" cy="40" r="60" />
-        <circle className={s.ring} cx="100" cy="40" r="60" />
+      {[0, 1, 2].map((ring) => (
+        <svg key={ring} className={s.ring} viewBox={VIEW_BOX} focusable="false">
+          <circle cx="100" cy="40" r="60" />
+        </svg>
+      ))}
+      <svg viewBox={VIEW_BOX} focusable="false">
         <g fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
           <path d={legs} strokeWidth="2.2" />
           {braces.map((d) => (
@@ -42,7 +50,9 @@ function Mast() {
           <path d="M56 198 L144 198" strokeOpacity="0.5" />
           <path d="M84 110 l-9 -5 M116 110 l9 -5" strokeOpacity="0.8" />
         </g>
-        <circle className={s.beacon} cx="100" cy="24" r="3.4" />
+      </svg>
+      <svg className={s.beacon} viewBox={VIEW_BOX} focusable="false">
+        <circle cx="100" cy="24" r="3.4" />
       </svg>
     </div>
   );
@@ -62,7 +72,7 @@ export function BroadcastHero({
 }) {
   const ticker = latest.map((n) => `${formatDate(n.publishedOn)}  ${n.title}`);
   return (
-    <header className={s.hero}>
+    <header className={s.hero} data-loop="" suppressHydrationWarning>
       <div className={`container-page ${s.heroGrid}`}>
         <div>
           <p className={s.eyebrow}>

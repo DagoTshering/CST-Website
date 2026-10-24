@@ -40,7 +40,7 @@ export function AboutEmblem({
   halo = "#E9E9E6",
 }: { caption?: string; halo?: string } = {}) {
   return (
-    <div className={s.root}>
+    <div className={s.root} data-loop="" suppressHydrationWarning>
       <Layer className={`${s.layer} ${s.ticks}`}>
         <g fill="none" stroke={INK} strokeLinecap="butt">
           <path

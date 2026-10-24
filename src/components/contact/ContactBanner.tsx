@@ -21,7 +21,7 @@ export function ContactBanner() {
   return (
     <div className={s.banner} data-photo={hasBanner || undefined}>
       {hasBanner && (
-        <div className={s.art}>
+        <div className={s.art} data-loop="" suppressHydrationWarning>
           <Image
             src={BANNER}
             alt="The college campus at sunrise, with a tree-lined road between the academic blocks"
