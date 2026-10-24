@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { preload } from "react-dom";
 
 import { ButtonLink } from "@/components/ui/Button";
+import { cx } from "@/lib/cx";
 
 import campusAerial from "../../../../public/images/home/campus-aerial.jpg";
 import { TechBackground } from "./TechBackground";
@@ -23,8 +24,36 @@ const CampusSite3D = dynamic(() => import("./CampusSite3D").then((m) => m.Campus
 const AERIAL = campusAerial.src;
 
 /**
+ * The two calls to action. On a phone they sit under the model, elsewhere under the tagline, so
+ * the hero renders them in both places and shows one (the other is display: none, so screen
+ * readers and the keyboard meet them once).
+ */
+function Actions({ className }: { className: string }) {
+  return (
+    <div
+      className={cx(
+        "pointer-events-auto flex flex-col gap-3 min-[420px]:flex-row sm:gap-4",
+        className,
+      )}
+    >
+      <ButtonLink href="/programmes" className="flex-1 sm:flex-none sm:px-7 sm:text-[16px]">
+        Explore programmes
+      </ButtonLink>
+      <ButtonLink
+        href="/contact"
+        variant="secondary"
+        className="flex-1 sm:flex-none sm:px-7 sm:text-[16px]"
+      >
+        Visit the campus
+      </ButtonLink>
+    </div>
+  );
+}
+
+/**
  * Homepage hero: the college name on the left, the 3D campus site model on the right.
- * Below lg the copy comes first and the model sits underneath it.
+ * Below lg the copy comes first and the model sits underneath it; on a phone (below md) the
+ * buttons come last, under the model.
  * On desktop the hero fills the screen below the header (--header-h: the utility bar and the
  * main row, 116px at the top of the page).
  */
@@ -54,18 +83,7 @@ export function HeroCampus() {
           <p className="mt-4 text-[16px] text-slate-700 sm:mt-5 sm:text-[19px]">
             In pursuit of preparing for tomorrow’s Technologist
           </p>
-          <div className="pointer-events-auto mt-6 flex flex-col gap-3 min-[420px]:flex-row sm:mt-8 sm:gap-4">
-            <ButtonLink href="/programmes" className="flex-1 sm:flex-none sm:px-7 sm:text-[16px]">
-              Explore programmes
-            </ButtonLink>
-            <ButtonLink
-              href="/contact"
-              variant="secondary"
-              className="flex-1 sm:flex-none sm:px-7 sm:text-[16px]"
-            >
-              Visit the campus
-            </ButtonLink>
-          </div>
+          <Actions className="mt-8 max-md:hidden" />
         </div>
       </div>
 
@@ -75,6 +93,9 @@ export function HeroCampus() {
       <div className="relative h-[340px] w-full [--fade:3rem] sm:h-[460px] md:h-[520px] md:[--fade:2.5rem] lg:absolute lg:inset-0 lg:h-auto lg:[--fade:9rem] [&_canvas]:[mask-image:linear-gradient(to_top,transparent,#000_var(--fade))]">
         <CampusSite3D embed height="100%" aerialSrc={AERIAL} />
       </div>
+
+      {/* on a phone the buttons come after the model */}
+      <Actions className="relative z-10 px-4 pt-2 pb-8 sm:px-5 md:hidden" />
     </section>
   );
 }

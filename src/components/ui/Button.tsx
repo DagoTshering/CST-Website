@@ -11,15 +11,27 @@ const base =
 
 const solid = "min-h-12 rounded-sm px-6 py-3 text-[0.9375rem] tracking-[0.01em]";
 
+/**
+ * The 1px lift on hover, with a hover area that stays put. Without care, a resting pointer can
+ * make the button flicker between its two states sixty times a second:
+ * - at a button edge that falls on half a pixel, as the browser rounds an untransformed box to
+ *   whole pixels but measures a transformed one exactly; a translate of 0 at rest keeps the
+ *   button measured one way;
+ * - at its bottom edge, which the lift moves away from the pointer; an invisible ::before moves
+ *   back down as the button moves up, so the hover area stays where the button started.
+ */
+const lift =
+  "relative translate-y-0 hover:-translate-y-px active:translate-y-0 before:absolute before:inset-0 hover:before:translate-y-px active:before:translate-y-0";
+
 const styles: Record<Tone, Record<Variant, string>> = {
   light: {
-    primary: `${solid} bg-primary-strong text-white shadow-sm hover:-translate-y-px hover:bg-primary-deep hover:shadow-md active:translate-y-0`,
-    secondary: `${solid} border border-primary-strong bg-white/80 text-primary-strong hover:-translate-y-px hover:bg-accent-soft active:translate-y-0`,
+    primary: `${solid} ${lift} bg-primary-strong text-white shadow-sm hover:bg-primary-deep hover:shadow-md`,
+    secondary: `${solid} ${lift} border border-primary-strong bg-white/80 text-primary-strong hover:bg-accent-soft`,
     text: "text-[0.9375rem] text-primary-strong hover:text-primary-deep",
   },
   dark: {
-    primary: `${solid} bg-white text-primary-deep shadow-sm hover:-translate-y-px hover:bg-accent-soft hover:shadow-md active:translate-y-0`,
-    secondary: `${solid} border border-white/70 text-white hover:-translate-y-px hover:bg-white/10 active:translate-y-0`,
+    primary: `${solid} ${lift} bg-white text-primary-deep shadow-sm hover:bg-accent-soft hover:shadow-md`,
+    secondary: `${solid} ${lift} border border-white/70 text-white hover:bg-white/10`,
     text: "text-[0.9375rem] text-white hover:text-accent",
   },
 };

@@ -15,6 +15,9 @@ export function NoticeTicker({ latest }: { latest: { title: string; publishedOn:
   return (
     <div
       className={s.ticker}
+      // its endless scroll rests while off screen (LoopObserver)
+      data-loop=""
+      suppressHydrationWarning
       aria-hidden="true"
       // a longer ticker runs longer, so it reads at the same pace
       style={

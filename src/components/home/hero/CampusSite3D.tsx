@@ -123,7 +123,7 @@ export function CampusSite3D({
         ref={sceneRef}
         role="img"
         aria-label="3D model of the College of Science and Technology campus in Rinchending, cut from the hillside like an engineering site model. Drag to rotate."
-        className="absolute inset-0 touch-pan-y outline-none [&>canvas]:block [&>canvas]:h-full [&>canvas]:w-full"
+        className="absolute inset-0 touch-pan-y touch-pinch-zoom outline-none [&>canvas]:block [&>canvas]:h-full [&>canvas]:w-full"
       />
       <button
         aria-label={playing ? "Pause animation" : "Resume animation"}
@@ -900,7 +900,12 @@ async function initSite(
   controls.rotateSpeed = 0.45;
   if (options.embedded) {
     controls.enableZoom = false;
-    if (matchMedia("(pointer:coarse)").matches) controls.enableRotate = false;
+    // On a touch screen the model only turns by itself, and a finger on it scrolls the page as
+    // anywhere else: OrbitControls would otherwise claim every touch (touch-action: none).
+    if (matchMedia("(pointer:coarse)").matches) {
+      controls.enabled = false; // update() still runs the slow turn
+      renderer.domElement.style.touchAction = "pan-y pinch-zoom";
+    }
   }
 
   // The environment map is made once the scene is built (see "start" below).
@@ -2235,7 +2240,9 @@ async function initSite(
   cypGeo.translate(0, 0.4, 0);
   // a canopy of several leaf clusters reads as a real tree from above
   const lobe = (r: number, x: number, y: number, z: number) =>
-    new THREE.IcosahedronGeometry(r, 1).translate(x, y, z);
+    // 20 faces, not 80: a cluster is only a few pixels across at this distance, and the 4,800
+    // trees were most of the GPU's work (detail 1 ran about 18 fps on a laptop GPU, this 31)
+    new THREE.IcosahedronGeometry(r, 0).translate(x, y, z);
   const lobes = [
     lobe(0.13, 0, 0.26, 0),
     lobe(0.1, 0.09, 0.22, 0.03),
@@ -2393,8 +2400,16 @@ async function initSite(
     }
     controls.update();
   }
+  // While the model stands still (paused, or with reduced motion), a frame would look exactly
+  // like the last one, so it is only drawn until a few seconds after something last changed:
+  // a drag and its easing out, a resize (which clears the canvas), the drone settling.
+  let awakeUntil = 0;
+  const wake = (ms = 3000) => (awakeUntil = Math.max(awakeUntil, performance.now() + ms));
   layout();
-  const ro = new ResizeObserver(layout);
+  const ro = new ResizeObserver(() => {
+    layout();
+    wake();
+  });
   ro.observe(root);
   cleanups.push(() => ro.disconnect());
   let lastInteraction = -1e9,
@@ -2402,15 +2417,31 @@ async function initSite(
   controls.addEventListener("start", () => {
     dragging = true;
     lastInteraction = performance.now();
+    wake();
   });
   controls.addEventListener("end", () => {
     dragging = false;
     lastInteraction = performance.now();
+    wake();
   });
-  let visible = true;
-  listen(document, "visibilitychange", () => (visible = !document.hidden));
+  // drawn only while on screen and while the tab is showing (two separate facts: one must not
+  // overwrite the other, or switching tabs would restart drawing while scrolled away)
+  let onScreen = true,
+    tabShown = !document.hidden,
+    visible = onScreen && tabShown;
+  const seen = () => {
+    visible = onScreen && tabShown;
+    if (visible) wake();
+  };
+  listen(document, "visibilitychange", () => {
+    tabShown = !document.hidden;
+    seen();
+  });
   const io = new IntersectionObserver(
-    (en) => (visible = en[0].isIntersecting && !document.hidden),
+    (en) => {
+      onScreen = en[0].isIntersecting;
+      seen();
+    },
     { threshold: 0.01 },
   );
   io.observe(renderer.domElement);
@@ -2422,11 +2453,18 @@ async function initSite(
   let t = 0;
   const api: SiteApi = {
     play: () => (playing = true),
-    pause: () => (playing = false),
-    rebuild: () => (build = 0),
+    pause: () => {
+      playing = false;
+      wake();
+    },
+    rebuild: () => {
+      build = 0;
+      wake();
+    },
     finish: () => {
       build = 99;
       t = Math.max(t, 6);
+      wake();
     },
   };
   window.__campusSite = api;
@@ -2483,15 +2521,24 @@ async function initSite(
     scene.environment = env.texture;
     await renderer.compileAsync(scene, camera);
     started = !disposed;
+    wake();
   })().catch((e) => {
     if (!disposed) console.error("Campus site: failed to prepare the shaders", e);
   });
 
+  // On a phone (a touch screen whose shorter side is under 768px) the model is drawn at most 30
+  // times a second: it turns and moves slowly enough to look smooth at that rate, and it halves
+  // the work on a phone's processor. The frame is skipped, not the time: dt spans the whole gap.
+  // (A small allowance for timer jitter keeps it on every 2nd tick at 60 Hz, every 4th at 120.)
+  const phone =
+    matchMedia("(pointer: coarse)").matches && Math.min(screen.width, screen.height) < 768;
+  const minGap = phone ? 1000 / 30 - 4 : 0;
   let raf = 0,
     last = performance.now(),
     ready = false;
   function frame(now: number) {
     raf = requestAnimationFrame(frame);
+    if (now - last < minGap) return;
     const dt = Math.max(0, Math.min((now - last) / 1000, 0.05));
     last = now;
     if (!visible || !started) return;
@@ -2540,7 +2587,9 @@ async function initSite(
     controls.autoRotate =
       playing && !reduceMotion && !dragging && now - lastInteraction > 4000 && build > 4;
     controls.autoRotateSpeed = 0.32;
-    controls.update(dt);
+    if (controls.update(dt)) wake(500); // the view moved (a drag easing out)
+    // the build-up runs whether or not the model is playing; it is over by build = 6
+    if (!playing && build >= 7 && now > awakeUntil) return;
     renderer.render(scene, camera);
     if (!ready && sized) {
       ready = true;
