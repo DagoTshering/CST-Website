@@ -1,6 +1,6 @@
 /*
  * The emblem's motion. Only whole layers move, by transform and rotate, so the browser turns
- * them on the GPU without redrawing the paths: no JavaScript, nothing extra to download.
+ * them on the GPU without redrawing the paths: no JavaScript.
  *
  *   gear   one turn every 90s
  *   ticks  the degree ring, the other way round, one turn every 180s
@@ -22,7 +22,6 @@
   /* the drawing's centre, (494, 478), in the 980 × 954 viewBox from (6, 4) */
   transform-origin: 49.796% 49.686%;
 }
-
 @media (prefers-reduced-motion: no-preference) {
   .gear,
   .ticks,

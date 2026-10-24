@@ -37,10 +37,10 @@ function Heading({ text, emphasis }: { text: string; emphasis: string | null }) 
 }
 
 /**
- * About CST: the heading overlaps the aerial photograph, and behind the photograph a strip of
- * graph paper carries a technical drawing of the emblem. On a desktop the section fills one
- * screen below the header. The text and photograph are edited in the admin panel (About CST);
- * the section is left out while it is unpublished.
+ * About CST: the heading overlaps the aerial photograph, and behind the photograph a technical
+ * drawing of the emblem turns. On a desktop the section fills one screen below the header. The
+ * text and photograph are edited in the admin panel (About CST); the section is left out while
+ * it is unpublished.
  */
 export async function About() {
   const result = await loadPublished("About CST", getPublishedAbout);
@@ -90,10 +90,10 @@ export async function About() {
         </div>
 
         <figure className={s.figure}>
-          {/* the graph-paper strip: right of the section on a desktop, behind the photo below */}
+          {/* the emblem: right of the section on a desktop, behind the photo below */}
           <div className={s.panel} aria-hidden="true">
             <div data-reveal="" suppressHydrationWarning className={s.emblem}>
-              <AboutEmblem />
+              <AboutEmblem halo="#ffffff" />
             </div>
           </div>
 

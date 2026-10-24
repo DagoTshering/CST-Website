@@ -5,7 +5,7 @@
    Colours, type, radii, shadows and motion for the whole site. Components use
    these through Tailwind utilities (bg-primary, text-h2, rounded-md, ...),
    never as raw values. "static" keeps every token available as a CSS variable
-   even when no utility uses it, because the hero's CSS module reads them.
+   even when no utility uses it, because the sections' CSS modules read them.
    ========================================================================== */
 
 @theme static {
@@ -34,12 +34,14 @@
   --color-warning: #b54708;
   --color-danger: #b42318;
 
-  /* Hero drawing sheet ----------------------------------------------------- */
+  /* Homepage hero (the 3D campus) ------------------------------------------ */
+  --color-hero-teal: #2e7d8f; /* eyebrow and headline emphasis: 4.7:1 on white */
+  --color-hero-gold: #b8924a; /* the rule under the eyebrow */
+
+  /* Drawing sheet: the sections' blueprint details -------------------------- */
   --color-sheet-ink: #201f1d;
   --color-sheet-gold: #b68235;
-  --color-sheet-gear: #0b3f4e;
   --color-sheet-net: #146b84; /* survey-network lines */
-  --color-sheet-hair: rgb(152 214 230 / 0.9); /* sheet border */
   --color-sheet-tick: rgb(20 107 132 / 0.3); /* ticks, crosshair */
   --color-sheet-grid: rgb(20 107 132 / 0.075);
   --color-sheet-grid-major: rgb(20 107 132 / 0.13); /* every fifth line of a blueprint grid */
