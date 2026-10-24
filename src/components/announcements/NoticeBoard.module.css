@@ -1,11 +1,10 @@
 /* ==========================================================================
-   Announcements: the campus notice board.
-   - The broadcast band: a dark drafting sheet with a lattice mast sending out
-     signal rings (its aviation light blinking), and under it a campus LED
-     ticker running the latest notices.
-   - The board: graph paper with notices pinned to it, each slightly askew,
-     dated with a rubber stamp; they drop onto the board as they come into
-     view and straighten when pointed at.
+   Announcements: the campus notice board, under the site's usual title band.
+   - The ticker: a thin strip running the latest notices, in the site's ink,
+     teal and white.
+   - The board: notices pinned to the white page, each slightly askew, dated
+     with a rubber stamp; they drop in as they come into view and straighten
+     when pointed at.
    - The notice sheet: one notice as an official, letter-headed sheet.
    All motion is CSS, and stops for visitors who ask for reduced motion.
    ========================================================================== */
@@ -19,163 +18,23 @@
   --pin: var(--color-brass);
 }
 
-/* --- the broadcast band ------------------------------------------------- */
+/* --- the ticker ---------------------------------------------------------- */
 
-.hero {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  color: var(--color-on-dark);
-  background:
-    radial-gradient(120% 90% at 85% 10%, rgb(52 172 200 / 0.22), transparent 55%),
-    linear-gradient(160deg, var(--color-primary-deep) 0%, var(--color-primary-night) 70%);
-}
-
-/* a faint blueprint grid over the band */
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px) 0 0 / 32px 32px,
-    linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px) 0 0 / 32px 32px;
-  mask-image: linear-gradient(to bottom, black 40%, transparent);
-}
-
-.heroGrid {
-  display: grid;
-  gap: 2.5rem;
-  align-items: center;
-  padding-block: clamp(2.5rem, 1.75rem + 3vw, 4.5rem) clamp(2rem, 1.5rem + 2vw, 3rem);
-}
-
-@media (min-width: 900px) {
-  .heroGrid {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
-  }
-}
-
-.eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-/* the "on air" dot */
-.live {
-  position: relative;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--accent);
-}
-
-.live::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--accent);
-}
-
-.title {
+/* the notice count under the title band's introduction */
+.count {
   margin-top: 1rem;
-  color: var(--color-white);
-}
-
-.intro {
-  margin-top: 1.25rem;
-  max-width: 34em;
-  font-size: 1.0625rem;
-  line-height: 1.65;
-}
-
-.stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.75rem 2.5rem;
-  margin-top: 2rem;
-}
-
-.stat dt {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--color-on-dark-muted);
+  color: var(--color-muted);
 }
 
-.stat dd {
-  margin-top: 0.25rem;
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-white);
-}
-
-/* the mast */
-.mast {
-  position: relative;
-  justify-self: center;
-  width: min(100%, 20rem);
-  aspect-ratio: 1;
-  color: rgb(255 255 255 / 0.75);
-}
-
-/* the drawing and its moving layers (rings, light), stacked */
-.mast svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-/* on a phone or tablet the mast is a faint decoration in the corner, behind the text, so the
-   notices start soon after the introduction */
-@media (max-width: 899px) {
-  .mast {
-    position: absolute;
-    top: 1.5rem;
-    right: -1.5rem;
-    z-index: -1;
-    width: 10rem;
-    opacity: 0.35;
-  }
-}
-
-/* Each ring is a whole svg layer (see BroadcastHero's Mast), scaled about the ring's centre,
-   (100, 40) in the 200 x 210 viewBox: fitted into the square box, that is 50% across and
-   40/210 = 19.0476% down. */
-.ring {
-  transform-origin: 50% 19.0476%;
-  opacity: 0;
-}
-
-.ring circle {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 1.5;
-}
-
-.beacon circle {
-  fill: #ff6b5b;
-}
-
-/* the LED ticker */
 .ticker {
   position: relative;
   overflow: hidden;
-  border-block: 1px solid rgb(255 255 255 / 0.12);
-  background:
-    radial-gradient(circle, rgb(255 190 80 / 0.07) 1px, transparent 1.5px) 0 0 / 5px 5px,
-    #071f27;
+  border-block: 1px solid var(--color-line);
+  background: var(--color-white);
 }
 
 .ticker::before,
@@ -189,14 +48,14 @@
   pointer-events: none;
 }
 
-.ticker::before {
-  left: 0;
-  background: linear-gradient(90deg, #071f27, transparent);
-}
-
 .ticker::after {
   right: 0;
-  background: linear-gradient(-90deg, #071f27, transparent);
+  background: linear-gradient(-90deg, var(--color-white), transparent);
+}
+
+.ticker::before {
+  left: 5.5rem;
+  background: linear-gradient(90deg, var(--color-white), transparent);
 }
 
 .tickerLabel {
@@ -208,13 +67,13 @@
   display: flex;
   align-items: center;
   padding: 0 1rem;
-  background: var(--color-gold);
+  background: var(--color-primary-strong);
   font-family: var(--font-mono);
   font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #1b1405;
+  color: var(--color-white);
 }
 
 .tickerTrack {
@@ -226,22 +85,18 @@
   display: flex;
   flex: none;
   gap: 3rem;
-  padding: 0.85rem 3rem 0.85rem 3rem;
+  padding: 0.75rem 3rem;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
-  letter-spacing: 0.06em;
+  font-size: 0.8125rem;
+  letter-spacing: 0.04em;
   white-space: nowrap;
-  color: #ffc35a;
-  text-shadow:
-    0 0 6px rgb(255 170 50 / 0.65),
-    0 0 1px rgb(255 220 150 / 0.9);
+  color: var(--color-ink);
 }
 
 .tickerItems span::before {
   content: "◆";
   margin-right: 1rem;
   color: var(--accent);
-  text-shadow: none;
 }
 
 /* --- the board ----------------------------------------------------------- */
@@ -504,6 +359,19 @@
   color: var(--color-ink);
 }
 
+/* "…" for the pages not shown */
+.pageGap {
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 1.5rem;
+  min-height: 2.5rem;
+  padding-bottom: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
 .pageLink:hover {
   border-color: var(--color-primary-strong);
 }
@@ -594,26 +462,6 @@
 /* --- motion ------------------------------------------------------------------ */
 
 @media (prefers-reduced-motion: no-preference) {
-  .live::after {
-    animation: ping 2.2s cubic-bezier(0, 0, 0.2, 1) infinite;
-  }
-
-  .ring {
-    animation: broadcast 3.6s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
-  }
-
-  .ring:nth-of-type(2) {
-    animation-delay: 1.2s;
-  }
-
-  .ring:nth-of-type(3) {
-    animation-delay: 2.4s;
-  }
-
-  .beacon {
-    animation: blink 1.6s steps(1) infinite;
-  }
-
   .tickerTrack {
     animation: ticker var(--ticker-duration, 40s) linear infinite;
   }
@@ -673,38 +521,6 @@
   }
 }
 
-@keyframes ping {
-  75%,
-  100% {
-    scale: 2.6;
-    opacity: 0;
-  }
-}
-
-@keyframes broadcast {
-  0% {
-    scale: 0.3;
-    opacity: 0.9;
-  }
-
-  100% {
-    scale: 1.6;
-    opacity: 0;
-  }
-}
-
-@keyframes blink {
-  0%,
-  60% {
-    opacity: 1;
-  }
-
-  61%,
-  100% {
-    opacity: 0.25;
-  }
-}
-
 @keyframes ticker {
   to {
     translate: -50% 0;
@@ -731,19 +547,6 @@
 
 /* with reduced motion: the board is still, and the ticker becomes a plain line */
 @media (prefers-reduced-motion: reduce) {
-  .ring {
-    opacity: 0.35;
-  }
-
-  .ring:nth-of-type(2) {
-    scale: 1.3;
-    opacity: 0.2;
-  }
-
-  .ring:nth-of-type(3) {
-    display: none;
-  }
-
   .tickerTrack > :last-child {
     display: none;
   }
