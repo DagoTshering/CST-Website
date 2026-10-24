@@ -12,6 +12,11 @@
   },
   "college": "College of Science and Technology",
   "university": "Royal University of Bhutan",
+  "intro": "Questions about admissions, academics or the campus? Find the right office below, or write to us directly.",
+  "banner": {
+    "image": "/images/contact-banner.jpg",
+    "alt": "The college campus at sunrise, with a tree-lined road between the academic blocks"
+  },
   "address": ["College of Science and Technology", "Rinchending, Phuentsholing", "Chukha, Bhutan"],
   "postal": "Post-Box No. 450, Postal Code 21101",
   "hours": {

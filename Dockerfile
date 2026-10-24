@@ -40,7 +40,7 @@ COPY src/content/home.ts ./src/content/home.ts
 COPY public/images ./public/images
 COPY scripts/seed.ts scripts/seed-content.ts scripts/seed-downloads.ts scripts/seed-people.ts \
      scripts/seed-programme-pages.ts scripts/seed-about-page.ts scripts/seed-admission.ts \
-     scripts/seed-images.ts \
+     scripts/seed-contact.ts scripts/seed-images.ts \
      scripts/organise-uploads.ts ./scripts/
 # The Downloads page's documents: the manifest (committed) and the PDFs fetched by
 # `pnpm downloads:fetch` before the image is built.
@@ -54,6 +54,8 @@ COPY data/about.json ./data/about.json
 # The Admissions page's settings, dates, requirements and questions (its photos are in
 # public/images/admission).
 COPY data/admission.json ./data/admission.json
+# The Contact page's settings, offices and links (its banner photo is in public/images).
+COPY data/contact.json ./data/contact.json
 RUN mkdir -p storage/uploads && chown node:node storage/uploads
 USER node
 CMD ["./node_modules/.bin/drizzle-kit", "migrate"]

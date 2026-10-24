@@ -1,43 +1,26 @@
-import fs from "node:fs";
-import path from "node:path";
-
 import Image from "next/image";
 
+import type { Photo } from "@/content/home";
 import { PageHeader } from "@/components/ui/PageHeader";
 
 import s from "./Contact.module.css";
 
-const BANNER = "/images/contact-banner.jpg";
-
-// Without the photo the page keeps only its title, rather than an empty frame or a broken image.
-const hasBanner = fs.existsSync(path.join(process.cwd(), "public", BANNER));
-
 /**
  * A campus photograph whose four edges fade into the white page (two crossed masks), with the
  * page's title, set as on every inner page, over its faded foot. The photo fades in, then zooms
- * very slowly back and forth; reduced motion: a still.
+ * very slowly back and forth; reduced motion: a still. Without a photo the page keeps only its
+ * title, rather than an empty frame.
  */
-export function ContactBanner() {
+export function ContactBanner({ intro, photo }: { intro: string; photo: Photo | null }) {
   return (
-    <div className={s.banner} data-photo={hasBanner || undefined}>
-      {hasBanner && (
+    <div className={s.banner} data-photo={photo ? true : undefined}>
+      {photo && (
         <div className={s.art} data-loop="" suppressHydrationWarning>
-          <Image
-            src={BANNER}
-            alt="The college campus at sunrise, with a tree-lined road between the academic blocks"
-            fill
-            priority
-            sizes="100vw"
-            className={s.photo}
-          />
+          <Image src={photo.src} alt={photo.alt} fill preload sizes="100vw" className={s.photo} />
         </div>
       )}
       <div className={s.heading}>
-        <PageHeader
-          title="Contact us"
-          intro="Questions about admissions, academics or the campus? Find the right office below, or write to us directly."
-          paper={!hasBanner}
-        />
+        <PageHeader title="Contact us" intro={intro} paper={!photo} />
       </div>
     </div>
   );

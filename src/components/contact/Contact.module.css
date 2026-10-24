@@ -100,7 +100,8 @@
 
 .info {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  /* four columns, or three when a column has nothing to show (set by InfoRow) */
+  grid-template-columns: repeat(var(--columns, 4), minmax(0, 1fr));
   border-block: 1px solid var(--color-line);
 }
 

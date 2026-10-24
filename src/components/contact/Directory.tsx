@@ -1,5 +1,5 @@
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { contact } from "@/lib/contact";
+import { telHref, type Office } from "@/lib/contact";
 
 import s from "./Contact.module.css";
 import { WriteToButton } from "./WriteToButton";
@@ -8,7 +8,7 @@ import { WriteToButton } from "./WriteToButton";
  * Every office with its email and phone, as rows of a list. "Write" addresses the message box
  * below to that office. Without an email or a phone the row says so.
  */
-export function Directory() {
+export function Directory({ offices }: { offices: Office[] }) {
   return (
     <section aria-labelledby="directory-title" className="section-top">
       <SectionHeading id="directory-title" label="Directory">
@@ -20,7 +20,7 @@ export function Directory() {
       </p>
 
       <ul className={s.offices}>
-        {contact.offices.map((office) => (
+        {offices.map((office) => (
           <li key={office.id} className={s.office}>
             <p className={s.officeName}>{office.name}</p>
             <p>
@@ -34,15 +34,17 @@ export function Directory() {
             </p>
             <p>
               {office.phone ? (
-                <a href={`tel:${office.phone}`} className={s.link}>
-                  {office.phoneLabel ?? office.phone}
+                <a href={telHref(office.phone)} className={s.link}>
+                  {office.phone}
                 </a>
               ) : (
                 <span className={s.muted}>No phone listed</span>
               )}
             </p>
             <p className={s.officeAction}>
-              {office.email && <WriteToButton officeId={office.id} officeName={office.name} />}
+              {office.email && (
+                <WriteToButton officeId={String(office.id)} officeName={office.name} />
+              )}
             </p>
           </li>
         ))}

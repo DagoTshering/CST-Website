@@ -36,7 +36,9 @@ export type OrderingKey =
   | "admissionFaqs"
   | "admissionStepTypes"
   | "importantLinks"
-  | "partners";
+  | "partners"
+  | "contactOffices"
+  | "contactSocial";
 
 type Ordering = {
   table: string;
@@ -181,6 +183,20 @@ const orderings: Record<OrderingKey, Ordering> = {
     photo: sql`m.storage_key`,
     tags: ["cms:partners"],
     listPath: (group) => `/admin/partners?category=${group}`,
+  },
+  contactOffices: {
+    table: "contact_offices",
+    label: sql`${t}.name`,
+    group: sql`'all'`,
+    tags: ["cms:contact"],
+    listPath: () => "/admin/contact#offices",
+  },
+  contactSocial: {
+    table: "contact_social_links",
+    label: sql`${t}.label`,
+    group: sql`'all'`,
+    tags: ["cms:contact"],
+    listPath: () => "/admin/contact#online",
   },
 };
 

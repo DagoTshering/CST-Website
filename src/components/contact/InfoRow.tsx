@@ -1,9 +1,10 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import { ButtonLink } from "@/components/ui/Button";
 import { ExternalIcon } from "@/components/ui/icons";
 import { SmartLink } from "@/components/ui/SmartLink";
-import { contact } from "@/lib/contact";
+import type { ContactPage } from "@/lib/cms/resources/contact";
+import { closedDays, dayRanges, telHref } from "@/lib/contact";
 
 import s from "./Contact.module.css";
 import { OpenNow } from "./OpenNow";
@@ -30,13 +31,16 @@ function Column({
 }
 
 /**
- * The four ways to reach the college, side by side: where it is, when the office is open, how to
- * call or write, and where to follow it. Each column's action sits on the same baseline.
+ * The ways to reach the college, side by side: where it is, when the office is open, how to
+ * call or write, and where to follow it (left out while there is nowhere to follow). Each
+ * column's action sits on the same baseline.
  */
-export function InfoRow() {
-  const { address, postal, hours, general, social, map } = contact;
+export function InfoRow({ page }: { page: ContactPage }) {
+  const { address, postal, hours, general, social, map } = page;
+  const closed = closedDays(hours.days);
+  const columns = social.length > 0 ? 4 : 3;
   return (
-    <div className={s.info}>
+    <div className={s.info} style={{ "--columns": columns } as CSSProperties}>
       <Column
         eyebrow="Post and visits"
         title="Visit us"
@@ -47,21 +51,25 @@ export function InfoRow() {
         }
       >
         <address className={s.address}>
-          {address.map((line) => (
-            <span key={line}>{line}</span>
+          {address.map((line, i) => (
+            <span key={i}>{line}</span>
           ))}
         </address>
-        <p className={s.muted}>{postal}</p>
+        {postal && <p className={s.muted}>{postal}</p>}
       </Column>
 
       <Column eyebrow="Opening times" title="Office hours">
         <dl className={s.hours}>
-          <dt>Mon to Fri</dt>
+          <dt>{dayRanges(hours.days)}</dt>
           <dd>
             {hours.open}–{hours.close}
           </dd>
-          <dt>Sat and Sun</dt>
-          <dd>Closed</dd>
+          {closed.length > 0 && (
+            <>
+              <dt>{dayRanges(closed)}</dt>
+              <dd>Closed</dd>
+            </>
+          )}
         </dl>
         <OpenNow hours={hours} />
       </Column>
@@ -70,36 +78,44 @@ export function InfoRow() {
         eyebrow="Call or write"
         title="Get in touch"
         action={
-          <ButtonLink href={general.whatsapp}>
-            WhatsApp <ExternalIcon className="size-4" aria-hidden="true" />
-          </ButtonLink>
+          general.whatsapp && (
+            <ButtonLink href={general.whatsapp}>
+              WhatsApp <ExternalIcon className="size-4" aria-hidden="true" />
+            </ButtonLink>
+          )
         }
       >
-        <p>
-          <a href={`tel:${general.phone}`} className={s.link}>
-            {general.phoneLabel}
-          </a>
-          <span className={s.muted}>Administration Office</span>
-        </p>
-        <p className={s.spaced}>
-          <a href={`mailto:${general.email}`} className={s.link}>
-            {general.email}
-          </a>
-        </p>
+        {general.phone && (
+          <p>
+            <a href={telHref(general.phone)} className={s.link}>
+              {general.phone}
+            </a>
+            {general.phoneNote && <span className={s.muted}>{general.phoneNote}</span>}
+          </p>
+        )}
+        {general.email && (
+          <p className={general.phone ? s.spaced : undefined}>
+            <a href={`mailto:${general.email}`} className={s.link}>
+              {general.email}
+            </a>
+          </p>
+        )}
       </Column>
 
-      <Column eyebrow="Elsewhere" title="Find us online">
-        <ul className={s.social}>
-          {social.map((item) => (
-            <li key={item.url}>
-              <SmartLink href={item.url}>
-                {item.label}
-                <ExternalIcon className={s.socialIcon} aria-hidden="true" />
-              </SmartLink>
-            </li>
-          ))}
-        </ul>
-      </Column>
+      {social.length > 0 && (
+        <Column eyebrow="Elsewhere" title="Find us online">
+          <ul className={s.social}>
+            {social.map((item) => (
+              <li key={item.url}>
+                <SmartLink href={item.url}>
+                  {item.label}
+                  <ExternalIcon className={s.socialIcon} aria-hidden="true" />
+                </SmartLink>
+              </li>
+            ))}
+          </ul>
+        </Column>
+      )}
     </div>
   );
 }

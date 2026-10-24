@@ -13,6 +13,7 @@ import {
   Network,
   Megaphone,
   Handshake,
+  Phone,
   Settings,
   Users,
   type LucideIcon,
@@ -49,6 +50,7 @@ export const adminNav: AdminNavGroup[] = [
       { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
       { href: "/admin/vacancies", label: "Vacancies", icon: BriefcaseBusiness },
       { href: "/admin/downloads", label: "Downloads", icon: FileDown },
+      { href: "/admin/contact", label: "Contact Page", icon: Phone },
       { href: "/admin/important-links", label: "Important Links", icon: Link2 },
     ],
   },
@@ -69,6 +71,8 @@ const labels = new Map([
   ["/admin/admissions/steps", "Steps"] as const,
   ["/admin/admissions/requirements", "Requirements"] as const,
   ["/admin/admissions/faq", "Questions"] as const,
+  ["/admin/contact/offices", "Offices"] as const,
+  ["/admin/contact/online", "Online"] as const,
 ]);
 
 /** Path segments shared by several sections, as the breadcrumbs name them. */

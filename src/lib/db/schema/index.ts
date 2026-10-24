@@ -3,6 +3,7 @@
 export * from "./about-page";
 export * from "./admin";
 export * from "./admission";
+export * from "./contact";
 export * from "./content";
 export * from "./downloads";
 export * from "./enums";

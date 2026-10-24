@@ -293,6 +293,19 @@ Unpublished posts are not public (their address is a 404). Each post has a previ
 any signed-in administrator. When a post's address is changed, the old address keeps working: it
 redirects permanently to the new one (`vacancy_slug_redirects`).
 
+## Contact page
+
+The Contact page (`/contact`) is managed under **Admin → Contact Page**: the banner's
+introduction and photo, the address and post box, the directions link and the embedded map (the
+HTML from Google Maps' *Share → Embed a map* can be pasted as it is; only Google Maps addresses
+are accepted, as the site's Content Security Policy allows no other map), the office hours (days
+and times in Bhutan time, which drive the "open now" line), the main phone, email and WhatsApp
+link, the offices of the directory (each with an email, a phone, or both; one with an email can
+be chosen in the message box) and the links under *Find us online*. Offices and links are put in
+order and can be kept as drafts. `pnpm db:seed` fills the page from `data/contact.json` while its
+tables are empty. The header's utility bar and the footer keep their own contact details in
+`src/content/site.ts`.
+
 ## Important links
 
 The **Important Links** under **Others** in the site's menu (other CST websites such as Hostel
