@@ -77,9 +77,13 @@ export const site = {
 /** The header's one button. */
 export const headerAction = { label: "Contact us", href: "/contact" };
 
+/** The submenu group under "Others" whose links the admin panel manages (see useImportantLinks). */
+export const IMPORTANT_LINKS = "Important Links";
+
 /**
  * Main menu, as agreed by the team in October 2026. The "Important Links" go to other CST
- * sites and open in a new tab; every other path except "/" is TODO.
+ * sites (or pages of this one) and are managed in the admin panel; links to other sites open in
+ * a new tab. Every other path except "/" is TODO.
  */
 export const mainNav: NavItem[] = [
   { label: "Home", href: "/" },
@@ -103,15 +107,8 @@ export const mainNav: NavItem[] = [
       { label: "EU Projects", href: "/eu-projects" },
       { label: "Downloads", href: "/downloads" },
       { label: "Live Campus Air & Climate Data", href: "/air-quality" },
-      {
-        label: "Important Links",
-        items: [
-          { label: "Research", href: "https://ril.cst.edu.bt/" },
-          { label: "Student Life", href: "https://sa.cst.edu.bt/" },
-          { label: "Hostel Booking", href: "https://hostel.cst.edu.bt/login" },
-          { label: "CST-25", href: "https://cst25.cst.edu.bt/" },
-        ],
-      },
+      // filled in the browser with the links managed in Admin → Important Links
+      { label: IMPORTANT_LINKS, items: [] },
     ],
   },
 ];

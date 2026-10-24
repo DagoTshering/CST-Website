@@ -215,3 +215,16 @@ export const announcements = pgTable(
     check("announcements_slug_format", sql`${t.slug} ~ '^[a-z0-9]+(-[a-z0-9]+)*$'`),
   ],
 );
+
+/**
+ * The "Important Links" under "Others" in the site's menu: other CST websites (or pages of this
+ * one), in the administrator's order. Each address is unique, so no link is listed twice.
+ */
+export const importantLinks = pgTable("important_links", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  label: varchar("label", { length: 80 }).notNull(),
+  url: varchar("url", { length: 500 }).notNull().unique(),
+  sortOrder: sortOrder(),
+  status: status(),
+  ...timestamps(),
+});

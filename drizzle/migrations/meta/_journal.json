@@ -162,6 +162,13 @@
       "when": 1792750123724,
       "tag": "0022_drop_announcement_category",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1792840028035,
+      "tag": "0023_important_links",
+      "breakpoints": true
     }
   ]
 }

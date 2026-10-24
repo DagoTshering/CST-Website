@@ -34,7 +34,8 @@ export type OrderingKey =
   | "centres"
   | "admissionTracks"
   | "admissionFaqs"
-  | "admissionStepTypes";
+  | "admissionStepTypes"
+  | "importantLinks";
 
 type Ordering = {
   table: string;
@@ -162,6 +163,13 @@ const orderings: Record<OrderingKey, Ordering> = {
     group: sql`'all'`,
     tags: ["cms:admission"],
     listPath: () => "/admin/admissions/steps",
+  },
+  importantLinks: {
+    table: "important_links",
+    label: sql`${t}.label`,
+    group: sql`'all'`,
+    tags: ["cms:important-links"],
+    listPath: () => "/admin/important-links",
   },
 };
 

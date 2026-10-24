@@ -124,6 +124,10 @@ export const optionalLink = (label: string) =>
     )
     .transform((value) => value || null);
 
+/** A required link: a page of this site such as /downloads, or a full web address (see optionalLink). */
+export const requiredLink = (label: string) =>
+  optionalLink(label).pipe(z.string({ error: `${label} is required.` }));
+
 /** A database id from a URL or a bound action argument, which the client could have changed. */
 export const recordId = z.coerce.number().int().positive().max(2_147_483_647);
 
