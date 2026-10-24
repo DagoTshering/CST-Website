@@ -45,7 +45,7 @@ async function Notice({ params }: Pick<Props, "params">) {
 
 export default function AnnouncementPage({ params }: Props) {
   return (
-    <div className={`graph-paper bg-paper-soft ${s.page}`}>
+    <div className={`bg-white ${s.page}`}>
       <Suspense fallback={<div aria-busy="true" className="container-page min-h-[80vh]" />}>
         <Notice params={params} />
       </Suspense>

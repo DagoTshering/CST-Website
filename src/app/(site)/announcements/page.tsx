@@ -2,13 +2,19 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense } from "react";
 
-import { BroadcastHero } from "@/components/announcements/BroadcastHero";
 import s from "@/components/announcements/NoticeBoard.module.css";
 import { NoticeCard } from "@/components/announcements/NoticeCard";
+import { NoticeTicker } from "@/components/announcements/NoticeTicker";
+import { PageHeader } from "@/components/ui/PageHeader";
 import { site } from "@/content/site";
+import { formatDate } from "@/lib/dates";
+import { pageLinks } from "@/lib/pagination";
 import { bhutanToday } from "@/lib/admission";
 import { loadPublished } from "@/lib/cms/public";
 import { getAnnouncementsPage } from "@/lib/cms/resources/announcements";
+
+const INTRO =
+  "Notices from the college: examinations, admissions, events, offices and everything else students, staff and visitors need to know. Job recruitment notices are under Vacancies.";
 
 export const metadata: Metadata = {
   title: "Announcements",
@@ -38,7 +44,6 @@ async function Board({ searchParams }: Pick<Props, "searchParams">) {
   if (!result.ok) {
     return (
       <>
-        <BroadcastHero all={0} latest={[]} />
         <div className={`container-page ${s.board}`}>
           <p className={s.empty}>
             The announcements cannot be shown at the moment. Please try again later.
@@ -53,8 +58,16 @@ async function Board({ searchParams }: Pick<Props, "searchParams">) {
 
   return (
     <>
-      <BroadcastHero all={all} latest={latest} />
-      <section aria-label="Notices" className={`graph-paper bg-paper-soft ${s.board}`}>
+      {all > 0 && (
+        <p className={`text-center ${s.count}`}>
+          {all} {all === 1 ? "notice" : "notices"}
+          {latest[0] && ` · latest ${formatDate(latest[0].publishedOn)}`}
+        </p>
+      )}
+      <div className="mt-[clamp(1.25rem,1rem+1vw,2rem)]">
+        <NoticeTicker latest={latest} />
+      </div>
+      <section aria-label="Notices" className={s.board}>
         <div className="container-page">
           {items.length === 0 ? (
             <p className={s.empty}>
@@ -100,17 +113,27 @@ async function Board({ searchParams }: Pick<Props, "searchParams">) {
                   ← Newer
                 </Link>
               )}
-              {Array.from({ length: pages }, (_, i) => i + 1).map((n) => (
-                <Link
-                  key={n}
-                  href={hrefFor(n)}
-                  className={s.pageLink}
-                  aria-current={n === page ? "page" : undefined}
-                  aria-label={`Page ${n}`}
-                >
-                  {n}
-                </Link>
-              ))}
+              <span className="sr-only">
+                Page {page} of {pages}
+              </span>
+              {/* the first and last pages, and the ones round this one; "…" for the rest */}
+              {pageLinks(page, pages).map((n, i) =>
+                n === "gap" ? (
+                  <span key={`gap-${i}`} className={s.pageGap} aria-hidden="true">
+                    …
+                  </span>
+                ) : (
+                  <Link
+                    key={n}
+                    href={hrefFor(n)}
+                    className={s.pageLink}
+                    aria-current={n === page ? "page" : undefined}
+                    aria-label={`Page ${n}`}
+                  >
+                    {n}
+                  </Link>
+                ),
+              )}
               {page < pages && (
                 <Link href={hrefFor(page + 1)} className={s.pageLink}>
                   Older →
@@ -127,14 +150,8 @@ async function Board({ searchParams }: Pick<Props, "searchParams">) {
 export default function AnnouncementsPage({ searchParams }: Props) {
   return (
     <div className={`bg-white ${s.page}`}>
-      <Suspense
-        fallback={
-          <>
-            <BroadcastHero all={0} latest={[]} />
-            <div aria-busy="true" className="min-h-[60vh] graph-paper bg-paper-soft" />
-          </>
-        }
-      >
+      <PageHeader title="Announcements" intro={INTRO} />
+      <Suspense fallback={<div aria-busy="true" className="min-h-[60vh]" />}>
         <Board searchParams={searchParams} />
       </Suspense>
     </div>

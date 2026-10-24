@@ -47,9 +47,7 @@ export default async function Page({ params }: PageProps<"/admin/announcements/[
           )}
         </span>
       </Notice>
-      <div
-        className={`overflow-hidden rounded-lg border border-admin-line graph-paper bg-paper-soft ${s.page}`}
-      >
+      <div className={`overflow-hidden rounded-lg border border-admin-line bg-white ${s.page}`}>
         <NoticeSheet
           notice={notice}
           backHref={`/admin/announcements/${id.data}`}
