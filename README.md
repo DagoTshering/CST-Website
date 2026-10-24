@@ -180,7 +180,7 @@ item of a category is deleted, the next seed run adds the initial items back.
 
 **Ordering.** Lists the administrator puts in order (staff within a department, the executives'
 chart rows, downloads within a category, departments, facilities, programmes, download
-categories) have no order number in their forms. The form has a **Position** choice (First /
+categories, important links) have no order number in their forms. The form has a **Position** choice (First /
 After … / Last), and each list page has an **Arrange order** screen where items are dragged (or
 moved with ▲/▼) and saved together. The stored `sort_order` is renumbered 10, 20, 30, … on each
 change (`src/lib/cms/ordering.ts`).
@@ -269,8 +269,7 @@ General college notices: the latest four on the homepage, and all of them on the
 page (`/announcements`, a notice board with a page per notice at `/announcements/<slug>`).
 Administrators manage them under **Admin → Announcements** with the same rich-text editor, PDF
 attachment, Save draft / Publish / Update / Unpublish buttons and preview as Vacancies (the shared
-form is `src/components/admin/RichPostForm.tsx`); each notice keeps its own publication date and
-an optional free-text category. Job recruitment notices are a separate feature (Vacancies) and are
+form is `src/components/admin/RichPostForm.tsx`); each notice keeps its own publication date. Job recruitment notices are a separate feature (Vacancies) and are
 never stored with announcements. Migrations 0019–0021 converted the earlier plain-text summaries
 into the editor's format, and gave each notice its web address.
 
@@ -293,6 +292,16 @@ Unpublished posts are not public (their address is a 404). Each post has a previ
 (`/admin/vacancies/<id>/preview`) showing the saved version exactly as the public page would, for
 any signed-in administrator. When a post's address is changed, the old address keeps working: it
 redirects permanently to the new one (`vacancy_slug_redirects`).
+
+## Important links
+
+The **Important Links** under **Others** in the site's menu (other CST websites such as Hostel
+Booking, or pages of this site) are managed under **Admin → Important Links**: add, edit, delete,
+publish or hide them as drafts, and put them in order. Migration 0023 added the four links the
+menu listed before. The menu is part of pages prerendered whole at build time (when there is no
+database), so it loads the published links in the browser from `GET /api/important-links`, a
+cached query refreshed whenever an administrator changes a link (browsers do not keep a copy, so
+a change shows on the next page load). While there are none, the menu leaves the group out.
 
 ## Downloads page
 

@@ -9,6 +9,7 @@ import {
   Landmark,
   LayoutDashboard,
   LayoutGrid,
+  Link2,
   Network,
   Megaphone,
   Handshake,
@@ -48,6 +49,7 @@ export const adminNav: AdminNavGroup[] = [
       { href: "/admin/announcements", label: "Announcements", icon: Megaphone },
       { href: "/admin/vacancies", label: "Vacancies", icon: BriefcaseBusiness },
       { href: "/admin/downloads", label: "Downloads", icon: FileDown },
+      { href: "/admin/important-links", label: "Important Links", icon: Link2 },
     ],
   },
   {

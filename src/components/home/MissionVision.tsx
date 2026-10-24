@@ -59,7 +59,7 @@ function Statement({ text, emphasis }: { text: string; emphasis: string }) {
  */
 export function MissionVision() {
   return (
-    <ScrollPin aria-labelledby="mission-vision-title" className={s.section}>
+    <ScrollPin progress aria-labelledby="mission-vision-title" className={s.section}>
       <div className={s.pin}>
         <div className={`container-page ${s.inner}`}>
           <div className={s.head}>

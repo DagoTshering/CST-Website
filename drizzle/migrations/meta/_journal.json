@@ -166,8 +166,15 @@
     {
       "idx": 23,
       "version": "7",
-      "when": 1792836994890,
-      "tag": "0023_partners",
+      "when": 1792840028035,
+      "tag": "0023_important_links",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1792841885421,
+      "tag": "0024_partners",
       "breakpoints": true
     }
   ]

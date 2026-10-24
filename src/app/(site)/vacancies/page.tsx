@@ -10,6 +10,7 @@ import { site } from "@/content/site";
 import { loadPublished } from "@/lib/cms/public";
 import { getPublishedVacancies } from "@/lib/cms/resources/vacancies";
 import { cx } from "@/lib/cx";
+import { pageLinks } from "@/lib/pagination";
 import { formatVacancyDate, VACANCY_CATEGORIES, vacancyCategoryLabel } from "@/lib/vacancies";
 
 export const metadata: Metadata = {
@@ -157,22 +158,36 @@ async function Listing({ searchParams }: Pick<Props, "searchParams">) {
               ← Newer
             </Link>
           )}
-          {Array.from({ length: pages }, (_, i) => i + 1).map((n) => (
-            <Link
-              key={n}
-              href={hrefFor(category?.param ?? null, n)}
-              aria-current={n === page ? "page" : undefined}
-              aria-label={`Page ${n}`}
-              className={cx(
-                "inline-flex min-h-10 min-w-10 items-center justify-center rounded-sm border font-mono text-sm",
-                n === page
-                  ? "border-primary-strong bg-primary-strong text-white"
-                  : "border-line text-ink hover:border-primary-strong",
-              )}
-            >
-              {n}
-            </Link>
-          ))}
+          <span className="sr-only">
+            Page {page} of {pages}
+          </span>
+          {/* the first and last pages, and the ones round this one; "…" for the rest */}
+          {pageLinks(page, pages).map((n, i) =>
+            n === "gap" ? (
+              <span
+                key={`gap-${i}`}
+                aria-hidden="true"
+                className="inline-flex min-h-10 min-w-6 items-end justify-center pb-2 font-mono text-sm text-muted"
+              >
+                …
+              </span>
+            ) : (
+              <Link
+                key={n}
+                href={hrefFor(category?.param ?? null, n)}
+                aria-current={n === page ? "page" : undefined}
+                aria-label={`Page ${n}`}
+                className={cx(
+                  "inline-flex min-h-10 min-w-10 items-center justify-center rounded-sm border font-mono text-sm",
+                  n === page
+                    ? "border-primary-strong bg-primary-strong text-white"
+                    : "border-line text-ink hover:border-primary-strong",
+                )}
+              >
+                {n}
+              </Link>
+            ),
+          )}
           {page < pages && (
             <Link
               href={hrefFor(category?.param ?? null, page + 1)}

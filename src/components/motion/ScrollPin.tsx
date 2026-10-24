@@ -31,13 +31,18 @@ export function pinScrollY(section: HTMLElement, p: number) {
 
 /**
  * A section whose first child stays pinned (position: sticky, in the section's own stylesheet)
- * while the page scrolls through it. It marks itself [data-pinned] once it is running and
- * sets --p, from 0 as the pinned child reaches its place to 1 as it is about to scroll away,
- * so CSS can play a transition with the scroll, forwards or backwards. It never takes over the
- * scroll itself. With reduced motion, or without JavaScript, it is an ordinary section and the
- * stylesheet's unpinned layout stands.
+ * while the page scrolls through it. It marks itself [data-pinned] once it is running. With
+ * `progress` it also sets --p, from 0 as the pinned child reaches its place to 1 as it is about
+ * to scroll away, so CSS can play a transition with the scroll, forwards or backwards; only
+ * ask for it when the stylesheet reads --p, as it restyles the whole section on every scroll
+ * frame. It never takes over the scroll itself. With reduced motion, or without JavaScript, it
+ * is an ordinary section and the stylesheet's unpinned layout stands.
  */
-export function ScrollPin({ children, ...props }: ComponentPropsWithoutRef<"section">) {
+export function ScrollPin({
+  children,
+  progress = false,
+  ...props
+}: ComponentPropsWithoutRef<"section"> & { progress?: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const reducedMotion = useReducedMotion();
 
@@ -45,6 +50,9 @@ export function ScrollPin({ children, ...props }: ComponentPropsWithoutRef<"sect
     const section = ref.current;
     const pinned = section?.firstElementChild as HTMLElement | null;
     if (!section || !pinned || reducedMotion) return;
+
+    section.setAttribute("data-pinned", "");
+    if (!progress) return () => section.removeAttribute("data-pinned");
 
     let frame = 0;
     const update = () => {
@@ -55,7 +63,6 @@ export function ScrollPin({ children, ...props }: ComponentPropsWithoutRef<"sect
       if (!frame) frame = requestAnimationFrame(update);
     };
 
-    section.setAttribute("data-pinned", "");
     update();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("resize", schedule);
@@ -66,7 +73,7 @@ export function ScrollPin({ children, ...props }: ComponentPropsWithoutRef<"sect
       section.removeAttribute("data-pinned");
       section.style.removeProperty("--p");
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, progress]);
 
   return (
     <section ref={ref} {...props}>

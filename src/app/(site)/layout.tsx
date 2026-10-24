@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { LoopObserver } from "@/components/motion/LoopObserver";
 import { RevealObserver } from "@/components/motion/RevealObserver";
 
 /** The public website's chrome. The admin panel (/admin) has its own layout. */
@@ -20,6 +21,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
       </main>
       <Footer />
       <RevealObserver />
+      <LoopObserver />
     </>
   );
 }

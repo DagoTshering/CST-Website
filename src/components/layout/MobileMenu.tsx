@@ -16,6 +16,8 @@ import { SmartLink } from "@/components/ui/SmartLink";
 import { headerAction, isNavGroup, site, type NavItem, type NavLink } from "@/content/site";
 import { cx } from "@/lib/cx";
 
+import { useImportantLinks } from "./useImportantLinks";
+
 const DESKTOP_QUERY = "(min-width: 80rem)"; // where DesktopNav takes over (Tailwind xl)
 
 /**
@@ -24,7 +26,8 @@ const DESKTOP_QUERY = "(min-width: 80rem)"; // where DesktopNav takes over (Tail
  * the button. Items without a page of their own expand in place, with any titled subgroup
  * ("Important Links" under "Others") listed under its own small heading.
  */
-export function MobileMenu({ items }: { items: NavItem[] }) {
+export function MobileMenu({ items: nav }: { items: NavItem[] }) {
+  const items = useImportantLinks(nav);
   const pathname = usePathname();
   const baseId = useId();
   const dialogId = `${baseId}-dialog`;

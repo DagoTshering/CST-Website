@@ -28,7 +28,7 @@ function Seal() {
     return `M${x1.toFixed(2)} ${y1.toFixed(2)} L${x2.toFixed(2)} ${y2.toFixed(2)}`;
   });
   return (
-    <div className={s.seal} aria-hidden="true">
+    <div className={s.seal} aria-hidden="true" data-loop="" suppressHydrationWarning>
       <svg viewBox="0 0 100 100" focusable="false">
         <g fill="none" stroke="currentColor">
           <circle cx="50" cy="50" r="44" strokeWidth="2" />

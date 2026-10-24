@@ -9,6 +9,8 @@ import { SmartLink } from "@/components/ui/SmartLink";
 import { isNavGroup, type NavItem, type NavLink } from "@/content/site";
 import { cx } from "@/lib/cx";
 
+import { useImportantLinks } from "./useImportantLinks";
+
 const HOVER_OPEN_MS = 60;
 const HOVER_CLOSE_MS = 160;
 
@@ -25,7 +27,8 @@ const activeClass = "text-primary-strong after:scale-x-100";
  * closes on Escape, on a click elsewhere, or when focus leaves it. A submenu with titled
  * subgroups ("Important Links" under "Others") shows them in a second column.
  */
-export function DesktopNav({ items }: { items: NavItem[] }) {
+export function DesktopNav({ items: nav }: { items: NavItem[] }) {
+  const items = useImportantLinks(nav);
   const pathname = usePathname();
   const baseId = useId();
   const [open, setOpen] = useState<number | null>(null);
