@@ -375,6 +375,16 @@
     color: var(--color-ink);
   }
 
+  /* Endless animations rest while their [data-loop] element is off screen (LoopObserver). */
+  [data-offscreen],
+  [data-offscreen] *,
+  [data-offscreen]::before,
+  [data-offscreen]::after,
+  [data-offscreen] *::before,
+  [data-offscreen] *::after {
+    animation-play-state: paused !important;
+  }
+
   /* An element marked data-motion="pause" pauses its own animation instead (a looping band
      frozen mid-loop, as a still); cutting it short would leave it at its unanimated start. */
   @media (prefers-reduced-motion: reduce) {

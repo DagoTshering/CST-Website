@@ -12,9 +12,9 @@ import { cx } from "@/lib/cx";
  *   amplitude rises a little when the pointer is near
  * - a faint crosshair with a coordinate readout that follows the pointer
  *
- * It listens to the pointer on its parent element, so it works under other content
- * (text, a WebGL canvas). It sets --tech-px / --tech-py on the parent (-1..1) so other
- * decorations can parallax with the pointer. Static frame for prefers-reduced-motion.
+ * It listens to the pointer over its parent element, so it works under other content
+ * (text, a WebGL canvas). It draws only while on screen, and a static frame for
+ * prefers-reduced-motion.
  */
 export function TechBackground({ className }: { className?: string }) {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -38,14 +38,13 @@ export function TechBackground({ className }: { className?: string }) {
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      start(); // resizing clears the canvas
     };
-    resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(host);
 
     // pointer, eased
     const m = { x: -9999, y: -9999, tx: -9999, ty: -9999, on: 0, ton: 0 };
     const move = (e: PointerEvent) => {
+      if (!visible) return void (m.ton = 0); // scrolled away: nothing to follow
       const r = host.getBoundingClientRect();
       const x = e.clientX - r.left,
         y = e.clientY - r.top;
@@ -58,8 +57,6 @@ export function TechBackground({ className }: { className?: string }) {
           m.x = x;
           m.y = y;
         }
-        host.style.setProperty("--tech-px", ((x / r.width) * 2 - 1).toFixed(3));
-        host.style.setProperty("--tech-py", ((y / r.height) * 2 - 1).toFixed(3));
       }
     };
     const leave = () => (m.ton = 0);
@@ -88,18 +85,50 @@ export function TechBackground({ className }: { className?: string }) {
       return Math.exp(-(dx * dx + dy * dy) / (2 * SIGMA * SIGMA)) * m.on;
     };
 
+    // A grid line only bends within 4 sigma of the pointer (beyond it the push is under
+    // 0.003 px), so it is drawn straight up to there and point by point only near the pointer;
+    // with no mouse over the hero (and always on touch screens) every line is one stroke.
+    const SEG = 16,
+      REACH = SIGMA * 4;
+    const point = (vertical: boolean, p: number, s: number): [number, number] => {
+      const x = vertical ? p : s,
+        y = vertical ? s : p;
+      if (m.on <= 0.002) return [x, y]; // a push of at most 0.018 px
+      const f = falloff(x, y);
+      const dist = Math.hypot(x - m.x, y - m.y) || 1;
+      return vertical
+        ? [x + ((x - m.x) / dist) * PUSH * f, y]
+        : [x, y + ((y - m.y) / dist) * PUSH * f];
+    };
+    const gridLine = (vertical: boolean, p: number, length: number) => {
+      const end = Math.floor((length + SEG) / SEG) * SEG; // the last point, as when every one was drawn
+      const along = vertical ? m.y : m.x;
+      const near = m.on > 0.002 && Math.abs(p - (vertical ? m.x : m.y)) < REACH;
+      ctx.moveTo(...point(vertical, p, 0));
+      if (!near) return void ctx.lineTo(...point(vertical, p, end));
+      const from = Math.max(SEG, Math.floor((along - REACH) / SEG) * SEG);
+      const to = Math.min(end, Math.ceil((along + REACH) / SEG) * SEG);
+      for (let s = from; s <= to; s += SEG) ctx.lineTo(...point(vertical, p, s));
+      if (to < end) ctx.lineTo(...point(vertical, p, end));
+    };
+
     let raf = 0,
       last = performance.now(),
       t = 0,
       visible = true;
-    const io = new IntersectionObserver((en) => (visible = en[0].isIntersecting), { threshold: 0 });
-    io.observe(host);
+    // Draws only while on screen and while the tab is showing; it starts again when either
+    // comes back (and after a resize, which clears the canvas).
+    const start = () => {
+      if (raf || !visible || document.hidden) return;
+      last = performance.now();
+      raf = requestAnimationFrame(draw);
+    };
 
     const draw = (now: number) => {
-      raf = requestAnimationFrame(draw);
+      raf = 0;
+      if (!visible || document.hidden) return; // start() resumes it
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
-      if (!visible || document.hidden) return;
       t += dt;
       const k = 1 - Math.exp(-dt * 8);
       m.x += (m.tx - m.x) * k;
@@ -114,27 +143,8 @@ export function TechBackground({ className }: { className?: string }) {
       ctx.strokeStyle = m.on > 0.01 ? g : `rgba(${TEAL},0.1)`;
       ctx.lineWidth = 1;
       ctx.beginPath();
-      const seg = 16;
-      for (let x0 = 0; x0 <= w + SPACING; x0 += SPACING) {
-        for (let y = 0; y <= h + seg; y += seg) {
-          const f = falloff(x0, y);
-          const dx = x0 - m.x,
-            dist = Math.hypot(dx, y - m.y) || 1;
-          const x = x0 + (dx / dist) * PUSH * f;
-          if (y === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-      }
-      for (let y0 = 0; y0 <= h + SPACING; y0 += SPACING) {
-        for (let x = 0; x <= w + seg; x += seg) {
-          const f = falloff(x, y0);
-          const dy = y0 - m.y,
-            dist = Math.hypot(x - m.x, dy) || 1;
-          const y = y0 + (dy / dist) * PUSH * f;
-          if (x === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-      }
+      for (let x0 = 0; x0 <= w + SPACING; x0 += SPACING) gridLine(true, x0, h);
+      for (let y0 = 0; y0 <= h + SPACING; y0 += SPACING) gridLine(false, y0, w);
       ctx.stroke();
 
       // grid nodes light up near the pointer
@@ -239,14 +249,28 @@ export function TechBackground({ className }: { className?: string }) {
         );
       }
 
-      if (reduce) cancelAnimationFrame(raf); // one static frame
+      if (!reduce) raf = requestAnimationFrame(draw); // reduced motion: one static frame
     };
-    raf = requestAnimationFrame(draw);
+
+    // set up last: each of these can start drawing straight away
+    const io = new IntersectionObserver(
+      (en) => {
+        visible = en[0].isIntersecting;
+        start();
+      },
+      { threshold: 0 },
+    );
+    io.observe(host);
+    document.addEventListener("visibilitychange", start);
+    resize();
+    const ro = new ResizeObserver(resize);
+    ro.observe(host);
 
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
       io.disconnect();
+      document.removeEventListener("visibilitychange", start);
       window.removeEventListener("pointermove", move);
       document.removeEventListener("pointerleave", leave);
     };
